@@ -35,24 +35,19 @@
           class="inline-flex items-center bg-dracula-purple/20 border border-dracula-purple/30 text-dracula-purple px-3 py-2 sm:px-4 rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6 backdrop-blur-sm"
         >
           <div class="w-2 h-2 bg-dracula-green rounded-full mr-2 sm:mr-3 animate-pulse"></div>
-          Ready to collaborate
+          {{ $t('contact.badge') }}
         </div>
 
         <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">
           <span class="text-dracula-foreground font-mono">
-            <span class="text-dracula-purple">mari</span>
-            <span class="text-dracula-foreground">.</span>
-            <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-dracula-purple to-dracula-pink"
-              >terhubung</span
-            >
+            {{ $t('contact.title') }}
           </span>
         </h2>
 
         <p
           class="text-base sm:text-lg lg:text-xl text-dracula-comment max-w-2xl mx-auto px-4 sm:px-0"
         >
-          Saya selalu senang mendiskusikan proyek baru dan ide-ide kreatif
+          {{ $t('contact.subtitle') }}
         </p>
       </div>
 
@@ -83,7 +78,7 @@
               </div>
               <div class="flex-1 min-w-0">
                 <h3 class="text-base sm:text-lg font-semibold text-dracula-foreground mb-1 sm:mb-2">
-                  Email
+                  {{ $t('contact.cards.email.title') }}
                 </h3>
                 <a
                   :href="`mailto:${portfolioData.personalInfo.email}`"
@@ -92,7 +87,7 @@
                   {{ portfolioData.personalInfo.email }}
                 </a>
                 <p class="text-dracula-comment text-xs sm:text-sm mt-1 sm:mt-2">
-                  Drop me a line anytime
+                  {{ $t('contact.cards.email.subtitle') }}
                 </p>
               </div>
             </div>
@@ -128,13 +123,13 @@
               </div>
               <div class="flex-1 min-w-0">
                 <h3 class="text-base sm:text-lg font-semibold text-dracula-foreground mb-1 sm:mb-2">
-                  Location
+                  {{ $t('contact.cards.location.title') }}
                 </h3>
                 <p class="text-dracula-foreground text-sm sm:text-lg">
                   {{ portfolioData.personalInfo.location }}
                 </p>
                 <p class="text-dracula-comment text-xs sm:text-sm mt-1 sm:mt-2">
-                  Open to remote work
+                  {{ $t('contact.cards.location.subtitle') }}
                 </p>
               </div>
             </div>
@@ -165,13 +160,13 @@
               </div>
               <div class="flex-1 min-w-0">
                 <h3 class="text-base sm:text-lg font-semibold text-dracula-foreground mb-1 sm:mb-2">
-                  Phone
+                  {{ $t('contact.cards.phone.title') }}
                 </h3>
                 <p class="text-dracula-foreground text-sm sm:text-lg font-mono break-all">
                   {{ portfolioData.personalInfo.phone }}
                 </p>
                 <p class="text-dracula-comment text-xs sm:text-sm mt-1 sm:mt-2">
-                  Available for calls
+                  {{ $t('contact.cards.phone.subtitle') }}
                 </p>
               </div>
             </div>
@@ -223,13 +218,13 @@
                 <div class="pl-2 sm:pl-4">
                   <span class="text-dracula-purple">final String</span>
                   <span class="text-dracula-foreground"> availability = </span>
-                  <span class="text-dracula-green">'Open to opportunities'</span>
+                  <span class="text-dracula-green">'{{ $t('contact.code.availability') }}'</span>
                   <span class="text-dracula-foreground">;</span>
                 </div>
                 <div class="pl-2 sm:pl-4">
                   <span class="text-dracula-purple">final String</span>
                   <span class="text-dracula-foreground"> responseTime = </span>
-                  <span class="text-dracula-green">'&lt; 24 hours'</span>
+                  <span class="text-dracula-green">'{{ $t('contact.code.responseTime') }}'</span>
                   <span class="text-dracula-foreground">;</span>
                 </div>
                 <div class="pl-2 sm:pl-4">
@@ -240,7 +235,7 @@
                 <div class="pl-4 sm:pl-8">
                   <span class="text-dracula-purple">return</span>
                   <span class="text-dracula-foreground"> </span>
-                  <span class="text-dracula-green">'Mari buat sesuatu yang luar biasa!'</span>
+                  <span class="text-dracula-green">'{{ $t('contact.code.message') }}'</span>
                   <span class="text-dracula-foreground">;</span>
                 </div>
                 <div class="pl-2 sm:pl-4">
@@ -250,7 +245,7 @@
                   <span class="text-dracula-foreground">}</span>
                 </div>
                 <div class="mt-2 sm:mt-4">
-                  <span class="text-code-comment">// Siap untuk berkolaborasi</span>
+                  <span class="text-code-comment">// {{ $t('contact.code.comment') }}</span>
                 </div>
                 <div>
                   <span class="text-dracula-purple">final</span>
@@ -269,7 +264,9 @@
 
           <!-- Social Links -->
           <div class="mt-6 sm:mt-8 text-center">
-            <p class="text-dracula-comment mb-3 sm:mb-4 text-sm sm:text-base">Connect with me</p>
+            <p class="text-dracula-comment mb-3 sm:mb-4 text-sm sm:text-base">
+              {{ $t('contact.social') }}
+            </p>
             <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
               <a
                 v-if="portfolioData.personalInfo.github"

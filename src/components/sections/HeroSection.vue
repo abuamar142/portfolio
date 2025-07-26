@@ -58,7 +58,7 @@
             class="inline-flex items-center bg-dracula-purple/20 border border-dracula-purple/30 text-dracula-purple px-3 py-2 sm:px-4 rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6 backdrop-blur-sm"
           >
             <div class="w-2 h-2 bg-dracula-green rounded-full mr-2 sm:mr-3 animate-pulse"></div>
-            Available for work
+            {{ $t('hero.badge') }}
           </div>
 
           <!-- Main Heading with Typing Effect -->
@@ -66,7 +66,7 @@
             <h1
               class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-dracula-foreground mb-2 leading-tight"
             >
-              Hai, Saya
+              {{ $t('hero.greeting') }}
               <span
                 class="text-transparent bg-clip-text bg-gradient-to-r from-dracula-purple to-dracula-pink"
               >
@@ -89,9 +89,7 @@
           <p
             class="text-sm sm:text-base md:text-lg lg:text-xl text-dracula-comment mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0 px-4 sm:px-0"
           >
-            {{ portfolioData.personalInfo.title }} yang berfokus pada pembuatan solusi yang kuat dan
-            skalabel. Saya mengubah ide menjadi pengalaman digital melalui kode yang bersih dan
-            pemikiran inovatif.
+            {{ portfolioData.personalInfo.title }} {{ $t('hero.subtitle') }}
           </p>
 
           <!-- CTA Buttons -->
@@ -112,7 +110,7 @@
                 ></path>
                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
               </svg>
-              Mari Terhubung
+              {{ $t('hero.cta.connect') }}
             </BaseButton>
 
             <BaseButton
@@ -122,7 +120,7 @@
               @click="viewCV"
             >
               <EyeIcon class="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-              Lihat Resume
+              {{ $t('hero.cta.resume') }}
             </BaseButton>
           </div>
 
@@ -145,19 +143,25 @@
               <div class="text-xl sm:text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
                 {{ portfolioData.experiences.length }}+
               </div>
-              <div class="text-xs sm:text-sm text-dracula-comment">Years Experience</div>
+              <div class="text-xs sm:text-sm text-dracula-comment">
+                {{ $t('hero.stats.experience') }}
+              </div>
             </div>
             <div class="animate-slide-up" style="animation-delay: 0.4s">
               <div class="text-xl sm:text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
                 {{ portfolioData.projects.length }}+
               </div>
-              <div class="text-xs sm:text-sm text-dracula-comment">Projects Built</div>
+              <div class="text-xs sm:text-sm text-dracula-comment">
+                {{ $t('hero.stats.projects') }}
+              </div>
             </div>
             <div class="animate-slide-up" style="animation-delay: 0.6s">
               <div class="text-xl sm:text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
                 {{ portfolioData.skills.length }}+
               </div>
-              <div class="text-xs sm:text-sm text-dracula-comment">Technologies</div>
+              <div class="text-xs sm:text-sm text-dracula-comment">
+                {{ $t('hero.stats.technologies') }}
+              </div>
             </div>
           </div>
         </div>
@@ -306,6 +310,8 @@ import BaseButton from '@/components/ui/BaseButton.vue'
 import { EyeIcon } from '@heroicons/vue/24/outline'
 
 const currentRole = ref('')
+
+// Static roles untuk typing effect (tidak perlu i18n karena ini lebih ke branding)
 const roles = [
   'Mobile Developer',
   'Full Stack Developer',
@@ -313,6 +319,7 @@ const roles = [
   'Problem Solver',
   'Code Enthusiast',
 ]
+
 const featuredTechs = ['Flutter', 'Dart', 'TypeScript', 'React', 'Git', 'Docker']
 
 let roleIndex = 0
@@ -344,6 +351,7 @@ const typeRole = () => {
 }
 
 onMounted(() => {
+  console.log('Roles:', roles)
   typeRole()
 })
 

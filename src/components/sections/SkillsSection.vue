@@ -55,19 +55,14 @@
 
         <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">
           <span class="text-dracula-foreground font-mono">
-            <span class="text-dracula-purple">keahlian</span>
-            <span class="text-dracula-foreground">.</span>
-            <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-dracula-purple to-dracula-pink"
-              >saya</span
-            >
+            {{ $t('skills.title') }}
           </span>
         </h2>
 
         <p
           class="text-base sm:text-lg lg:text-xl text-dracula-comment max-w-2xl mx-auto px-4 sm:px-0"
         >
-          Teknologi dan alat yang saya gunakan untuk mewujudkan ide-ide
+          {{ $t('skills.subtitle') }}
         </p>
       </div>
 
@@ -82,7 +77,7 @@
           <div class="text-center">
             <h3 class="text-xl sm:text-2xl font-bold text-dracula-foreground mb-2 font-mono">
               <span class="text-dracula-comment">//</span>
-              <span class="text-dracula-purple">{{ category.name.toLowerCase() }}</span>
+              <span class="text-dracula-purple">{{ $t(`skills.categories.${category.key}`) }}</span>
             </h3>
           </div>
 
@@ -133,18 +128,22 @@ const skillCategories = computed(() =>
   [
     {
       name: 'Mobile',
+      key: 'mobile',
       skills: portfolioData.skills.filter((skill) => skill.category === 'mobile'),
     },
     {
       name: 'Web',
+      key: 'web',
       skills: portfolioData.skills.filter((skill) => skill.category === 'web'),
     },
     {
       name: 'Backend',
+      key: 'backend',
       skills: portfolioData.skills.filter((skill) => skill.category === 'backend'),
     },
     {
       name: 'Tools',
+      key: 'tools',
       skills: portfolioData.skills.filter((skill) => skill.category === 'tools'),
     },
   ].filter((category) => category.skills.length > 0),

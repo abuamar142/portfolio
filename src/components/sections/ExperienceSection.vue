@@ -54,19 +54,14 @@
 
         <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">
           <span class="text-dracula-foreground font-mono">
-            <span class="text-dracula-purple">pengalaman</span>
-            <span class="text-dracula-foreground">.</span>
-            <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-dracula-purple to-dracula-pink"
-              >saya</span
-            >
+            {{ $t('experience.title') }}
           </span>
         </h2>
 
         <p
           class="text-base sm:text-lg lg:text-xl text-dracula-comment max-w-2xl mx-auto px-4 sm:px-0"
         >
-            Perjalanan profesional saya dan pengalaman-pengalaman yang membentuk keahlian saya
+          {{ $t('experience.subtitle') }}
         </p>
       </div>
 

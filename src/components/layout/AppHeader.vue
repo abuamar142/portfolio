@@ -2,8 +2,8 @@
   <header
     class="fixed top-0 left-0 right-0 z-50 bg-dracula-background/95 backdrop-blur-sm border-b border-gray-500"
   >
-    <nav class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="flex items-center justify-between h-14 sm:h-16">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-18 lg:h-20">
         <!-- Developer Logo -->
         <div class="flex-shrink-0">
           <router-link
@@ -11,24 +11,24 @@
             class="flex items-center space-x-2 text-dracula-foreground hover:text-dracula-purple transition-colors group"
           >
             <div
-              class="h-6 sm:h-8 px-2 rounded-lg flex items-center justify-center font-mono font-bold text-sm sm:text-base text-dracula-foreground group-hover:bg-dracula-pink transition-colors"
+              class="h-8 sm:h-10 lg:h-12 px-2 sm:px-4 rounded-lg flex items-center justify-center font-mono font-bold text-base border border-dracula-purple sm:text-lg lg:text-xl text-dracula-foreground group-hover:bg-dracula-purple group-hover:text-dracula-background transition-all duration-300"
             >
               abuamar.site
             </div>
           </router-link>
         </div>
 
-        <!-- Developer Navigation -->
-        <div class="hidden md:block">
-          <div class="flex items-center space-x-6 lg:space-x-8">
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+          <div class="flex items-center space-x-8 lg:space-x-10">
             <a
               v-for="item in navigation"
               :key="item.name"
               :href="item.href"
-              class="text-sm text-dracula-comment hover:text-dracula-purple transition-colors font-mono relative group"
+              class="text-sm lg:text-base text-dracula-comment hover:text-dracula-purple transition-colors font-mono relative group py-2"
               @click.prevent="scrollToSection(item.href)"
             >
-              <span class="text-dracula-purple mr-1">.</span>{{ item.name.toLowerCase() }}()
+              <span class="text-dracula-purple mr-1">.</span>{{ $t(item.name) }}()
               <span
                 class="absolute -bottom-1 left-0 w-0 h-0.5 bg-dracula-purple transition-all duration-300 group-hover:w-full"
               ></span>
@@ -36,18 +36,28 @@
           </div>
         </div>
 
+        <!-- Desktop Language Dropdown -->
+        <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+          <div class="ml-4 lg:ml-6">
+            <LanguageDropdown />
+          </div>
+        </div>
+
         <!-- Mobile Menu -->
-        <div class="flex items-center">
+        <div class="md:hidden flex items-center space-x-3">
+          <!-- Mobile Language Dropdown -->
+          <LanguageDropdown />
+
           <!-- Mobile menu button -->
           <BaseButton
             variant="ghost"
             size="sm"
-            class="md:hidden p-1.5 sm:p-2 text-dracula-comment hover:text-dracula-purple"
+            class="p-2 sm:p-2.5 text-dracula-comment hover:text-dracula-purple hover:bg-dracula-purple/10 rounded-lg transition-all duration-300"
             @click="isMobileMenuOpen = !isMobileMenuOpen"
             aria-label="Toggle mobile menu"
           >
-            <XMarkIcon v-if="isMobileMenuOpen" class="h-5 w-5 sm:h-6 sm:w-6" />
-            <Bars3Icon v-else class="h-5 w-5 sm:h-6 sm:w-6" />
+            <XMarkIcon v-if="isMobileMenuOpen" class="h-6 w-6 sm:h-7 sm:w-7" />
+            <Bars3Icon v-else class="h-6 w-6 sm:h-7 sm:w-7" />
           </BaseButton>
         </div>
       </div>
@@ -63,13 +73,13 @@
       >
         <div v-if="isMobileMenuOpen" class="md:hidden">
           <div
-            class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-dracula-background border-t border-gray-500 shadow-lg"
+            class="px-4 pt-4 pb-6 space-y-2 bg-dracula-background border-t border-gray-500 shadow-lg"
           >
             <a
               v-for="item in navigation"
               :key="item.name"
               :href="item.href"
-              class="text-dracula-comment hover:text-dracula-purple block px-3 py-3 text-sm sm:text-base font-mono transition-colors rounded-lg hover:bg-dracula-selection"
+              class="text-dracula-comment hover:text-dracula-purple block px-4 py-4 text-base font-mono transition-colors rounded-lg hover:bg-dracula-selection border border-transparent hover:border-dracula-purple/30"
               @click.prevent="
                 () => {
                   scrollToSection(item.href)
@@ -77,7 +87,7 @@
                 }
               "
             >
-              <span class="text-dracula-purple mr-1">.</span>{{ item.name.toLowerCase() }}()
+              <span class="text-dracula-purple mr-2">.</span>{{ $t(item.name) }}()
             </a>
           </div>
         </div>
@@ -89,22 +99,23 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import LanguageDropdown from '@/components/LanguageDropdown.vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
 const isMobileMenuOpen = ref(false)
 
 const navigation = [
-  { name: 'Tentang', href: '#about' },
-  { name: 'Pengalaman', href: '#experience' },
-  { name: 'Proyek', href: '#projects' },
-  { name: 'Keahlian', href: '#skills' },
-  { name: 'Kontak', href: '#contact' },
+  { name: 'navigation.about', href: '#about' },
+  { name: 'navigation.experience', href: '#experience' },
+  { name: 'navigation.projects', href: '#projects' },
+  { name: 'navigation.skills', href: '#skills' },
+  { name: 'navigation.contact', href: '#contact' },
 ]
 
 const scrollToSection = (href: string) => {
   const element = document.querySelector(href) as HTMLElement
   if (element) {
-    const headerHeight = 80
+    const headerHeight = 88 // Increased for taller header
     const elementPosition = element.offsetTop - headerHeight
     window.scrollTo({
       top: elementPosition,

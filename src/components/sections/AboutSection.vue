@@ -54,12 +54,7 @@
 
         <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">
           <span class="text-dracula-foreground font-mono">
-            <span class="text-dracula-purple">tentang</span>
-            <span class="text-dracula-foreground">.</span>
-            <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-dracula-purple to-dracula-pink"
-              >saya</span
-            >
+            {{ $t('about.title') }}
           </span>
         </h2>
 
@@ -88,9 +83,11 @@
             {{ portfolioData.experiences.length }}+
           </div>
           <div class="text-base sm:text-lg font-medium text-dracula-foreground mb-1 sm:mb-2">
-            Tahun
+            {{ $t('about.stats.years') }}
           </div>
-          <div class="text-sm sm:text-base text-dracula-comment">Pengalaman</div>
+          <div class="text-sm sm:text-base text-dracula-comment">
+            {{ $t('about.stats.experience') }}
+          </div>
         </div>
 
         <div
@@ -102,9 +99,11 @@
             {{ portfolioData.projects.length }}+
           </div>
           <div class="text-base sm:text-lg font-medium text-dracula-foreground mb-1 sm:mb-2">
-            Proyek
+            {{ $t('about.stats.projects') }}
           </div>
-          <div class="text-sm sm:text-base text-dracula-comment">Diselesaikan</div>
+          <div class="text-sm sm:text-base text-dracula-comment">
+            {{ $t('about.stats.completed') }}
+          </div>
         </div>
 
         <div
@@ -113,8 +112,10 @@
           <div class="text-4xl md:text-5xl font-bold text-dracula-purple mb-3 font-mono">
             {{ portfolioData.skills.length }}+
           </div>
-          <div class="text-lg font-medium text-dracula-foreground mb-2">Teknologi</div>
-          <div class="text-dracula-comment">Dikuasai</div>
+          <div class="text-lg font-medium text-dracula-foreground mb-2">
+            {{ $t('about.stats.technologies') }}
+          </div>
+          <div class="text-dracula-comment">{{ $t('about.stats.mastered') }}</div>
         </div>
       </div>
 

@@ -4,7 +4,7 @@
     <AppHeader />
 
     <!-- Main Content -->
-    <main class="pt-14 sm:pt-16">
+    <main class="pt-16 sm:pt-18 lg:pt-20">
       <!-- Hero Section -->
       <HeroSection />
 
