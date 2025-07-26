@@ -4,13 +4,33 @@
     class="relative py-16 sm:py-24 lg:py-32 bg-dracula-background overflow-hidden transition-colors"
   >
     <!-- Background Pattern -->
-    <div class="absolute inset-0 opacity-5 hidden md:block">
+    <div class="absolute inset-0 opacity-20 hidden md:block pointer-events-none">
       <div
-        class="absolute inset-0 text-dracula-comment text-xs font-mono p-8 overflow-hidden leading-loose"
+        class="absolute inset-0 text-dracula-comment text-xs sm:text-sm font-mono p-8 overflow-hidden leading-loose"
       >
-        <div class="transform -rotate-12 opacity-30">
-          // Mari buat sesuatu yang luar biasa bersama<br />
-          final Contact contact = Contact(ready: true, available: 'now');
+        <!-- Pattern 1: Top Left -->
+        <div class="absolute top-8 left-8 transform -rotate-12 opacity-60">
+          // {{ $t('contact.backgroundPatterns.welcome') }}<br />
+          final Contact contact = {{ $t('contact.backgroundPatterns.contact') }};<br />
+          print('{{ $t('contact.backgroundPatterns.connect') }}');
+        </div>
+
+        <!-- Pattern 2: Center Right -->
+        <div class="absolute top-1/3 right-12 transform rotate-12 opacity-40">
+          class {{ $t('contact.backgroundPatterns.developer') }} {<br />
+          &nbsp;&nbsp;String passion = '{{ $t('contact.backgroundPatterns.passion') }}';<br />
+          &nbsp;&nbsp;bool isAvailable = {{ $t('contact.backgroundPatterns.available') }};<br />
+          &nbsp;&nbsp;void connect() => print('{{
+            $t('contact.backgroundPatterns.connect')
+          }}');<br />
+          }
+        </div>
+
+        <!-- Pattern 3: Bottom Left -->
+        <div class="absolute bottom-16 left-16 transform -rotate-6 opacity-50">
+          // 🚀 {{ $t('contact.backgroundPatterns.project') }}<br />
+          await {{ $t('contact.backgroundPatterns.delayed') }};<br />
+          developer.connect();
         </div>
       </div>
     </div>

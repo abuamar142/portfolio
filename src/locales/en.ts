@@ -79,6 +79,16 @@ export default {
       message: "Let's build something amazing!",
       comment: 'Ready to collaborate',
     },
+    backgroundPatterns: {
+      welcome: 'Welcome to collaboration',
+      contact: 'Contact(ready: true, available: "now")',
+      developer: 'Developer',
+      passion: 'mobile development',
+      available: 'true',
+      connect: 'Hello World!',
+      project: 'Ready for your next project',
+      delayed: 'Future.delayed(Duration.zero)',
+    },
   },
   footer: {
     comment: '// Thanks for visiting!',

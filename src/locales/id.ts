@@ -79,6 +79,16 @@ export default {
       message: 'Mari buat sesuatu yang luar biasa!',
       comment: 'Siap untuk berkolaborasi',
     },
+    backgroundPatterns: {
+      welcome: 'Mari buat sesuatu yang luar biasa bersama',
+      contact: 'Contact(ready: true, available: "sekarang")',
+      developer: 'Developer',
+      passion: 'pengembangan mobile',
+      available: 'true',
+      connect: 'Halo Dunia!',
+      project: 'Siap untuk proyek selanjutnya',
+      delayed: 'Future.delayed(Duration.zero)',
+    },
   },
   footer: {
     comment: '// Terima kasih sudah berkunjung!',
