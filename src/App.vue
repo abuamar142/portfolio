@@ -1,10 +1,10 @@
 <template>
-  <div id="app" class="min-h-screen bg-white dark:bg-dark-900 transition-colors duration-200">
+  <div id="app" class="min-h-screen bg-dracula-background">
     <!-- Header/Navigation -->
     <AppHeader />
 
     <!-- Main Content -->
-    <main class="pt-14">
+    <main class="pt-16">
       <!-- Hero Section -->
       <HeroSection />
 
@@ -31,7 +31,6 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useDarkMode } from '@/composables/useDarkMode'
 
 // Layout Components
 import AppHeader from '@/components/layout/AppHeader.vue'
@@ -45,13 +44,8 @@ import ProjectsSection from '@/components/sections/ProjectsSection.vue'
 import SkillsSection from '@/components/sections/SkillsSection.vue'
 import ContactSection from '@/components/sections/ContactSection.vue'
 
-// Initialize dark mode
-const { isDarkMode } = useDarkMode()
-
 onMounted(() => {
-  // Apply initial theme
-  if (isDarkMode.value) {
-    document.documentElement.classList.add('dark')
-  }
+  // Initialize Dracula theme
+  document.documentElement.classList.remove('dark')
 })
 </script>

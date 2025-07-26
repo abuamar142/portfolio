@@ -1,54 +1,165 @@
 <template>
-  <section id="about" class="py-24 bg-gray-50 dark:bg-dark-800">
-    <div class="max-w-4xl mx-auto px-6">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl font-light text-gray-900 dark:text-white mb-6">About</h2>
-        <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto">
-          {{ portfolioData.about }}
-        </p>
+  <section
+    id="about"
+    class="relative py-32 bg-dracula-background overflow-hidden transition-colors"
+  >
+    <!-- Background Elements -->
+    <div class="absolute inset-0">
+      <div
+        class="absolute top-20 left-10 w-72 h-72 bg-dracula-purple/10 rounded-full blur-3xl"
+      ></div>
+      <div
+        class="absolute bottom-20 right-10 w-96 h-96 bg-dracula-pink/10 rounded-full blur-3xl"
+      ></div>
+    </div>
+
+    <!-- Floating Code Elements -->
+    <div class="absolute inset-0 overflow-hidden opacity-20">
+      <div class="absolute top-32 right-32 animate-float">
+        <div
+          class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg backdrop-blur-sm"
+        >
+          <code class="text-dracula-purple text-sm">class</code>
+          <code class="text-dracula-cyan text-sm"> Developer</code>
+          <code class="text-dracula-foreground text-sm"> {</code>
+        </div>
       </div>
 
-      <!-- Simple Stats -->
-      <div class="grid grid-cols-3 gap-8 mb-16">
-        <div class="text-center">
-          <div class="text-2xl font-light text-gray-900 dark:text-white">
+      <div class="absolute bottom-40 left-32 animate-float" style="animation-delay: 1.5s">
+        <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
+          <code class="text-dracula-cyan text-sm">this.skills</code>
+          <code class="text-dracula-foreground text-sm">.push(</code>
+          <code class="text-dracula-green text-sm">'new tech'</code>
+          <code class="text-dracula-foreground text-sm">)</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-6">
+      <!-- Enhanced Header -->
+      <div class="text-center mb-20 animate-fade-in">
+        <div
+          class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-dracula-purple to-dracula-pink text-dracula-background mb-8 shadow-glow"
+        >
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+            />
+          </svg>
+        </div>
+
+        <h2 class="text-5xl md:text-6xl font-bold mb-8">
+          <span class="text-dracula-foreground font-mono">
+            <span class="text-dracula-purple">tentang</span>
+            <span class="text-dracula-foreground">.</span>
+            <span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-dracula-purple to-dracula-pink"
+              >saya</span
+            >
+          </span>
+        </h2>
+
+        <div class="max-w-4xl mx-auto">
+          <p class="text-xl md:text-2xl text-dracula-comment leading-relaxed mb-8">
+            {{ portfolioData.about }}
+          </p>
+          <div
+            class="w-24 h-1 bg-gradient-to-r from-dracula-purple to-dracula-pink mx-auto rounded-full"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Enhanced Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20 animate-slide-up delay-200">
+        <div
+          class="bg-dracula-selection border border-gray-500 rounded-lg p-8 text-center group hover:scale-105 hover:border-dracula-purple/50 transition-all duration-300 shadow-lg backdrop-blur-sm"
+        >
+          <div class="text-4xl md:text-5xl font-bold text-dracula-purple mb-3 font-mono">
             {{ portfolioData.experiences.length }}+
           </div>
-          <div class="text-sm text-gray-500 dark:text-gray-500 mt-1">Experience</div>
+          <div class="text-lg font-medium text-dracula-foreground mb-2">Tahun</div>
+          <div class="text-dracula-comment">Pengalaman</div>
         </div>
-        <div class="text-center">
-          <div class="text-2xl font-light text-gray-900 dark:text-white">
+
+        <div
+          class="bg-dracula-selection border border-gray-500 rounded-lg p-8 text-center group hover:scale-105 hover:border-dracula-purple/50 transition-all duration-300 shadow-lg backdrop-blur-sm"
+        >
+          <div class="text-4xl md:text-5xl font-bold text-dracula-purple mb-3 font-mono">
             {{ portfolioData.projects.length }}+
           </div>
-          <div class="text-sm text-gray-500 dark:text-gray-500 mt-1">Projects</div>
+          <div class="text-lg font-medium text-dracula-foreground mb-2">Proyek</div>
+          <div class="text-dracula-comment">Diselesaikan</div>
         </div>
-        <div class="text-center">
-          <div class="text-2xl font-light text-gray-900 dark:text-white">
+
+        <div
+          class="bg-dracula-selection border border-gray-500 rounded-lg p-8 text-center group hover:scale-105 hover:border-dracula-purple/50 transition-all duration-300 shadow-lg backdrop-blur-sm"
+        >
+          <div class="text-4xl md:text-5xl font-bold text-dracula-purple mb-3 font-mono">
             {{ portfolioData.skills.length }}+
           </div>
-          <div class="text-sm text-gray-500 dark:text-gray-500 mt-1">Skills</div>
+          <div class="text-lg font-medium text-dracula-foreground mb-2">Teknologi</div>
+          <div class="text-dracula-comment">Dikuasai</div>
         </div>
       </div>
 
-      <!-- Clean Contact Info -->
-      <div class="text-center space-y-2">
-        <div class="text-gray-600 dark:text-gray-400">
-          {{ portfolioData.personalInfo.email }}
-        </div>
-        <div class="text-gray-600 dark:text-gray-400">
-          {{ portfolioData.personalInfo.location }}
-        </div>
-      </div>
-
-      <!-- Simple Download CV Button -->
-      <div class="text-center mt-12">
-        <BaseButton
-          @click="downloadCV"
-          variant="outline"
-          class="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+      <!-- Enhanced Contact Info -->
+      <div class="text-center animate-slide-up delay-400">
+        <div
+          class="bg-dracula-selection border border-gray-500 rounded-lg p-8 max-w-2xl mx-auto shadow-lg backdrop-blur-sm"
         >
-          Download Resume
-        </BaseButton>
+          <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+            <div class="flex items-center gap-3 text-dracula-foreground">
+              <div
+                class="w-10 h-10 rounded-full bg-dracula-purple/20 border border-dracula-purple/30 flex items-center justify-center"
+              >
+                <svg
+                  class="w-5 h-5 text-dracula-purple"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+              </div>
+              <span class="font-medium font-mono">{{ portfolioData.personalInfo.email }}</span>
+            </div>
+
+            <div class="flex items-center gap-3 text-dracula-foreground">
+              <div
+                class="w-10 h-10 rounded-full bg-dracula-purple/20 border border-dracula-purple/30 flex items-center justify-center"
+              >
+                <svg
+                  class="w-5 h-5 text-dracula-purple"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+              </div>
+              <span class="font-medium font-mono">{{ portfolioData.personalInfo.location }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -56,12 +167,4 @@
 
 <script setup lang="ts">
 import { portfolioData } from '@/data/portfolio'
-import BaseButton from '@/components/ui/BaseButton.vue'
-
-const downloadCV = () => {
-  const link = document.createElement('a')
-  link.href = '/cv.pdf'
-  link.download = `${portfolioData.personalInfo.name}_CV.pdf`
-  link.click()
-}
 </script>

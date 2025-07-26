@@ -2,13 +2,17 @@ import type { Portfolio } from '@/types/portfolio'
 
 export const portfolioData: Portfolio = {
   personalInfo: {
-    name: 'M. Abu Amar Al Badawi',
+    fullname: 'M. Abu Amar Al Badawi',
+    nickname: 'Abu Amar',
     title: 'Software Engineer',
     email: 'abuamar.albadawi@gmail.com',
     phone: '+62 815 2047 1914',
     location: 'Bantul, Indonesia',
     github: 'https://github.com/abuamar142',
-    website: 'https://abuamar142.github.io',
+    linkedin: 'https://www.linkedin.com/in/abu-amar/',
+    instagram: 'https://www.instagram.com/abuuamar_/',
+    whatsApp: 'https://wa.me/6281520471914',
+    website: 'https://abuamar.site',
   },
   about: `Mahasiswa Informatika semester 8 di Universitas Jenderal Achmad Yani Yogyakarta dengan minat kuat di bidang Mobile Development. Memiliki pengalaman magang hampir satu tahun sebagai Full-Stack Software Engineer di software house Refactory, serta menjadi peserta program Bangkit 2024 (Google x Kampus Merdeka) dengan learning path Mobile Development.
 

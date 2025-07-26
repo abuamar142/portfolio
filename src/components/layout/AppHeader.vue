@@ -1,53 +1,48 @@
 <template>
   <header
-    class="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-dark-900/95 backdrop-blur-sm border-b border-gray-100 dark:border-gray-800"
+    class="fixed top-0 left-0 right-0 z-50 bg-dracula-background/95 backdrop-blur-sm border-b border-gray-500"
   >
     <nav class="max-w-6xl mx-auto px-6">
-      <div class="flex items-center justify-between h-14">
-        <!-- Simple Logo -->
+      <div class="flex items-center justify-between h-16">
+        <!-- Developer Logo -->
         <div class="flex-shrink-0">
           <router-link
             to="/"
-            class="text-lg font-medium text-gray-900 dark:text-white hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+            class="flex items-center space-x-2 text-dracula-foreground hover:text-dracula-purple transition-colors group"
           >
-            {{ getInitials(portfolioData.personalInfo.name) }}
+            <div
+              class="h-8 px-2 rounded-lg flex items-center justify-center font-mono font-bold text-dracula-foreground group-hover:bg-dracula-pink transition-colors"
+            >
+              abuamar.site
+            </div>
           </router-link>
         </div>
 
-        <!-- Clean Navigation -->
+        <!-- Developer Navigation -->
         <div class="hidden md:block">
           <div class="flex items-center space-x-8">
             <a
               v-for="item in navigation"
               :key="item.name"
               :href="item.href"
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              class="text-sm text-dracula-comment hover:text-dracula-purple transition-colors font-mono relative group"
               @click.prevent="scrollToSection(item.href)"
             >
-              {{ item.name }}
+              <span class="text-dracula-purple mr-1">.</span>{{ item.name.toLowerCase() }}()
+              <span
+                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-dracula-purple transition-all duration-300 group-hover:w-full"
+              ></span>
             </a>
           </div>
         </div>
 
-        <!-- Dark Mode Toggle & Mobile Menu Button -->
-        <div class="flex items-center space-x-4">
-          <!-- Dark Mode Toggle -->
-          <BaseButton
-            variant="ghost"
-            size="sm"
-            @click="toggleDarkMode"
-            class="p-2"
-            aria-label="Toggle dark mode"
-          >
-            <SunIcon v-if="isDarkMode" class="h-5 w-5" />
-            <MoonIcon v-else class="h-5 w-5" />
-          </BaseButton>
-
+        <!-- Mobile Menu -->
+        <div class="flex items-center">
           <!-- Mobile menu button -->
           <BaseButton
             variant="ghost"
             size="sm"
-            class="md:hidden p-2"
+            class="md:hidden p-2 text-dracula-comment hover:text-dracula-purple"
             @click="isMobileMenuOpen = !isMobileMenuOpen"
             aria-label="Toggle mobile menu"
           >
@@ -68,13 +63,13 @@
       >
         <div v-if="isMobileMenuOpen" class="md:hidden">
           <div
-            class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white dark:bg-dark-900 border-t border-gray-200 dark:border-dark-700"
+            class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-dracula-background border-t border-gray-500"
           >
             <a
               v-for="item in navigation"
               :key="item.name"
               :href="item.href"
-              class="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 block px-3 py-2 text-base font-medium transition-colors"
+              class="text-dracula-comment hover:text-dracula-purple block px-3 py-2 text-base font-mono transition-colors"
               @click.prevent="
                 () => {
                   scrollToSection(item.href)
@@ -82,7 +77,7 @@
                 }
               "
             >
-              {{ item.name }}
+              <span class="text-dracula-purple mr-1">.</span>{{ item.name.toLowerCase() }}()
             </a>
           </div>
         </div>
@@ -93,20 +88,18 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useDarkMode } from '@/composables/useDarkMode'
 import { portfolioData } from '@/data/portfolio'
 import BaseButton from '@/components/ui/BaseButton.vue'
-import { SunIcon, MoonIcon, Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
-const { isDarkMode, toggleDarkMode } = useDarkMode()
 const isMobileMenuOpen = ref(false)
 
 const navigation = [
-  { name: 'About', href: '#about' },
-  { name: 'Experience', href: '#experience' },
-  { name: 'Projects', href: '#projects' },
-  { name: 'Skills', href: '#skills' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Tentang', href: '#about' },
+  { name: 'Pengalaman', href: '#experience' },
+  { name: 'Proyek', href: '#projects' },
+  { name: 'Keahlian', href: '#skills' },
+  { name: 'Kontak', href: '#contact' },
 ]
 
 const scrollToSection = (href: string) => {
@@ -119,13 +112,5 @@ const scrollToSection = (href: string) => {
       behavior: 'smooth',
     })
   }
-}
-
-const getInitials = (name: string) => {
-  return name
-    .split(' ')
-    .map((word) => word[0])
-    .join('')
-    .toUpperCase()
 }
 </script>

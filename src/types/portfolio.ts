@@ -1,11 +1,14 @@
 export interface PersonalInfo {
-  name: string
+  fullname: string
+  nickname: string
   title: string
   email: string
   phone: string
   location: string
-  linkedin?: string
   github?: string
+  linkedin?: string
+  instagram?: string
+  whatsApp?: string
   website?: string
 }
 
