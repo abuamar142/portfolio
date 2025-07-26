@@ -19,16 +19,18 @@
         <div
           class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg backdrop-blur-sm"
         >
-          <code class="text-dracula-purple text-sm">async</code>
+          <code class="text-dracula-purple text-sm">Future&lt;String&gt;</code>
           <code class="text-dracula-cyan text-sm"> buildCareer</code>
-          <code class="text-dracula-foreground text-sm">() {</code>
+          <code class="text-dracula-foreground text-sm">() </code>
+          <code class="text-dracula-purple text-sm">async</code>
+          <code class="text-dracula-foreground text-sm"> {</code>
         </div>
       </div>
 
       <div class="absolute bottom-32 left-16 animate-float" style="animation-delay: 2s">
         <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
           <code class="text-dracula-purple text-sm">return</code>
-          <code class="text-dracula-green text-sm"> 'success'</code>
+          <code class="text-dracula-green text-sm"> 'Experienced Developer'</code>
           <code class="text-dracula-foreground text-sm">;</code>
         </div>
       </div>
@@ -64,7 +66,7 @@
         <p
           class="text-base sm:text-lg lg:text-xl text-dracula-comment max-w-2xl mx-auto px-4 sm:px-0"
         >
-          My professional journey and the experiences that shaped my expertise
+            Perjalanan profesional saya dan pengalaman-pengalaman yang membentuk keahlian saya
         </p>
       </div>
 

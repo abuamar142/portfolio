@@ -20,17 +20,19 @@
           class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg backdrop-blur-sm"
         >
           <code class="text-dracula-purple text-sm">import</code>
-          <code class="text-dracula-foreground text-sm"> * </code>
-          <code class="text-dracula-purple text-sm">as</code>
+          <code class="text-dracula-green text-sm"> 'dart:core'</code>
+          <code class="text-dracula-purple text-sm"> as</code>
           <code class="text-dracula-cyan text-sm"> skills</code>
+          <code class="text-dracula-foreground text-sm">;</code>
         </div>
       </div>
 
       <div class="absolute bottom-32 left-24 animate-float" style="animation-delay: 1.2s">
         <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
-          <code class="text-dracula-cyan text-sm">skills</code>
-          <code class="text-dracula-foreground text-sm">.level = </code>
+          <code class="text-dracula-purple text-sm">final String</code>
+          <code class="text-dracula-foreground text-sm"> level = </code>
           <code class="text-dracula-green text-sm">'expert'</code>
+          <code class="text-dracula-foreground text-sm">;</code>
         </div>
       </div>
     </div>
@@ -65,7 +67,7 @@
         <p
           class="text-base sm:text-lg lg:text-xl text-dracula-comment max-w-2xl mx-auto px-4 sm:px-0"
         >
-          Technologies and tools I use to bring ideas to life
+          Teknologi dan alat yang saya gunakan untuk mewujudkan ide-ide
         </p>
       </div>
 
@@ -105,9 +107,14 @@
                 <!-- Level Indicator -->
                 <div class="mt-1 sm:mt-2 w-full bg-dracula-selection rounded-full h-1">
                   <div
-                    class="bg-gradient-to-r from-dracula-purple to-dracula-pink h-1 rounded-full transition-all duration-500 group-hover:animate-pulse"
-                    :style="{ width: `${skill.level}%` }"
+                    class="h-1 rounded-full transition-all duration-500 group-hover:animate-pulse"
+                    :class="getSkillLevelClass(skill.level)"
+                    :style="{ width: `${getSkillLevelPercentage(skill.level)}%` }"
                   ></div>
+                </div>
+                <!-- Level Text -->
+                <div class="mt-1 text-xs text-dracula-comment font-mono">
+                  {{ skill.level }}
                 </div>
               </div>
             </div>
@@ -145,5 +152,35 @@ const skillCategories = computed(() =>
 
 const getSkillInitial = (name: string): string => {
   return name.charAt(0).toUpperCase()
+}
+
+const getSkillLevelPercentage = (level: string): number => {
+  switch (level) {
+    case 'beginner':
+      return 25
+    case 'intermediate':
+      return 50
+    case 'advanced':
+      return 75
+    case 'expert':
+      return 100
+    default:
+      return 0
+  }
+}
+
+const getSkillLevelClass = (level: string): string => {
+  switch (level) {
+    case 'beginner':
+      return 'bg-gradient-to-r from-dracula-comment to-dracula-comment'
+    case 'intermediate':
+      return 'bg-gradient-to-r from-dracula-cyan to-dracula-cyan'
+    case 'advanced':
+      return 'bg-gradient-to-r from-dracula-purple to-dracula-purple'
+    case 'expert':
+      return 'bg-gradient-to-r from-dracula-purple to-dracula-pink shadow-glow'
+    default:
+      return 'bg-gradient-to-r from-dracula-comment to-dracula-comment'
+  }
 }
 </script>

@@ -9,8 +9,8 @@
         class="absolute inset-0 text-dracula-comment text-xs font-mono p-8 overflow-hidden leading-loose"
       >
         <div class="transform -rotate-12 opacity-30">
-          // Let's build something amazing together<br />
-          const contact = { ready: true, available: 'now' };
+          // Mari buat sesuatu yang luar biasa bersama<br />
+          final Contact contact = Contact(ready: true, available: 'now');
         </div>
       </div>
     </div>
@@ -192,7 +192,7 @@
                 <div class="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
                 <div class="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
               </div>
-              <div class="text-dracula-comment text-xs sm:text-sm font-mono">contact.js</div>
+              <div class="text-dracula-comment text-xs sm:text-sm font-mono">contact.dart</div>
               <div class="w-4 sm:w-6"></div>
             </div>
 
@@ -200,38 +200,41 @@
             <div class="p-4 sm:p-6 font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto">
               <div class="space-y-1 sm:space-y-2 min-w-max">
                 <div>
-                  <span class="text-dracula-purple">const</span>
-                  <span class="text-dracula-cyan"> contact</span>
-                  <span class="text-dracula-foreground"> = {</span>
+                  <span class="text-dracula-purple">class</span>
+                  <span class="text-dracula-cyan"> Contact</span>
+                  <span class="text-dracula-foreground"> {</span>
                 </div>
                 <div class="pl-2 sm:pl-4">
-                  <span class="text-dracula-foreground">email: </span>
+                  <span class="text-dracula-purple">final String</span>
+                  <span class="text-dracula-foreground"> email = </span>
                   <span class="text-dracula-green break-all"
                     >'{{ portfolioData.personalInfo.email }}'</span
                   >
-                  <span class="text-dracula-foreground">,</span>
+                  <span class="text-dracula-foreground">;</span>
                 </div>
                 <div class="pl-2 sm:pl-4">
-                  <span class="text-dracula-foreground">location: </span>
+                  <span class="text-dracula-purple">final String</span>
+                  <span class="text-dracula-foreground"> location = </span>
                   <span class="text-dracula-green"
                     >'{{ portfolioData.personalInfo.location }}'</span
                   >
-                  <span class="text-dracula-foreground">,</span>
+                  <span class="text-dracula-foreground">;</span>
                 </div>
                 <div class="pl-2 sm:pl-4">
-                  <span class="text-dracula-foreground">availability: </span>
+                  <span class="text-dracula-purple">final String</span>
+                  <span class="text-dracula-foreground"> availability = </span>
                   <span class="text-dracula-green">'Open to opportunities'</span>
-                  <span class="text-dracula-foreground">,</span>
+                  <span class="text-dracula-foreground">;</span>
                 </div>
                 <div class="pl-2 sm:pl-4">
-                  <span class="text-dracula-foreground">responseTime: </span>
+                  <span class="text-dracula-purple">final String</span>
+                  <span class="text-dracula-foreground"> responseTime = </span>
                   <span class="text-dracula-green">'&lt; 24 hours'</span>
-                  <span class="text-dracula-foreground">,</span>
+                  <span class="text-dracula-foreground">;</span>
                 </div>
                 <div class="pl-2 sm:pl-4">
-                  <span class="text-dracula-cyan">connect</span>
-                  <span class="text-dracula-foreground">: </span>
-                  <span class="text-dracula-purple">function</span>
+                  <span class="text-dracula-purple">String</span>
+                  <span class="text-dracula-cyan"> connect</span>
                   <span class="text-dracula-foreground">() {</span>
                 </div>
                 <div class="pl-4 sm:pl-8">
@@ -244,10 +247,17 @@
                   <span class="text-dracula-foreground">}</span>
                 </div>
                 <div>
-                  <span class="text-dracula-foreground">};</span>
+                  <span class="text-dracula-foreground">}</span>
                 </div>
                 <div class="mt-2 sm:mt-4">
                   <span class="text-code-comment">// Siap untuk berkolaborasi</span>
+                </div>
+                <div>
+                  <span class="text-dracula-purple">final</span>
+                  <span class="text-dracula-cyan"> contact</span>
+                  <span class="text-dracula-foreground"> = </span>
+                  <span class="text-dracula-cyan">Contact</span>
+                  <span class="text-dracula-foreground">();</span>
                 </div>
                 <div>
                   <span class="text-dracula-cyan">contact.connect</span>

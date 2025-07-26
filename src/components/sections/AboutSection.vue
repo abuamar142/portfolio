@@ -27,10 +27,11 @@
 
       <div class="absolute bottom-40 left-32 animate-float" style="animation-delay: 1.5s">
         <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
-          <code class="text-dracula-cyan text-sm">this.skills</code>
-          <code class="text-dracula-foreground text-sm">.push(</code>
-          <code class="text-dracula-green text-sm">'new tech'</code>
-          <code class="text-dracula-foreground text-sm">)</code>
+          <code class="text-dracula-foreground text-sm">skills.</code>
+          <code class="text-dracula-cyan text-sm">add</code>
+          <code class="text-dracula-foreground text-sm">(</code>
+          <code class="text-dracula-green text-sm">'Flutter'</code>
+          <code class="text-dracula-foreground text-sm">);</code>
         </div>
       </div>
     </div>

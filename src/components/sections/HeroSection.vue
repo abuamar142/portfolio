@@ -13,7 +13,8 @@
         class="absolute inset-0 text-dracula-comment text-xs font-mono p-8 overflow-hidden leading-loose"
       >
         <div class="transform rotate-12 opacity-50">
-          const portfolio = { skills: ['Flutter', 'Dart', 'TypeScript'], experience: '3+ years' };
+          class Portfolio { final List&lt;String&gt; skills = ['Flutter', 'Dart', 'Mobile
+          Development']; }
         </div>
       </div>
     </div>
@@ -22,25 +23,28 @@
     <div class="absolute inset-0 overflow-hidden hidden md:block">
       <div class="absolute top-20 left-10 animate-float">
         <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
-          <code class="text-dracula-purple text-sm">const</code>
-          <code class="text-dracula-foreground text-sm"> developer </code>
-          <code class="text-dracula-foreground text-sm">= {</code>
+          <code class="text-dracula-purple text-sm">class</code>
+          <code class="text-dracula-foreground text-sm"> Developer </code>
+          <code class="text-dracula-foreground text-sm">{</code>
         </div>
       </div>
 
       <div class="absolute top-40 right-20 animate-float" style="animation-delay: 1s">
         <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
-          <code class="text-dracula-cyan text-sm">console.log</code>
+          <code class="text-dracula-cyan text-sm">print</code>
           <code class="text-dracula-foreground text-sm">(</code>
-          <code class="text-dracula-green text-sm">'Hello World!'</code>
-          <code class="text-dracula-foreground text-sm">)</code>
+          <code class="text-dracula-green text-sm">'Hello Flutter!'</code>
+          <code class="text-dracula-foreground text-sm">);</code>
         </div>
       </div>
 
       <div class="absolute bottom-32 left-20 animate-float" style="animation-delay: 2s">
         <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
-          <code class="text-dracula-purple text-sm">export default</code>
-          <code class="text-dracula-cyan text-sm"> Portfolio</code>
+          <code class="text-dracula-purple text-sm">final String</code>
+          <code class="text-dracula-cyan text-sm"> name</code>
+          <code class="text-dracula-foreground text-sm"> = </code>
+          <code class="text-dracula-green text-sm">{{ portfolioData.personalInfo.nickname }}</code>
+          <code class="text-dracula-foreground text-sm">;</code>
         </div>
       </div>
     </div>
@@ -62,7 +66,7 @@
             <h1
               class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-dracula-foreground mb-2 leading-tight"
             >
-              Hi, I'm
+              Hai, Saya
               <span
                 class="text-transparent bg-clip-text bg-gradient-to-r from-dracula-purple to-dracula-pink"
               >
@@ -177,7 +181,7 @@
                   <div class="w-3 h-3 bg-dracula-yellow rounded-full"></div>
                   <div class="w-3 h-3 bg-dracula-green rounded-full"></div>
                 </div>
-                <div class="text-dracula-comment text-sm font-mono">portfolio.js</div>
+                <div class="text-dracula-comment text-sm font-mono">portfolio.dart</div>
                 <div class="w-6"></div>
               </div>
 
@@ -185,24 +189,27 @@
               <div class="p-6 font-mono text-sm leading-relaxed">
                 <div class="space-y-2">
                   <div>
-                    <span class="text-dracula-purple">const</span>
-                    <span class="text-dracula-cyan"> developer</span>
-                    <span class="text-dracula-foreground"> = {</span>
+                    <span class="text-dracula-purple">class</span>
+                    <span class="text-dracula-cyan"> Developer</span>
+                    <span class="text-dracula-foreground"> {</span>
                   </div>
                   <div class="pl-4">
-                    <span class="text-dracula-foreground">name: </span>
+                    <span class="text-dracula-purple">final String</span>
+                    <span class="text-dracula-foreground"> name = </span>
                     <span class="text-dracula-green"
                       >'{{ portfolioData.personalInfo.fullname }}'</span
                     >
-                    <span class="text-dracula-foreground">,</span>
+                    <span class="text-dracula-foreground">;</span>
                   </div>
                   <div class="pl-4">
-                    <span class="text-dracula-foreground">role: </span>
+                    <span class="text-dracula-purple">final String</span>
+                    <span class="text-dracula-foreground"> role = </span>
                     <span class="text-dracula-green">'{{ portfolioData.personalInfo.title }}'</span>
-                    <span class="text-dracula-foreground">,</span>
+                    <span class="text-dracula-foreground">;</span>
                   </div>
                   <div class="pl-4">
-                    <span class="text-dracula-foreground">skills: [</span>
+                    <span class="text-dracula-purple">final List&lt;String&gt;</span>
+                    <span class="text-dracula-foreground"> skills = [</span>
                   </div>
                   <div
                     class="pl-8"
@@ -213,24 +220,25 @@
                     <span class="text-dracula-foreground">{{ index < 3 ? ',' : '' }}</span>
                   </div>
                   <div class="pl-4">
-                    <span class="text-dracula-foreground">],</span>
+                    <span class="text-dracula-foreground">];</span>
                   </div>
                   <div class="pl-4">
-                    <span class="text-dracula-cyan">hardWorker</span>
-                    <span class="text-dracula-foreground">: </span>
+                    <span class="text-dracula-purple">final bool</span>
+                    <span class="text-dracula-cyan"> hardWorker</span>
+                    <span class="text-dracula-foreground"> = </span>
                     <span class="text-dracula-purple">true</span>
-                    <span class="text-dracula-foreground">,</span>
+                    <span class="text-dracula-foreground">;</span>
                   </div>
                   <div class="pl-4">
-                    <span class="text-dracula-cyan">problemSolver</span>
-                    <span class="text-dracula-foreground">: </span>
+                    <span class="text-dracula-purple">final bool</span>
+                    <span class="text-dracula-cyan"> problemSolver</span>
+                    <span class="text-dracula-foreground"> = </span>
                     <span class="text-dracula-purple">true</span>
-                    <span class="text-dracula-foreground">,</span>
+                    <span class="text-dracula-foreground">;</span>
                   </div>
                   <div class="pl-4">
-                    <span class="text-dracula-cyan">hireable</span>
-                    <span class="text-dracula-foreground">: </span>
-                    <span class="text-dracula-purple">function</span>
+                    <span class="text-dracula-purple">bool</span>
+                    <span class="text-dracula-cyan"> isHireable</span>
                     <span class="text-dracula-foreground">() {</span>
                   </div>
                   <div class="pl-8">
@@ -238,16 +246,13 @@
                     <span class="text-dracula-foreground"> (</span>
                   </div>
                   <div class="pl-12">
-                    <span class="text-dracula-purple">this</span>
-                    <span class="text-dracula-foreground">.hardWorker &&</span>
+                    <span class="text-dracula-foreground">hardWorker &&</span>
                   </div>
                   <div class="pl-12">
-                    <span class="text-dracula-purple">this</span>
-                    <span class="text-dracula-foreground">.problemSolver &&</span>
+                    <span class="text-dracula-foreground">problemSolver &&</span>
                   </div>
                   <div class="pl-12">
-                    <span class="text-dracula-purple">this</span>
-                    <span class="text-dracula-foreground">.skills.length >= </span>
+                    <span class="text-dracula-foreground">skills.length >= </span>
                     <span class="text-dracula-orange">{{ portfolioData.skills.length }}</span>
                   </div>
                   <div class="pl-8">
@@ -257,7 +262,7 @@
                     <span class="text-dracula-foreground">}</span>
                   </div>
                   <div>
-                    <span class="text-dracula-foreground">};</span>
+                    <span class="text-dracula-foreground">}</span>
                   </div>
                 </div>
               </div>
@@ -269,10 +274,10 @@
             >
               <div class="flex items-center mb-2">
                 <div class="text-green-400 text-sm font-mono">$</div>
-                <div class="text-dracula-foreground text-sm font-mono ml-1">npm start</div>
+                <div class="text-dracula-foreground text-sm font-mono ml-1">flutter run</div>
               </div>
               <div class="text-green-400 text-xs font-mono">
-                ✓ Portfolio running on localhost:3000
+                ✓ Flutter app running on localhost:8080
               </div>
             </div>
           </div>

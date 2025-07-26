@@ -19,7 +19,7 @@
         <div
           class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg backdrop-blur-sm"
         >
-          <code class="text-dracula-purple text-sm">const</code>
+          <code class="text-dracula-purple text-sm">final List&lt;Project&gt;</code>
           <code class="text-dracula-cyan text-sm"> projects</code>
           <code class="text-dracula-foreground text-sm"> = [];</code>
         </div>
@@ -27,10 +27,12 @@
 
       <div class="absolute bottom-40 right-24 animate-float" style="animation-delay: 1.8s">
         <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
-          <code class="text-dracula-cyan text-sm">deploy</code>
+          <code class="text-dracula-cyan text-sm">FlutterApp</code>
           <code class="text-dracula-foreground text-sm">(</code>
           <code class="text-dracula-green text-sm">'production'</code>
-          <code class="text-dracula-foreground text-sm">)</code>
+          <code class="text-dracula-foreground text-sm">).</code>
+          <code class="text-dracula-cyan text-sm">run</code>
+          <code class="text-dracula-foreground text-sm">()</code>
         </div>
       </div>
     </div>
@@ -65,7 +67,7 @@
         <p
           class="text-base sm:text-lg lg:text-xl text-dracula-comment max-w-2xl mx-auto px-4 sm:px-0"
         >
-          A showcase of my work and the solutions I've built
+            Sebuah etalase karya dan solusi yang telah saya bangun
         </p>
       </div>
 
