@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="relative z-10 max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
       <!-- Section Header -->
       <div class="text-center mb-12 sm:mb-16 lg:mb-20 animate-fade-in">
         <div
@@ -71,126 +71,37 @@
         </p>
       </div>
 
-      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 xl:gap-12 items-start">
         <!-- Contact Cards -->
-        <div class="space-y-4 sm:space-y-6 animate-slide-up">
+        <div class="space-y-4 sm:space-y-4 md:space-y-6 animate-slide-up w-full min-w-0">
           <!-- Email Card -->
-          <div
-            class="bg-dracula-selection backdrop-blur-sm border border-gray-500 rounded-xl p-4 sm:p-6 hover:border-dracula-purple/50 transition-all duration-300 group"
-          >
-            <div class="flex items-start space-x-3 sm:space-x-4">
-              <div
-                class="w-10 h-10 sm:w-12 sm:h-12 bg-dracula-purple/20 rounded-lg flex items-center justify-center group-hover:bg-dracula-purple/30 transition-colors flex-shrink-0"
-              >
-                <svg
-                  class="w-5 h-5 sm:w-6 sm:h-6 text-dracula-purple"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  ></path>
-                </svg>
-              </div>
-              <div class="flex-1 min-w-0">
-                <h3 class="text-base sm:text-lg font-semibold text-dracula-foreground mb-1 sm:mb-2">
-                  {{ $t('contact.cards.email.title') }}
-                </h3>
-                <a
-                  :href="`mailto:${portfolioData.personalInfo.email}`"
-                  class="text-dracula-purple hover:text-dracula-pink transition-colors text-sm sm:text-lg font-mono break-all"
-                >
-                  {{ portfolioData.personalInfo.email }}
-                </a>
-                <p class="text-dracula-comment text-xs sm:text-sm mt-1 sm:mt-2">
-                  {{ $t('contact.cards.email.subtitle') }}
-                </p>
-              </div>
-            </div>
-          </div>
+          <ContactCard
+            icon="email"
+            type="email"
+            :title="$t('contact.cards.email.title')"
+            :content="portfolioData.personalInfo.email"
+            :subtitle="$t('contact.cards.email.subtitle')"
+            :href="`mailto:${portfolioData.personalInfo.email}`"
+          />
 
           <!-- Location Card -->
-          <div
-            class="bg-dracula-selection backdrop-blur-sm border border-gray-500 rounded-xl p-4 sm:p-6 hover:border-dracula-purple/50 transition-all duration-300 group"
-          >
-            <div class="flex items-start space-x-3 sm:space-x-4">
-              <div
-                class="w-10 h-10 sm:w-12 sm:h-12 bg-dracula-purple/20 rounded-lg flex items-center justify-center group-hover:bg-dracula-purple/30 transition-colors flex-shrink-0"
-              >
-                <svg
-                  class="w-5 h-5 sm:w-6 sm:h-6 text-dracula-purple"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  ></path>
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                  ></path>
-                </svg>
-              </div>
-              <div class="flex-1 min-w-0">
-                <h3 class="text-base sm:text-lg font-semibold text-dracula-foreground mb-1 sm:mb-2">
-                  {{ $t('contact.cards.location.title') }}
-                </h3>
-                <p class="text-dracula-foreground text-sm sm:text-lg">
-                  {{ portfolioData.personalInfo.location }}
-                </p>
-                <p class="text-dracula-comment text-xs sm:text-sm mt-1 sm:mt-2">
-                  {{ $t('contact.cards.location.subtitle') }}
-                </p>
-              </div>
-            </div>
-          </div>
+          <ContactCard
+            icon="location"
+            type="location"
+            :title="$t('contact.cards.location.title')"
+            :content="portfolioData.personalInfo.location"
+            :subtitle="$t('contact.cards.location.subtitle')"
+          />
 
           <!-- Phone Card (if available) -->
-          <div
+          <ContactCard
             v-if="portfolioData.personalInfo.phone"
-            class="bg-dracula-selection backdrop-blur-sm border border-gray-500 rounded-xl p-4 sm:p-6 hover:border-dracula-purple/50 transition-all duration-300 group"
-          >
-            <div class="flex items-start space-x-3 sm:space-x-4">
-              <div
-                class="w-10 h-10 sm:w-12 sm:h-12 bg-dracula-purple/20 rounded-lg flex items-center justify-center group-hover:bg-dracula-purple/30 transition-colors flex-shrink-0"
-              >
-                <svg
-                  class="w-5 h-5 sm:w-6 sm:h-6 text-dracula-purple"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                  ></path>
-                </svg>
-              </div>
-              <div class="flex-1 min-w-0">
-                <h3 class="text-base sm:text-lg font-semibold text-dracula-foreground mb-1 sm:mb-2">
-                  {{ $t('contact.cards.phone.title') }}
-                </h3>
-                <p class="text-dracula-foreground text-sm sm:text-lg font-mono break-all">
-                  {{ portfolioData.personalInfo.phone }}
-                </p>
-                <p class="text-dracula-comment text-xs sm:text-sm mt-1 sm:mt-2">
-                  {{ $t('contact.cards.phone.subtitle') }}
-                </p>
-              </div>
-            </div>
-          </div>
+            icon="phone"
+            type="phone"
+            :title="$t('contact.cards.phone.title')"
+            :content="portfolioData.personalInfo.phone"
+            :subtitle="$t('contact.cards.phone.subtitle')"
+          />
         </div>
 
         <!-- Code Block -->
@@ -357,4 +268,5 @@
 
 <script setup lang="ts">
 import { portfolioData } from '@/data/portfolio'
+import ContactCard from '@/components/ui/ContactCard.vue'
 </script>
