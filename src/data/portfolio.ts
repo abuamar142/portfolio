@@ -80,43 +80,54 @@ export const portfolioData: Portfolio = {
     },
     {
       id: '3',
-      title: 'Organization Management System',
+      title: 'Mobile Londri',
       description:
-        'Sistem manajemen organisasi untuk mengelola keuangan, anggota, dan kegiatan organisasi. Menggunakan Google Sheets sebagai database dan sistem pelaporan.',
-      technologies: ['Google Sheets', 'Apps Script', 'Financial Management'],
-      githubUrl: 'https://github.com/abuamar142',
+        'Aplikasi mobile manajemen laundry berbasis Flutter dan Supabase. Mendukung fitur pesanan, pelanggan, laporan keuangan, dan autentikasi pengguna.',
+      technologies: ['Flutter', 'Supabase', 'Dart', 'PostgreSQL'],
+      githubUrl: 'https://github.com/abuamar142/mobile-londri',
+    },
+    {
+      id: '4',
+      title: 'JNE Landing Page',
+      description:
+        'Landing page modern dan responsif untuk JNE Express - perusahaan ekspedisi pengiriman barang terpercaya di Indonesia.',
+      technologies: ['Vue.js', 'Tailwind CSS', 'TypeScript', 'SEO Optimization', 'Vercel'],
+      liveUrl: 'https://www.jne.abuamar.site',
+      githubUrl: 'https://github.com/abuamar142/jne-landing-page',
     },
   ],
   skills: [
     // Mobile Development
-    { id: '1', name: 'Flutter', category: 'frontend', level: 'expert' },
-    { id: '2', name: 'Dart', category: 'frontend', level: 'expert' },
-    { id: '3', name: 'Kotlin', category: 'frontend', level: 'advanced' },
-    { id: '4', name: 'Android', category: 'frontend', level: 'advanced' },
-    { id: '5', name: 'Jetpack Compose', category: 'frontend', level: 'advanced' },
+    { id: '1', name: 'Flutter', category: 'mobile', level: 'expert' },
+    { id: '2', name: 'Dart', category: 'mobile', level: 'expert' },
+    { id: '3', name: 'Kotlin', category: 'mobile', level: 'advanced' },
+    { id: '4', name: 'Android', category: 'mobile', level: 'advanced' },
 
     // Web Development
-    { id: '6', name: 'React', category: 'frontend', level: 'advanced' },
-    { id: '7', name: 'JavaScript', category: 'frontend', level: 'advanced' },
-    { id: '8', name: 'HTML5', category: 'frontend', level: 'expert' },
-    { id: '9', name: 'CSS3', category: 'frontend', level: 'expert' },
+    { id: '5', name: 'React', category: 'web', level: 'advanced' },
+    { id: '6', name: 'Vue.js', category: 'web', level: 'advanced' },
+    { id: '7', name: 'JavaScript', category: 'web', level: 'advanced' },
+    { id: '8', name: 'TypeScript', category: 'web', level: 'advanced' },
+    { id: '9', name: 'HTML5', category: 'web', level: 'expert' },
+    { id: '10', name: 'CSS3', category: 'web', level: 'expert' },
+    { id: '11', name: 'Tailwind CSS', category: 'web', level: 'expert' },
+    { id: '12', name: 'Bootstrap', category: 'web', level: 'advanced' },
+    { id: '13', name: 'API Integration (REST)', category: 'web', level: 'expert' },
 
-    // Backend & Database
-    { id: '10', name: 'Supabase', category: 'backend', level: 'expert' },
-    { id: '11', name: 'API Integration (REST)', category: 'backend', level: 'expert' },
-    { id: '12', name: 'Database Schema Design', category: 'database', level: 'expert' },
+    // Backend
+    { id: '14', name: 'Supabase', category: 'backend', level: 'expert' },
+    { id: '15', name: 'Database Schema Design', category: 'backend', level: 'expert' },
 
     // Tools & DevOps
-    { id: '13', name: 'Git & GitHub', category: 'tools', level: 'expert' },
-    { id: '14', name: 'GitHub Actions (CI/CD)', category: 'tools', level: 'advanced' },
-    { id: '15', name: 'Linux', category: 'tools', level: 'expert' },
-    { id: '16', name: 'Google Sheets / Excel', category: 'tools', level: 'expert' },
-
-    // Software Engineering
-    { id: '17', name: 'OOP & Design Patterns', category: 'other', level: 'advanced' },
-    { id: '18', name: 'C4 Model Documentation', category: 'other', level: 'advanced' },
-    { id: '19', name: 'API Contract (Postman/Swagger)', category: 'other', level: 'advanced' },
-    { id: '20', name: 'Machine Learning', category: 'other', level: 'intermediate' },
+    { id: '16', name: 'Git & GitHub', category: 'tools', level: 'expert' },
+    { id: '17', name: 'GitHub Actions (CI/CD)', category: 'tools', level: 'advanced' },
+    { id: '18', name: 'Vercel', category: 'tools', level: 'advanced' },
+    { id: '19', name: 'Linux', category: 'tools', level: 'expert' },
+    { id: '20', name: 'Google Sheets / Excel', category: 'tools', level: 'expert' },
+    { id: '21', name: 'OOP & Design Patterns', category: 'tools', level: 'advanced' },
+    { id: '22', name: 'C4 Model Documentation', category: 'tools', level: 'advanced' },
+    { id: '23', name: 'API Contract (Postman/Swagger)', category: 'tools', level: 'advanced' },
+    { id: '24', name: 'Machine Learning', category: 'tools', level: 'intermediate' },
   ],
   education: [
     {

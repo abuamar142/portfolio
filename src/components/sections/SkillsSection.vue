@@ -1,20 +1,20 @@
 <template>
   <section
     id="skills"
-    class="relative py-32 bg-dracula-background overflow-hidden transition-colors"
+    class="relative py-16 sm:py-24 lg:py-32 bg-dracula-background overflow-hidden transition-colors"
   >
     <!-- Background Elements -->
     <div class="absolute inset-0">
       <div
-        class="absolute top-32 left-16 w-80 h-80 bg-dracula-purple/10 rounded-full blur-3xl"
+        class="absolute top-32 left-4 sm:left-16 w-56 h-56 sm:w-80 sm:h-80 bg-dracula-purple/10 rounded-full blur-3xl"
       ></div>
       <div
-        class="absolute bottom-20 right-16 w-96 h-96 bg-dracula-pink/10 rounded-full blur-3xl"
+        class="absolute bottom-20 right-4 sm:right-16 w-64 h-64 sm:w-96 sm:h-96 bg-dracula-pink/10 rounded-full blur-3xl"
       ></div>
     </div>
 
     <!-- Floating Code Elements -->
-    <div class="absolute inset-0 overflow-hidden opacity-20">
+    <div class="absolute inset-0 overflow-hidden opacity-20 hidden md:block">
       <div class="absolute top-24 right-32 animate-float">
         <div
           class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg backdrop-blur-sm"
@@ -35,13 +35,13 @@
       </div>
     </div>
 
-    <div class="relative max-w-7xl mx-auto px-6">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
       <!-- Enhanced Header -->
-      <div class="text-center mb-20 animate-fade-in">
+      <div class="text-center mb-12 sm:mb-16 lg:mb-20 animate-fade-in">
         <div
-          class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-dracula-purple to-dracula-pink text-dracula-background mb-8 shadow-glow"
+          class="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-dracula-purple to-dracula-pink text-dracula-background mb-6 sm:mb-8 shadow-glow"
         >
-          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -51,7 +51,7 @@
           </svg>
         </div>
 
-        <h2 class="text-5xl md:text-6xl font-bold mb-8">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">
           <span class="text-dracula-foreground font-mono">
             <span class="text-dracula-purple">keahlian</span>
             <span class="text-dracula-foreground">.</span>
@@ -62,42 +62,48 @@
           </span>
         </h2>
 
-        <p class="text-xl text-dracula-comment max-w-2xl mx-auto">
+        <p
+          class="text-base sm:text-lg lg:text-xl text-dracula-comment max-w-2xl mx-auto px-4 sm:px-0"
+        >
           Technologies and tools I use to bring ideas to life
         </p>
       </div>
 
       <!-- Enhanced Skills Grid -->
-      <div class="space-y-12 animate-slide-up delay-200">
-        <div v-for="category in skillCategories" :key="category.name" class="space-y-6">
+      <div class="space-y-8 sm:space-y-10 lg:space-y-12 animate-slide-up delay-200">
+        <div
+          v-for="category in skillCategories"
+          :key="category.name"
+          class="space-y-4 sm:space-y-6"
+        >
           <!-- Category Header -->
           <div class="text-center">
-            <h3 class="text-2xl font-bold text-dracula-foreground mb-2 font-mono">
+            <h3 class="text-xl sm:text-2xl font-bold text-dracula-foreground mb-2 font-mono">
               <span class="text-dracula-comment">//</span>
               <span class="text-dracula-purple">{{ category.name.toLowerCase() }}</span>
             </h3>
           </div>
 
           <!-- Skills Grid -->
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
             <div v-for="skill in category.skills" :key="skill.id" class="group">
               <div
-                class="bg-dracula-selection border border-gray-500 rounded-lg p-6 text-center hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-300 hover:-translate-y-1"
+                class="bg-dracula-selection border border-gray-500 rounded-lg p-4 sm:p-6 text-center hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-300 hover:-translate-y-1"
               >
                 <!-- Skill Icon/Initial -->
                 <div
-                  class="w-12 h-12 mx-auto bg-dracula-purple/20 border border-dracula-purple/30 rounded-lg flex items-center justify-center text-dracula-purple text-lg font-bold mb-3 group-hover:scale-110 transition-transform duration-300"
+                  class="w-10 h-10 sm:w-12 sm:h-12 mx-auto bg-dracula-purple/20 border border-dracula-purple/30 rounded-lg flex items-center justify-center text-dracula-purple text-base sm:text-lg font-bold mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300"
                 >
                   {{ getSkillInitial(skill.name) }}
                 </div>
                 <!-- Skill Name -->
                 <h4
-                  class="text-sm text-dracula-foreground font-mono font-medium group-hover:text-dracula-foreground transition-colors duration-300"
+                  class="text-xs sm:text-sm text-dracula-foreground font-mono font-medium group-hover:text-dracula-foreground transition-colors duration-300 leading-tight"
                 >
                   {{ skill.name }}
                 </h4>
                 <!-- Level Indicator -->
-                <div class="mt-2 w-full bg-dracula-selection rounded-full h-1">
+                <div class="mt-1 sm:mt-2 w-full bg-dracula-selection rounded-full h-1">
                   <div
                     class="bg-gradient-to-r from-dracula-purple to-dracula-pink h-1 rounded-full transition-all duration-500 group-hover:animate-pulse"
                     :style="{ width: `${skill.level}%` }"
@@ -120,15 +126,15 @@ const skillCategories = computed(() =>
   [
     {
       name: 'Mobile',
-      skills: portfolioData.skills.filter((skill) => skill.category === 'frontend'),
+      skills: portfolioData.skills.filter((skill) => skill.category === 'mobile'),
     },
     {
       name: 'Web',
-      skills: portfolioData.skills.filter((skill) => skill.category === 'backend'),
+      skills: portfolioData.skills.filter((skill) => skill.category === 'web'),
     },
     {
-      name: 'Database',
-      skills: portfolioData.skills.filter((skill) => skill.category === 'database'),
+      name: 'Backend',
+      skills: portfolioData.skills.filter((skill) => skill.category === 'backend'),
     },
     {
       name: 'Tools',

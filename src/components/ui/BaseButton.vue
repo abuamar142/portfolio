@@ -22,8 +22,8 @@ interface Props {
   href?: string
   to?: string
   disabled?: boolean
-  iconLeft?: any
-  iconRight?: any
+  iconLeft?: object
+  iconRight?: object
   fullWidth?: boolean
 }
 

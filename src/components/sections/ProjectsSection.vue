@@ -1,20 +1,20 @@
 <template>
   <section
     id="projects"
-    class="relative py-32 bg-dracula-background overflow-hidden transition-colors"
+    class="relative py-16 sm:py-24 lg:py-32 bg-dracula-background overflow-hidden transition-colors"
   >
     <!-- Background Elements -->
     <div class="absolute inset-0">
       <div
-        class="absolute top-20 left-10 w-96 h-96 bg-dracula-purple/10 rounded-full blur-3xl"
+        class="absolute top-20 left-4 sm:left-10 w-64 h-64 sm:w-96 sm:h-96 bg-dracula-purple/10 rounded-full blur-3xl"
       ></div>
       <div
-        class="absolute bottom-20 right-10 w-80 h-80 bg-dracula-pink/10 rounded-full blur-3xl"
+        class="absolute bottom-20 right-4 sm:right-10 w-56 h-56 sm:w-80 sm:h-80 bg-dracula-pink/10 rounded-full blur-3xl"
       ></div>
     </div>
 
     <!-- Floating Code Elements -->
-    <div class="absolute inset-0 overflow-hidden opacity-20">
+    <div class="absolute inset-0 overflow-hidden opacity-20 hidden md:block">
       <div class="absolute top-40 left-20 animate-float">
         <div
           class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg backdrop-blur-sm"
@@ -35,13 +35,13 @@
       </div>
     </div>
 
-    <div class="relative max-w-7xl mx-auto px-6">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
       <!-- Enhanced Header -->
-      <div class="text-center mb-20 animate-fade-in">
+      <div class="text-center mb-12 sm:mb-16 lg:mb-20 animate-fade-in">
         <div
-          class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-dracula-purple to-dracula-pink text-dracula-background mb-8 shadow-glow"
+          class="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-dracula-purple to-dracula-pink text-dracula-background mb-6 sm:mb-8 shadow-glow"
         >
-          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -51,7 +51,7 @@
           </svg>
         </div>
 
-        <h2 class="text-5xl md:text-6xl font-bold mb-8">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">
           <span class="text-dracula-foreground font-mono">
             <span class="text-dracula-purple">proyek</span>
             <span class="text-dracula-foreground">.</span>
@@ -62,17 +62,19 @@
           </span>
         </h2>
 
-        <p class="text-xl text-dracula-comment max-w-2xl mx-auto">
+        <p
+          class="text-base sm:text-lg lg:text-xl text-dracula-comment max-w-2xl mx-auto px-4 sm:px-0"
+        >
           A showcase of my work and the solutions I've built
         </p>
       </div>
 
       <!-- Enhanced Projects Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-slide-up delay-200">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 animate-slide-up delay-200">
         <div
           v-for="project in portfolioData.projects"
           :key="project.id"
-          class="bg-dracula-selection border border-gray-500 rounded-lg p-8 group hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-500 hover:-translate-y-2"
+          class="bg-dracula-selection border border-gray-500 rounded-lg p-6 sm:p-8 group hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-500 hover:-translate-y-2"
         >
           <!-- Project Header -->
           <div class="mb-6">

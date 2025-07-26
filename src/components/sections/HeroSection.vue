@@ -19,7 +19,7 @@
     </div>
 
     <!-- Floating Code Elements -->
-    <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute inset-0 overflow-hidden hidden md:block">
       <div class="absolute top-20 left-10 animate-float">
         <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
           <code class="text-dracula-purple text-sm">const</code>
@@ -45,22 +45,22 @@
       </div>
     </div>
 
-    <div class="relative z-10 max-w-7xl mx-auto px-6 pt-20">
-      <div class="grid lg:grid-cols-2 gap-12 items-center">
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20">
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[85vh] lg:min-h-[90vh]">
         <!-- Content -->
-        <div class="text-center lg:text-left animate-fade-in">
+        <div class="text-center lg:text-left animate-fade-in order-2 lg:order-1">
           <!-- Developer Badge -->
           <div
-            class="inline-flex items-center bg-dracula-purple/20 border border-dracula-purple/30 text-dracula-purple px-4 py-2 rounded-full text-sm font-semibold mb-6 backdrop-blur-sm"
+            class="inline-flex items-center bg-dracula-purple/20 border border-dracula-purple/30 text-dracula-purple px-3 py-2 sm:px-4 rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6 backdrop-blur-sm"
           >
-            <div class="w-2 h-2 bg-dracula-green rounded-full mr-3 animate-pulse"></div>
+            <div class="w-2 h-2 bg-dracula-green rounded-full mr-2 sm:mr-3 animate-pulse"></div>
             Available for work
           </div>
 
           <!-- Main Heading with Typing Effect -->
-          <div class="mb-6">
+          <div class="mb-4 sm:mb-6">
             <h1
-              class="text-4xl md:text-5xl lg:text-6xl font-bold text-dracula-foreground mb-2 leading-tight"
+              class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-dracula-foreground mb-2 leading-tight"
             >
               Hi, I'm
               <span
@@ -70,7 +70,7 @@
               </span>
             </h1>
             <div
-              class="text-2xl md:text-3xl lg:text-4xl font-bold text-dracula-comment h-12 flex items-center"
+              class="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-dracula-comment h-8 sm:h-10 lg:h-12 flex items-center justify-center lg:justify-start"
             >
               <span class="font-mono">></span>
               <span
@@ -83,7 +83,7 @@
 
           <!-- Subtitle -->
           <p
-            class="text-lg md:text-xl text-dracula-comment mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
+            class="text-sm sm:text-base md:text-lg lg:text-xl text-dracula-comment mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0 px-4 sm:px-0"
           >
             {{ portfolioData.personalInfo.title }} yang berfokus pada pembuatan solusi yang kuat dan
             skalabel. Saya mengubah ide menjadi pengalaman digital melalui kode yang bersih dan
@@ -91,14 +91,18 @@
           </p>
 
           <!-- CTA Buttons -->
-          <div class="flex flex-col sm:flex-row gap-4 mb-12">
+          <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-12 px-4 sm:px-0">
             <BaseButton
               variant="primary"
               size="lg"
-              class="shadow-glow hover:shadow-button-hover transform hover:-translate-y-1 transition-all duration-300 bg-dracula-purple hover:bg-dracula-pink"
+              class="shadow-glow hover:shadow-button-hover transform hover:-translate-y-1 transition-all duration-300 bg-dracula-purple hover:bg-dracula-pink w-full sm:w-auto"
               @click="scrollToContact"
             >
-              <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <svg
+                class="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
                 <path
                   d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
                 ></path>
@@ -110,50 +114,55 @@
             <BaseButton
               variant="outline"
               size="lg"
-              class="border-2 border-dracula-comment text-dracula-comment hover:border-dracula-purple hover:text-dracula-purple hover:bg-dracula-purple/10 transition-all duration-300"
+              class="border-2 border-dracula-comment text-dracula-comment hover:border-dracula-purple hover:text-dracula-purple hover:bg-dracula-purple/10 transition-all duration-300 w-full sm:w-auto"
               @click="viewCV"
             >
-              <EyeIcon class="w-5 h-5 mr-2" />
+              <EyeIcon class="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               Lihat Resume
             </BaseButton>
           </div>
 
           <!-- Tech Stack Pills -->
-          <div class="flex flex-wrap gap-3 mb-8">
+          <div
+            class="flex flex-wrap gap-2 sm:gap-3 mb-6 sm:mb-8 justify-center lg:justify-start px-4 sm:px-0"
+          >
             <div
               v-for="tech in featuredTechs"
               :key="tech"
-              class="px-3 py-1 bg-dracula-selection border border-gray-500 text-dracula-foreground text-sm rounded-full backdrop-blur-sm hover:border-dracula-purple/50 transition-colors"
+              class="px-2 py-1 sm:px-3 bg-dracula-selection border border-gray-500 text-dracula-foreground text-xs sm:text-sm rounded-full backdrop-blur-sm hover:border-dracula-purple/50 transition-colors"
             >
               {{ tech }}
             </div>
           </div>
 
           <!-- Stats -->
-          <div class="grid grid-cols-3 gap-8 text-center">
+          <div class="grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 text-center px-4 sm:px-0">
             <div class="animate-slide-up" style="animation-delay: 0.2s">
-              <div class="text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
+              <div class="text-xl sm:text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
                 {{ portfolioData.experiences.length }}+
               </div>
-              <div class="text-sm text-dracula-comment">Years Experience</div>
+              <div class="text-xs sm:text-sm text-dracula-comment">Years Experience</div>
             </div>
             <div class="animate-slide-up" style="animation-delay: 0.4s">
-              <div class="text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
+              <div class="text-xl sm:text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
                 {{ portfolioData.projects.length }}+
               </div>
-              <div class="text-sm text-dracula-comment">Projects Built</div>
+              <div class="text-xs sm:text-sm text-dracula-comment">Projects Built</div>
             </div>
             <div class="animate-slide-up" style="animation-delay: 0.6s">
-              <div class="text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
+              <div class="text-xl sm:text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
                 {{ portfolioData.skills.length }}+
               </div>
-              <div class="text-sm text-dracula-comment">Technologies</div>
+              <div class="text-xs sm:text-sm text-dracula-comment">Technologies</div>
             </div>
           </div>
         </div>
 
         <!-- Interactive Code Editor -->
-        <div class="hidden lg:block animate-fade-in" style="animation-delay: 0.3s">
+        <div
+          class="hidden lg:block animate-fade-in order-1 lg:order-2"
+          style="animation-delay: 0.3s"
+        >
           <div class="relative">
             <!-- Code Editor Window -->
             <div

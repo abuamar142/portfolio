@@ -34,7 +34,7 @@ export interface Project {
 export interface Skill {
   id: string
   name: string
-  category: 'frontend' | 'backend' | 'database' | 'tools' | 'other'
+  category: 'mobile' | 'web' | 'backend' | 'tools'
   level: 'beginner' | 'intermediate' | 'advanced' | 'expert'
 }
 

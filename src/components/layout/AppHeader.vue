@@ -2,8 +2,8 @@
   <header
     class="fixed top-0 left-0 right-0 z-50 bg-dracula-background/95 backdrop-blur-sm border-b border-gray-500"
   >
-    <nav class="max-w-6xl mx-auto px-6">
-      <div class="flex items-center justify-between h-16">
+    <nav class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-14 sm:h-16">
         <!-- Developer Logo -->
         <div class="flex-shrink-0">
           <router-link
@@ -11,7 +11,7 @@
             class="flex items-center space-x-2 text-dracula-foreground hover:text-dracula-purple transition-colors group"
           >
             <div
-              class="h-8 px-2 rounded-lg flex items-center justify-center font-mono font-bold text-dracula-foreground group-hover:bg-dracula-pink transition-colors"
+              class="h-6 sm:h-8 px-2 rounded-lg flex items-center justify-center font-mono font-bold text-sm sm:text-base text-dracula-foreground group-hover:bg-dracula-pink transition-colors"
             >
               abuamar.site
             </div>
@@ -20,7 +20,7 @@
 
         <!-- Developer Navigation -->
         <div class="hidden md:block">
-          <div class="flex items-center space-x-8">
+          <div class="flex items-center space-x-6 lg:space-x-8">
             <a
               v-for="item in navigation"
               :key="item.name"
@@ -42,12 +42,12 @@
           <BaseButton
             variant="ghost"
             size="sm"
-            class="md:hidden p-2 text-dracula-comment hover:text-dracula-purple"
+            class="md:hidden p-1.5 sm:p-2 text-dracula-comment hover:text-dracula-purple"
             @click="isMobileMenuOpen = !isMobileMenuOpen"
             aria-label="Toggle mobile menu"
           >
-            <XMarkIcon v-if="isMobileMenuOpen" class="h-6 w-6" />
-            <Bars3Icon v-else class="h-6 w-6" />
+            <XMarkIcon v-if="isMobileMenuOpen" class="h-5 w-5 sm:h-6 sm:w-6" />
+            <Bars3Icon v-else class="h-5 w-5 sm:h-6 sm:w-6" />
           </BaseButton>
         </div>
       </div>
@@ -63,13 +63,13 @@
       >
         <div v-if="isMobileMenuOpen" class="md:hidden">
           <div
-            class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-dracula-background border-t border-gray-500"
+            class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-dracula-background border-t border-gray-500 shadow-lg"
           >
             <a
               v-for="item in navigation"
               :key="item.name"
               :href="item.href"
-              class="text-dracula-comment hover:text-dracula-purple block px-3 py-2 text-base font-mono transition-colors"
+              class="text-dracula-comment hover:text-dracula-purple block px-3 py-3 text-sm sm:text-base font-mono transition-colors rounded-lg hover:bg-dracula-selection"
               @click.prevent="
                 () => {
                   scrollToSection(item.href)
@@ -88,7 +88,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { portfolioData } from '@/data/portfolio'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
