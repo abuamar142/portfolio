@@ -53,13 +53,15 @@
         </div>
 
         <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">
-          <span class="text-dracula-foreground font-mono"> Pencapaian & Aktivitas </span>
+          <span class="text-dracula-foreground font-mono">
+            {{ $t('achievements.title') }}
+          </span>
         </h2>
 
         <p
           class="text-base sm:text-lg lg:text-xl text-dracula-comment max-w-2xl mx-auto px-4 sm:px-0"
         >
-          Sertifikat, sertifikasi, kepanitiaan, dan penghargaan yang telah saya peroleh
+          {{ $t('achievements.subtitle') }}
         </p>
       </div>
 
@@ -74,7 +76,7 @@
               : 'bg-dracula-selection text-dracula-comment border-gray-500 hover:border-dracula-purple/50 hover:text-dracula-purple',
           ]"
         >
-          Semua ({{ achievements.length }})
+          {{ $t('achievements.filters.all') }} ({{ achievements.length }})
         </button>
         <button
           v-for="category in categories"
@@ -87,7 +89,7 @@
               : 'bg-dracula-selection text-dracula-comment border-gray-500 hover:border-dracula-purple/50 hover:text-dracula-purple',
           ]"
         >
-          {{ category.label }} ({{ getCountByCategory(category.key) }})
+          {{ $t(`achievements.filters.${category.key}`) }} ({{ getCountByCategory(category.key) }})
         </button>
       </div>
 
@@ -114,7 +116,7 @@
             ></path>
           </svg>
         </div>
-        <p class="text-dracula-comment font-mono">Tidak ada pencapaian dalam kategori ini</p>
+        <p class="text-dracula-comment font-mono">{{ $t('achievements.empty') }}</p>
       </div>
     </div>
   </section>
@@ -130,10 +132,10 @@ const achievements = portfolioData.achievements
 const activeFilter = ref<string>('all')
 
 const categories = [
-  { key: 'sertifikat', label: 'Sertifikat' },
-  { key: 'sertifikasi', label: 'Sertifikasi' },
-  { key: 'kepanitiaan', label: 'Kepanitiaan' },
-  { key: 'penghargaan', label: 'Penghargaan' },
+  { key: 'sertifikat' },
+  { key: 'sertifikasi' },
+  { key: 'kepanitiaan' },
+  { key: 'penghargaan' },
 ]
 
 const filteredAchievements = computed(() => {

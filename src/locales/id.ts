@@ -55,6 +55,27 @@ export default {
       demo: 'Demo Langsung',
     },
   },
+  achievements: {
+    title: 'pencapaian.saya',
+    subtitle: 'Sertifikat, sertifikasi, kepanitiaan, dan penghargaan yang telah saya peroleh',
+    filters: {
+      all: 'Semua',
+      sertifikat: 'Sertifikat',
+      sertifikasi: 'Sertifikasi',
+      kepanitiaan: 'Kepanitiaan',
+      penghargaan: 'Penghargaan',
+    },
+    categories: {
+      sertifikat: 'Sertifikat',
+      sertifikasi: 'Sertifikasi',
+      kepanitiaan: 'Kepanitiaan',
+      penghargaan: 'Penghargaan',
+    },
+    buttons: {
+      evidence: 'Lihat Evidence',
+    },
+    empty: 'Tidak ada pencapaian dalam kategori ini',
+  },
   contact: {
     title: 'mari.terhubung',
     subtitle: 'Saya selalu senang mendiskusikan proyek baru dan ide-ide kreatif',

@@ -8,7 +8,7 @@
         class="inline-flex items-center px-3 py-1 rounded-lg text-xs font-medium font-mono border"
         :class="categoryColors[achievement.category]"
       >
-        {{ categoryLabels[achievement.category] }}
+        {{ $t(`achievements.categories.${achievement.category}`) }}
       </span>
       <span class="text-sm text-dracula-comment font-mono">
         {{ formatDate(achievement.date) }}
@@ -48,7 +48,7 @@
             d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
           ></path>
         </svg>
-        <span class="font-mono">Lihat Evidence</span>
+        <span class="font-mono">{{ $t('achievements.buttons.evidence') }}</span>
       </BaseButton>
     </div>
   </div>
@@ -69,13 +69,6 @@ const categoryColors = {
   sertifikasi: 'bg-dracula-cyan/20 text-dracula-cyan border-dracula-cyan/30',
   kepanitiaan: 'bg-dracula-purple/20 text-dracula-purple border-dracula-purple/30',
   penghargaan: 'bg-dracula-yellow/20 text-dracula-yellow border-dracula-yellow/30',
-}
-
-const categoryLabels = {
-  sertifikat: 'Sertifikat',
-  sertifikasi: 'Sertifikasi',
-  kepanitiaan: 'Kepanitiaan',
-  penghargaan: 'Penghargaan',
 }
 
 const formatDate = (dateString: string) => {

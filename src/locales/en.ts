@@ -55,6 +55,27 @@ export default {
       demo: 'Live Demo',
     },
   },
+  achievements: {
+    title: 'my.achievements',
+    subtitle: 'Certificates, certifications, organizations, and awards I have obtained',
+    filters: {
+      all: 'All',
+      sertifikat: 'Certificates',
+      sertifikasi: 'Certifications',
+      kepanitiaan: 'Organizations',
+      penghargaan: 'Awards',
+    },
+    categories: {
+      sertifikat: 'Certificate',
+      sertifikasi: 'Certification',
+      kepanitiaan: 'Organization',
+      penghargaan: 'Award',
+    },
+    buttons: {
+      evidence: 'View Evidence',
+    },
+    empty: 'No achievements found in this category',
+  },
   contact: {
     title: "let's.connect",
     subtitle: "I'm always excited to discuss new projects and creative ideas",
