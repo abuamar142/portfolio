@@ -74,7 +74,7 @@
 
         <div class="space-y-8 sm:space-y-12 lg:space-y-16 animate-slide-up delay-200">
           <div
-            v-for="experience in portfolioData.experiences"
+            v-for="experience in portfolioData?.experiences || []"
             :key="experience.id"
             class="relative group"
           >
@@ -176,5 +176,7 @@
 </template>
 
 <script setup lang="ts">
-import { portfolioData } from '@/data/portfolio'
+import { usePortfolio } from '@/composables/usePortfolio'
+
+const { portfolioData } = usePortfolio()
 </script>

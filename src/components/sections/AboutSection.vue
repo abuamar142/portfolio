@@ -62,7 +62,7 @@
           <p
             class="text-base sm:text-lg md:text-xl lg:text-2xl text-dracula-comment leading-relaxed mb-6 sm:mb-8"
           >
-            {{ portfolioData.about }}
+            {{ portfolioData?.about || '' }}
           </p>
           <div
             class="w-16 sm:w-24 h-1 bg-gradient-to-r from-dracula-purple to-dracula-pink mx-auto rounded-full"
@@ -80,7 +80,7 @@
           <div
             class="text-3xl sm:text-4xl md:text-5xl font-bold text-dracula-purple mb-2 sm:mb-3 font-mono"
           >
-            {{ portfolioData.experiences.length }}+
+            {{ portfolioData?.experiences?.length || 0 }}+
           </div>
           <div class="text-base sm:text-lg font-medium text-dracula-foreground mb-1 sm:mb-2">
             {{ $t('about.stats.years') }}
@@ -96,7 +96,7 @@
           <div
             class="text-3xl sm:text-4xl md:text-5xl font-bold text-dracula-purple mb-2 sm:mb-3 font-mono"
           >
-            {{ portfolioData.projects.length }}+
+            {{ portfolioData?.projects?.length || 0 }}+
           </div>
           <div class="text-base sm:text-lg font-medium text-dracula-foreground mb-1 sm:mb-2">
             {{ $t('about.stats.projects') }}
@@ -110,7 +110,7 @@
           class="bg-dracula-selection border border-gray-500 rounded-lg p-6 sm:p-8 text-center group hover:scale-105 hover:border-dracula-purple/50 transition-all duration-300 shadow-lg backdrop-blur-sm"
         >
           <div class="text-4xl md:text-5xl font-bold text-dracula-purple mb-3 font-mono">
-            {{ portfolioData.skills.length }}+
+            {{ portfolioData?.skills?.length || 0 }}+
           </div>
           <div class="text-lg font-medium text-dracula-foreground mb-2">
             {{ $t('about.stats.technologies') }}
@@ -143,7 +143,9 @@
                   />
                 </svg>
               </div>
-              <span class="font-medium font-mono">{{ portfolioData.personalInfo.email }}</span>
+              <span class="font-medium font-mono">{{
+                portfolioData?.personalInfo?.email || ''
+              }}</span>
             </div>
 
             <div class="flex items-center gap-3 text-dracula-foreground">
@@ -170,7 +172,9 @@
                   />
                 </svg>
               </div>
-              <span class="font-medium font-mono">{{ portfolioData.personalInfo.location }}</span>
+              <span class="font-medium font-mono">{{
+                portfolioData?.personalInfo.location || ''
+              }}</span>
             </div>
           </div>
         </div>
@@ -180,5 +184,7 @@
 </template>
 
 <script setup lang="ts">
-import { portfolioData } from '@/data/portfolio'
+import { usePortfolio } from '@/composables/usePortfolio'
+
+const { portfolioData } = usePortfolio()
 </script>

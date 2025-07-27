@@ -69,7 +69,7 @@
       <!-- Enhanced Projects Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 animate-slide-up delay-200">
         <div
-          v-for="project in portfolioData.projects"
+          v-for="project in portfolioData?.projects || []"
           :key="project.id"
           class="bg-dracula-selection border border-gray-500 rounded-lg p-6 sm:p-8 group hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-500 hover:-translate-y-2"
         >
@@ -157,7 +157,9 @@
 </template>
 
 <script setup lang="ts">
-import { portfolioData } from '@/data/portfolio'
+import { usePortfolio } from '@/composables/usePortfolio'
+
+const { portfolioData } = usePortfolio()
 
 const openUrl = (url: string) => {
   window.open(url, '_blank')

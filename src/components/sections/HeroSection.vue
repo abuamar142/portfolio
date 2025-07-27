@@ -43,7 +43,9 @@
           <code class="text-dracula-purple text-sm">final String</code>
           <code class="text-dracula-cyan text-sm"> name</code>
           <code class="text-dracula-foreground text-sm"> = </code>
-          <code class="text-dracula-green text-sm">{{ portfolioData.personalInfo.nickname }}</code>
+          <code class="text-dracula-green text-sm">{{
+            portfolioData?.personalInfo?.nickname || 'Abu Amar'
+          }}</code>
           <code class="text-dracula-foreground text-sm">;</code>
         </div>
       </div>
@@ -70,7 +72,7 @@
               <span
                 class="text-transparent bg-clip-text bg-gradient-to-r from-dracula-purple to-dracula-pink"
               >
-                {{ portfolioData.personalInfo.nickname }}
+                {{ portfolioData?.personalInfo?.nickname || 'Abu Amar' }}
               </span>
             </h1>
             <div
@@ -89,7 +91,8 @@
           <p
             class="text-sm sm:text-base md:text-lg lg:text-xl text-dracula-comment mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0 px-4 sm:px-0"
           >
-            {{ portfolioData.personalInfo.title }} {{ $t('hero.subtitle') }}
+            {{ portfolioData?.personalInfo?.title || 'Software Engineer' }}
+            {{ $t('hero.subtitle') }}
           </p>
 
           <!-- CTA Buttons -->
@@ -141,7 +144,7 @@
           <div class="grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 text-center px-4 sm:px-0">
             <div class="animate-slide-up" style="animation-delay: 0.2s">
               <div class="text-xl sm:text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
-                {{ portfolioData.experiences.length }}+
+                {{ portfolioData?.experiences?.length || 0 }}+
               </div>
               <div class="text-xs sm:text-sm text-dracula-comment">
                 {{ $t('hero.stats.experience') }}
@@ -149,7 +152,7 @@
             </div>
             <div class="animate-slide-up" style="animation-delay: 0.4s">
               <div class="text-xl sm:text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
-                {{ portfolioData.projects.length }}+
+                {{ portfolioData?.projects?.length || 0 }}+
               </div>
               <div class="text-xs sm:text-sm text-dracula-comment">
                 {{ $t('hero.stats.projects') }}
@@ -157,7 +160,7 @@
             </div>
             <div class="animate-slide-up" style="animation-delay: 0.6s">
               <div class="text-xl sm:text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
-                {{ portfolioData.skills.length }}+
+                {{ portfolioData?.skills?.length || 0 }}+
               </div>
               <div class="text-xs sm:text-sm text-dracula-comment">
                 {{ $t('hero.stats.technologies') }}
@@ -201,14 +204,16 @@
                     <span class="text-dracula-purple">final String</span>
                     <span class="text-dracula-foreground"> name = </span>
                     <span class="text-dracula-green"
-                      >'{{ portfolioData.personalInfo.fullname }}'</span
+                      >'{{ portfolioData?.personalInfo?.fullname || 'Developer' }}'</span
                     >
                     <span class="text-dracula-foreground">;</span>
                   </div>
                   <div class="pl-4">
                     <span class="text-dracula-purple">final String</span>
                     <span class="text-dracula-foreground"> role = </span>
-                    <span class="text-dracula-green">'{{ portfolioData.personalInfo.title }}'</span>
+                    <span class="text-dracula-green"
+                      >'{{ portfolioData?.personalInfo?.title || 'Full Stack Developer' }}'</span
+                    >
                     <span class="text-dracula-foreground">;</span>
                   </div>
                   <div class="pl-4">
@@ -217,7 +222,7 @@
                   </div>
                   <div
                     class="pl-8"
-                    v-for="(skill, index) in portfolioData.skills.slice(0, 4)"
+                    v-for="(skill, index) in portfolioData?.skills?.slice(0, 4) || []"
                     :key="skill.name"
                   >
                     <span class="text-dracula-green">'{{ skill.name }}'</span>
@@ -257,7 +262,9 @@
                   </div>
                   <div class="pl-12">
                     <span class="text-dracula-foreground">skills.length >= </span>
-                    <span class="text-dracula-orange">{{ portfolioData.skills.length }}</span>
+                    <span class="text-dracula-orange">{{
+                      portfolioData?.skills?.length || 0
+                    }}</span>
                   </div>
                   <div class="pl-8">
                     <span class="text-dracula-foreground">);</span>
@@ -305,7 +312,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { portfolioData } from '@/data/portfolio'
+import { usePortfolio } from '@/composables/usePortfolio'
+
+const { portfolioData } = usePortfolio()
 import BaseButton from '@/components/ui/BaseButton.vue'
 import { EyeIcon } from '@heroicons/vue/24/outline'
 
