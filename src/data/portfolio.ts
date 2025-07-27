@@ -164,10 +164,10 @@ export const portfolioData: Portfolio = {
     // Mobile Development
     { id: '1', name: 'Flutter', category: 'mobile', level: 'expert' },
     { id: '2', name: 'Dart', category: 'mobile', level: 'expert' },
-    { id: '3', name: 'GetX', category: 'mobile', level: 'advanced' },
-    { id: '4', name: 'BLoC', category: 'mobile', level: 'advanced' },
-    { id: '5', name: 'Riverpod', category: 'mobile', level: 'expert' },
-    { id: '6', name: 'Clean Architecture', category: 'mobile', level: 'advanced' },
+    { id: '3', name: 'GetX', category: 'mobile', level: 'expert' },
+    { id: '4', name: 'BLoC', category: 'mobile', level: 'expert' },
+    { id: '5', name: 'Riverpod', category: 'mobile', level: 'advanced' },
+    { id: '6', name: 'Clean Architecture', category: 'mobile', level: 'expert' },
 
     { id: '7', name: 'Kotlin', category: 'mobile', level: 'advanced' },
     { id: '8', name: 'Android', category: 'mobile', level: 'advanced' },
@@ -204,8 +204,8 @@ export const portfolioData: Portfolio = {
       institution: 'Universitas Jenderal Achmad Yani Yogyakarta',
       degree: 'Sarjana (S1)',
       field: 'Informatika',
-      duration: '2021 - Saat ini',
-      gpa: 'Semester 8',
+      duration: '2021 - 2025',
+      gpa: 'Unofficial S.Kom',
     },
     {
       id: '2',
