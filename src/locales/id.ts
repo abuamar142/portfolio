@@ -53,6 +53,8 @@ export default {
     buttons: {
       github: 'GitHub',
       demo: 'Demo Langsung',
+      seeMore: 'Lihat Semua',
+      seeLess: 'Lihat Lebih Sedikit',
     },
   },
   achievements: {
@@ -73,6 +75,8 @@ export default {
     },
     buttons: {
       evidence: 'Lihat Evidence',
+      seeMore: 'Lihat Semua',
+      seeLess: 'Lihat Lebih Sedikit',
     },
     empty: 'Tidak ada pencapaian dalam kategori ini',
   },

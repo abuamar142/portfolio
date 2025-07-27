@@ -69,7 +69,7 @@
       <!-- Enhanced Projects Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 animate-slide-up delay-200">
         <div
-          v-for="project in portfolioData.projects"
+          v-for="project in displayedProjects"
           :key="project.id"
           class="bg-dracula-selection border border-gray-500 rounded-lg p-6 sm:p-8 group hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-500 hover:-translate-y-2"
         >
@@ -152,12 +152,44 @@
           </div>
         </div>
       </div>
+
+      <!-- See More Button -->
+      <div v-if="shouldShowSeeMore || showAll" class="text-center mt-12 animate-fade-in">
+        <BaseButton
+          @click="toggleShowAll"
+          variant="outline"
+          class="px-8 py-3 border-dracula-purple/50 text-dracula-purple hover:bg-dracula-purple hover:text-dracula-background transition-all duration-300 font-mono"
+        >
+          <span v-if="!showAll">{{ $t('projects.buttons.seeMore') }}</span>
+          <span v-else>{{ $t('projects.buttons.seeLess') }}</span>
+        </BaseButton>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import { portfolioData } from '@/data/portfolio'
+import BaseButton from '@/components/ui/BaseButton.vue'
+
+const showAll = ref<boolean>(false)
+const maxItems = 6
+
+const displayedProjects = computed(() => {
+  if (!showAll.value && portfolioData.projects.length > maxItems) {
+    return portfolioData.projects.slice(0, maxItems)
+  }
+  return portfolioData.projects
+})
+
+const shouldShowSeeMore = computed(() => {
+  return !showAll.value && portfolioData.projects.length > maxItems
+})
+
+const toggleShowAll = () => {
+  showAll.value = !showAll.value
+}
 
 const openUrl = (url: string) => {
   window.open(url, '_blank')

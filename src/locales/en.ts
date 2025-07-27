@@ -53,6 +53,8 @@ export default {
     buttons: {
       github: 'GitHub',
       demo: 'Live Demo',
+      seeMore: 'See More',
+      seeLess: 'See Less',
     },
   },
   achievements: {
@@ -73,6 +75,8 @@ export default {
     },
     buttons: {
       evidence: 'View Evidence',
+      seeMore: 'See More',
+      seeLess: 'See Less',
     },
     empty: 'No achievements found in this category',
   },

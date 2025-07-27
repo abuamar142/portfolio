@@ -106,6 +106,18 @@
         />
       </div>
 
+      <!-- See More Button -->
+      <div v-if="shouldShowSeeMore || showAll" class="text-center mt-12 animate-fade-in">
+        <BaseButton
+          @click="toggleShowAll"
+          variant="outline"
+          class="px-8 py-3 border-dracula-purple/50 text-dracula-purple hover:bg-dracula-purple hover:text-dracula-background transition-all duration-300 font-mono"
+        >
+          <span v-if="!showAll">{{ $t('achievements.buttons.seeMore') }}</span>
+          <span v-else>{{ $t('achievements.buttons.seeLess') }}</span>
+        </BaseButton>
+      </div>
+
       <!-- Empty State -->
       <div v-if="filteredAchievements.length === 0" class="text-center py-12 animate-fade-in">
         <div class="text-dracula-comment mb-4">
@@ -125,12 +137,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { portfolioData } from '@/data/portfolio'
 import AchievementCard from '@/components/ui/AchievementCard.vue'
+import BaseButton from '@/components/ui/BaseButton.vue'
 
 const achievements = portfolioData.achievements
 const activeFilter = ref<string>('all')
+const showAll = ref<boolean>(false)
+const maxItems = 6
+
+// Reset showAll when filter changes
+watch(activeFilter, () => {
+  showAll.value = false
+})
 
 const categories = [
   { key: 'certificate' },
@@ -140,13 +160,30 @@ const categories = [
 ]
 
 const filteredAchievements = computed(() => {
-  if (activeFilter.value === 'all') {
-    return achievements
+  let filtered = achievements
+  if (activeFilter.value !== 'all') {
+    filtered = achievements.filter((achievement) => achievement.type === activeFilter.value)
   }
-  return achievements.filter((achievement) => achievement.type === activeFilter.value)
+
+  if (!showAll.value && filtered.length > maxItems) {
+    return filtered.slice(0, maxItems)
+  }
+  return filtered
+})
+
+const shouldShowSeeMore = computed(() => {
+  let totalFiltered = achievements
+  if (activeFilter.value !== 'all') {
+    totalFiltered = achievements.filter((achievement) => achievement.type === activeFilter.value)
+  }
+  return !showAll.value && totalFiltered.length > maxItems
 })
 
 const getCountByCategory = (category: string) => {
   return achievements.filter((achievement) => achievement.type === category).length
+}
+
+const toggleShowAll = () => {
+  showAll.value = !showAll.value
 }
 </script>
