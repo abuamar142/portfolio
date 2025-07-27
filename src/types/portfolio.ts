@@ -47,6 +47,16 @@ export interface Education {
   gpa?: string
 }
 
+export interface Achievement {
+  id: string
+  title: string
+  description: string
+  category: 'sertifikat' | 'sertifikasi' | 'kepanitiaan' | 'penghargaan'
+  issuer: string
+  date: string
+  evidenceId?: string // Google Drive file ID
+}
+
 export interface Portfolio {
   personalInfo: PersonalInfo
   about: string
@@ -54,4 +64,5 @@ export interface Portfolio {
   projects: Project[]
   skills: Skill[]
   education: Education[]
+  achievements: Achievement[]
 }

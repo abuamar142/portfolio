@@ -223,4 +223,93 @@ export const portfolioData: Portfolio = {
       gpa: 'Lulus 2 tahun',
     },
   ],
+  achievements: [
+    // Sertifikat
+    {
+      id: '1',
+      title: 'Bangkit Academy 2024 - Mobile Development',
+      description:
+        'Sertifikat kelulusan program Bangkit Academy 2024 dengan fokus Mobile Development (Android). Program intensif 6 bulan yang diselenggarakan oleh Google, GoTo, dan Traveloka.',
+      category: 'sertifikat',
+      issuer: 'Google x Kampus Merdeka',
+      date: '2024-07-31',
+      evidenceId: '10_K4se5WiVm4IzBy2mk812gn49BhtiXN',
+    },
+    {
+      id: '2',
+      title: 'Magang Full-Stack Software Engineer',
+      description:
+        'Sertifikat penyelesaian program magang sebagai Full-Stack Software Engineer di Refactory dengan durasi hampir satu tahun.',
+      category: 'sertifikat',
+      issuer: 'Refactory',
+      date: '2025-05-31',
+      evidenceId: '10_K4se5WiVm4IzBy2mk812gn49BhtiXN',
+    },
+
+    // Sertifikasi
+    {
+      id: '3',
+      title: 'Android Developer Fundamentals',
+      description:
+        'Sertifikasi fundamental pengembangan aplikasi Android menggunakan Kotlin dan Jetpack Compose.',
+      category: 'sertifikasi',
+      issuer: 'Google Developer',
+      date: '2024-06-15',
+      evidenceId: '10_K4se5WiVm4IzBy2mk812gn49BhtiXN',
+    },
+    {
+      id: '4',
+      title: 'Flutter Development Certification',
+      description:
+        'Sertifikasi pengembangan aplikasi mobile menggunakan Flutter framework dari Google.',
+      category: 'sertifikasi',
+      issuer: 'Flutter Community',
+      date: '2024-08-20',
+      evidenceId: '10_K4se5WiVm4IzBy2mk812gn49BhtiXN',
+    },
+
+    // Kepanitiaan
+    {
+      id: '5',
+      title: 'Bendahara Wilayah PERMIKOMNAS Yogyakarta',
+      description:
+        'Menjabat sebagai Bendahara Wilayah 8 PERMIKOMNAS (Perhimpunan Mahasiswa Ilmu Komputer Nasional) untuk wilayah Yogyakarta periode 2023-2024.',
+      category: 'kepanitiaan',
+      issuer: 'PERMIKOMNAS Wilayah 8',
+      date: '2024-12-31',
+      evidenceId: '10_K4se5WiVm4IzBy2mk812gn49BhtiXN',
+    },
+    {
+      id: '6',
+      title: 'Staff Divisi IT HMIF UNJANI',
+      description:
+        'Aktif sebagai staff Divisi IT di Himpunan Mahasiswa Informatika Universitas Jenderal Achmad Yani Yogyakarta.',
+      category: 'kepanitiaan',
+      issuer: 'HMIF UNJANI Yogyakarta',
+      date: '2023-12-31',
+      evidenceId: '10_K4se5WiVm4IzBy2mk812gn49BhtiXN',
+    },
+
+    // Penghargaan
+    {
+      id: '7',
+      title: 'Outstanding Student - Bangkit Academy',
+      description:
+        'Penghargaan sebagai mahasiswa berprestasi dalam program Bangkit Academy 2024 dengan proyek akhir yang memukau.',
+      category: 'penghargaan',
+      issuer: 'Bangkit Academy',
+      date: '2024-07-25',
+      evidenceId: '10_K4se5WiVm4IzBy2mk812gn49BhtiXN',
+    },
+    {
+      id: '8',
+      title: 'Best Final Project - Coffee Plant Detection',
+      description:
+        'Penghargaan untuk proyek terbaik dalam kategori Machine Learning untuk aplikasi deteksi penyakit tanaman kopi.',
+      category: 'penghargaan',
+      issuer: 'Bangkit Capstone Team',
+      date: '2024-07-20',
+      evidenceId: '10_K4se5WiVm4IzBy2mk812gn49BhtiXN',
+    },
+  ],
 }

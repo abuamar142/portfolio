@@ -4,6 +4,7 @@ export default {
     experience: 'Experience',
     projects: 'Projects',
     skills: 'Skills',
+    achievements: 'Achievements',
     contact: 'Contact',
   },
   hero: {

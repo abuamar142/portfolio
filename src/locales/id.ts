@@ -4,6 +4,7 @@ export default {
     experience: 'Pengalaman',
     projects: 'Proyek',
     skills: 'Keahlian',
+    achievements: 'Pencapaian',
     contact: 'Kontak',
   },
   hero: {

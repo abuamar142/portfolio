@@ -109,6 +109,7 @@ const navigation = [
   { name: 'navigation.experience', href: '#experience' },
   { name: 'navigation.projects', href: '#projects' },
   { name: 'navigation.skills', href: '#skills' },
+  { name: 'navigation.achievements', href: '#achievements' },
   { name: 'navigation.contact', href: '#contact' },
 ]
 
