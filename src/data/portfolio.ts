@@ -64,22 +64,6 @@ export const portfolioData: Portfolio = {
   projects: [
     {
       id: '1',
-      title: 'Coffee Plant Disease Detection App',
-      description:
-        'Aplikasi mobile untuk deteksi penyakit tumbuhan kopi menggunakan image classification dan machine learning. Dikembangkan sebagai proyek akhir Bangkit Academy dengan kolaborasi tim multidisiplin.',
-      technologies: ['Kotlin', 'Jetpack Compose', 'TensorFlow', 'Android', 'Machine Learning'],
-      githubUrl: 'https://github.com/abuamar142',
-    },
-    {
-      id: '2',
-      title: 'Full-Stack Mobile & Web Application',
-      description:
-        'Pengembangan aplikasi full-stack dengan mobile app menggunakan Flutter dan web app menggunakan React, terintegrasi dengan backend Supabase dan CI/CD pipeline.',
-      technologies: ['Flutter', 'React', 'Supabase', 'GitHub Actions', 'Dart', 'JavaScript'],
-      githubUrl: 'https://github.com/abuamar142',
-    },
-    {
-      id: '3',
       title: 'Mobile Londri',
       description:
         'Aplikasi mobile manajemen laundry berbasis Flutter dan Supabase. Mendukung fitur pesanan, pelanggan, laporan keuangan, dan autentikasi pengguna.',
@@ -87,13 +71,93 @@ export const portfolioData: Portfolio = {
       githubUrl: 'https://github.com/abuamar142/mobile-londri',
     },
     {
-      id: '4',
+      id: '2',
+      title: 'Coffee Plant Disease Detection App',
+      description:
+        'Aplikasi mobile untuk deteksi penyakit tumbuhan kopi menggunakan image classification dan machine learning. Dikembangkan sebagai proyek akhir Bangkit Academy dengan kolaborasi tim multidisiplin.',
+      technologies: ['Kotlin', 'Jetpack Compose', 'TensorFlow', 'Android', 'Machine Learning'],
+      githubUrl: 'https://github.com/abuamar142/coffeeClassifier',
+    },
+    {
+      id: '3',
       title: 'JNE Landing Page',
       description:
         'Landing page modern dan responsif untuk JNE Express - perusahaan ekspedisi pengiriman barang terpercaya di Indonesia.',
       technologies: ['Vue.js', 'Tailwind CSS', 'TypeScript', 'SEO Optimization', 'Vercel'],
       liveUrl: 'https://www.jne.abuamar.site',
       githubUrl: 'https://github.com/abuamar142/jne-landing-page',
+    },
+    {
+      id: '4',
+      title: 'Pondok Pesantren Asy-Syaikhoni',
+      description:
+        "Website landing page modern dan elegan untuk Pondok Pesantren Tahfidzul Qur'an Asy-Syaikhoni di Nganjuk, Jawa Timur. Dibangun dengan desain islami menggunakan Vue.js 3 dan Tailwind CSS v4.",
+      technologies: ['Vue.js', 'TypeScript', 'Tailwind CSS', 'Vite', 'SEO Optimization', 'Vercel'],
+      liveUrl: 'https://www.asyaikhoni.abuamar.site',
+      githubUrl: 'https://github.com/abuamar142/asyaikhoni',
+    },
+    {
+      id: '5',
+      title: 'Cashier App',
+      description:
+        'Aplikasi kasir (Point of Sale) berbasis Flutter untuk manajemen penjualan, pembelian, inventori, dan laporan keuangan. Dilengkapi dengan fitur draft penjualan, manajemen produk, supplier, dan sistem autentikasi pengguna.',
+      technologies: ['Flutter', 'Dart', 'GetX', 'REST API', 'Database Management'],
+      githubUrl: 'https://github.com/abuamar142/cashier_app',
+    },
+    {
+      id: '6',
+      title: 'My SADARI - Breast Self-Examination App',
+      description:
+        'Aplikasi Flutter untuk edukasi dan pengingat pemeriksaan payudara sendiri (SADARI). Dilengkapi dengan fitur notifikasi terjadwal, kuesioner penilaian, tutorial step-by-step, dan sistem autentikasi. Membantu meningkatkan awareness kesehatan wanita untuk deteksi dini kanker payudara.',
+      technologies: ['Flutter', 'Dart', 'Firebase', 'Local Notifications', 'Authentication'],
+      githubUrl: 'https://github.com/abuamar142/my_sadari',
+    },
+    {
+      id: '7',
+      title: 'Inget - Note Taking App',
+      description:
+        'Aplikasi pencatatan modern berbasis Flutter dengan state management Riverpod. Fitur offline storage, Material Design yang clean, dan interface yang intuitif untuk produktivitas maksimal dalam mencatat dan mengorganisir informasi.',
+      technologies: [
+        'Flutter',
+        'Riverpod',
+        'Material Design',
+        'Offline Storage',
+        'State Management',
+      ],
+      githubUrl: 'https://github.com/abuamar142/inget',
+    },
+    {
+      id: '8',
+      title: 'Agenda - Google Calendar Manager',
+      description:
+        'Aplikasi Flutter manajemen agenda terintegrasi dengan Google Calendar. Menggunakan Supabase OAuth untuk autentikasi, GetX untuk state management, dan clean architecture. Memungkinkan sinkronisasi seamless dengan Google Calendar untuk pengelolaan jadwal yang efektif.',
+      technologies: ['Flutter', 'Google Calendar API', 'Supabase', 'GetX', 'Clean Architecture'],
+      githubUrl: 'https://github.com/abuamar142/agenda',
+    },
+    {
+      id: '9',
+      title: 'N8N Local Automation Setup',
+      description:
+        'Setup Docker-based N8N workflow automation dengan konfigurasi Ngrok untuk tunneling lokal. Menyediakan environment automation lengkap untuk development dan testing workflow dengan akses eksternal yang aman.',
+      technologies: ['Docker', 'N8N', 'Ngrok', 'Workflow Automation', 'Shell Scripts'],
+      githubUrl: 'https://github.com/abuamar142/n8n-local',
+    },
+    {
+      id: '10',
+      title: 'MonkeyType CLI',
+      description:
+        'Aplikasi command-line interface berbasis Python untuk latihan typing speed test. Dioptimalkan khusus untuk Windows dengan interface yang user-friendly dan tracking progress untuk meningkatkan kecepatan dan akurasi mengetik.',
+      technologies: ['Python', 'CLI', 'Windows Optimization', 'Performance Tracking'],
+      githubUrl: 'https://github.com/abuamar142/monkeytype-cli',
+    },
+    {
+      id: '11',
+      title: 'Liat Menu - Restaurant Platform',
+      description:
+        'Platform web modern untuk discovery warung dan restoran menggunakan Next.js dan Supabase. Fitur pencarian, filter kategori, review sistem, autentikasi pengguna, dashboard admin, dan responsive design. Dilengkapi dengan dark/light mode dan real-time data.',
+      technologies: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind CSS', 'shadcn/ui'],
+      liveUrl: 'https://liat-menu.abuamar.site',
+      githubUrl: 'https://github.com/abuamar142/liat-menu',
     },
   ],
   skills: [
