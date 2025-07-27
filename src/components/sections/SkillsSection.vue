@@ -83,7 +83,7 @@
 
           <!-- Skills Grid -->
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
-            <div v-for="skill in category.skills" :key="skill.id" class="group">
+            <div v-for="(skill, index) in category.skills" :key="index" class="group">
               <div
                 class="bg-dracula-selection border border-gray-500 rounded-lg p-4 sm:p-6 text-center hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-300 hover:-translate-y-1"
               >

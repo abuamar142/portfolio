@@ -74,8 +74,8 @@
 
         <div class="space-y-8 sm:space-y-12 lg:space-y-16 animate-slide-up delay-200">
           <div
-            v-for="experience in portfolioData.experiences"
-            :key="experience.id"
+            v-for="(experience, index) in portfolioData.experiences"
+            :key="index"
             class="relative group"
           >
             <!-- Timeline Dot -->

@@ -100,8 +100,8 @@
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 animate-slide-up delay-300"
       >
         <AchievementCard
-          v-for="achievement in filteredAchievements"
-          :key="achievement.id"
+          v-for="(achievement, index) in filteredAchievements"
+          :key="index"
           :achievement="achievement"
         />
       </div>

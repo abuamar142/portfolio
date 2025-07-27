@@ -19,7 +19,6 @@ export const portfolioData: Portfolio = {
   Terbiasa mengembangkan aplikasi menggunakan Flutter, Supabase, dan React, serta memahami alur pengembangan perangkat lunak dari perencanaan (C4 Model, API Contract) hingga deployment (GitHub Actions). Aktif dalam organisasi kampus dan nasional seperti HMIF dan PERMIKOMNAS, serta memiliki pengalaman manajerial di bidang keuangan dan kepanitiaan.`,
   experiences: [
     {
-      id: '1',
       company: 'Refactory',
       position: 'Full Stack Software Engineer (Magang)',
       duration: '07/2024 - 05/2025',
@@ -34,7 +33,6 @@ export const portfolioData: Portfolio = {
       technologies: ['Flutter', 'React', 'Supabase', 'GitHub Actions', 'Linux', 'OOP'],
     },
     {
-      id: '2',
       company: 'Bangkit Academy led by Google, GoTo, & Traveloka',
       position: 'Mobile Development Cohort',
       duration: '02/2024 - 07/2024',
@@ -48,7 +46,6 @@ export const portfolioData: Portfolio = {
       technologies: ['Kotlin', 'Jetpack Compose', 'Android', 'Machine Learning', 'Cloud Computing'],
     },
     {
-      id: '3',
       company: 'PERMIKOMNAS Wilayah 8 – Yogyakarta',
       position: 'Bendahara Wilayah',
       duration: '2023 - 2024',
@@ -63,7 +60,6 @@ export const portfolioData: Portfolio = {
   ],
   projects: [
     {
-      id: '1',
       title: 'Mobile Londri',
       description:
         'Aplikasi mobile manajemen laundry berbasis Flutter dan Supabase. Mendukung fitur pesanan, pelanggan, laporan keuangan, dan autentikasi pengguna.',
@@ -71,7 +67,6 @@ export const portfolioData: Portfolio = {
       githubUrl: 'https://github.com/abuamar142/mobile-londri',
     },
     {
-      id: '2',
       title: 'Coffee Plant Disease Detection App',
       description:
         'Aplikasi mobile untuk deteksi penyakit tumbuhan kopi menggunakan image classification dan machine learning. Dikembangkan sebagai proyek akhir Bangkit Academy dengan kolaborasi tim multidisiplin.',
@@ -79,7 +74,6 @@ export const portfolioData: Portfolio = {
       githubUrl: 'https://github.com/abuamar142/coffeeClassifier',
     },
     {
-      id: '3',
       title: 'JNE Landing Page',
       description:
         'Landing page modern dan responsif untuk JNE Express - perusahaan ekspedisi pengiriman barang terpercaya di Indonesia.',
@@ -88,7 +82,6 @@ export const portfolioData: Portfolio = {
       githubUrl: 'https://github.com/abuamar142/jne-landing-page',
     },
     {
-      id: '4',
       title: 'Pondok Pesantren Asy-Syaikhoni',
       description:
         "Website landing page modern dan elegan untuk Pondok Pesantren Tahfidzul Qur'an Asy-Syaikhoni di Nganjuk, Jawa Timur. Dibangun dengan desain islami menggunakan Vue.js 3 dan Tailwind CSS v4.",
@@ -97,7 +90,6 @@ export const portfolioData: Portfolio = {
       githubUrl: 'https://github.com/abuamar142/asyaikhoni',
     },
     {
-      id: '5',
       title: 'Cashier App',
       description:
         'Aplikasi kasir (Point of Sale) berbasis Flutter untuk manajemen penjualan, pembelian, inventori, dan laporan keuangan. Dilengkapi dengan fitur draft penjualan, manajemen produk, supplier, dan sistem autentikasi pengguna.',
@@ -105,7 +97,6 @@ export const portfolioData: Portfolio = {
       githubUrl: 'https://github.com/abuamar142/cashier_app',
     },
     {
-      id: '6',
       title: 'My SADARI - Breast Self-Examination App',
       description:
         'Aplikasi Flutter untuk edukasi dan pengingat pemeriksaan payudara sendiri (SADARI). Dilengkapi dengan fitur notifikasi terjadwal, kuesioner penilaian, tutorial step-by-step, dan sistem autentikasi. Membantu meningkatkan awareness kesehatan wanita untuk deteksi dini kanker payudara.',
@@ -113,7 +104,6 @@ export const portfolioData: Portfolio = {
       githubUrl: 'https://github.com/abuamar142/my_sadari',
     },
     {
-      id: '7',
       title: 'Inget - Note Taking App',
       description:
         'Aplikasi pencatatan modern berbasis Flutter dengan state management Riverpod. Fitur offline storage, Material Design yang clean, dan interface yang intuitif untuk produktivitas maksimal dalam mencatat dan mengorganisir informasi.',
@@ -127,7 +117,6 @@ export const portfolioData: Portfolio = {
       githubUrl: 'https://github.com/abuamar142/inget',
     },
     {
-      id: '8',
       title: 'Agenda - Google Calendar Manager',
       description:
         'Aplikasi Flutter manajemen agenda terintegrasi dengan Google Calendar. Menggunakan Supabase OAuth untuk autentikasi, GetX untuk state management, dan clean architecture. Memungkinkan sinkronisasi seamless dengan Google Calendar untuk pengelolaan jadwal yang efektif.',
@@ -135,7 +124,6 @@ export const portfolioData: Portfolio = {
       githubUrl: 'https://github.com/abuamar142/agenda',
     },
     {
-      id: '9',
       title: 'N8N Local Automation Setup',
       description:
         'Setup Docker-based N8N workflow automation dengan konfigurasi Ngrok untuk tunneling lokal. Menyediakan environment automation lengkap untuk development dan testing workflow dengan akses eksternal yang aman.',
@@ -143,7 +131,6 @@ export const portfolioData: Portfolio = {
       githubUrl: 'https://github.com/abuamar142/n8n-local',
     },
     {
-      id: '10',
       title: 'MonkeyType CLI',
       description:
         'Aplikasi command-line interface berbasis Python untuk latihan typing speed test. Dioptimalkan khusus untuk Windows dengan interface yang user-friendly dan tracking progress untuk meningkatkan kecepatan dan akurasi mengetik.',
@@ -151,7 +138,6 @@ export const portfolioData: Portfolio = {
       githubUrl: 'https://github.com/abuamar142/monkeytype-cli',
     },
     {
-      id: '11',
       title: 'Liat Menu - Restaurant Platform',
       description:
         'Platform web modern untuk discovery warung dan restoran menggunakan Next.js dan Supabase. Fitur pencarian, filter kategori, review sistem, autentikasi pengguna, dashboard admin, dan responsive design. Dilengkapi dengan dark/light mode dan real-time data.',
@@ -162,45 +148,44 @@ export const portfolioData: Portfolio = {
   ],
   skills: [
     // Mobile Development
-    { id: '1', name: 'Flutter', category: 'mobile', level: 'expert' },
-    { id: '2', name: 'Dart', category: 'mobile', level: 'expert' },
-    { id: '3', name: 'GetX', category: 'mobile', level: 'expert' },
-    { id: '4', name: 'BLoC', category: 'mobile', level: 'expert' },
-    { id: '5', name: 'Riverpod', category: 'mobile', level: 'advanced' },
-    { id: '6', name: 'Clean Architecture', category: 'mobile', level: 'expert' },
+    { name: 'Flutter', category: 'mobile', level: 'expert' },
+    { name: 'Dart', category: 'mobile', level: 'expert' },
+    { name: 'GetX', category: 'mobile', level: 'expert' },
+    { name: 'BLoC', category: 'mobile', level: 'expert' },
+    { name: 'Riverpod', category: 'mobile', level: 'advanced' },
+    { name: 'Clean Architecture', category: 'mobile', level: 'expert' },
 
-    { id: '7', name: 'Kotlin', category: 'mobile', level: 'advanced' },
-    { id: '8', name: 'Android', category: 'mobile', level: 'advanced' },
+    { name: 'Kotlin', category: 'mobile', level: 'advanced' },
+    { name: 'Android', category: 'mobile', level: 'advanced' },
 
     // Web Development
-    { id: '9', name: 'React', category: 'web', level: 'advanced' },
-    { id: '10', name: 'Vue.js', category: 'web', level: 'advanced' },
-    { id: '11', name: 'JavaScript', category: 'web', level: 'advanced' },
-    { id: '12', name: 'TypeScript', category: 'web', level: 'advanced' },
-    { id: '13', name: 'HTML5', category: 'web', level: 'expert' },
-    { id: '14', name: 'CSS3', category: 'web', level: 'expert' },
-    { id: '15', name: 'Tailwind CSS', category: 'web', level: 'expert' },
-    { id: '16', name: 'Bootstrap', category: 'web', level: 'advanced' },
-    { id: '17', name: 'API Integration (REST)', category: 'web', level: 'expert' },
+    { name: 'React', category: 'web', level: 'advanced' },
+    { name: 'Vue.js', category: 'web', level: 'advanced' },
+    { name: 'JavaScript', category: 'web', level: 'advanced' },
+    { name: 'TypeScript', category: 'web', level: 'advanced' },
+    { name: 'HTML5', category: 'web', level: 'expert' },
+    { name: 'CSS3', category: 'web', level: 'expert' },
+    { name: 'Tailwind CSS', category: 'web', level: 'expert' },
+    { name: 'Bootstrap', category: 'web', level: 'advanced' },
+    { name: 'API Integration (REST)', category: 'web', level: 'expert' },
 
     // Backend
-    { id: '18', name: 'Supabase', category: 'backend', level: 'expert' },
-    { id: '19', name: 'Database Schema Design', category: 'backend', level: 'expert' },
+    { name: 'Supabase', category: 'backend', level: 'expert' },
+    { name: 'Database Schema Design', category: 'backend', level: 'expert' },
 
     // Tools & DevOps
-    { id: '20', name: 'Git & GitHub', category: 'tools', level: 'expert' },
-    { id: '21', name: 'GitHub Actions (CI/CD)', category: 'tools', level: 'advanced' },
-    { id: '22', name: 'Vercel', category: 'tools', level: 'advanced' },
-    { id: '23', name: 'Linux', category: 'tools', level: 'expert' },
-    { id: '24', name: 'Google Sheets / Excel', category: 'tools', level: 'expert' },
-    { id: '25', name: 'OOP & Design Patterns', category: 'tools', level: 'advanced' },
-    { id: '26', name: 'C4 Model Documentation', category: 'tools', level: 'advanced' },
-    { id: '27', name: 'API Contract (Postman/Swagger)', category: 'tools', level: 'advanced' },
-    { id: '28', name: 'Machine Learning', category: 'tools', level: 'intermediate' },
+    { name: 'Git & GitHub', category: 'tools', level: 'expert' },
+    { name: 'GitHub Actions (CI/CD)', category: 'tools', level: 'advanced' },
+    { name: 'Vercel', category: 'tools', level: 'advanced' },
+    { name: 'Linux', category: 'tools', level: 'expert' },
+    { name: 'Google Sheets / Excel', category: 'tools', level: 'expert' },
+    { name: 'OOP & Design Patterns', category: 'tools', level: 'advanced' },
+    { name: 'C4 Model Documentation', category: 'tools', level: 'advanced' },
+    { name: 'API Contract (Postman/Swagger)', category: 'tools', level: 'advanced' },
+    { name: 'Machine Learning', category: 'tools', level: 'intermediate' },
   ],
   education: [
     {
-      id: '1',
       institution: 'Universitas Jenderal Achmad Yani Yogyakarta',
       degree: 'Sarjana (S1)',
       field: 'Informatika',
@@ -208,14 +193,12 @@ export const portfolioData: Portfolio = {
       gpa: 'Unofficial S.Kom',
     },
     {
-      id: '2',
       institution: 'Pondok Pesantren Al-Munawwir Krapyak',
       degree: 'Pendidikan Agama',
       field: 'Komplek Madrasah Huffadh 2',
       duration: '2021 - Saat ini',
     },
     {
-      id: '3',
       institution: 'MAN 2 Kabupaten Kediri',
       degree: 'SMA',
       field: 'Kelas PDCI (Peserta Didik Cerdas Istimewa)',
@@ -225,7 +208,6 @@ export const portfolioData: Portfolio = {
   ],
   achievements: [
     {
-      id: '15',
       title: 'Belajar Fundamental Aplikasi Android',
       organizer: 'Dicoding | Bangkit collaborates with Google, Tokopedia, and Traveloka',
       date: '2024-03-28',
@@ -236,7 +218,6 @@ export const portfolioData: Portfolio = {
       valid_until: '2027-03-28',
     },
     {
-      id: '16',
       title: 'Belajar Dasar Git dengan GitHub',
       organizer: 'Dicoding | Bangkit collaborates with Google, Tokopedia, and Traveloka',
       date: '2024-03-06',
@@ -247,7 +228,6 @@ export const portfolioData: Portfolio = {
       valid_until: '2027-03-06',
     },
     {
-      id: '25',
       title: 'Kepanitiaan Permikomnas Festival 2022',
       organizer: 'Permikomnas Wilayah XIII Yogyakarta',
       date: '2022-11-26',
@@ -257,7 +237,6 @@ export const portfolioData: Portfolio = {
       participant_as: 'Anggota Divisi Perlengkapan',
     },
     {
-      id: '2',
       title: 'Tips & Trik Buat Aplikasi Tanpa Coding',
       organizer: 'Devcode AI Talks',
       date: '2025-03-08',
@@ -268,7 +247,6 @@ export const portfolioData: Portfolio = {
       description: 'No-Code & AI',
     },
     {
-      id: '3',
       title: 'Melihat Dunia dengan AI : Eksplorasi Computer Vision',
       organizer: 'Dicoding Event',
       date: '2024-07-19',
@@ -278,7 +256,6 @@ export const portfolioData: Portfolio = {
       description: 'DevCoach 160 : Machine Learning',
     },
     {
-      id: '24',
       title: 'Kepanitiaan Permikomnas Festival 2023',
       organizer: 'Permikomnas Wilayah XIII Yogyakarta',
       date: '2023-10-01',
@@ -289,7 +266,6 @@ export const portfolioData: Portfolio = {
       description: 'Seminar Nasional berlokasi di Universitas PGRI Yogyakarta (UPY)',
     },
     {
-      id: '18',
       title: 'English for Business Communication',
       organizer:
         'The British Institute | Bangkit collaborates with Google, Tokopedia, and Traveloka',
@@ -300,7 +276,6 @@ export const portfolioData: Portfolio = {
       description: 'Completed a short course and achieved an overall score of 76%',
     },
     {
-      id: '17',
       title: 'Belajar Dasar AI',
       organizer: 'Dicoding | Bangkit collaborates with Google, Tokopedia, and Traveloka',
       date: '2024-04-11',
@@ -311,7 +286,6 @@ export const portfolioData: Portfolio = {
       valid_until: '2027-04-11',
     },
     {
-      id: '19',
       title: 'Cybersecurity & Artificial Intelligence : Towards an Epoch of Digital Vigilance',
       organizer: 'Permikomnas Wilayah XIII Yogyakarta',
       date: '2023-10-01',
@@ -322,7 +296,6 @@ export const portfolioData: Portfolio = {
       description: 'Seminar Nasional berlokasi di Universitas PGRI Yogyakarta (UPY)',
     },
     {
-      id: '20',
       title: 'Pelatihan Literasi Digital, Finansial, & Dampak Sosial',
       organizer: 'Digital & Financial Literacy Festival collaborates with Traveloka',
       date: '2022-12-03',
@@ -333,7 +306,6 @@ export const portfolioData: Portfolio = {
       description: 'Bertempat di Dinas Koperasi & UMKM DIY',
     },
     {
-      id: '21',
       title: 'Sertifikat Kepengurusan Permikomnas Wilayah VIII Yogyakarta',
       organizer: 'Permikomnas Wilayah VIII Yogyakarta',
       date: '2024-12-31',
@@ -344,7 +316,6 @@ export const portfolioData: Portfolio = {
       description: 'Dalam satu periode kepengurusan dengan masa periode 2023 - 2024',
     },
     {
-      id: '1',
       title: 'Membuat Mobile Aplikasi dengan Efisien dan Cepat',
       organizer: 'HMIF UNJAYA',
       date: '2025-02-22',
@@ -355,7 +326,6 @@ export const portfolioData: Portfolio = {
       description: 'Workshop HMIF 2025',
     },
     {
-      id: '22',
       title: 'Sertifikat Kepengurusan Permikomnas Wilayah VIII Yogyakarta',
       organizer: 'Permikomnas Wilayah VIII Yogyakarta',
       date: '2023-03-20',
@@ -366,7 +336,6 @@ export const portfolioData: Portfolio = {
       description: 'Dalam satu periode kepengurusan dengan masa periode 2021 - 2022',
     },
     {
-      id: '23',
       title: 'Graduation Certificate - Bangkit 2024 (Mobile Development - Android)',
       organizer: 'Bangkit by Google, in collaboration with GoTo, Tokopedia, Traveloka',
       date: '2024-07-10',
@@ -378,7 +347,6 @@ export const portfolioData: Portfolio = {
         'This certificate confirms that the participant has successfully graduated from Bangkit 2024 Batch 1, following the Mobile Development (Android) learning path',
     },
     {
-      id: '4',
       title: 'Memulai Pemrograman dengan Kotlin',
       organizer: 'Dicoding | Bangkit collaborates with Google, Tokopedia, and Traveloka',
       date: '2024-02-28',
@@ -389,7 +357,6 @@ export const portfolioData: Portfolio = {
       valid_until: '2027-02-28',
     },
     {
-      id: '8',
       title: 'Memulai Dasar Pemrograman untuk Menjadi Pengembang Software',
       organizer: 'Dicoding | Bangkit collaborates with Google, Tokopedia, and Traveloka',
       date: '2024-02-21',
@@ -400,7 +367,6 @@ export const portfolioData: Portfolio = {
       valid_until: '2027-02-21',
     },
     {
-      id: '9',
       title: 'Belajar Prinsip Pemrograman SOLID',
       organizer: 'Dicoding | Bangkit collaborates with Google, Tokopedia, and Traveloka',
       date: '2024-04-07',
@@ -411,7 +377,6 @@ export const portfolioData: Portfolio = {
       valid_until: '2027-04-07',
     },
     {
-      id: '12',
       title: 'Belajar Pengembangan Aplikasi Android Intermediate',
       organizer: 'Dicoding | Bangkit collaborates with Google, Tokopedia, and Traveloka',
       date: '2024-05-31',
@@ -422,7 +387,6 @@ export const portfolioData: Portfolio = {
       valid_until: '2027-05-31',
     },
     {
-      id: '13',
       title: 'Belajar Penerapan Machine Learning untuk Android',
       organizer: 'Dicoding | Bangkit collaborates with Google, Tokopedia, and Traveloka',
       date: '2024-04-25',
@@ -433,7 +397,6 @@ export const portfolioData: Portfolio = {
       valid_until: '2027-04-25',
     },
     {
-      id: '14',
       title: 'Belajar Membuat Aplikasi Android untuk Pemula',
       organizer: 'Dicoding | Bangkit collaborates with Google, Tokopedia, and Traveloka',
       date: '2024-03-05',

@@ -69,8 +69,8 @@
       <!-- Enhanced Projects Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 animate-slide-up delay-200">
         <div
-          v-for="project in displayedProjects"
-          :key="project.id"
+          v-for="(project, index) in displayedProjects"
+          :key="index"
           class="bg-dracula-selection border border-gray-500 rounded-lg p-6 sm:p-8 group hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-500 hover:-translate-y-2"
         >
           <!-- Project Header -->

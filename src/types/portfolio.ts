@@ -13,7 +13,6 @@ export interface PersonalInfo {
 }
 
 export interface Experience {
-  id: string
   company: string
   position: string
   duration: string
@@ -22,7 +21,6 @@ export interface Experience {
 }
 
 export interface Project {
-  id: string
   title: string
   description: string
   technologies: string[]
@@ -32,14 +30,12 @@ export interface Project {
 }
 
 export interface Skill {
-  id: string
   name: string
   category: 'mobile' | 'web' | 'backend' | 'tools'
   level: 'beginner' | 'intermediate' | 'advanced' | 'expert'
 }
 
 export interface Education {
-  id: string
   institution: string
   degree: string
   field: string
@@ -48,7 +44,6 @@ export interface Education {
 }
 
 export interface Achievement {
-  id: string
   title: string
   organizer: string
   date: string
