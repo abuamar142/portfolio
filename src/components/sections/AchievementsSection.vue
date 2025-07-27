@@ -30,7 +30,9 @@
           <code class="text-dracula-purple text-sm">String</code>
           <code class="text-dracula-cyan text-sm"> category</code>
           <code class="text-dracula-foreground text-sm"> = </code>
-          <code class="text-dracula-green text-sm">'sertifikat'</code>
+          <code class="text-dracula-green text-sm"
+            >'{{ $t('achievements.categories.sertifikat').toLowerCase() }}'</code
+          >
           <code class="text-dracula-foreground text-sm">;</code>
         </div>
       </div>
