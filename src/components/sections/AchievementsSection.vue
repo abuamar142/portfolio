@@ -126,7 +126,6 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { Achievement } from '@/types/portfolio'
 import { portfolioData } from '@/data/portfolio'
 import AchievementCard from '@/components/ui/AchievementCard.vue'
 
