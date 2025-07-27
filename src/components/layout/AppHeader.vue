@@ -11,7 +11,7 @@
             class="flex items-center space-x-2 text-dracula-foreground hover:text-dracula-purple transition-colors group"
           >
             <div
-              class="h-8 sm:h-10 lg:h-12 px-2 sm:px-4 rounded-lg flex items-center justify-center font-mono font-bold text-base border border-dracula-purple sm:text-lg lg:text-xl text-dracula-foreground group-hover:bg-dracula-purple group-hover:text-dracula-background transition-all duration-300"
+              class="h-8 sm:h-9 lg:h-10 px-2 sm:px-3 rounded-lg flex items-center justify-center font-mono font-bold text-sm border border-dracula-purple sm:text-base lg:text-lg text-dracula-foreground group-hover:bg-dracula-purple group-hover:text-dracula-background transition-all duration-300"
             >
               abuamar.site
             </div>
@@ -19,8 +19,8 @@
         </div>
 
         <!-- Desktop Navigation -->
-        <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
-          <div class="flex items-center space-x-8 lg:space-x-10">
+        <div class="hidden md:flex items-center space-x-4 lg:space-x-6">
+          <div class="flex items-center space-x-4 lg:space-x-6">
             <a
               v-for="item in navigation"
               :key="item.name"
@@ -37,10 +37,8 @@
         </div>
 
         <!-- Desktop Language Dropdown -->
-        <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
-          <div class="ml-4 lg:ml-6">
-            <LanguageDropdown />
-          </div>
+        <div class="hidden md:flex items-center">
+          <LanguageDropdown />
         </div>
 
         <!-- Mobile Menu -->

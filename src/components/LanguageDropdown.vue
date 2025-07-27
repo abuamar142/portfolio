@@ -3,20 +3,23 @@
     <!-- Dropdown Trigger -->
     <button
       @click="toggleDropdown"
-      class="flex items-center gap-2 px-4 py-2 bg-dracula-selection/80 backdrop-blur-sm border border-dracula-purple/30 rounded-lg text-dracula-foreground hover:border-dracula-purple/50 transition-all duration-300 hover:bg-dracula-purple/10"
+      class="flex items-center gap-2 h-8 sm:h-9 lg:h-10 px-3 sm:px-3 lg:px-4 bg-dracula-selection/80 backdrop-blur-sm border border-dracula-purple/30 rounded-lg text-dracula-foreground hover:border-dracula-purple/50 transition-all duration-300 hover:bg-dracula-purple/10"
     >
-      <div class="w-5 h-5 rounded-sm overflow-hidden border border-purple-500/30">
+      <div class="w-4 h-4 sm:w-5 sm:h-5 rounded-sm overflow-hidden border border-purple-500/30">
         <img
           :src="currentLanguage.flag"
           :alt="currentLanguage.name"
           class="w-full h-full object-cover"
         />
       </div>
-      <span class="text-sm font-medium text-purple-300">{{
+      <span class="text-xs sm:text-sm font-medium text-purple-300 font-mono">{{
         currentLanguage.code.toUpperCase()
       }}</span>
       <svg
-        :class="['w-4 h-4 transition-transform duration-200', { 'rotate-180': isOpen }]"
+        :class="[
+          'w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200',
+          { 'rotate-180': isOpen },
+        ]"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
