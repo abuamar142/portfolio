@@ -50,11 +50,14 @@ export interface Education {
 export interface Achievement {
   id: string
   title: string
-  description: string
-  category: 'sertifikat' | 'sertifikasi' | 'kepanitiaan' | 'penghargaan'
-  issuer: string
+  organizer: string
   date: string
-  evidenceId?: string // Google Drive file ID
+  type: 'certificate' | 'certification' | 'webinar' | 'seminar'
+  drive_file_id: string
+  certificate_number?: string
+  participant_as?: string
+  description?: string
+  valid_until?: string
 }
 
 export interface Portfolio {

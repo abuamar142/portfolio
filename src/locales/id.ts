@@ -57,19 +57,19 @@ export default {
   },
   achievements: {
     title: 'pencapaian.saya',
-    subtitle: 'Sertifikat, sertifikasi, kepanitiaan, dan penghargaan yang telah saya peroleh',
+    subtitle: 'Sertifikat, sertifikasi, webinar, dan seminar yang telah saya ikuti',
     filters: {
       all: 'Semua',
-      sertifikat: 'Sertifikat',
-      sertifikasi: 'Sertifikasi',
-      kepanitiaan: 'Kepanitiaan',
-      penghargaan: 'Penghargaan',
+      certificate: 'Sertifikat',
+      certification: 'Sertifikasi',
+      webinar: 'Webinar',
+      seminar: 'Seminar',
     },
     categories: {
-      sertifikat: 'Sertifikat',
-      sertifikasi: 'Sertifikasi',
-      kepanitiaan: 'Kepanitiaan',
-      penghargaan: 'Penghargaan',
+      certificate: 'Sertifikat',
+      certification: 'Sertifikasi',
+      webinar: 'Webinar',
+      seminar: 'Seminar',
     },
     buttons: {
       evidence: 'Lihat Evidence',

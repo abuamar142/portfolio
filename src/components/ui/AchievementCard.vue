@@ -6,9 +6,9 @@
     <div class="flex justify-between items-start mb-4">
       <span
         class="inline-flex items-center px-3 py-1 rounded-lg text-xs font-medium font-mono border"
-        :class="categoryColors[achievement.category]"
+        :class="categoryColors[achievement.type]"
       >
-        {{ $t(`achievements.categories.${achievement.category}`) }}
+        {{ $t(`achievements.categories.${achievement.type}`) }}
       </span>
       <span class="text-sm text-dracula-comment font-mono">
         {{ formatDate(achievement.date) }}
@@ -22,18 +22,32 @@
       {{ achievement.title }}
     </h3>
 
-    <!-- Issuer -->
+    <!-- Organizer -->
     <p class="text-sm font-medium text-dracula-cyan mb-4 font-mono">
-      {{ achievement.issuer }}
+      {{ achievement.organizer }}
     </p>
 
-    <!-- Description -->
-    <p class="text-dracula-foreground text-sm mb-6 line-clamp-3 leading-relaxed">
-      {{ achievement.description }}
-    </p>
+    <!-- Description & Certificate Number -->
+    <div class="mb-6">
+      <p
+        v-if="achievement.description"
+        class="text-dracula-foreground text-sm mb-2 line-clamp-3 leading-relaxed"
+      >
+        {{ achievement.description }}
+      </p>
+      <p v-if="achievement.certificate_number" class="text-xs text-dracula-comment font-mono">
+        Certificate: {{ achievement.certificate_number }}
+      </p>
+      <p v-if="achievement.participant_as" class="text-xs text-dracula-comment font-mono">
+        As: {{ achievement.participant_as }}
+      </p>
+      <p v-if="achievement.valid_until" class="text-xs text-dracula-yellow font-mono mt-1">
+        Valid until: {{ formatDate(achievement.valid_until) }}
+      </p>
+    </div>
 
     <!-- Evidence Button -->
-    <div class="flex justify-end" v-if="achievement.evidenceId">
+    <div class="flex justify-end" v-if="achievement.drive_file_id">
       <BaseButton
         variant="outline"
         size="sm"
@@ -65,10 +79,10 @@ interface Props {
 const props = defineProps<Props>()
 
 const categoryColors = {
-  sertifikat: 'bg-dracula-green/20 text-dracula-green border-dracula-green/30',
-  sertifikasi: 'bg-dracula-cyan/20 text-dracula-cyan border-dracula-cyan/30',
-  kepanitiaan: 'bg-dracula-purple/20 text-dracula-purple border-dracula-purple/30',
-  penghargaan: 'bg-dracula-yellow/20 text-dracula-yellow border-dracula-yellow/30',
+  certificate: 'bg-dracula-green/20 text-dracula-green border-dracula-green/30',
+  certification: 'bg-dracula-yellow/20 text-dracula-yellow border-dracula-yellow/30',
+  webinar: 'bg-dracula-cyan/20 text-dracula-cyan border-dracula-cyan/30',
+  seminar: 'bg-dracula-purple/20 text-dracula-purple border-dracula-purple/30',
 }
 
 const formatDate = (dateString: string) => {
@@ -80,8 +94,8 @@ const formatDate = (dateString: string) => {
 }
 
 const openEvidence = () => {
-  if (props.achievement.evidenceId) {
-    const url = `https://drive.google.com/file/d/${props.achievement.evidenceId}/view`
+  if (props.achievement.drive_file_id) {
+    const url = `https://drive.google.com/file/d/${props.achievement.drive_file_id}/view`
     window.open(url, '_blank')
   }
 }

@@ -28,10 +28,10 @@
       <div class="absolute bottom-32 left-24 animate-float" style="animation-delay: 1.2s">
         <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
           <code class="text-dracula-purple text-sm">String</code>
-          <code class="text-dracula-cyan text-sm"> category</code>
+          <code class="text-dracula-cyan text-sm"> type</code>
           <code class="text-dracula-foreground text-sm"> = </code>
           <code class="text-dracula-green text-sm"
-            >'{{ $t('achievements.categories.sertifikat').toLowerCase() }}'</code
+            >'{{ $t('achievements.categories.certification').toLowerCase() }}'</code
           >
           <code class="text-dracula-foreground text-sm">;</code>
         </div>
@@ -133,20 +133,20 @@ const achievements = portfolioData.achievements
 const activeFilter = ref<string>('all')
 
 const categories = [
-  { key: 'sertifikat' },
-  { key: 'sertifikasi' },
-  { key: 'kepanitiaan' },
-  { key: 'penghargaan' },
+  { key: 'certificate' },
+  { key: 'certification' },
+  { key: 'webinar' },
+  { key: 'seminar' },
 ]
 
 const filteredAchievements = computed(() => {
   if (activeFilter.value === 'all') {
     return achievements
   }
-  return achievements.filter((achievement) => achievement.category === activeFilter.value)
+  return achievements.filter((achievement) => achievement.type === activeFilter.value)
 })
 
 const getCountByCategory = (category: string) => {
-  return achievements.filter((achievement) => achievement.category === category).length
+  return achievements.filter((achievement) => achievement.type === category).length
 }
 </script>

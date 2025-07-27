@@ -57,19 +57,19 @@ export default {
   },
   achievements: {
     title: 'my.achievements',
-    subtitle: 'Certificates, certifications, organizations, and awards I have obtained',
+    subtitle: 'Certificates, certifications, webinars, and seminars I have attended',
     filters: {
       all: 'All',
-      sertifikat: 'Certificates',
-      sertifikasi: 'Certifications',
-      kepanitiaan: 'Organizations',
-      penghargaan: 'Awards',
+      certificate: 'Certificates',
+      certification: 'Certifications',
+      webinar: 'Webinars',
+      seminar: 'Seminars',
     },
     categories: {
-      sertifikat: 'Certificate',
-      sertifikasi: 'Certification',
-      kepanitiaan: 'Organization',
-      penghargaan: 'Award',
+      certificate: 'Certificate',
+      certification: 'Certification',
+      webinar: 'Webinar',
+      seminar: 'Seminar',
     },
     buttons: {
       evidence: 'View Evidence',
