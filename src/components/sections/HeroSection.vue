@@ -185,7 +185,7 @@
                   <div class="w-3 h-3 bg-dracula-yellow rounded-full"></div>
                   <div class="w-3 h-3 bg-dracula-green rounded-full"></div>
                 </div>
-                <div class="text-dracula-comment text-sm font-mono">portfolio.dart</div>
+                <div class="text-dracula-foreground text-sm font-mono">portfolio.dart</div>
                 <div class="w-6"></div>
               </div>
 

@@ -23,6 +23,8 @@
         :value="modelValue"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         type="text"
+        id="search-input"
+        name="search"
         :placeholder="placeholder"
         class="block w-full pl-10 pr-12 py-3 bg-dracula-selection border border-gray-500 rounded-lg text-dracula-foreground placeholder-dracula-comment font-mono text-sm focus:outline-none focus:ring-2 focus:ring-dracula-purple focus:border-dracula-purple transition-all duration-300 hover:border-dracula-purple/50"
       />

@@ -25,7 +25,7 @@
               v-for="item in navigation"
               :key="item.name"
               :href="item.href"
-              class="text-sm lg:text-base text-dracula-comment hover:text-dracula-purple transition-colors font-mono relative group py-2"
+              class="text-sm text-dracula-foreground hover:text-dracula-purple transition-colors font-mono relative group py-2"
               @click.prevent="scrollToSection(item.href)"
             >
               <span class="text-dracula-purple mr-1">.</span>{{ $t(item.name) }}()
