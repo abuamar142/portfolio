@@ -95,6 +95,15 @@
         </button>
       </div>
 
+      <!-- Achievements Search -->
+      <div class="mb-8 sm:mb-12 animate-slide-up delay-200">
+        <SearchInput
+          v-model="searchQuery"
+          :placeholder="$t('search.placeholder')"
+          :results-count="filteredAchievements.length"
+        />
+      </div>
+
       <!-- Achievements Grid -->
       <div
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 animate-slide-up delay-300"
@@ -126,11 +135,20 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-            ></path>
+              d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.516-.641-6.407-1.759C5.226 13.055 5 12.741 5 12.5v-1.25C5 11.112 5.112 11 5.25 11H6a2 2 0 002-2V7a2 2 0 00-2-2H5.25C5.112 5 5 4.888 5 4.75v-.5C5 4.112 5.112 4 5.25 4H6a2 2 0 002-2V1"
+            />
           </svg>
         </div>
-        <p class="text-dracula-comment font-mono">{{ $t('achievements.empty') }}</p>
+        <p class="text-dracula-comment font-mono">
+          {{ searchQuery.trim() ? $t('search.noResults') : $t('achievements.empty') }}
+        </p>
+        <button
+          v-if="searchQuery.trim()"
+          @click="searchQuery = ''"
+          class="mt-4 px-4 py-2 text-sm text-dracula-purple hover:text-dracula-pink transition-colors font-mono"
+        >
+          {{ $t('search.clearSearch') }}
+        </button>
       </div>
     </div>
   </section>
@@ -141,14 +159,16 @@ import { computed, ref, watch } from 'vue'
 import { portfolioData } from '@/data/portfolio'
 import AchievementCard from '@/components/ui/AchievementCard.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import SearchInput from '@/components/ui/SearchInput.vue'
 
 const achievements = portfolioData.achievements
 const activeFilter = ref<string>('all')
+const searchQuery = ref<string>('')
 const showAll = ref<boolean>(false)
 const maxItems = 6
 
-// Reset showAll when filter changes
-watch(activeFilter, () => {
+// Reset showAll when filter or search changes
+watch([activeFilter, searchQuery], () => {
   showAll.value = false
 })
 
@@ -161,10 +181,27 @@ const categories = [
 
 const filteredAchievements = computed(() => {
   let filtered = achievements
+
+  // Filter by category
   if (activeFilter.value !== 'all') {
-    filtered = achievements.filter((achievement) => achievement.type === activeFilter.value)
+    filtered = filtered.filter((achievement) => achievement.type === activeFilter.value)
   }
 
+  // Filter by search query
+  if (searchQuery.value.trim()) {
+    const query = searchQuery.value.toLowerCase().trim()
+    filtered = filtered.filter((achievement) => {
+      return (
+        achievement.title.toLowerCase().includes(query) ||
+        achievement.organizer.toLowerCase().includes(query) ||
+        achievement.description?.toLowerCase().includes(query) ||
+        achievement.certificate_number?.toLowerCase().includes(query) ||
+        achievement.participant_as?.toLowerCase().includes(query)
+      )
+    })
+  }
+
+  // Apply pagination
   if (!showAll.value && filtered.length > maxItems) {
     return filtered.slice(0, maxItems)
   }
@@ -173,9 +210,26 @@ const filteredAchievements = computed(() => {
 
 const shouldShowSeeMore = computed(() => {
   let totalFiltered = achievements
+
+  // Filter by category
   if (activeFilter.value !== 'all') {
-    totalFiltered = achievements.filter((achievement) => achievement.type === activeFilter.value)
+    totalFiltered = totalFiltered.filter((achievement) => achievement.type === activeFilter.value)
   }
+
+  // Filter by search query
+  if (searchQuery.value.trim()) {
+    const query = searchQuery.value.toLowerCase().trim()
+    totalFiltered = totalFiltered.filter((achievement) => {
+      return (
+        achievement.title.toLowerCase().includes(query) ||
+        achievement.organizer.toLowerCase().includes(query) ||
+        achievement.description?.toLowerCase().includes(query) ||
+        achievement.certificate_number?.toLowerCase().includes(query) ||
+        achievement.participant_as?.toLowerCase().includes(query)
+      )
+    })
+  }
+
   return !showAll.value && totalFiltered.length > maxItems
 })
 

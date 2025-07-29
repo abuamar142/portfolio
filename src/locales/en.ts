@@ -80,6 +80,12 @@ export default {
     },
     empty: 'No achievements found in this category',
   },
+  search: {
+    placeholder: 'Search achievements...',
+    results: 'results found',
+    noResults: 'No achievements match your search',
+    clearSearch: 'Clear search',
+  },
   contact: {
     title: "let's.connect",
     subtitle: "I'm always excited to discuss new projects and creative ideas",

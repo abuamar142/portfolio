@@ -80,6 +80,12 @@ export default {
     },
     empty: 'Tidak ada pencapaian dalam kategori ini',
   },
+  search: {
+    placeholder: 'Cari pencapaian...',
+    results: 'hasil ditemukan',
+    noResults: 'Tidak ada pencapaian yang sesuai dengan pencarian',
+    clearSearch: 'Hapus pencarian',
+  },
   contact: {
     title: 'mari.terhubung',
     subtitle: 'Saya selalu senang mendiskusikan proyek baru dan ide-ide kreatif',
