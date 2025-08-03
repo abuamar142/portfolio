@@ -88,43 +88,65 @@ export async function fetchPortfolioData(): Promise<Portfolio> {
     }
 
     return portfolioData
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('❌ Failed to fetch portfolio data from backend API')
+
+    // Type-safe error handling
+    const isAxiosError = (
+      err: unknown,
+    ): err is {
+      response?: { status: number; statusText: string }
+      config?: { url: string; baseURL: string }
+      code?: string
+      message: string
+    } => {
+      return typeof err === 'object' && err !== null && 'message' in err
+    }
+
+    const axiosError = isAxiosError(error) ? error : null
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+
     console.error('Error details:', {
-      message: error.message,
-      code: error.code,
-      status: error.response?.status,
-      statusText: error.response?.statusText,
-      url: error.config?.url,
-      baseURL: error.config?.baseURL,
+      message: errorMessage,
+      code: axiosError?.code,
+      status: axiosError?.response?.status,
+      statusText: axiosError?.response?.statusText,
+      url: axiosError?.config?.url,
+      baseURL: axiosError?.config?.baseURL,
     })
 
     // Provide specific error messages based on error type
-    if (error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED') {
+    if (axiosError?.code === 'ENOTFOUND' || axiosError?.code === 'ECONNREFUSED') {
       throw new Error(
         `Cannot connect to backend server at ${API_BASE_URL}. Please check if the backend is running.`,
       )
     }
 
-    if (error.code === 'ECONNABORTED') {
+    if (axiosError?.code === 'ECONNABORTED') {
       throw new Error('Request timeout. The backend server took too long to respond.')
     }
 
-    if (error.response?.status === 404) {
+    if (axiosError?.response?.status === 404) {
       throw new Error(
         `API endpoint not found: ${API_ENDPOINT}. Please check the backend API configuration.`,
       )
     }
 
-    if (error.response?.status === 500) {
+    if (axiosError?.response?.status === 500) {
       throw new Error('Backend server error. Please try again later.')
     }
 
-    if (error.response?.status >= 400 && error.response?.status < 500) {
-      throw new Error(`Client error (${error.response.status}): ${error.response.statusText}`)
+    if (
+      axiosError?.response?.status &&
+      axiosError.response.status >= 400 &&
+      axiosError.response.status < 500
+    ) {
+      throw new Error(
+        `Client error (${axiosError.response.status}): ${axiosError.response.statusText}`,
+      )
     }
 
     // Generic error fallback
-    throw new Error(`Failed to fetch portfolio data: ${error.message}`)
+    throw new Error(`Failed to fetch portfolio data: ${errorMessage}`)
   }
 }
