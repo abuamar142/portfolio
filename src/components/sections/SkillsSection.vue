@@ -1,7 +1,7 @@
 <template>
   <section
     id="skills"
-    class="relative py-16 sm:py-24 lg:py-32 bg-dracula-background overflow-hidden transition-colors"
+    class="relative py-12 sm:py-16 lg:py-20 scroll-mt-16 sm:scroll-mt-18 lg:scroll-mt-20 bg-dracula-background overflow-hidden transition-colors"
   >
     <!-- Background Elements -->
     <div class="absolute inset-0">
@@ -126,41 +126,27 @@ import { usePortfolio } from '@/composables/usePortfolio'
 
 const { portfolio } = usePortfolio()
 
-// Helper untuk backward compatibility
-const portfolioData = computed(
-  () =>
-    portfolio.value || {
-      personalInfo: { fullname: '', nickname: '', title: '', email: '', phone: '', location: '' },
-      about: '',
-      experiences: [],
-      projects: [],
-      skills: [],
-      education: [],
-      achievements: [],
-    },
-)
-
 const skillCategories = computed(() =>
   [
     {
       name: 'Mobile',
       key: 'mobile',
-      skills: portfolioData.value.skills.filter((skill) => skill.category === 'mobile'),
+      skills: (portfolio.value?.skills || []).filter((skill) => skill.category === 'mobile'),
     },
     {
       name: 'Web',
       key: 'web',
-      skills: portfolioData.value.skills.filter((skill) => skill.category === 'web'),
+      skills: (portfolio.value?.skills || []).filter((skill) => skill.category === 'web'),
     },
     {
       name: 'Backend',
       key: 'backend',
-      skills: portfolioData.value.skills.filter((skill) => skill.category === 'backend'),
+      skills: (portfolio.value?.skills || []).filter((skill) => skill.category === 'backend'),
     },
     {
       name: 'Tools',
       key: 'tools',
-      skills: portfolioData.value.skills.filter((skill) => skill.category === 'tools'),
+      skills: (portfolio.value?.skills || []).filter((skill) => skill.category === 'tools'),
     },
   ].filter((category) => category.skills.length > 0),
 )

@@ -1,7 +1,7 @@
 <template>
   <section
-    id="experience"
-    class="relative py-16 sm:py-24 lg:py-32 bg-dracula-background overflow-hidden transition-colors"
+    id="experiences"
+    class="relative py-12 sm:py-16 lg:py-20 scroll-mt-16 sm:scroll-mt-18 lg:scroll-mt-20 bg-dracula-background overflow-hidden transition-colors"
   >
     <!-- Background Elements -->
     <div class="absolute inset-0">
@@ -74,7 +74,7 @@
 
         <div class="space-y-8 sm:space-y-12 lg:space-y-16 animate-slide-up delay-200">
           <div
-            v-for="(experience, index) in portfolioData.experiences"
+            v-for="(experience, index) in portfolio?.experiences"
             :key="index"
             class="relative group"
           >
@@ -176,22 +176,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { usePortfolio } from '@/composables/usePortfolio'
 
 const { portfolio } = usePortfolio()
-
-// Helper untuk backward compatibility
-const portfolioData = computed(
-  () =>
-    portfolio.value || {
-      personalInfo: { fullname: '', nickname: '', title: '', email: '', phone: '', location: '' },
-      about: '',
-      experiences: [],
-      projects: [],
-      skills: [],
-      education: [],
-      achievements: [],
-    },
-)
 </script>

@@ -23,7 +23,9 @@
           <div class="pl-4 text-gray-300">
             <span class="text-code-keyword">final String</span>
             <span class="text-code-text"> author = </span>
-            <span class="text-code-string">'{{ portfolioData.personalInfo.fullname }}'</span>
+            <span class="text-code-string"
+              >'{{ portfolio?.personalInfo?.fullname || 'Abu Amar' }}'</span
+            >
             <span class="text-code-text">;</span>
           </div>
           <div class="pl-4 text-gray-300">
@@ -56,7 +58,8 @@
         <!-- Copyright -->
         <div class="pt-4 border-t border-gray-500">
           <p class="text-gray-400 text-sm">
-            © {{ new Date().getFullYear() }} {{ portfolioData.personalInfo.fullname }}.
+            © {{ new Date().getFullYear() }}
+            {{ portfolio?.personalInfo?.fullname || 'M. Abu Amar Al Badawi' }}.
             <span class="text-gray-500">{{ $t('footer.copyright') }}</span>
           </p>
         </div>
@@ -66,22 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { usePortfolio } from '@/composables/usePortfolio'
 
 const { portfolio } = usePortfolio()
-
-// Helper untuk backward compatibility
-const portfolioData = computed(
-  () =>
-    portfolio.value || {
-      personalInfo: { fullname: '', nickname: '', title: '', email: '', phone: '', location: '' },
-      about: '',
-      experiences: [],
-      projects: [],
-      skills: [],
-      education: [],
-      achievements: [],
-    },
-)
 </script>

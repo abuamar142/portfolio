@@ -1,7 +1,7 @@
 <template>
   <section
     id="contact"
-    class="relative py-16 sm:py-24 lg:py-32 bg-dracula-background overflow-hidden transition-colors"
+    class="relative py-12 sm:py-16 lg:py-20 scroll-mt-16 sm:scroll-mt-18 lg:scroll-mt-20 bg-dracula-background overflow-hidden transition-colors"
   >
     <!-- Background Pattern -->
     <div class="absolute inset-0 opacity-20 hidden md:block pointer-events-none">
@@ -79,9 +79,9 @@
             icon="email"
             type="email"
             :title="$t('contact.cards.email.title')"
-            :content="portfolioData.personalInfo.email"
+            :content="portfolio?.personalInfo.email || ''"
             :subtitle="$t('contact.cards.email.subtitle')"
-            :href="`mailto:${portfolioData.personalInfo.email}`"
+            :href="`mailto:${portfolio?.personalInfo.email || ''}`"
           />
 
           <!-- Location Card -->
@@ -89,17 +89,17 @@
             icon="location"
             type="location"
             :title="$t('contact.cards.location.title')"
-            :content="portfolioData.personalInfo.location"
+            :content="portfolio?.personalInfo.location || ''"
             :subtitle="$t('contact.cards.location.subtitle')"
           />
 
           <!-- Phone Card (if available) -->
           <ContactCard
-            v-if="portfolioData.personalInfo.phone"
+            v-if="portfolio?.personalInfo.phone"
             icon="phone"
             type="phone"
             :title="$t('contact.cards.phone.title')"
-            :content="portfolioData.personalInfo.phone"
+            :content="portfolio?.personalInfo.phone || ''"
             :subtitle="$t('contact.cards.phone.subtitle')"
           />
         </div>
@@ -134,7 +134,7 @@
                   <span class="text-dracula-purple">final String</span>
                   <span class="text-dracula-foreground"> email = </span>
                   <span class="text-dracula-green break-all"
-                    >'{{ portfolioData.personalInfo.email }}'</span
+                    >'{{ portfolio?.personalInfo.email || '' }}'</span
                   >
                   <span class="text-dracula-foreground">;</span>
                 </div>
@@ -142,7 +142,7 @@
                   <span class="text-dracula-purple">final String</span>
                   <span class="text-dracula-foreground"> location = </span>
                   <span class="text-dracula-green"
-                    >'{{ portfolioData.personalInfo.location }}'</span
+                    >'{{ portfolio?.personalInfo.location || '' }}'</span
                   >
                   <span class="text-dracula-foreground">;</span>
                 </div>
@@ -200,8 +200,8 @@
             </p>
             <div class="flex flex-wrap justify-center gap-4 sm:gap-6">
               <a
-                v-if="portfolioData.personalInfo.github"
-                :href="portfolioData.personalInfo.github"
+                v-if="portfolio?.personalInfo.github"
+                :href="portfolio?.personalInfo.github"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="flex items-center space-x-1 sm:space-x-2 text-dracula-comment hover:text-dracula-purple transition-colors group"
@@ -214,8 +214,8 @@
                 <span class="group-hover:underline text-sm sm:text-base">GitHub</span>
               </a>
               <a
-                v-if="portfolioData.personalInfo.linkedin"
-                :href="portfolioData.personalInfo.linkedin"
+                v-if="portfolio?.personalInfo.linkedin"
+                :href="portfolio?.personalInfo.linkedin"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="flex items-center space-x-1 sm:space-x-2 text-dracula-comment hover:text-dracula-purple transition-colors group"
@@ -228,8 +228,8 @@
                 <span class="group-hover:underline text-sm sm:text-base">LinkedIn</span>
               </a>
               <a
-                v-if="portfolioData.personalInfo.instagram"
-                :href="portfolioData.personalInfo.instagram"
+                v-if="portfolio?.personalInfo.instagram"
+                :href="portfolio?.personalInfo.instagram"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="flex items-center space-x-1 sm:space-x-2 text-dracula-comment hover:text-dracula-purple transition-colors group"
@@ -242,8 +242,8 @@
                 <span class="group-hover:underline text-sm sm:text-base">Instagram</span>
               </a>
               <a
-                v-if="portfolioData.personalInfo.whatsApp"
-                :href="portfolioData.personalInfo.whatsApp"
+                v-if="portfolio?.personalInfo.whatsApp"
+                :href="portfolio?.personalInfo.whatsApp"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="flex items-center space-x-1 sm:space-x-2 text-dracula-comment hover:text-dracula-purple transition-colors group"
@@ -267,23 +267,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { usePortfolio } from '@/composables/usePortfolio'
 import ContactCard from '@/components/ui/ContactCard.vue'
 
 const { portfolio } = usePortfolio()
-
-// Helper untuk backward compatibility
-const portfolioData = computed(
-  () =>
-    portfolio.value || {
-      personalInfo: { fullname: '', nickname: '', title: '', email: '', phone: '', location: '' },
-      about: '',
-      experiences: [],
-      projects: [],
-      skills: [],
-      education: [],
-      achievements: [],
-    },
-)
 </script>

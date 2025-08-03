@@ -15,12 +15,16 @@ A modern, responsive portfolio showcasing my journey as a Software Engineer spec
 ## 🛠️ Tech Stack
 
 - **Frontend:** Vue.js 3 + TypeScript + Composition API
+- **Database:** MongoDB Atlas
+- **Backend API:** Separate Express.js project ([backend.abuamar.site](https://www.backend.abuamar.site))
 - **Styling:** Tailwind CSS v4 with Dracula Theme
 - **Build Tool:** Vite
 - **Icons:** Heroicons
-- **Deployment:** Vercel
+- **Deployment:** Vercel (Frontend) + Vercel (Backend API)
 
-## � Quick Start
+## 🚀 Quick Start
+
+### Development Setup
 
 ```bash
 # Clone & install
@@ -28,11 +32,82 @@ git clone https://github.com/abuamar142/portfolio.git
 cd portfolio
 npm install
 
-# Start development
+# Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your backend API URL
+
+# Start frontend development
+npm run dev
+```
+
+### Development Commands
+
+```bash
+# Start frontend development server
 npm run dev
 
 # Build for production
 npm run build
+
+# Preview production build
+npm run preview
+
+# For development with local backend (optional)
+npm run api-server  # Start local API server
+npm run dev:full    # Start both API server and frontend
+
+# Start only API server
+npm run api-server
+
+# Start both API server and frontend
+npm run dev:full
+
+# Test MongoDB connection (for development only)
+npm run test-mongo
+```
+
+## 🚀 Deployment
+
+### Production Architecture
+
+```
+Frontend (Vue.js) → Backend API → MongoDB Atlas
+    Vercel           Vercel       Cloud Database
+```
+
+### Environment Variables for Production
+
+```bash
+# Vercel Environment Variables
+VITE_BACKEND_URL=https://www.backend.abuamar.site
+```
+
+### Deploy to Vercel
+
+1. Fork this repository
+2. Connect to Vercel
+3. Add environment variable: `VITE_BACKEND_URL=https://www.backend.abuamar.site`
+4. Deploy automatically
+
+## 🎨 Features
+
+- 🌙 **Dracula Theme** - Beautiful dark theme with purple accents
+- 📱 **Fully Responsive** - Perfect on all devices
+- ⚡ **Fast & Optimized** - Built with Vite for optimal performance
+- 🎯 **TypeScript** - Full type safety
+- 🎨 **Smooth Animations** - Engaging user experience
+- 🔄 **Real-time Data** - Content managed via separate backend API
+
+```
+
+# Start development
+
+npm run dev
+
+# Build for production
+
+npm run build
+
 ```
 
 ## 🎨 Features
@@ -46,22 +121,24 @@ npm run build
 ## 📁 Structure
 
 ```
+
 src/
 ├── components/
-│   ├── layout/      # Header, Footer
-│   ├── sections/    # Hero, About, Experience, Projects, Skills, Contact
-│   └── ui/          # Reusable components
-├── data/           # Portfolio content
-├── types/          # TypeScript definitions
-└── assets/         # Styles & static files
+│ ├── layout/ # Header, Footer
+│ ├── sections/ # Hero, About, Experience, Projects, Skills, Contact
+│ └── ui/ # Reusable components
+├── data/ # Portfolio content
+├── types/ # TypeScript definitions
+└── assets/ # Styles & static files
+
 ```
 
 ## �‍💻 About Me
 
 **Software Engineer** | **Mobile Developer** | **Full-Stack Enthusiast**
 
-🎓 Informatika Student at Universitas Jenderal Achmad Yani Yogyakarta  
-💼 Full-Stack Software Engineer Intern at Refactory  
+🎓 Informatika Student at Universitas Jenderal Achmad Yani Yogyakarta
+💼 Full-Stack Software Engineer Intern at Refactory
 🏆 Bangkit Academy 2024 Graduate (Mobile Development)
 
 ### 🛠️ Core Skills
@@ -86,3 +163,4 @@ src/
 ⭐ Star this repo if you like it!
 
 </div>
+```

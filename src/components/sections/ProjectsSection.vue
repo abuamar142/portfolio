@@ -1,7 +1,7 @@
 <template>
   <section
     id="projects"
-    class="relative py-16 sm:py-24 lg:py-32 bg-dracula-background overflow-hidden transition-colors"
+    class="relative py-12 sm:py-16 lg:py-20 scroll-mt-16 sm:scroll-mt-18 lg:scroll-mt-20 bg-dracula-background overflow-hidden transition-colors"
   >
     <!-- Background Elements -->
     <div class="absolute inset-0">
@@ -175,32 +175,18 @@ import BaseButton from '@/components/ui/BaseButton.vue'
 
 const { portfolio } = usePortfolio()
 
-// Helper untuk backward compatibility
-const portfolioData = computed(
-  () =>
-    portfolio.value || {
-      personalInfo: { fullname: '', nickname: '', title: '', email: '', phone: '', location: '' },
-      about: '',
-      experiences: [],
-      projects: [],
-      skills: [],
-      education: [],
-      achievements: [],
-    },
-)
-
 const showAll = ref<boolean>(false)
 const maxItems = 6
 
 const displayedProjects = computed(() => {
-  if (!showAll.value && portfolioData.value.projects.length > maxItems) {
-    return portfolioData.value.projects.slice(0, maxItems)
+  if (!showAll.value && (portfolio.value?.projects.length || 0) > maxItems) {
+    return portfolio.value?.projects.slice(0, maxItems) || []
   }
-  return portfolioData.value.projects
+  return portfolio.value?.projects || []
 })
 
 const shouldShowSeeMore = computed(() => {
-  return !showAll.value && portfolioData.value.projects.length > maxItems
+  return !showAll.value && (portfolio.value?.projects.length || 0) > maxItems
 })
 
 const toggleShowAll = () => {

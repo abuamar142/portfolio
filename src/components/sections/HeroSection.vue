@@ -17,19 +17,37 @@
     v-else-if="error"
     class="fixed inset-0 z-50 flex items-center justify-center bg-dracula-background"
   >
-    <div class="text-center max-w-md mx-auto p-6">
-      <div class="text-red-500 text-4xl mb-4">⚠️</div>
-      <h2 class="text-xl text-dracula-foreground mb-2">Failed to load portfolio</h2>
-      <p class="text-dracula-comment mb-4">{{ error }}</p>
-      <p class="text-sm text-dracula-comment">Using fallback data...</p>
+    <div class="text-center">
+      <div class="text-dracula-red text-6xl mb-4">⚠️</div>
+      <h2 class="text-dracula-foreground text-2xl font-bold mb-2">Connection Error</h2>
+      <p class="text-dracula-comment font-mono mb-4">Failed to load portfolio data</p>
+      <button
+        @click="reloadPage"
+        class="px-4 py-2 bg-dracula-purple text-dracula-background rounded-lg hover:bg-dracula-pink transition-colors"
+      >
+        Retry
+      </button>
     </div>
   </div>
 
   <!-- Main Content -->
   <section
     v-else
-    class="relative min-h-screen flex items-center justify-center overflow-hidden bg-dracula-background transition-colors"
+    id="hero"
+    class="relative min-h-screen scroll-mt-16 sm:scroll-mt-18 lg:scroll-mt-20 bg-dracula-background overflow-hidden transition-colors"
   >
+    <!-- Background with Code Pattern -->
+    <div class="absolute inset-0 opacity-10">
+      <div
+        class="absolute inset-0 text-dracula-comment text-xs font-mono p-8 overflow-hidden leading-loose"
+      >
+        <div class="transform rotate-12 opacity-50">
+          class Portfolio { final List&lt;String&gt; skills = ['Flutter', 'Dart', 'Mobile
+          Development']; }
+        </div>
+      </div>
+    </div>
+    >
     <!-- Background with Code Pattern -->
     <div
       class="absolute inset-0 bg-gradient-to-br from-dracula-background via-gray-900 to-dracula-background"
@@ -71,7 +89,9 @@
           <code class="text-dracula-purple text-sm">final String</code>
           <code class="text-dracula-cyan text-sm"> name</code>
           <code class="text-dracula-foreground text-sm"> = </code>
-          <code class="text-dracula-green text-sm">{{ portfolioData.personalInfo.nickname }}</code>
+          <code class="text-dracula-green text-sm">{{
+            portfolio?.personalInfo.nickname || ''
+          }}</code>
           <code class="text-dracula-foreground text-sm">;</code>
         </div>
       </div>
@@ -98,7 +118,7 @@
               <span
                 class="text-transparent bg-clip-text bg-gradient-to-r from-dracula-purple to-dracula-pink"
               >
-                {{ portfolioData.personalInfo.nickname }}
+                {{ portfolio?.personalInfo.nickname || '' }}
               </span>
             </h1>
             <div
@@ -117,7 +137,7 @@
           <p
             class="text-sm sm:text-base md:text-lg lg:text-xl text-dracula-comment mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0 px-4 sm:px-0"
           >
-            {{ portfolioData.personalInfo.title }} {{ $t('hero.subtitle') }}
+            {{ portfolio?.personalInfo.title || '' }} {{ $t('hero.subtitle') }}
           </p>
 
           <!-- CTA Buttons -->
@@ -169,7 +189,7 @@
           <div class="grid grid-cols-3 gap-4 sm:gap-6 lg:gap-8 text-center px-4 sm:px-0">
             <div class="animate-slide-up" style="animation-delay: 0.2s">
               <div class="text-xl sm:text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
-                {{ portfolioData.experiences.length }}+
+                {{ portfolio?.experiences?.length || 0 }}+
               </div>
               <div class="text-xs sm:text-sm text-dracula-comment">
                 {{ $t('hero.stats.experience') }}
@@ -177,7 +197,7 @@
             </div>
             <div class="animate-slide-up" style="animation-delay: 0.4s">
               <div class="text-xl sm:text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
-                {{ portfolioData.projects.length }}+
+                {{ portfolio?.projects?.length || 0 }}+
               </div>
               <div class="text-xs sm:text-sm text-dracula-comment">
                 {{ $t('hero.stats.projects') }}
@@ -185,7 +205,7 @@
             </div>
             <div class="animate-slide-up" style="animation-delay: 0.6s">
               <div class="text-xl sm:text-2xl md:text-3xl font-bold text-dracula-foreground mb-1">
-                {{ portfolioData.skills.length }}+
+                {{ portfolio?.skills?.length || 0 }}+
               </div>
               <div class="text-xs sm:text-sm text-dracula-comment">
                 {{ $t('hero.stats.technologies') }}
@@ -228,15 +248,13 @@
                   <div class="pl-4">
                     <span class="text-dracula-purple">final String</span>
                     <span class="text-dracula-foreground"> name = </span>
-                    <span class="text-dracula-green"
-                      >'{{ portfolioData.personalInfo.fullname }}'</span
-                    >
+                    <span class="text-dracula-green">'{{ portfolio?.personalInfo.fullname }}'</span>
                     <span class="text-dracula-foreground">;</span>
                   </div>
                   <div class="pl-4">
                     <span class="text-dracula-purple">final String</span>
                     <span class="text-dracula-foreground"> role = </span>
-                    <span class="text-dracula-green">'{{ portfolioData.personalInfo.title }}'</span>
+                    <span class="text-dracula-green">'{{ portfolio?.personalInfo.title }}'</span>
                     <span class="text-dracula-foreground">;</span>
                   </div>
                   <div class="pl-4">
@@ -245,7 +263,7 @@
                   </div>
                   <div
                     class="pl-8"
-                    v-for="(skill, index) in portfolioData.skills.slice(0, 4)"
+                    v-for="(skill, index) in (portfolio?.skills || []).slice(0, 4)"
                     :key="skill.name"
                   >
                     <span class="text-dracula-green">'{{ skill.name }}'</span>
@@ -285,7 +303,7 @@
                   </div>
                   <div class="pl-12">
                     <span class="text-dracula-foreground">skills.length >= </span>
-                    <span class="text-dracula-orange">{{ portfolioData.skills.length }}</span>
+                    <span class="text-dracula-orange">{{ portfolio?.skills?.length || 0 }}</span>
                   </div>
                   <div class="pl-8">
                     <span class="text-dracula-foreground">);</span>
@@ -338,20 +356,6 @@ import BaseButton from '@/components/ui/BaseButton.vue'
 import { EyeIcon } from '@heroicons/vue/24/outline'
 
 const { portfolio, loading, error } = usePortfolio()
-
-// Helper agar tidak error saat portfolio belum ready
-const portfolioData = computed(
-  () =>
-    portfolio.value || {
-      personalInfo: { fullname: '', nickname: '', title: '', email: '', phone: '', location: '' },
-      about: '',
-      experiences: [],
-      projects: [],
-      skills: [],
-      education: [],
-      achievements: [],
-    },
-)
 
 const currentRole = ref('')
 
@@ -412,5 +416,9 @@ const scrollToContact = () => {
 
 const viewCV = () => {
   window.open('/cv.pdf', '_blank')
+}
+
+const reloadPage = () => {
+  window.location.reload()
 }
 </script>

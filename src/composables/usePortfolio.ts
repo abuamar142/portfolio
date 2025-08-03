@@ -1,32 +1,63 @@
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import type { Portfolio } from '@/types/portfolio'
 import { fetchPortfolioData } from '@/services/mongodb'
 
+// Shared state - singleton pattern
+const portfolio = ref<Portfolio | null>(null)
+const loading = ref(true)
+const error = ref<string | null>(null)
+let loadPromise: Promise<void> | null = null
+
 export function usePortfolio() {
-  const portfolio = ref<Portfolio | null>(null)
-  const loading = ref(true)
-  const error = ref<string | null>(null)
-
-  const loadPortfolio = async () => {
-    try {
-      loading.value = true
-      portfolio.value = await fetchPortfolioData()
-    } catch (err) {
-      error.value = err instanceof Error ? err.message : 'Failed to load portfolio data'
-      console.error('Error loading portfolio:', err)
-    } finally {
-      loading.value = false
+  const loadPortfolio = async (retryCount = 0) => {
+    // If already loading or loaded, return existing promise/data
+    if (loadPromise && !retryCount) {
+      return loadPromise
     }
-  }
 
-  onMounted(() => {
-    loadPortfolio()
-  })
+    const maxRetries = 3
+
+    loadPromise = (async () => {
+      try {
+        loading.value = true
+        error.value = null
+        console.log('🔄 Loading portfolio data (single request)...')
+        portfolio.value = await fetchPortfolioData()
+        console.log('✅ Portfolio data loaded successfully (shared)')
+      } catch (err) {
+        console.error(`Error loading portfolio (attempt ${retryCount + 1}/${maxRetries}):`, err)
+
+        // Retry logic for network errors
+        if (retryCount < maxRetries - 1) {
+          console.log(`Retrying in ${(retryCount + 1) * 1000}ms...`)
+          loadPromise = null // Reset promise for retry
+          setTimeout(
+            () => {
+              loadPortfolio(retryCount + 1)
+            },
+            (retryCount + 1) * 1000,
+          )
+          return
+        }
+
+        error.value = err instanceof Error ? err.message : 'Failed to load portfolio data'
+      } finally {
+        if (retryCount >= maxRetries - 1 || portfolio.value) {
+          loading.value = false
+        }
+      }
+    })()
+
+    return loadPromise
+  }
 
   return {
     portfolio,
     loading,
     error,
-    refresh: loadPortfolio,
+    refresh: () => {
+      loadPromise = null // Reset promise to allow new request
+      return loadPortfolio()
+    },
   }
 }

@@ -104,7 +104,7 @@ const isMobileMenuOpen = ref(false)
 
 const navigation = [
   { name: 'navigation.about', href: '#about' },
-  { name: 'navigation.experience', href: '#experience' },
+  { name: 'navigation.experience', href: '#experiences' },
   { name: 'navigation.projects', href: '#projects' },
   { name: 'navigation.skills', href: '#skills' },
   { name: 'navigation.achievements', href: '#achievements' },
