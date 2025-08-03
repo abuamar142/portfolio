@@ -17,7 +17,6 @@ const client = axios.create({
 // Add request interceptor for logging
 client.interceptors.request.use(
   (config) => {
-    console.log(`🔄 Making API request to: ${config.baseURL}${config.url}`)
     return config
   },
   (error) => {
@@ -29,7 +28,6 @@ client.interceptors.request.use(
 // Add response interceptor for logging
 client.interceptors.response.use(
   (response) => {
-    console.log(`✅ API response received (${response.status})`)
     return response
   },
   (error) => {
@@ -39,29 +37,15 @@ client.interceptors.response.use(
 )
 
 export async function fetchPortfolioData(): Promise<Portfolio> {
-  console.log('🔍 Fetching portfolio data from external API...')
-  console.log('API URL:', `${API_BASE_URL}${API_ENDPOINT}`)
-
   // Minimum loading time untuk UX yang lebih baik (bisa dikonfigurasi)
   const MIN_LOADING_TIME = 500 // ms (reduced from 800ms)
   const startTime = Date.now()
 
   try {
     const response = await client.get(API_ENDPOINT)
-    console.log('✅ Data fetched successfully from backend API')
-    console.log('Response status:', response.status)
 
     // Log data structure for debugging
     const data = response.data
-    console.log('📊 Data structure received:', {
-      hasPersonalInfo: !!data.personalInfo,
-      hasAbout: !!data.about,
-      experiencesCount: data.experiences?.length || 0,
-      projectsCount: data.projects?.length || 0,
-      skillsCount: data.skills?.length || 0,
-      educationCount: data.education?.length || 0,
-      achievementsCount: data.achievements?.length || 0,
-    })
 
     // Validate required data structure
     if (!data || typeof data !== 'object') {
@@ -78,8 +62,6 @@ export async function fetchPortfolioData(): Promise<Portfolio> {
       education: Array.isArray(data.education) ? data.education : [],
       achievements: Array.isArray(data.achievements) ? data.achievements : [],
     }
-
-    console.log('🎉 Portfolio data processed successfully')
 
     // Pastikan minimum loading time untuk UX yang lebih baik
     const elapsedTime = Date.now() - startTime

@@ -21,15 +21,12 @@ export function usePortfolio() {
       try {
         loading.value = true
         error.value = null
-        console.log('🔄 Loading portfolio data (single request)...')
         portfolio.value = await fetchPortfolioData()
-        console.log('✅ Portfolio data loaded successfully (shared)')
       } catch (err) {
         console.error(`Error loading portfolio (attempt ${retryCount + 1}/${maxRetries}):`, err)
 
         // Retry logic for network errors
         if (retryCount < maxRetries - 1) {
-          console.log(`Retrying in ${(retryCount + 1) * 1000}ms...`)
           loadPromise = null // Reset promise for retry
           setTimeout(
             () => {
