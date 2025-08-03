@@ -267,6 +267,23 @@
 </template>
 
 <script setup lang="ts">
-import { portfolioData } from '@/data/portfolio'
+import { computed } from 'vue'
+import { usePortfolio } from '@/composables/usePortfolio'
 import ContactCard from '@/components/ui/ContactCard.vue'
+
+const { portfolio } = usePortfolio()
+
+// Helper untuk backward compatibility
+const portfolioData = computed(
+  () =>
+    portfolio.value || {
+      personalInfo: { fullname: '', nickname: '', title: '', email: '', phone: '', location: '' },
+      about: '',
+      experiences: [],
+      projects: [],
+      skills: [],
+      education: [],
+      achievements: [],
+    },
+)
 </script>

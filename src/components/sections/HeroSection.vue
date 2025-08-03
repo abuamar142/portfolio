@@ -1,5 +1,33 @@
 <template>
+  <!-- Loading State -->
+  <div
+    v-if="loading"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-dracula-background"
+  >
+    <div class="text-center">
+      <div
+        class="animate-spin rounded-full h-12 w-12 border-b-2 border-dracula-purple mx-auto mb-4"
+      ></div>
+      <p class="text-dracula-foreground font-mono">Loading portfolio...</p>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div
+    v-else-if="error"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-dracula-background"
+  >
+    <div class="text-center max-w-md mx-auto p-6">
+      <div class="text-red-500 text-4xl mb-4">⚠️</div>
+      <h2 class="text-xl text-dracula-foreground mb-2">Failed to load portfolio</h2>
+      <p class="text-dracula-comment mb-4">{{ error }}</p>
+      <p class="text-sm text-dracula-comment">Using fallback data...</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
   <section
+    v-else
     class="relative min-h-screen flex items-center justify-center overflow-hidden bg-dracula-background transition-colors"
   >
     <!-- Background with Code Pattern -->
@@ -304,10 +332,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { portfolioData } from '@/data/portfolio'
+import { ref, onMounted, computed } from 'vue'
+import { usePortfolio } from '@/composables/usePortfolio'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import { EyeIcon } from '@heroicons/vue/24/outline'
+
+const { portfolio, loading, error } = usePortfolio()
+
+// Helper agar tidak error saat portfolio belum ready
+const portfolioData = computed(
+  () =>
+    portfolio.value || {
+      personalInfo: { fullname: '', nickname: '', title: '', email: '', phone: '', location: '' },
+      about: '',
+      experiences: [],
+      projects: [],
+      skills: [],
+      education: [],
+      achievements: [],
+    },
+)
 
 const currentRole = ref('')
 
@@ -351,7 +395,6 @@ const typeRole = () => {
 }
 
 onMounted(() => {
-  console.log('Roles:', roles)
   typeRole()
 })
 

@@ -170,21 +170,37 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { portfolioData } from '@/data/portfolio'
+import { usePortfolio } from '@/composables/usePortfolio'
 import BaseButton from '@/components/ui/BaseButton.vue'
+
+const { portfolio } = usePortfolio()
+
+// Helper untuk backward compatibility
+const portfolioData = computed(
+  () =>
+    portfolio.value || {
+      personalInfo: { fullname: '', nickname: '', title: '', email: '', phone: '', location: '' },
+      about: '',
+      experiences: [],
+      projects: [],
+      skills: [],
+      education: [],
+      achievements: [],
+    },
+)
 
 const showAll = ref<boolean>(false)
 const maxItems = 6
 
 const displayedProjects = computed(() => {
-  if (!showAll.value && portfolioData.projects.length > maxItems) {
-    return portfolioData.projects.slice(0, maxItems)
+  if (!showAll.value && portfolioData.value.projects.length > maxItems) {
+    return portfolioData.value.projects.slice(0, maxItems)
   }
-  return portfolioData.projects
+  return portfolioData.value.projects
 })
 
 const shouldShowSeeMore = computed(() => {
-  return !showAll.value && portfolioData.projects.length > maxItems
+  return !showAll.value && portfolioData.value.projects.length > maxItems
 })
 
 const toggleShowAll = () => {

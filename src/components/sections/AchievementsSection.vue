@@ -156,12 +156,28 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { portfolioData } from '@/data/portfolio'
+import { usePortfolio } from '@/composables/usePortfolio'
 import AchievementCard from '@/components/ui/AchievementCard.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 
-const achievements = portfolioData.achievements
+const { portfolio } = usePortfolio()
+
+// Helper untuk backward compatibility
+const portfolioData = computed(
+  () =>
+    portfolio.value || {
+      personalInfo: { fullname: '', nickname: '', title: '', email: '', phone: '', location: '' },
+      about: '',
+      experiences: [],
+      projects: [],
+      skills: [],
+      education: [],
+      achievements: [],
+    },
+)
+
+const achievements = computed(() => portfolioData.value.achievements)
 const activeFilter = ref<string>('all')
 const searchQuery = ref<string>('')
 const showAll = ref<boolean>(false)
@@ -180,7 +196,7 @@ const categories = [
 ]
 
 const filteredAchievements = computed(() => {
-  let filtered = achievements
+  let filtered = achievements.value
 
   // Filter by category
   if (activeFilter.value !== 'all') {
@@ -209,7 +225,7 @@ const filteredAchievements = computed(() => {
 })
 
 const shouldShowSeeMore = computed(() => {
-  let totalFiltered = achievements
+  let totalFiltered = achievements.value
 
   // Filter by category
   if (activeFilter.value !== 'all') {
@@ -234,7 +250,7 @@ const shouldShowSeeMore = computed(() => {
 })
 
 const getCountByCategory = (category: string) => {
-  return achievements.filter((achievement) => achievement.type === category).length
+  return achievements.value.filter((achievement) => achievement.type === category).length
 }
 
 const toggleShowAll = () => {

@@ -122,29 +122,45 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { portfolioData } from '@/data/portfolio'
+import { usePortfolio } from '@/composables/usePortfolio'
+
+const { portfolio } = usePortfolio()
+
+// Helper untuk backward compatibility
+const portfolioData = computed(
+  () =>
+    portfolio.value || {
+      personalInfo: { fullname: '', nickname: '', title: '', email: '', phone: '', location: '' },
+      about: '',
+      experiences: [],
+      projects: [],
+      skills: [],
+      education: [],
+      achievements: [],
+    },
+)
 
 const skillCategories = computed(() =>
   [
     {
       name: 'Mobile',
       key: 'mobile',
-      skills: portfolioData.skills.filter((skill) => skill.category === 'mobile'),
+      skills: portfolioData.value.skills.filter((skill) => skill.category === 'mobile'),
     },
     {
       name: 'Web',
       key: 'web',
-      skills: portfolioData.skills.filter((skill) => skill.category === 'web'),
+      skills: portfolioData.value.skills.filter((skill) => skill.category === 'web'),
     },
     {
       name: 'Backend',
       key: 'backend',
-      skills: portfolioData.skills.filter((skill) => skill.category === 'backend'),
+      skills: portfolioData.value.skills.filter((skill) => skill.category === 'backend'),
     },
     {
       name: 'Tools',
       key: 'tools',
-      skills: portfolioData.skills.filter((skill) => skill.category === 'tools'),
+      skills: portfolioData.value.skills.filter((skill) => skill.category === 'tools'),
     },
   ].filter((category) => category.skills.length > 0),
 )
