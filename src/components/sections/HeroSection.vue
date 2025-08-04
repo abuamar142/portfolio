@@ -148,16 +148,7 @@
               class="shadow-glow hover:shadow-button-hover transform hover:-translate-y-1 transition-all duration-300 bg-dracula-purple hover:bg-dracula-pink w-full sm:w-auto"
               @click="scrollToContact"
             >
-              <svg
-                class="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"
-                ></path>
-                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-              </svg>
+              <Mail class="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0" />
               {{ $t('hero.cta.connect') }}
             </BaseButton>
 
@@ -167,7 +158,7 @@
               class="border-2 border-dracula-comment text-dracula-comment hover:border-dracula-purple hover:text-dracula-purple hover:bg-dracula-purple/10 transition-all duration-300 w-full sm:w-auto"
               @click="viewCV"
             >
-              <EyeIcon class="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+              <Eye class="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               {{ $t('hero.cta.resume') }}
             </BaseButton>
           </div>
@@ -337,23 +328,16 @@
 
     <!-- Scroll indicator -->
     <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-      <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M19 14l-7 7m0 0l-7-7m7 7V3"
-        ></path>
-      </svg>
+      <ArrowDown class="w-6 h-6 text-gray-500" />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { Eye, Mail, ArrowDown } from 'lucide-vue-next'
 import { usePortfolio } from '@/composables/usePortfolio'
 import BaseButton from '@/components/ui/BaseButton.vue'
-import { EyeIcon } from '@heroicons/vue/24/outline'
 
 const { portfolio, loading, error } = usePortfolio()
 

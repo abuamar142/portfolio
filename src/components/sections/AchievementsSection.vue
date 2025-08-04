@@ -44,14 +44,7 @@
         <div
           class="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-dracula-purple to-dracula-pink text-dracula-background mb-6 sm:mb-8 shadow-glow"
         >
-          <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-            />
-          </svg>
+          <Award class="w-6 h-6 sm:w-8 sm:h-8" />
         </div>
 
         <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">
@@ -130,14 +123,7 @@
       <!-- Empty State -->
       <div v-if="filteredAchievements.length === 0" class="text-center py-12 animate-fade-in">
         <div class="text-dracula-comment mb-4">
-          <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.516-.641-6.407-1.759C5.226 13.055 5 12.741 5 12.5v-1.25C5 11.112 5.112 11 5.25 11H6a2 2 0 002-2V7a2 2 0 00-2-2H5.25C5.112 5 5 4.888 5 4.75v-.5C5 4.112 5.112 4 5.25 4H6a2 2 0 002-2V1"
-            />
-          </svg>
+          <Inbox class="w-16 h-16 mx-auto" />
         </div>
         <p class="text-dracula-comment font-mono">
           {{ searchQuery.trim() ? $t('search.noResults') : $t('achievements.empty') }}
@@ -156,6 +142,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import { Award, Inbox } from 'lucide-vue-next'
 import { usePortfolio } from '@/composables/usePortfolio'
 import AchievementCard from '@/components/ui/AchievementCard.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'

@@ -42,14 +42,7 @@
         <div
           class="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-dracula-purple to-dracula-pink text-dracula-background mb-6 sm:mb-8 shadow-glow"
         >
-          <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2h8zM16 10h.01M16 14h.01M16 18h.01"
-            />
-          </svg>
+          <BriefcaseBusiness class="w-6 h-6 sm:w-8 sm:h-8" />
         </div>
 
         <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">
@@ -102,38 +95,14 @@
                       <div
                         class="flex items-center gap-2 text-dracula-purple font-semibold font-mono text-sm sm:text-base"
                       >
-                        <svg
-                          class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                          />
-                        </svg>
+                        <Building class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                         <span class="break-words">{{ experience.company }}</span>
                       </div>
 
                       <div
                         class="flex items-center gap-2 text-dracula-comment font-mono text-xs sm:text-sm"
                       >
-                        <svg
-                          class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                          />
-                        </svg>
+                        <Calendar class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                         {{ experience.duration }}
                       </div>
                     </div>
@@ -176,6 +145,7 @@
 </template>
 
 <script setup lang="ts">
+import { BriefcaseBusiness, Building, Calendar } from 'lucide-vue-next'
 import { usePortfolio } from '@/composables/usePortfolio'
 
 const { portfolio } = usePortfolio()

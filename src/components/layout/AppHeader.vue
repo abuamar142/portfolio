@@ -54,8 +54,8 @@
             @click="isMobileMenuOpen = !isMobileMenuOpen"
             aria-label="Toggle mobile menu"
           >
-            <XMarkIcon v-if="isMobileMenuOpen" class="h-6 w-6 sm:h-7 sm:w-7" />
-            <Bars3Icon v-else class="h-6 w-6 sm:h-7 sm:w-7" />
+            <X v-if="isMobileMenuOpen" class="h-6 w-6 sm:h-7 sm:w-7" />
+            <Menu v-else class="h-6 w-6 sm:h-7 sm:w-7" />
           </BaseButton>
         </div>
       </div>
@@ -96,9 +96,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { Menu, X } from 'lucide-vue-next'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import LanguageDropdown from '@/components/LanguageDropdown.vue'
-import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
 const isMobileMenuOpen = ref(false)
 
