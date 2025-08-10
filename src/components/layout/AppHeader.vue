@@ -21,18 +21,18 @@
         <!-- Desktop Navigation -->
         <div class="hidden md:flex items-center space-x-4 lg:space-x-6">
           <div class="flex items-center space-x-4 lg:space-x-6">
-            <a
+            <router-link
               v-for="item in navigation"
               :key="item.name"
-              :href="item.href"
+              :to="{ path: '/', hash: item.href }"
               class="text-sm text-dracula-foreground hover:text-dracula-purple transition-colors font-mono relative group py-2"
-              @click.prevent="scrollToSection(item.href)"
             >
               <span class="text-dracula-purple mr-1">.</span>{{ $t(item.name) }}()
               <span
                 class="absolute -bottom-1 left-0 w-0 h-0.5 bg-dracula-purple transition-all duration-300 group-hover:w-full"
               ></span>
-            </a>
+            </router-link>
+            
           </div>
         </div>
 
@@ -73,20 +73,16 @@
           <div
             class="px-4 pt-4 pb-6 space-y-2 bg-dracula-background border-t border-gray-500 shadow-lg"
           >
-            <a
+            <router-link
               v-for="item in navigation"
               :key="item.name"
-              :href="item.href"
+              :to="{ path: '/', hash: item.href }"
               class="text-dracula-comment hover:text-dracula-purple block px-4 py-4 text-base font-mono transition-colors rounded-lg hover:bg-dracula-selection border border-transparent hover:border-dracula-purple/30"
-              @click.prevent="
-                () => {
-                  scrollToSection(item.href)
-                  isMobileMenuOpen = false
-                }
-              "
+              @click="isMobileMenuOpen = false"
             >
               <span class="text-dracula-purple mr-2">.</span>{{ $t(item.name) }}()
-            </a>
+            </router-link>
+            
           </div>
         </div>
       </Transition>
@@ -111,15 +107,5 @@ const navigation = [
   { name: 'navigation.contact', href: '#contact' },
 ]
 
-const scrollToSection = (href: string) => {
-  const element = document.querySelector(href) as HTMLElement
-  if (element) {
-    const headerHeight = 88 // Increased for taller header
-    const elementPosition = element.offsetTop - headerHeight
-    window.scrollTo({
-      top: elementPosition,
-      behavior: 'smooth',
-    })
-  }
-}
+// Scrolling is handled by router's scrollBehavior using hashes
 </script>

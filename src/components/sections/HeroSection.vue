@@ -161,6 +161,7 @@
               <Eye class="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               {{ $t('hero.cta.resume') }}
             </BaseButton>
+
           </div>
 
           <!-- Tech Stack Pills -->
@@ -405,4 +406,5 @@ const viewCV = () => {
 const reloadPage = () => {
   window.location.reload()
 }
+
 </script>
