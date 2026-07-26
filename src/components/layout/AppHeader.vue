@@ -13,7 +13,7 @@
             <div
               class="h-8 sm:h-9 lg:h-10 px-2 sm:px-3 rounded-lg flex items-center justify-center font-mono font-bold text-sm border border-dracula-purple sm:text-base lg:text-lg text-dracula-foreground group-hover:bg-dracula-purple group-hover:text-dracula-background transition-all duration-300"
             >
-              abuamar.site
+               abuamar.online
             </div>
           </router-link>
         </div>
