@@ -2,7 +2,7 @@ import axios from 'axios'
 import type { Portfolio } from '@/types/portfolio'
 
 // Use external backend API
-const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://www.backend.abuamar.site'
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://backend.abuamar.online'
 const API_ENDPOINT = '/api/v1/personal/data'
 
 const client = axios.create({
