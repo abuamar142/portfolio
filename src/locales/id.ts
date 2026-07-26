@@ -86,6 +86,14 @@ export default {
     noResults: 'Tidak ada pencapaian yang sesuai dengan pencarian',
     clearSearch: 'Hapus pencarian',
   },
+  education: {
+    title: 'pendidikan.saya',
+    subtitle: 'Perjalanan akademis saya dan pengetahuan yang membentuk keahlian saya',
+    labels: {
+      gpa: 'IPK:',
+      field: 'Bidang',
+    },
+  },
   contact: {
     title: 'mari.terhubung',
     subtitle: 'Saya selalu senang mendiskusikan proyek baru dan ide-ide kreatif',

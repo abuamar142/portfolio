@@ -64,3 +64,19 @@ export interface Portfolio {
   education: Education[]
   achievements: Achievement[]
 }
+
+export interface ApiResponse<T> {
+  success: boolean
+  message: string
+  data: T
+}
+
+export interface PortfolioDataResponse {
+  personalInfo: PersonalInfo
+  experiences: Experience[]
+  projects: Project[]
+  skills: Skill[]
+  education: Education[]
+  achievements: Achievement[]
+  timestamp: string
+}
