@@ -2,8 +2,8 @@ import axios from 'axios'
 import type { Portfolio } from '@/types/portfolio'
 
 // Use external backend API
-const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://www.backend.abuamar.site'
-const API_ENDPOINT = '/api/personal/data'
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://backend.abuamar.online'
+const API_ENDPOINT = '/api/v1/personal/data'
 
 const client = axios.create({
   baseURL: API_BASE_URL,
@@ -45,12 +45,21 @@ export async function fetchPortfolioData(): Promise<Portfolio> {
     const response = await client.get(API_ENDPOINT)
 
     // Log data structure for debugging
-    const data = response.data
+    const body = response.data
 
-    // Validate required data structure
-    if (!data || typeof data !== 'object') {
-      throw new Error('Invalid data structure received from API')
+    // Backend returns { success, message, data } — unwrap the data field
+    if (!body || typeof body !== 'object') {
+      throw new Error('Invalid response structure from API')
     }
+
+    if (body.success === false) {
+      throw new Error(body.message || 'API returned an error')
+    }
+
+    // Unwrap: use body.data if it exists (structured response), otherwise body (flat/legacy format)
+    const data = body.data && typeof body.data === 'object' && body.data.personalInfo
+      ? body.data
+      : body
 
     // Ensure all required fields exist with fallbacks
     const portfolioData: Portfolio = {

@@ -10,13 +10,13 @@
 
 A modern, responsive portfolio showcasing my journey as a Software Engineer specializing in Mobile Development with Flutter, React, and Full-Stack technologies.
 
-**🌟 Live Demo:** [abuamar.site](https://abuamar.site)
+**🌟 Live Demo:** [abuamar.online](https://abuamar.online)
 
 ## 🛠️ Tech Stack
 
 - **Frontend:** Vue.js 3 + TypeScript + Composition API
 - **Database:** MongoDB Atlas
-- **Backend API:** Separate Express.js project ([backend.abuamar.site](https://www.backend.abuamar.site))
+- **Backend API:** Separate Express.js project ([backend.abuamar.online](https://backend.abuamar.online))
 - **Styling:** Tailwind CSS v4 with Dracula Theme
 - **Build Tool:** Vite
 - **Icons:** Heroicons
@@ -79,14 +79,14 @@ Frontend (Vue.js) → Backend API → MongoDB Atlas
 
 ```bash
 # Vercel Environment Variables
-VITE_BACKEND_URL=https://www.backend.abuamar.site
+VITE_BACKEND_URL=https://backend.abuamar.online
 ```
 
 ### Deploy to Vercel
 
 1. Fork this repository
 2. Connect to Vercel
-3. Add environment variable: `VITE_BACKEND_URL=https://www.backend.abuamar.site`
+3. Add environment variable: `VITE_BACKEND_URL=https://backend.abuamar.online`
 4. Deploy automatically
 
 ## 🎨 Features

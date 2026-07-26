@@ -41,14 +41,7 @@
         <div
           class="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-dracula-purple to-dracula-pink text-dracula-background mb-6 sm:mb-8 shadow-glow"
         >
-          <svg class="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-            />
-          </svg>
+          <Mail class="w-6 h-6 sm:w-8 sm:h-8" />
         </div>
 
         <div
@@ -225,15 +218,7 @@
                     <div
                       class="w-8 h-8 bg-dracula-purple/20 rounded-lg flex items-center justify-center group-hover:bg-dracula-purple/30 transition-colors"
                     >
-                      <svg
-                        class="w-4 h-4 text-dracula-purple"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-                        />
-                      </svg>
+                      <Github class="w-4 h-4 text-dracula-purple" />
                     </div>
                     <div>
                       <p
@@ -244,19 +229,9 @@
                       <p class="text-dracula-comment text-xs">View repositories</p>
                     </div>
                   </div>
-                  <svg
+                  <ExternalLinkIcon
                     class="w-4 h-4 text-dracula-comment group-hover:text-dracula-purple transition-colors"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                    />
-                  </svg>
+                  />
                 </a>
 
                 <a
@@ -270,11 +245,7 @@
                     <div
                       class="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:bg-blue-500/30 transition-colors"
                     >
-                      <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                          d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-                        />
-                      </svg>
+                      <Linkedin class="w-4 h-4 text-blue-400" />
                     </div>
                     <div>
                       <p
@@ -285,19 +256,9 @@
                       <p class="text-dracula-comment text-xs">Professional network</p>
                     </div>
                   </div>
-                  <svg
+                  <ExternalLinkIcon
                     class="w-4 h-4 text-dracula-comment group-hover:text-blue-400 transition-colors"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                    />
-                  </svg>
+                  />
                 </a>
 
                 <a
@@ -311,11 +272,7 @@
                     <div
                       class="w-8 h-8 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-lg flex items-center justify-center group-hover:from-pink-500/30 group-hover:to-purple-500/30 transition-colors"
                     >
-                      <svg class="w-4 h-4 text-pink-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                          d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-                        />
-                      </svg>
+                      <Instagram class="w-4 h-4 text-pink-400" />
                     </div>
                     <div>
                       <p
@@ -326,19 +283,9 @@
                       <p class="text-dracula-comment text-xs">Behind the scenes</p>
                     </div>
                   </div>
-                  <svg
+                  <ExternalLinkIcon
                     class="w-4 h-4 text-dracula-comment group-hover:text-pink-400 transition-colors"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                    />
-                  </svg>
+                  />
                 </a>
 
                 <a
@@ -352,14 +299,7 @@
                     <div
                       class="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/30 transition-colors"
                     >
-                      <svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                          d="M17.472 14.382c-.297-.149-1.758-.867-2.029-.967-.272-.099-.47-.148-.669.15-.198.297-.767.967-.94 1.166-.173.198-.347.223-.644.075-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.447-.52.149-.173.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.571-.01-.198 0-.52.075-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.099 3.205 5.077 4.372.711.306 1.263.489 1.695.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.075-.124-.272-.198-.57-.347z"
-                        />
-                        <path
-                          d="M12.004 2.003c-5.522 0-9.997 4.475-9.997 9.997 0 1.762.463 3.479 1.341 4.991l-1.414 5.179 5.308-1.396c1.469.805 3.13 1.229 4.762 1.229 5.522 0 9.997-4.475 9.997-9.997s-4.475-9.997-9.997-9.997zm0 18.181c-1.522 0-3.021-.401-4.329-1.161l-.309-.179-3.152.829.842-3.082-.201-.317c-.823-1.297-1.259-2.797-1.259-4.309 0-4.411 3.588-7.999 7.999-7.999s7.999 3.588 7.999 7.999-3.588 7.999-7.999 7.999z"
-                        />
-                      </svg>
+                      <MessageCircle class="w-4 h-4 text-green-400" />
                     </div>
                     <div>
                       <p
@@ -370,19 +310,9 @@
                       <p class="text-dracula-comment text-xs">Quick chat</p>
                     </div>
                   </div>
-                  <svg
+                  <ExternalLinkIcon
                     class="w-4 h-4 text-dracula-comment group-hover:text-green-400 transition-colors"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                    />
-                  </svg>
+                  />
                 </a>
               </div>
             </div>
@@ -547,15 +477,7 @@
                     <div
                       class="w-12 h-12 bg-dracula-purple/20 rounded-lg flex items-center justify-center group-hover:bg-dracula-purple/30 transition-colors"
                     >
-                      <svg
-                        class="w-6 h-6 text-dracula-purple"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-                        />
-                      </svg>
+                      <Github class="w-6 h-6 text-dracula-purple" />
                     </div>
                     <div>
                       <p
@@ -582,11 +504,7 @@
                     <div
                       class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:bg-blue-500/30 transition-colors"
                     >
-                      <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                          d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-                        />
-                      </svg>
+                      <Linkedin class="w-6 h-6 text-blue-400" />
                     </div>
                     <div>
                       <p
@@ -613,11 +531,7 @@
                     <div
                       class="w-12 h-12 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-lg flex items-center justify-center group-hover:from-pink-500/30 group-hover:to-purple-500/30 transition-colors"
                     >
-                      <svg class="w-6 h-6 text-pink-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                          d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-                        />
-                      </svg>
+                      <Instagram class="w-6 h-6 text-pink-400" />
                     </div>
                     <div>
                       <p
@@ -644,14 +558,7 @@
                     <div
                       class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/30 transition-colors"
                     >
-                      <svg class="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path
-                          d="M17.472 14.382c-.297-.149-1.758-.867-2.029-.967-.272-.099-.47-.148-.669.15-.198.297-.767.967-.94 1.166-.173.198-.347.223-.644.075-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.447-.52.149-.173.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.571-.01-.198 0-.52.075-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.099 3.205 5.077 4.372.711.306 1.263.489 1.695.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.075-.124-.272-.198-.57-.347z"
-                        />
-                        <path
-                          d="M12.004 2.003c-5.522 0-9.997 4.475-9.997 9.997 0 1.762.463 3.479 1.341 4.991l-1.414 5.179 5.308-1.396c1.469.805 3.13 1.229 4.762 1.229 5.522 0 9.997-4.475 9.997-9.997s-4.475-9.997-9.997-9.997zm0 18.181c-1.522 0-3.021-.401-4.329-1.161l-.309-.179-3.152.829.842-3.082-.201-.317c-.823-1.297-1.259-2.797-1.259-4.309 0-4.411 3.588-7.999 7.999-7.999s7.999 3.588 7.999 7.999-3.588 7.999-7.999 7.999z"
-                        />
-                      </svg>
+                      <MessageCircle class="w-6 h-6 text-green-400" />
                     </div>
                     <div>
                       <p
@@ -676,6 +583,7 @@
 </template>
 
 <script setup lang="ts">
+import { Github, Linkedin, Instagram, MessageCircle, ExternalLinkIcon, Mail } from 'lucide-vue-next'
 import { usePortfolio } from '@/composables/usePortfolio'
 import ContactCard from '@/components/ui/ContactCard.vue'
 

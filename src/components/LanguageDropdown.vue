@@ -15,17 +15,12 @@
       <span class="text-xs sm:text-sm font-medium text-purple-300 font-mono">{{
         currentLanguage.code.toUpperCase()
       }}</span>
-      <svg
+      <ChevronDown
         :class="[
           'w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200',
           { 'rotate-180': isOpen },
         ]"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
+      />
     </button>
 
     <!-- Dropdown Menu -->
@@ -60,18 +55,10 @@
               <div class="text-sm font-medium">{{ language.name }}</div>
               <div class="text-xs text-dracula-comment">{{ language.nativeName }}</div>
             </div>
-            <svg
+            <Check
               v-if="currentLanguage.code === language.code"
               class="w-4 h-4 text-dracula-purple"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clip-rule="evenodd"
-              />
-            </svg>
+            />
           </button>
         </div>
       </div>
@@ -82,6 +69,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ChevronDown, Check } from 'lucide-vue-next'
 
 const { locale } = useI18n()
 

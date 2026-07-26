@@ -55,6 +55,16 @@
           </div>
         </div>
 
+        <!-- Minimal navigation -->
+        <div class="pt-2">
+          <router-link
+            to="/blogs"
+            class="inline-block px-3 py-1 text-sm font-mono text-dracula-comment hover:text-dracula-purple border border-transparent hover:border-dracula-purple/30 rounded transition-colors"
+          >
+            Blog
+          </router-link>
+        </div>
+
         <!-- Copyright -->
         <div class="pt-4 border-t border-gray-500">
           <p class="text-gray-400 text-sm">

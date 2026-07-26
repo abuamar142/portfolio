@@ -86,6 +86,14 @@ export default {
     noResults: 'No achievements match your search',
     clearSearch: 'Clear search',
   },
+  education: {
+    title: 'my.education',
+    subtitle: 'My academic journey and the knowledge that shaped my expertise',
+    labels: {
+      gpa: 'GPA:',
+      field: 'Field',
+    },
+  },
   contact: {
     title: "let's.connect",
     subtitle: "I'm always excited to discuss new projects and creative ideas",
