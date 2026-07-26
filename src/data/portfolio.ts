@@ -12,7 +12,7 @@ export const portfolioData: Portfolio = {
     linkedin: 'https://www.linkedin.com/in/abu-amar/',
     instagram: 'https://www.instagram.com/abuuamar_/',
     whatsApp: 'https://wa.me/6281520471914',
-    website: 'https://abuamar.site',
+    website: 'https://abuamar.online',
   },
   about: `Mahasiswa Informatika semester 8 di Universitas Jenderal Achmad Yani Yogyakarta dengan minat kuat di bidang Mobile Development. Memiliki pengalaman magang hampir satu tahun sebagai Full-Stack Software Engineer di software house Refactory, serta menjadi peserta program Bangkit 2024 (Google x Kampus Merdeka) dengan learning path Mobile Development.
 
@@ -78,7 +78,7 @@ export const portfolioData: Portfolio = {
       description:
         'Landing page modern dan responsif untuk JNE Express - perusahaan ekspedisi pengiriman barang terpercaya di Indonesia.',
       technologies: ['Vue.js', 'Tailwind CSS', 'TypeScript', 'SEO Optimization', 'Vercel'],
-      liveUrl: 'https://www.jne.abuamar.site',
+      liveUrl: 'https://jne.abuamar.online',
       githubUrl: 'https://github.com/abuamar142/jne-landing-page',
     },
     {
@@ -86,7 +86,7 @@ export const portfolioData: Portfolio = {
       description:
         "Website landing page modern dan elegan untuk Pondok Pesantren Tahfidzul Qur'an Asy-Syaikhoni di Nganjuk, Jawa Timur. Dibangun dengan desain islami menggunakan Vue.js 3 dan Tailwind CSS v4.",
       technologies: ['Vue.js', 'TypeScript', 'Tailwind CSS', 'Vite', 'SEO Optimization', 'Vercel'],
-      liveUrl: 'https://www.asyaikhoni.abuamar.site',
+      liveUrl: 'https://asyaikhoni.abuamar.online',
       githubUrl: 'https://github.com/abuamar142/asyaikhoni',
     },
     {
@@ -142,7 +142,7 @@ export const portfolioData: Portfolio = {
       description:
         'Platform web modern untuk discovery warung dan restoran menggunakan Next.js dan Supabase. Fitur pencarian, filter kategori, review sistem, autentikasi pengguna, dashboard admin, dan responsive design. Dilengkapi dengan dark/light mode dan real-time data.',
       technologies: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind CSS', 'shadcn/ui'],
-      liveUrl: 'https://www.liat-menu.abuamar.site',
+      liveUrl: 'https://liat-menu.abuamar.online',
       githubUrl: 'https://github.com/abuamar142/liat-menu',
     },
   ],
