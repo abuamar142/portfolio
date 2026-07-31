@@ -6,12 +6,6 @@
         <p class="mt-4 text-dracula-comment">Latest posts and updates</p>
       </div>
 
-      <div class="flex items-center justify-end mb-8">
-        <router-link to="/admin" class="px-4 py-2 rounded bg-dracula-purple text-dracula-foreground hover:bg-dracula-pink transition-colors font-mono">
-          create blog
-        </router-link>
-      </div>
-
       <div v-if="loading" class="text-center text-dracula-comment">Loading...</div>
       <div v-else-if="error" class="text-center text-red-400">{{ error }}</div>
 
