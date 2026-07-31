@@ -6,9 +6,9 @@
 
       <article v-else>
         <h1 class="text-3xl sm:text-4xl font-bold text-dracula-foreground font-mono mb-2">{{ post?.title }}</h1>
-        <div class="text-dracula-comment mb-6">{{ formatDate(post?.published_at) }}</div>
-        <div v-if="post?.cover_image_url" class="mb-6">
-          <img :src="post?.cover_image_url" alt="cover" class="w-full rounded border border-gray-600" />
+        <div class="text-dracula-comment mb-6">{{ formatDate(post?.publishedAt) }}</div>
+        <div v-if="coverUrl" class="mb-6">
+          <img :src="coverUrl" alt="cover" class="w-full rounded border border-gray-600" />
         </div>
         <div class="prose prose-invert max-w-none" v-html="contentHtml"></div>
       </article>
@@ -20,7 +20,6 @@
 import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { usePosts } from '@/composables/usePosts'
-import { renderMarkdownToHtml } from '@/utils/markdown'
 
 const route = useRoute()
 const slug = route.params.slug as string
@@ -35,7 +34,6 @@ onMounted(async () => {
     loading.value = true
     post.value = await getBySlug(slug)
     if (!post.value || (post.value.status === 'draft')) {
-      // If it's a draft, pretend not found for public route
       throw new Error('Not found')
     }
   } catch (e: any) {
@@ -47,7 +45,12 @@ onMounted(async () => {
 
 const contentHtml = computed(() => {
   if (!post.value) return ''
-  return post.value.content_html || renderMarkdownToHtml(post.value.content_md)
+  return post.value.contentHtml || ''
+})
+
+const coverUrl = computed(() => {
+  if (!post.value?.coverImage) return ''
+  return typeof post.value.coverImage === 'object' ? post.value.coverImage.url : ''
 })
 
 function formatDate(iso?: string | null) {

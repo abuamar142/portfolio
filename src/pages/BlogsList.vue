@@ -21,12 +21,12 @@
             </h2>
           </router-link>
           <div class="flex items-center gap-3 text-sm text-dracula-comment mb-4">
-            <span>{{ formatDate(post.published_at) }}</span>
+            <span>{{ formatDate(post.publishedAt) }}</span>
           </div>
-          <div v-if="post.cover_image_url" class="mb-4">
-            <img :src="post.cover_image_url" alt="cover" class="w-full h-48 object-cover rounded border border-gray-600" />
+          <div v-if="post.coverImage" class="mb-4">
+            <img :src="typeof post.coverImage === 'object' ? post.coverImage.url : ''" alt="cover" class="w-full h-48 object-cover rounded border border-gray-600" />
           </div>
-          <p class="text-dracula-foreground" v-html="excerpt(post.content_html)"></p>
+          <p class="text-dracula-foreground">{{ post.excerpt || '' }}</p>
         </article>
       </div>
     </div>
@@ -56,12 +56,6 @@ onMounted(async () => {
 function formatDate(iso?: string | null) {
   if (!iso) return ''
   try { return new Date(iso).toLocaleDateString() } catch { return String(iso) }
-}
-
-function excerpt(html?: string | null) {
-  if (!html) return ''
-  const text = html.replace(/<[^>]+>/g, '')
-  return text.length > 160 ? text.slice(0, 160) + '…' : text
 }
 </script>
 
