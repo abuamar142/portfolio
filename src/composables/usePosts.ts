@@ -15,6 +15,7 @@ export function usePosts() {
         where: { status: { equals: 'published' } },
         limit,
         sort: '-publishedAt',
+        depth: 1,
       }
 
       if (search && search.trim()) {
@@ -42,6 +43,7 @@ export function usePosts() {
             status: { equals: 'published' },
           },
           limit: 1,
+          depth: 1,
         },
       })
       return data.docs?.[0] || null
