@@ -1,10 +1,10 @@
 <template>
-  <div id="app" class="min-h-screen bg-dracula-background">
+  <div id="app" class="min-h-screen flex flex-col bg-dracula-background">
     <AppHeader />
-    <main>
+    <main class="flex-1">
       <router-view />
     </main>
-    <AppFooter class="relative" />
+    <AppFooter />
   </div>
 </template>
 
