@@ -1,8 +1,8 @@
 <template>
   <section class="relative pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 lg:pb-20 bg-dracula-background overflow-hidden">
     <div class="relative max-w-3xl mx-auto px-4 sm:px-6">
-      <div v-if="loading" class="text-center text-dracula-comment">Loading...</div>
-      <div v-else-if="error" class="text-center text-red-400">{{ error }}</div>
+      <div v-if="loading" class="text-center text-dracula-comment" role="status" aria-label="Loading post">Loading...</div>
+      <div v-else-if="error" class="text-center text-red-400" role="alert">{{ error }}</div>
 
       <article v-else>
         <h1 class="text-3xl sm:text-4xl font-bold text-dracula-foreground font-mono mb-2">{{ post?.title }}</h1>

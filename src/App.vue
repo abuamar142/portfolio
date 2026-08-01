@@ -1,7 +1,10 @@
 <template>
   <div id="app" class="min-h-screen flex flex-col bg-dracula-background">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-dracula-purple focus:text-dracula-background focus:rounded-lg focus:font-mono focus:text-sm">
+      Skip to content
+    </a>
     <AppHeader />
-    <main class="flex-1">
+    <main id="main-content" class="flex-1" role="main">
       <router-view />
     </main>
     <AppFooter />
