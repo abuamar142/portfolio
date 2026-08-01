@@ -123,3 +123,30 @@
 .animate-fade-in {
   animation: fadeIn 0.6s ease-out;
 }
+
+/* View transitions */
+::view-transition-old(root) {
+  animation: fade-out 0.2s ease-in;
+}
+
+::view-transition-new(root) {
+  animation: fade-in 0.2s ease-out;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
