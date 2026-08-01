@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, defineAsyncComponent } from 'vue'
 import { useHead } from '@vueuse/head'
 import { usePortfolio } from '@/composables/usePortfolio'
 
@@ -36,10 +36,11 @@ import HeroSection from '@/components/sections/HeroSection.vue'
 import AboutSection from '@/components/sections/AboutSection.vue'
 import ExperienceSection from '@/components/sections/ExperienceSection.vue'
 import EducationSection from '@/components/sections/EducationSection.vue'
-import ProjectsSection from '@/components/sections/ProjectsSection.vue'
-import SkillsSection from '@/components/sections/SkillsSection.vue'
-import AchievementsSection from '@/components/sections/AchievementsSection.vue'
-import ContactSection from '@/components/sections/ContactSection.vue'
+
+const ProjectsSection = defineAsyncComponent(() => import('@/components/sections/ProjectsSection.vue'))
+const SkillsSection = defineAsyncComponent(() => import('@/components/sections/SkillsSection.vue'))
+const AchievementsSection = defineAsyncComponent(() => import('@/components/sections/AchievementsSection.vue'))
+const ContactSection = defineAsyncComponent(() => import('@/components/sections/ContactSection.vue'))
 
 useHead({
   meta: [

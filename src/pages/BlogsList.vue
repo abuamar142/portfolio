@@ -50,6 +50,7 @@
             <img
               :src="getCoverUrl(post)"
               :alt="post.title"
+              loading="lazy"
               class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
             />
           </router-link>
