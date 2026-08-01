@@ -106,7 +106,17 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { useHead } from '@vueuse/head'
 import { usePosts } from '@/composables/usePosts'
+
+useHead({
+  title: 'Blogs',
+  meta: [
+    { property: 'og:title', content: 'Blogs | Abu Amar' },
+    { property: 'og:description', content: 'Latest posts and updates from Abu Amar.' },
+    { property: 'og:type', content: 'website' },
+  ],
+})
 
 const { listPublished } = usePosts()
 const posts = ref<any[]>([])

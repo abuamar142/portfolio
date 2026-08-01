@@ -17,8 +17,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useHead } from '@vueuse/head'
 import { usePosts } from '@/composables/usePosts'
 
 const route = useRoute()
@@ -28,6 +29,43 @@ const { getBySlug } = usePosts()
 const post = ref<any | null>(null)
 const loading = ref(true)
 const error = ref('')
+
+const siteUrl = 'https://abuamar.online'
+
+useHead({
+  title: computed(() => post.value?.title || 'Blog Post'),
+  meta: computed(() => [
+    { property: 'og:title', content: post.value?.title || 'Blog Post' },
+    { property: 'og:description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
+    { property: 'og:type', content: 'article' },
+    { property: 'og:url', content: `${siteUrl}/blogs/${slug}` },
+    { property: 'article:published_time', content: post.value?.publishedAt || '' },
+    { property: 'og:image', content: post.value?.coverImage && typeof post.value.coverImage === 'object' ? post.value.coverImage.url : '' },
+    { name: 'twitter:title', content: post.value?.title || 'Blog Post' },
+    { name: 'twitter:description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+  ]),
+  script: computed(() => {
+    if (!post.value) return []
+    return [{
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: post.value.title,
+        description: post.value.excerpt || '',
+        datePublished: post.value.publishedAt || '',
+        url: `${siteUrl}/blogs/${slug}`,
+        author: {
+          '@type': 'Person',
+          name: 'Abu Amar',
+          url: siteUrl,
+        },
+        image: post.value.coverImage && typeof post.value.coverImage === 'object' ? post.value.coverImage.url : undefined,
+      }),
+    }]
+  }),
+})
 
 onMounted(async () => {
   try {
