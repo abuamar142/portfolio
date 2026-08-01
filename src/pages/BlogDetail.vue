@@ -1,5 +1,5 @@
 <template>
-  <section class="relative py-12 sm:py-16 lg:py-20 bg-dracula-background overflow-hidden">
+  <section class="relative pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 lg:pb-20 bg-dracula-background overflow-hidden">
     <div class="relative max-w-3xl mx-auto px-4 sm:px-6">
       <div v-if="loading" class="text-center text-dracula-comment">Loading...</div>
       <div v-else-if="error" class="text-center text-red-400">{{ error }}</div>
@@ -10,7 +10,7 @@
         <div v-if="coverUrl" class="mb-6">
           <img :src="coverUrl" alt="cover" class="w-full rounded border border-gray-600" />
         </div>
-        <div class="prose prose-invert max-w-none" v-html="contentHtml"></div>
+        <div class="blog-content max-w-none text-dracula-foreground leading-relaxed space-y-4" v-html="contentHtml"></div>
       </article>
     </div>
   </section>
@@ -55,7 +55,14 @@ const coverUrl = computed(() => {
 
 function formatDate(iso?: string | null) {
   if (!iso) return ''
-  try { return new Date(iso).toLocaleDateString() } catch { return String(iso) }
+  try {
+    return new Date(iso).toLocaleDateString('id-ID', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+  } catch { return String(iso) }
 }
 </script>
 
