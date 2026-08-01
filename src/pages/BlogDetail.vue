@@ -40,10 +40,16 @@ useHead({
     { property: 'og:type', content: 'article' },
     { property: 'og:url', content: `${siteUrl}/blogs/${slug}` },
     { property: 'article:published_time', content: post.value?.publishedAt || '' },
-    { property: 'og:image', content: post.value?.coverImage && typeof post.value.coverImage === 'object' ? post.value.coverImage.url : '' },
+    { property: 'article:author', content: 'Abu Amar' },
+    { property: 'article:modified_time', content: post.value?.updatedAt || post.value?.publishedAt || '' },
+    { property: 'og:image', content: post.value?.coverImage && typeof post.value.coverImage === 'object' ? post.value.coverImage.url : 'https://abuamar.online/og-default.png' },
     { name: 'twitter:title', content: post.value?.title || 'Blog Post' },
     { name: 'twitter:description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
     { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:image', content: post.value?.coverImage && typeof post.value.coverImage === 'object' ? post.value.coverImage.url : 'https://abuamar.online/og-default.png' },
+  ]),
+  link: computed(() => [
+    { rel: 'canonical', href: `${siteUrl}/blogs/${slug}` },
   ]),
   script: computed(() => {
     if (!post.value) return []

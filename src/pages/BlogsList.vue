@@ -163,12 +163,32 @@ import { useHead } from '@vueuse/head'
 import { usePosts } from '@/composables/usePosts'
 import SearchInput from '@/components/ui/SearchInput.vue'
 
+const siteUrl = 'https://abuamar.online'
+
 useHead({
   title: 'Blogs',
   meta: [
     { property: 'og:title', content: 'Blogs | Abu Amar' },
     { property: 'og:description', content: 'Latest posts and updates from Abu Amar.' },
     { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: 'https://abuamar.online/blogs' },
+    { property: 'og:image', content: 'https://abuamar.online/og-default.png' },
+    { name: 'twitter:image', content: 'https://abuamar.online/og-default.png' },
+  ],
+  link: [
+    { rel: 'canonical', href: 'https://abuamar.online/blogs' },
+  ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'CollectionPage',
+        name: 'Blog | Abu Amar',
+        description: 'Latest posts and updates from Abu Amar.',
+        url: 'https://abuamar.online/blogs',
+      }),
+    },
   ],
 })
 
