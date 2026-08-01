@@ -42,6 +42,36 @@ useHead({
     { property: 'og:description', content: 'Mobile & Full Stack Developer portfolio — projects, skills, and experience.' },
     { property: 'og:type', content: 'website' },
   ],
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Abu Amar',
+        url: 'https://abuamar.online',
+        jobTitle: 'Software Engineer',
+        sameAs: [
+          'https://github.com/abuamar142',
+          'https://linkedin.com/in/abuamar',
+        ],
+      }),
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'Abu Amar Portfolio',
+        url: 'https://abuamar.online',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: 'https://abuamar.online/blogs?search={search_term_string}',
+          'query-input': 'required name=search_term_string',
+        },
+      }),
+    },
+  ],
 })
 
 const { loading, error, refresh } = usePortfolio()

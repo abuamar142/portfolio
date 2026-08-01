@@ -26,9 +26,11 @@ useHead({
     { property: 'og:site_name', content: 'Abu Amar' },
     { property: 'og:url', content: siteUrl },
     { property: 'og:type', content: 'website' },
+    { property: 'og:image', content: 'https://abuamar.online/og-default.png' },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: 'Abu Amar — Portfolio' },
     { name: 'twitter:description', content: 'Personal portfolio of Abu Amar — Mobile & Full Stack Developer' },
+    { name: 'twitter:image', content: 'https://abuamar.online/og-default.png' },
   ],
   link: [
     { rel: 'canonical', href: siteUrl },
