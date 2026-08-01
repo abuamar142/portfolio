@@ -8,7 +8,7 @@
         <h1 class="text-3xl sm:text-4xl font-bold text-dracula-foreground font-mono mb-2">{{ post?.title }}</h1>
         <div class="text-dracula-comment mb-6">{{ formatDate(post?.publishedAt) }}</div>
         <div v-if="coverUrl" class="mb-6">
-          <img :src="coverUrl" alt="cover" class="w-full rounded border border-gray-600" />
+          <img :src="coverUrl" :alt="post?.title" loading="lazy" class="w-full rounded border border-gray-600" />
         </div>
         <div class="blog-content max-w-none text-dracula-foreground leading-relaxed space-y-4" v-html="contentHtml"></div>
       </article>
