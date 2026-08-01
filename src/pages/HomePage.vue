@@ -26,6 +26,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import { useHead } from '@vueuse/head'
 import { usePortfolio } from '@/composables/usePortfolio'
 
 import LoadingComponent from '@/components/ui/LoadingComponent.vue'
@@ -39,6 +40,14 @@ import ProjectsSection from '@/components/sections/ProjectsSection.vue'
 import SkillsSection from '@/components/sections/SkillsSection.vue'
 import AchievementsSection from '@/components/sections/AchievementsSection.vue'
 import ContactSection from '@/components/sections/ContactSection.vue'
+
+useHead({
+  meta: [
+    { property: 'og:title', content: 'Abu Amar — Portfolio' },
+    { property: 'og:description', content: 'Mobile & Full Stack Developer portfolio — projects, skills, and experience.' },
+    { property: 'og:type', content: 'website' },
+  ],
+})
 
 const { loading, error, refresh } = usePortfolio()
 

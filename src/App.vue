@@ -10,11 +10,29 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import { useHead } from '@vueuse/head'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
 
+const siteUrl = 'https://abuamar.online'
+
+useHead({
+  titleTemplate: (title) => title ? `${title} | Abu Amar` : 'Abu Amar — Portfolio',
+  meta: [
+    { name: 'description', content: 'Personal portfolio of Abu Amar — Mobile & Full Stack Developer' },
+    { property: 'og:site_name', content: 'Abu Amar' },
+    { property: 'og:url', content: siteUrl },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: 'Abu Amar — Portfolio' },
+    { name: 'twitter:description', content: 'Personal portfolio of Abu Amar — Mobile & Full Stack Developer' },
+  ],
+  link: [
+    { rel: 'canonical', href: siteUrl },
+  ],
+})
+
 onMounted(() => {
-  // Initialize Dracula theme
   document.documentElement.classList.remove('dark')
 })
 </script>
