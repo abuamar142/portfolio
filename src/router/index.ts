@@ -34,4 +34,21 @@ const router = createRouter({
   },
 })
 
+// View Transitions: wrap each navigation in `document.startViewTransition`
+// when the browser supports it.  Skip same-path navigations (e.g. hash
+// changes) to avoid flicker, and skip entirely when the API is absent.
+router.beforeEach((to, from) => {
+  if (to.fullPath === from.fullPath) return true
+
+  if (typeof document !== 'undefined' && 'startViewTransition' in document) {
+    return new Promise<boolean>((resolve) => {
+      document.startViewTransition(async () => {
+        resolve(true)
+      })
+    })
+  }
+
+  return true
+})
+
 export default router

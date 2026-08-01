@@ -49,7 +49,7 @@
       </div>
 
       <!-- Posts Grid + Pagination -->
-      <template v-else>
+      <div v-else>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         <article
           v-for="post in posts"
@@ -152,7 +152,7 @@
           </button>
         </nav>
       </div>
-      </template>
+      </div>
     </div>
   </section>
 </template>
