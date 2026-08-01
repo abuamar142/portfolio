@@ -8,7 +8,7 @@
       </div>
 
       <!-- Loading Skeleton -->
-      <div v-if="loading" class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+      <div v-if="loading" class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8" role="status" aria-label="Loading posts">
         <div v-for="i in 4" :key="i" class="bg-dracula-selection border border-gray-500 rounded-lg overflow-hidden animate-pulse">
           <div class="h-48 bg-gray-600"></div>
           <div class="p-6 space-y-4">
@@ -23,7 +23,7 @@
       </div>
 
       <!-- Error State -->
-      <div v-else-if="error" class="text-center py-16">
+      <div v-else-if="error" class="text-center py-16" role="alert">
         <div class="text-6xl mb-4">⚠️</div>
         <p class="text-red-400 text-lg mb-4">{{ error }}</p>
         <button @click="loadPosts" class="px-4 py-2 bg-dracula-purple text-white rounded hover:bg-dracula-purple/80 transition-colors">
@@ -32,7 +32,7 @@
       </div>
 
       <!-- Empty State -->
-      <div v-else-if="posts.length === 0" class="text-center py-16">
+      <div v-else-if="posts.length === 0" class="text-center py-16" role="status">
         <div class="text-6xl mb-4">📝</div>
         <p class="text-dracula-comment text-lg">No posts yet.</p>
         <p class="text-dracula-comment text-sm mt-2">Check back later for updates!</p>

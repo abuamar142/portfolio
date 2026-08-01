@@ -51,8 +51,10 @@
             variant="ghost"
             size="sm"
             class="p-2 sm:p-2.5 text-dracula-comment hover:text-dracula-purple hover:bg-dracula-purple/10 rounded-lg transition-all duration-300"
-            @click="isMobileMenuOpen = !isMobileMenuOpen"
+            :aria-expanded="isMobileMenuOpen"
+            aria-controls="mobile-menu"
             aria-label="Toggle mobile menu"
+            @click="isMobileMenuOpen = !isMobileMenuOpen"
           >
             <X v-if="isMobileMenuOpen" class="h-6 w-6 sm:h-7 sm:w-7" />
             <Menu v-else class="h-6 w-6 sm:h-7 sm:w-7" />
@@ -69,7 +71,7 @@
         leave-from-class="transform scale-100 opacity-100"
         leave-to-class="transform scale-95 opacity-0"
       >
-        <div v-if="isMobileMenuOpen" class="md:hidden">
+        <div v-if="isMobileMenuOpen" id="mobile-menu" class="md:hidden" role="menu">
           <div
             class="px-4 pt-4 pb-6 space-y-2 bg-dracula-background border-t border-gray-500 shadow-lg"
           >
