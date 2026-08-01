@@ -7,21 +7,24 @@ const loading = ref(false)
 const errorMsg = ref<string | null>(null)
 
 export function usePosts() {
-  async function listPublished({ search, limit = 20 }: { search?: string; limit?: number } = {}) {
+  async function listPublished({
+    search,
+    limit = 20,
+    offset = 0,
+  }: { search?: string; limit?: number; offset?: number } = {}) {
     loading.value = true
     errorMsg.value = null
     try {
+      const params: Record<string, string | number> = { limit, offset }
+      if (search && search.trim()) {
+        params.search = search.trim()
+      }
       const { data } = await axios.get(`${BACKEND_API}/api/v1/personal/posts`, {
-        params: { limit },
+        params,
       })
       const posts = data.data?.posts || []
-      if (search && search.trim()) {
-        const q = search.toLowerCase()
-        return posts.filter((p: any) =>
-          p.title?.toLowerCase().includes(q) || p.excerpt?.toLowerCase().includes(q)
-        )
-      }
-      return posts
+      const total = data.data?.total ?? posts.length
+      return { posts, total }
     } catch (e: any) {
       errorMsg.value = e.message
       throw e
