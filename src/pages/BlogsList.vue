@@ -12,7 +12,7 @@
       <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
         <article
           v-for="post in posts"
-          :key="post.id"
+          :key="post._id"
           class="bg-dracula-selection border border-gray-500 rounded-lg p-6 sm:p-8 hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-300"
         >
           <router-link :to="`/blogs/${post.slug}`">
@@ -23,8 +23,8 @@
           <div class="flex items-center gap-3 text-sm text-dracula-comment mb-4">
             <span>{{ formatDate(post.publishedAt) }}</span>
           </div>
-          <div v-if="post.coverImage" class="mb-4">
-            <img :src="typeof post.coverImage === 'object' ? post.coverImage.url : ''" alt="cover" class="w-full h-48 object-cover rounded border border-gray-600" />
+          <div v-if="post.coverImage && typeof post.coverImage === 'object'" class="mb-4">
+            <img :src="post.coverImage.url" alt="cover" class="w-full h-48 object-cover rounded border border-gray-600" />
           </div>
           <p class="text-dracula-foreground">{{ post.excerpt || '' }}</p>
         </article>
