@@ -102,11 +102,11 @@
           <!-- Code Block -->
           <div class="animate-slide-up" style="animation-delay: 0.2s">
             <div
-              class="bg-dracula-selection border border-gray-500 rounded-xl overflow-hidden shadow-2xl"
+              class="bg-dracula-selection border border-dracula-comment rounded-xl overflow-hidden shadow-2xl"
             >
               <!-- Header -->
               <div
-                class="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 bg-dracula-selection border-b border-gray-500"
+                class="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 bg-dracula-selection border-b border-dracula-comment"
               >
                 <div class="flex items-center space-x-2">
                   <div class="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
@@ -358,11 +358,11 @@
             <!-- Right: Code Block -->
             <div class="animate-slide-up" style="animation-delay: 0.2s">
               <div
-                class="bg-dracula-selection border border-gray-500 rounded-xl overflow-hidden shadow-2xl h-full flex flex-col"
+                class="bg-dracula-selection border border-dracula-comment rounded-xl overflow-hidden shadow-2xl h-full flex flex-col"
               >
                 <!-- Header -->
                 <div
-                  class="flex items-center justify-between px-6 py-4 bg-dracula-selection border-b border-gray-500"
+                  class="flex items-center justify-between px-6 py-4 bg-dracula-selection border-b border-dracula-comment"
                 >
                   <div class="flex items-center space-x-2">
                     <div class="w-3 h-3 bg-red-500 rounded-full"></div>

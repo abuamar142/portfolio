@@ -17,7 +17,7 @@
     <div class="absolute inset-0 overflow-hidden opacity-20 hidden md:block">
       <div class="absolute top-24 right-32 animate-float">
         <div
-          class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg backdrop-blur-sm"
+          class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg backdrop-blur-sm"
         >
           <code class="text-dracula-purple text-sm">class</code>
           <code class="text-dracula-cyan text-sm"> Achievement</code>
@@ -26,7 +26,7 @@
       </div>
 
       <div class="absolute bottom-32 left-24 animate-float" style="animation-delay: 1.2s">
-        <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
+        <div class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg">
           <code class="text-dracula-purple text-sm">String</code>
           <code class="text-dracula-cyan text-sm"> type</code>
           <code class="text-dracula-foreground text-sm"> = </code>
@@ -68,7 +68,7 @@
             'px-4 py-2 rounded-lg text-sm font-medium font-mono transition-all duration-300 border',
             activeFilter === 'all'
               ? 'bg-dracula-purple text-dracula-background border-dracula-purple shadow-glow'
-              : 'bg-dracula-selection text-dracula-comment border-gray-500 hover:border-dracula-purple/50 hover:text-dracula-purple',
+              : 'bg-dracula-selection text-dracula-comment border-dracula-comment hover:border-dracula-purple/50 hover:text-dracula-purple',
           ]"
         >
           {{ $t('achievements.filters.all') }} ({{ achievements.length }})
@@ -81,7 +81,7 @@
             'px-4 py-2 rounded-lg text-sm font-medium font-mono transition-all duration-300 border',
             activeFilter === category.key
               ? 'bg-dracula-purple text-dracula-background border-dracula-purple shadow-glow'
-              : 'bg-dracula-selection text-dracula-comment border-gray-500 hover:border-dracula-purple/50 hover:text-dracula-purple',
+              : 'bg-dracula-selection text-dracula-comment border-dracula-comment hover:border-dracula-purple/50 hover:text-dracula-purple',
           ]"
         >
           {{ $t(`achievements.filters.${category.key}`) }} ({{ getCountByCategory(category.key) }})

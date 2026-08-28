@@ -17,7 +17,7 @@
     <div class="absolute inset-0 overflow-hidden opacity-20 hidden md:block">
       <div class="absolute top-24 right-32 animate-float">
         <div
-          class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg backdrop-blur-sm"
+          class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg backdrop-blur-sm"
         >
           <code class="text-dracula-purple text-sm">import</code>
           <code class="text-dracula-green text-sm"> 'dart:core'</code>
@@ -28,7 +28,7 @@
       </div>
 
       <div class="absolute bottom-32 left-24 animate-float" style="animation-delay: 1.2s">
-        <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
+        <div class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg">
           <code class="text-dracula-purple text-sm">final String</code>
           <code class="text-dracula-foreground text-sm"> level = </code>
           <code class="text-dracula-green text-sm">'expert'</code>
@@ -78,7 +78,7 @@
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
             <div v-for="(skill, index) in category.skills" :key="index" class="group">
               <div
-                class="bg-dracula-selection border border-gray-500 rounded-lg p-4 sm:p-6 text-center hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-300 hover:-translate-y-1"
+                class="bg-dracula-selection border border-dracula-comment rounded-lg p-4 sm:p-6 text-center hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-300 hover:-translate-y-1"
               >
                 <!-- Skill Icon/Initial -->
                 <div
