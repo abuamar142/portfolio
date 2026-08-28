@@ -17,7 +17,7 @@
     <div class="absolute inset-0 overflow-hidden opacity-20 hidden md:block">
       <div class="absolute top-40 left-20 animate-float">
         <div
-          class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg backdrop-blur-sm"
+          class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg backdrop-blur-sm"
         >
           <code class="text-dracula-purple text-sm">final List&lt;Project&gt;</code>
           <code class="text-dracula-cyan text-sm"> projects</code>
@@ -26,7 +26,7 @@
       </div>
 
       <div class="absolute bottom-40 right-24 animate-float" style="animation-delay: 1.8s">
-        <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
+        <div class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg">
           <code class="text-dracula-cyan text-sm">FlutterApp</code>
           <code class="text-dracula-foreground text-sm">(</code>
           <code class="text-dracula-green text-sm">'production'</code>
@@ -64,7 +64,7 @@
         <div
           v-for="(project, index) in displayedProjects"
           :key="index"
-          class="bg-dracula-selection border border-gray-500 rounded-lg p-6 sm:p-8 group hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-500 hover:-translate-y-2"
+          class="bg-dracula-selection border border-dracula-comment rounded-lg p-6 sm:p-8 group hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-500 hover:-translate-y-2"
         >
           <!-- Project Header -->
           <div class="mb-6">
@@ -105,7 +105,7 @@
             <button
               v-if="project.githubUrl"
               @click="() => openUrl(project.githubUrl!)"
-              class="flex-1 flex items-center justify-center gap-2 px-4 py-2 border border-gray-600 text-dracula-foreground rounded-lg hover:border-dracula-purple hover:text-dracula-purple hover:bg-dracula-purple/10 transition-all duration-300 font-mono"
+              class="flex-1 flex items-center justify-center gap-2 px-4 py-2 border border-dracula-current text-dracula-foreground rounded-lg hover:border-dracula-purple hover:text-dracula-purple hover:bg-dracula-purple/10 transition-all duration-300 font-mono"
             >
               <Github class="w-4 h-4" />
               {{ $t('projects.buttons.github') }}

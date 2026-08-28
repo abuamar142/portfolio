@@ -17,7 +17,7 @@
     <div class="absolute inset-0 overflow-hidden opacity-20 hidden md:block">
       <div class="absolute top-32 right-32 animate-float">
         <div
-          class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg backdrop-blur-sm"
+          class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg backdrop-blur-sm"
         >
           <code class="text-dracula-purple text-sm">class</code>
           <code class="text-dracula-cyan text-sm"> Developer</code>
@@ -26,7 +26,7 @@
       </div>
 
       <div class="absolute bottom-40 left-32 animate-float" style="animation-delay: 1.5s">
-        <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
+        <div class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg">
           <code class="text-dracula-foreground text-sm">skills.</code>
           <code class="text-dracula-cyan text-sm">add</code>
           <code class="text-dracula-foreground text-sm">(</code>
@@ -68,7 +68,7 @@
         class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-16 lg:mb-20 animate-slide-up delay-200"
       >
         <div
-          class="bg-dracula-selection border border-gray-500 rounded-lg p-6 sm:p-8 text-center group hover:scale-105 hover:border-dracula-purple/50 transition-all duration-300 shadow-lg backdrop-blur-sm"
+          class="bg-dracula-selection border border-dracula-comment rounded-lg p-6 sm:p-8 text-center group hover:scale-105 hover:border-dracula-purple/50 transition-all duration-300 shadow-lg backdrop-blur-sm"
         >
           <div
             class="text-3xl sm:text-4xl md:text-5xl font-bold text-dracula-purple mb-2 sm:mb-3 font-mono"
@@ -84,7 +84,7 @@
         </div>
 
         <div
-          class="bg-dracula-selection border border-gray-500 rounded-lg p-6 sm:p-8 text-center group hover:scale-105 hover:border-dracula-purple/50 transition-all duration-300 shadow-lg backdrop-blur-sm"
+          class="bg-dracula-selection border border-dracula-comment rounded-lg p-6 sm:p-8 text-center group hover:scale-105 hover:border-dracula-purple/50 transition-all duration-300 shadow-lg backdrop-blur-sm"
         >
           <div
             class="text-3xl sm:text-4xl md:text-5xl font-bold text-dracula-purple mb-2 sm:mb-3 font-mono"
@@ -100,7 +100,7 @@
         </div>
 
         <div
-          class="bg-dracula-selection border border-gray-500 rounded-lg p-6 sm:p-8 text-center group hover:scale-105 hover:border-dracula-purple/50 transition-all duration-300 shadow-lg backdrop-blur-sm"
+          class="bg-dracula-selection border border-dracula-comment rounded-lg p-6 sm:p-8 text-center group hover:scale-105 hover:border-dracula-purple/50 transition-all duration-300 shadow-lg backdrop-blur-sm"
         >
           <div class="text-4xl md:text-5xl font-bold text-dracula-purple mb-3 font-mono">
             {{ portfolio?.skills?.length || 0 }}+
@@ -115,7 +115,7 @@
       <!-- Enhanced Contact Info -->
       <div class="text-center animate-slide-up delay-400">
         <div
-          class="bg-dracula-selection border border-gray-500 rounded-lg p-8 max-w-2xl mx-auto shadow-lg backdrop-blur-sm"
+          class="bg-dracula-selection border border-dracula-comment rounded-lg p-8 max-w-2xl mx-auto shadow-lg backdrop-blur-sm"
         >
           <div class="flex flex-col md:flex-row items-center justify-center gap-8">
             <div class="flex items-center gap-3 text-dracula-foreground">

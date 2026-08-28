@@ -29,6 +29,19 @@
   --shadow-glow: 0 0 20px rgba(189, 147, 249, 0.3);
   --shadow-button: 0 4px 14px 0 rgba(189, 147, 249, 0.25);
   --shadow-button-hover: 0 6px 20px 0 rgba(189, 147, 249, 0.4);
+
+  /* Spacing */
+  --spacing-section: 3rem;
+  --spacing-section-lg: 5rem;
+
+  /* Border radius */
+  --radius-card: 0.75rem;
+  --radius-button: 0.5rem;
+  --radius-badge: 9999rem;
+
+  /* Transitions */
+  --transition-base: 150ms ease;
+  --transition-slow: 300ms ease;
 }
 
 @keyframes fadeIn {

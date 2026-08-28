@@ -17,7 +17,7 @@
     <div class="absolute inset-0 overflow-hidden opacity-20 hidden md:block">
       <div class="absolute top-20 right-20 animate-float">
         <div
-          class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg backdrop-blur-sm"
+          class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg backdrop-blur-sm"
         >
           <code class="text-dracula-purple text-sm">Future&lt;String&gt;</code>
           <code class="text-dracula-cyan text-sm"> buildCareer</code>
@@ -28,7 +28,7 @@
       </div>
 
       <div class="absolute bottom-32 left-16 animate-float" style="animation-delay: 2s">
-        <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
+        <div class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg">
           <code class="text-dracula-purple text-sm">return</code>
           <code class="text-dracula-green text-sm"> 'Experienced Developer'</code>
           <code class="text-dracula-foreground text-sm">;</code>
@@ -79,7 +79,7 @@
             <!-- Content Card -->
             <div class="ml-8 sm:ml-16 lg:ml-20">
               <div
-                class="bg-dracula-selection border border-gray-500 rounded-lg p-4 sm:p-6 lg:p-8 group-hover:border-dracula-purple/50 hover:shadow-lg hover:shadow-dracula-purple/10 transition-all duration-300 hover:-translate-y-1 backdrop-blur-sm"
+                class="bg-dracula-selection border border-dracula-comment rounded-lg p-4 sm:p-6 lg:p-8 group-hover:border-dracula-purple/50 hover:shadow-lg hover:shadow-dracula-purple/10 transition-all duration-300 hover:-translate-y-1 backdrop-blur-sm"
               >
                 <div
                   class="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4 sm:mb-6"

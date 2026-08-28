@@ -1,6 +1,6 @@
 <template>
   <header
-    class="fixed top-0 left-0 right-0 z-50 bg-dracula-background/95 backdrop-blur-sm border-b border-gray-500"
+    class="fixed top-0 left-0 right-0 z-50 bg-dracula-background/95 backdrop-blur-sm border-b border-dracula-comment"
   >
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16 sm:h-18 lg:h-20">
@@ -73,7 +73,7 @@
       >
         <div v-if="isMobileMenuOpen" id="mobile-menu" class="md:hidden" role="menu">
           <div
-            class="px-4 pt-4 pb-6 space-y-2 bg-dracula-background border-t border-gray-500 shadow-lg"
+            class="px-4 pt-4 pb-6 space-y-2 bg-dracula-background border-t border-dracula-comment shadow-lg"
           >
             <router-link
               v-for="item in navigation"

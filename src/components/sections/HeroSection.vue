@@ -50,7 +50,7 @@
     >
     <!-- Background with Code Pattern -->
     <div
-      class="absolute inset-0 bg-gradient-to-br from-dracula-background via-gray-900 to-dracula-background"
+      class="absolute inset-0 bg-gradient-to-br from-dracula-background via-dracula-background to-dracula-background"
     ></div>
 
     <!-- Animated Code Background -->
@@ -68,7 +68,7 @@
     <!-- Floating Code Elements -->
     <div class="absolute inset-0 overflow-hidden hidden md:block">
       <div class="absolute top-20 left-10 animate-float">
-        <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
+        <div class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg">
           <code class="text-dracula-purple text-sm">class</code>
           <code class="text-dracula-foreground text-sm"> Developer </code>
           <code class="text-dracula-foreground text-sm">{</code>
@@ -76,7 +76,7 @@
       </div>
 
       <div class="absolute top-40 right-20 animate-float" style="animation-delay: 1s">
-        <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
+        <div class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg">
           <code class="text-dracula-cyan text-sm">print</code>
           <code class="text-dracula-foreground text-sm">(</code>
           <code class="text-dracula-green text-sm">'Hello Flutter!'</code>
@@ -85,7 +85,7 @@
       </div>
 
       <div class="absolute bottom-32 left-20 animate-float" style="animation-delay: 2s">
-        <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
+        <div class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg">
           <code class="text-dracula-purple text-sm">final String</code>
           <code class="text-dracula-cyan text-sm"> name</code>
           <code class="text-dracula-foreground text-sm"> = </code>
@@ -171,7 +171,7 @@
             <div
               v-for="tech in featuredTechs"
               :key="tech"
-              class="px-2 py-1 sm:px-3 bg-dracula-selection border border-gray-500 text-dracula-foreground text-xs sm:text-sm rounded-full backdrop-blur-sm hover:border-dracula-purple/50 transition-colors"
+              class="px-2 py-1 sm:px-3 bg-dracula-selection border border-dracula-comment text-dracula-foreground text-xs sm:text-sm rounded-full backdrop-blur-sm hover:border-dracula-purple/50 transition-colors"
             >
               {{ tech }}
             </div>
@@ -214,11 +214,11 @@
           <div class="relative">
             <!-- Code Editor Window -->
             <div
-              class="bg-dracula-background border border-gray-500 rounded-lg shadow-2xl overflow-hidden"
+              class="bg-dracula-background border border-dracula-comment rounded-lg shadow-2xl overflow-hidden"
             >
               <!-- Header -->
               <div
-                class="flex items-center justify-between px-4 py-3 bg-dracula-selection border-b border-gray-500"
+                class="flex items-center justify-between px-4 py-3 bg-dracula-selection border-b border-dracula-comment"
               >
                 <div class="flex items-center space-x-2">
                   <div class="w-3 h-3 bg-dracula-red rounded-full"></div>
@@ -312,7 +312,7 @@
 
             <!-- Floating Terminal -->
             <div
-              class="absolute -bottom-6 -right-6 bg-gray-900 border border-gray-700 rounded-lg p-4 shadow-xl"
+              class="absolute -bottom-6 -right-6 bg-dracula-background border border-dracula-current rounded-lg p-4 shadow-xl"
             >
               <div class="flex items-center mb-2">
                 <div class="text-green-400 text-sm font-mono">$</div>
@@ -329,7 +329,7 @@
 
     <!-- Scroll indicator -->
     <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-      <ArrowDown class="w-6 h-6 text-gray-500" />
+      <ArrowDown class="w-6 h-6 text-dracula-comment" />
     </div>
   </section>
 </template>

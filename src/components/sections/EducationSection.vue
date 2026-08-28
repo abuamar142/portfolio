@@ -17,7 +17,7 @@
     <div class="absolute inset-0 overflow-hidden opacity-20 hidden md:block">
       <div class="absolute top-24 right-32 animate-float">
         <div
-          class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg backdrop-blur-sm"
+          class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg backdrop-blur-sm"
         >
           <code class="text-dracula-purple text-sm">class</code>
           <code class="text-dracula-cyan text-sm"> Education</code>
@@ -26,7 +26,7 @@
       </div>
 
       <div class="absolute bottom-32 left-24 animate-float" style="animation-delay: 1.2s">
-        <div class="bg-dracula-selection border border-gray-500 rounded-lg p-3 shadow-lg">
+        <div class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg">
           <code class="text-dracula-purple text-sm">const</code>
           <code class="text-dracula-cyan text-sm"> degree</code>
           <code class="text-dracula-foreground text-sm"> = </code>
@@ -67,7 +67,7 @@
         <div
           v-for="(edu, index) in education"
           :key="index"
-          class="group relative bg-dracula-selection border border-gray-500 rounded-xl p-6 sm:p-8 transition-all duration-300 hover:border-dracula-cyan/50 hover:shadow-lg hover:shadow-dracula-cyan/10 hover:-translate-y-1 animate-fade-in"
+          class="group relative bg-dracula-selection border border-dracula-comment rounded-xl p-6 sm:p-8 transition-all duration-300 hover:border-dracula-cyan/50 hover:shadow-lg hover:shadow-dracula-cyan/10 hover:-translate-y-1 animate-fade-in"
           :style="{ animationDelay: `${index * 0.15}s` }"
         >
           <!-- Card Accent Line -->
