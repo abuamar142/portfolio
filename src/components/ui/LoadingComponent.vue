@@ -1,30 +1,21 @@
 <template>
   <div class="flex-1 flex items-center justify-center p-4">
     <div class="text-center max-w-sm w-full">
-      <!-- Loading Spinner -->
       <div class="mb-4">
         <div
           :class="[
-            'inline-block animate-spin rounded-full border-4 border-solid border-dracula-purple border-r-transparent',
+            'inline-block animate-spin rounded-full border-4 border-solid border-accent border-r-transparent',
             spinnerSizeClass,
             'motion-reduce:animate-[spin_1.5s_linear_infinite]',
           ]"
         ></div>
       </div>
 
-      <!-- Loading Text with Typing Animation -->
-      <div class="text-dracula-foreground font-mono leading-relaxed mb-4" :class="textSizeClass">
-        <span class="text-dracula-green">const</span>
-        <span class="text-dracula-cyan ml-1 sm:ml-2">{{ variableName }}</span>
-        <span class="text-dracula-foreground ml-0.5 sm:ml-1">=</span>
-        <span class="text-dracula-orange ml-1 sm:ml-2">await</span>
-        <span class="text-dracula-yellow ml-1 sm:ml-2">{{ functionName }}</span>
-        <span class="text-dracula-foreground">()</span>
-        <span class="animate-pulse text-dracula-purple ml-0.5 sm:ml-1">...</span>
+      <div class="text-text-secondary mb-4" :class="textSizeClass">
+        Loading...
       </div>
 
-      <!-- Progress Indicator -->
-      <div class="text-dracula-comment" :class="subtextSizeClass">
+      <div class="text-text-muted" :class="subtextSizeClass">
         {{ subMessage }}
       </div>
     </div>
@@ -48,7 +39,6 @@ const props = withDefaults(defineProps<Props>(), {
   functionName: 'fetchData',
 })
 
-// Responsive size classes
 const spinnerSizeClass = computed(() => {
   const sizes = {
     sm: 'h-6 w-6 sm:h-8 sm:w-8',
@@ -61,8 +51,8 @@ const spinnerSizeClass = computed(() => {
 const textSizeClass = computed(() => {
   const sizes = {
     sm: 'text-xs sm:text-sm',
-    md: 'text-sm sm:text-base md:text-lg',
-    lg: 'text-base sm:text-lg md:text-xl',
+    md: 'text-sm sm:text-base',
+    lg: 'text-base sm:text-lg',
   }
   return sizes[props.size]
 })
@@ -78,18 +68,10 @@ const subtextSizeClass = computed(() => {
 </script>
 
 <style scoped>
-/* Custom animations for better mobile performance */
 @media (prefers-reduced-motion: reduce) {
   .animate-pulse,
   .animate-spin {
     animation: none;
-  }
-}
-
-/* Ensure proper spacing on very small screens */
-@media (max-width: 320px) {
-  .font-mono {
-    font-size: 0.75rem;
   }
 }
 </style>

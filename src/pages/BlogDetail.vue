@@ -1,23 +1,23 @@
 <template>
-  <section class="relative pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 lg:pb-20 bg-dracula-background min-h-screen">
-    <div class="relative max-w-3xl mx-auto px-4 sm:px-6">
+  <section class="pt-24 pb-20 bg-surface min-h-screen">
+    <div class="max-w-3xl mx-auto px-6">
       <!-- Back link -->
-      <router-link to="/blogs" class="inline-flex items-center gap-2 text-dracula-comment hover:text-dracula-purple font-mono text-sm mb-8 transition-colors">
-        ← All posts
+      <router-link to="/blogs" class="inline-flex items-center gap-2 text-text-muted hover:text-text-primary text-sm mb-8 transition-colors duration-200">
+        &larr; All posts
       </router-link>
 
       <!-- Loading -->
       <div v-if="loading" class="space-y-6">
-        <div class="h-8 bg-dracula-current rounded w-3/4 animate-pulse"></div>
-        <div class="h-4 bg-dracula-current rounded w-1/4 animate-pulse"></div>
-        <div class="h-64 bg-dracula-current rounded animate-pulse"></div>
+        <div class="h-7 bg-surface-overlay rounded w-3/4 animate-pulse"></div>
+        <div class="h-4 bg-surface-overlay rounded w-1/4 animate-pulse"></div>
+        <div class="h-56 bg-surface-overlay rounded-lg animate-pulse"></div>
       </div>
 
       <!-- Error -->
       <div v-else-if="error" class="text-center py-20" role="alert">
-        <p class="text-dracula-red text-lg mb-4">{{ error }}</p>
-        <router-link to="/blogs" class="text-dracula-purple hover:text-dracula-pink font-mono text-sm transition-colors">
-          ← Back to blog
+        <p class="text-error text-lg mb-4">{{ error }}</p>
+        <router-link to="/blogs" class="text-accent hover:text-accent-hover text-sm transition-colors duration-200">
+          &larr; Back to blog
         </router-link>
       </div>
 
@@ -28,21 +28,21 @@
           <span
             v-for="tag in post.tags"
             :key="tag.tag || tag"
-            class="px-2 py-0.5 text-xs font-mono bg-dracula-purple/10 text-dracula-purple border border-dracula-purple/20 rounded"
+            class="px-2 py-0.5 text-xs bg-accent-subtle text-accent rounded"
           >
             {{ tag.tag || tag }}
           </span>
         </div>
 
         <!-- Title -->
-        <h1 class="text-3xl sm:text-4xl font-bold text-dracula-foreground font-mono mb-4 leading-tight">
+        <h1 class="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight mb-4 leading-tight">
           {{ post?.title }}
         </h1>
 
         <!-- Meta -->
-        <div class="flex items-center gap-3 text-sm text-dracula-comment mb-6 font-mono">
+        <div class="flex items-center gap-3 text-sm text-text-muted mb-8">
           <time :datetime="post?.publishedAt">{{ formatDate(post?.publishedAt) }}</time>
-          <span>·</span>
+          <span>&middot;</span>
           <span>{{ readingTime }} min read</span>
         </div>
 
@@ -52,17 +52,17 @@
             :src="coverUrl"
             :alt="post?.title"
             loading="lazy"
-            class="w-full rounded-lg border border-dracula-current"
+            class="w-full rounded-xl border border-border"
           />
         </div>
 
         <!-- Content -->
-        <div class="blog-content max-w-none text-dracula-foreground leading-relaxed" v-html="contentHtml"></div>
+        <div class="blog-content max-w-none text-text-secondary leading-relaxed" v-html="contentHtml"></div>
 
         <!-- Footer -->
-        <div class="mt-12 pt-8 border-t border-dracula-current">
-          <router-link to="/blogs" class="text-dracula-purple hover:text-dracula-pink font-mono text-sm transition-colors">
-            ← More posts
+        <div class="mt-12 pt-8 border-t border-border">
+          <router-link to="/blogs" class="text-accent hover:text-accent-hover text-sm transition-colors duration-200">
+            &larr; More posts
           </router-link>
         </div>
       </article>

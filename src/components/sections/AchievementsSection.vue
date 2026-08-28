@@ -1,74 +1,26 @@
 <template>
   <section
     id="achievements"
-    class="relative py-12 sm:py-16 lg:py-20 scroll-mt-16 sm:scroll-mt-18 lg:scroll-mt-20 bg-dracula-background overflow-hidden transition-colors"
+    class="py-20 bg-surface scroll-mt-16"
   >
-    <!-- Background Elements -->
-    <div class="absolute inset-0">
-      <div
-        class="absolute top-32 left-4 sm:left-16 w-56 h-56 sm:w-80 sm:h-80 bg-dracula-purple/10 rounded-full blur-3xl"
-      ></div>
-      <div
-        class="absolute bottom-20 right-4 sm:right-16 w-64 h-64 sm:w-96 sm:h-96 bg-dracula-pink/10 rounded-full blur-3xl"
-      ></div>
-    </div>
-
-    <!-- Floating Code Elements -->
-    <div class="absolute inset-0 overflow-hidden opacity-20 hidden md:block">
-      <div class="absolute top-24 right-32 animate-float">
-        <div
-          class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg backdrop-blur-sm"
-        >
-          <code class="text-dracula-purple text-sm">class</code>
-          <code class="text-dracula-cyan text-sm"> Achievement</code>
-          <code class="text-dracula-foreground text-sm"> {</code>
-        </div>
-      </div>
-
-      <div class="absolute bottom-32 left-24 animate-float" style="animation-delay: 1.2s">
-        <div class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg">
-          <code class="text-dracula-purple text-sm">String</code>
-          <code class="text-dracula-cyan text-sm"> type</code>
-          <code class="text-dracula-foreground text-sm"> = </code>
-          <code class="text-dracula-green text-sm"
-            >'{{ $t('achievements.categories.certification').toLowerCase() }}'</code
-          >
-          <code class="text-dracula-foreground text-sm">;</code>
-        </div>
-      </div>
-    </div>
-
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
-      <!-- Enhanced Header -->
-      <div class="text-center mb-12 sm:mb-16 lg:mb-20 animate-fade-in">
-        <div
-          class="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-dracula-purple to-dracula-pink text-dracula-background mb-6 sm:mb-8 shadow-glow"
-        >
-          <Award class="w-6 h-6 sm:w-8 sm:h-8" />
-        </div>
-
-        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">
-          <span class="text-dracula-foreground font-mono">
-            {{ $t('achievements.title') }}
-          </span>
+    <div class="max-w-5xl mx-auto px-6">
+      <!-- Header -->
+      <div class="mb-16 animate-fade-in">
+        <h2 class="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight mb-4">
+          {{ $t('achievements.title') }}
         </h2>
-
-        <p
-          class="text-base sm:text-lg lg:text-xl text-dracula-comment max-w-2xl mx-auto px-4 sm:px-0"
-        >
-          {{ $t('achievements.subtitle') }}
-        </p>
+        <div class="w-12 h-0.5 bg-accent"></div>
       </div>
 
       <!-- Filter Buttons -->
-      <div class="flex flex-wrap justify-center gap-3 mb-12 sm:mb-16 animate-slide-up delay-200">
+      <div class="flex flex-wrap gap-2 mb-8">
         <button
           @click="activeFilter = 'all'"
           :class="[
-            'px-4 py-2 rounded-lg text-sm font-medium font-mono transition-all duration-300 border',
+            'px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 border',
             activeFilter === 'all'
-              ? 'bg-dracula-purple text-dracula-background border-dracula-purple shadow-glow'
-              : 'bg-dracula-selection text-dracula-comment border-dracula-comment hover:border-dracula-purple/50 hover:text-dracula-purple',
+              ? 'bg-accent text-white border-accent'
+              : 'bg-surface-overlay text-text-muted border-border hover:border-text-muted hover:text-text-primary',
           ]"
         >
           {{ $t('achievements.filters.all') }} ({{ achievements.length }})
@@ -78,18 +30,18 @@
           :key="category.key"
           @click="activeFilter = category.key"
           :class="[
-            'px-4 py-2 rounded-lg text-sm font-medium font-mono transition-all duration-300 border',
+            'px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 border',
             activeFilter === category.key
-              ? 'bg-dracula-purple text-dracula-background border-dracula-purple shadow-glow'
-              : 'bg-dracula-selection text-dracula-comment border-dracula-comment hover:border-dracula-purple/50 hover:text-dracula-purple',
+              ? 'bg-accent text-white border-accent'
+              : 'bg-surface-overlay text-text-muted border-border hover:border-text-muted hover:text-text-primary',
           ]"
         >
           {{ $t(`achievements.filters.${category.key}`) }} ({{ getCountByCategory(category.key) }})
         </button>
       </div>
 
-      <!-- Achievements Search -->
-      <div class="mb-8 sm:mb-12 animate-slide-up delay-200">
+      <!-- Search -->
+      <div class="mb-8">
         <SearchInput
           v-model="searchQuery"
           :placeholder="$t('search.placeholder')"
@@ -98,9 +50,7 @@
       </div>
 
       <!-- Achievements Grid -->
-      <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 animate-slide-up delay-300"
-      >
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <AchievementCard
           v-for="(achievement, index) in filteredAchievements"
           :key="index"
@@ -109,29 +59,26 @@
       </div>
 
       <!-- See More Button -->
-      <div v-if="shouldShowSeeMore || showAll" class="text-center mt-12 animate-fade-in">
-        <BaseButton
+      <div v-if="shouldShowSeeMore || showAll" class="mt-10 text-center">
+        <button
           @click="toggleShowAll"
-          variant="outline"
-          class="px-8 py-3 border-dracula-purple/50 text-dracula-purple hover:bg-dracula-purple hover:text-dracula-background transition-all duration-300 font-mono"
+          class="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-text-secondary rounded-lg hover:text-text-primary hover:border-text-muted transition-colors duration-200 text-sm font-medium"
         >
           <span v-if="!showAll">{{ $t('achievements.buttons.seeMore') }}</span>
           <span v-else>{{ $t('achievements.buttons.seeLess') }}</span>
-        </BaseButton>
+        </button>
       </div>
 
       <!-- Empty State -->
-      <div v-if="filteredAchievements.length === 0" class="text-center py-12 animate-fade-in">
-        <div class="text-dracula-comment mb-4">
-          <Inbox class="w-16 h-16 mx-auto" />
-        </div>
-        <p class="text-dracula-comment font-mono">
+      <div v-if="filteredAchievements.length === 0" class="text-center py-16">
+        <Inbox class="w-12 h-12 mx-auto text-text-muted mb-4" />
+        <p class="text-text-muted text-sm">
           {{ searchQuery.trim() ? $t('search.noResults') : $t('achievements.empty') }}
         </p>
         <button
           v-if="searchQuery.trim()"
           @click="searchQuery = ''"
-          class="mt-4 px-4 py-2 text-sm text-dracula-purple hover:text-dracula-pink transition-colors font-mono"
+          class="mt-3 text-sm text-accent hover:text-accent-hover transition-colors duration-200"
         >
           {{ $t('search.clearSearch') }}
         </button>
@@ -145,7 +92,6 @@ import { computed, ref, watch } from 'vue'
 import { Award, Inbox } from 'lucide-vue-next'
 import { usePortfolio } from '@/composables/usePortfolio'
 import AchievementCard from '@/components/ui/AchievementCard.vue'
-import BaseButton from '@/components/ui/BaseButton.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 
 const { portfolio } = usePortfolio()
@@ -156,7 +102,6 @@ const searchQuery = ref<string>('')
 const showAll = ref<boolean>(false)
 const maxItems = 6
 
-// Reset showAll when filter or search changes
 watch([activeFilter, searchQuery], () => {
   showAll.value = false
 })
@@ -171,12 +116,10 @@ const categories = [
 const filteredAchievements = computed(() => {
   let filtered = achievements.value
 
-  // Filter by category
   if (activeFilter.value !== 'all') {
     filtered = filtered.filter((achievement) => achievement.type === activeFilter.value)
   }
 
-  // Filter by search query
   if (searchQuery.value.trim()) {
     const query = searchQuery.value.toLowerCase().trim()
     filtered = filtered.filter((achievement) => {
@@ -190,7 +133,6 @@ const filteredAchievements = computed(() => {
     })
   }
 
-  // Apply pagination
   if (!showAll.value && filtered.length > maxItems) {
     return filtered.slice(0, maxItems)
   }
@@ -200,12 +142,10 @@ const filteredAchievements = computed(() => {
 const shouldShowSeeMore = computed(() => {
   let totalFiltered = achievements.value
 
-  // Filter by category
   if (activeFilter.value !== 'all') {
     totalFiltered = totalFiltered.filter((achievement) => achievement.type === activeFilter.value)
   }
 
-  // Filter by search query
   if (searchQuery.value.trim()) {
     const query = searchQuery.value.toLowerCase().trim()
     totalFiltered = totalFiltered.filter((achievement) => {

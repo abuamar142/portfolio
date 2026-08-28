@@ -4,15 +4,15 @@
     target="_blank"
     rel="noopener noreferrer"
     :aria-label="label"
-    class="flex items-center space-x-1 sm:space-x-2 text-dracula-comment hover:text-dracula-purple transition-colors group"
+    class="inline-flex items-center gap-1.5 text-text-muted hover:text-text-primary transition-colors duration-200"
   >
     <component
       :is="iconComponent"
-      class="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5"
+      class="w-4 h-4"
       fill="currentColor"
       viewBox="0 0 24 24"
     />
-    <span class="group-hover:underline text-xs sm:text-sm md:text-base">{{ label }}</span>
+    <span class="text-sm">{{ label }}</span>
   </a>
 </template>
 
@@ -27,7 +27,6 @@ interface Props {
 
 const props = defineProps<Props>()
 
-// Social media icons mapping
 const socialIcons = {
   github: defineComponent({
     render: () =>

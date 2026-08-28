@@ -1,64 +1,43 @@
 <template>
   <header
-    class="fixed top-0 left-0 right-0 z-50 bg-dracula-background/95 backdrop-blur-sm border-b border-dracula-comment"
+    class="fixed top-0 left-0 right-0 z-50 bg-surface/80 backdrop-blur-md border-b border-border-subtle"
   >
-    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 sm:h-18 lg:h-20">
-        <!-- Developer Logo -->
-        <div class="flex-shrink-0">
-          <router-link
-            to="/"
-            class="flex items-center space-x-2 text-dracula-foreground hover:text-dracula-purple transition-colors group"
-          >
-            <div
-              class="h-8 sm:h-9 lg:h-10 px-2 sm:px-3 rounded-lg flex items-center justify-center font-mono font-bold text-sm border border-dracula-purple sm:text-base lg:text-lg text-dracula-foreground group-hover:bg-dracula-purple group-hover:text-dracula-background transition-all duration-300"
-            >
-               abuamar.online
-            </div>
-          </router-link>
-        </div>
+    <nav class="max-w-5xl mx-auto px-6">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <router-link
+          to="/"
+          class="text-text-primary font-semibold text-base tracking-tight hover:text-accent transition-colors duration-200"
+        >
+          abuamar
+        </router-link>
 
         <!-- Desktop Navigation -->
-        <div class="hidden md:flex items-center space-x-4 lg:space-x-6">
-          <div class="flex items-center space-x-4 lg:space-x-6">
-            <router-link
-              v-for="item in navigation"
-              :key="item.name"
-              :to="item.isRoute ? item.href : { path: '/', hash: item.href }"
-              class="text-sm text-dracula-foreground hover:text-dracula-purple transition-colors font-mono relative group py-2"
-            >
-              <span class="text-dracula-purple mr-1">.</span>{{ $t(item.name) }}()
-              <span
-                class="absolute -bottom-1 left-0 w-0 h-0.5 bg-dracula-purple transition-all duration-300 group-hover:w-full"
-              ></span>
-            </router-link>
-            
-          </div>
-        </div>
-
-        <!-- Desktop Language Dropdown -->
-        <div class="hidden md:flex items-center">
+        <div class="hidden md:flex items-center gap-8">
+          <router-link
+            v-for="item in navigation"
+            :key="item.name"
+            :to="item.isRoute ? item.href : { path: '/', hash: item.href }"
+            class="text-sm text-text-muted hover:text-text-primary transition-colors duration-200"
+          >
+            {{ $t(item.name) }}
+          </router-link>
           <LanguageDropdown />
         </div>
 
-        <!-- Mobile Menu -->
-        <div class="md:hidden flex items-center space-x-3">
-          <!-- Mobile Language Dropdown -->
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden flex items-center gap-3">
           <LanguageDropdown />
-
-          <!-- Mobile menu button -->
-          <BaseButton
-            variant="ghost"
-            size="sm"
-            class="p-2 sm:p-2.5 text-dracula-comment hover:text-dracula-purple hover:bg-dracula-purple/10 rounded-lg transition-all duration-300"
+          <button
+            class="text-text-muted hover:text-text-primary transition-colors p-1"
             :aria-expanded="isMobileMenuOpen"
             aria-controls="mobile-menu"
             aria-label="Toggle mobile menu"
             @click="isMobileMenuOpen = !isMobileMenuOpen"
           >
-            <X v-if="isMobileMenuOpen" class="h-6 w-6 sm:h-7 sm:w-7" />
-            <Menu v-else class="h-6 w-6 sm:h-7 sm:w-7" />
-          </BaseButton>
+            <X v-if="isMobileMenuOpen" class="h-5 w-5" />
+            <Menu v-else class="h-5 w-5" />
+          </button>
         </div>
       </div>
 
@@ -67,24 +46,21 @@
         enter-active-class="transition duration-200 ease-out"
         enter-from-class="transform scale-95 opacity-0"
         enter-to-class="transform scale-100 opacity-100"
-        leave-active-class="transition duration-75 ease-in"
+        leave-active-class="transition duration-150 ease-in"
         leave-from-class="transform scale-100 opacity-100"
         leave-to-class="transform scale-95 opacity-0"
       >
-        <div v-if="isMobileMenuOpen" id="mobile-menu" class="md:hidden" role="menu">
-          <div
-            class="px-4 pt-4 pb-6 space-y-2 bg-dracula-background border-t border-dracula-comment shadow-lg"
-          >
+        <div v-if="isMobileMenuOpen" id="mobile-menu" class="md:hidden pb-4" role="menu">
+          <div class="space-y-1 border-t border-border-subtle pt-4">
             <router-link
               v-for="item in navigation"
               :key="item.name"
               :to="item.isRoute ? item.href : { path: '/', hash: item.href }"
-              class="text-dracula-comment hover:text-dracula-purple block px-4 py-4 text-base font-mono transition-colors rounded-lg hover:bg-dracula-selection border border-transparent hover:border-dracula-purple/30"
+              class="text-text-muted hover:text-text-primary block px-3 py-2.5 text-sm transition-colors duration-200 rounded-md hover:bg-surface-overlay"
               @click="isMobileMenuOpen = false"
             >
-              <span class="text-dracula-purple mr-2">.</span>{{ $t(item.name) }}()
+              {{ $t(item.name) }}
             </router-link>
-            
           </div>
         </div>
       </Transition>
@@ -95,7 +71,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Menu, X } from 'lucide-vue-next'
-import BaseButton from '@/components/ui/BaseButton.vue'
 import LanguageDropdown from '@/components/LanguageDropdown.vue'
 
 const isMobileMenuOpen = ref(false)
@@ -107,6 +82,4 @@ const navigation = [
   { name: 'navigation.blog', href: '/blogs', isRoute: true },
   { name: 'navigation.contact', href: '#contact' },
 ]
-
-// Scrolling is handled by router's scrollBehavior using hashes
 </script>

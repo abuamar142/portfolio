@@ -3,21 +3,19 @@
     <!-- Dropdown Trigger -->
     <button
       @click="toggleDropdown"
-      class="flex items-center gap-2 h-8 sm:h-9 lg:h-10 px-3 sm:px-3 lg:px-4 bg-dracula-selection/80 backdrop-blur-sm border border-dracula-purple/30 rounded-lg text-dracula-foreground hover:border-dracula-purple/50 transition-all duration-300 hover:bg-dracula-purple/10"
+      class="flex items-center gap-1.5 h-8 px-2.5 bg-surface-overlay border border-border rounded-md text-text-muted hover:text-text-primary hover:border-text-muted transition-all duration-200 text-sm"
     >
-      <div class="w-4 h-4 sm:w-5 sm:h-5 rounded-sm overflow-hidden border border-purple-500/30">
+      <div class="w-4 h-3 rounded-sm overflow-hidden">
         <img
           :src="currentLanguage.flag"
           :alt="currentLanguage.name"
           class="w-full h-full object-cover"
         />
       </div>
-      <span class="text-xs sm:text-sm font-medium text-purple-300 font-mono">{{
-        currentLanguage.code.toUpperCase()
-      }}</span>
+      <span class="text-xs font-medium">{{ currentLanguage.code.toUpperCase() }}</span>
       <ChevronDown
         :class="[
-          'w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-200',
+          'w-3 h-3 transition-transform duration-200',
           { 'rotate-180': isOpen },
         ]"
       />
@@ -34,7 +32,7 @@
     >
       <div
         v-if="isOpen"
-        class="absolute right-0 mt-2 w-48 bg-dracula-current-line/95 backdrop-blur-sm border border-dracula-purple/30 rounded-lg shadow-lg shadow-dracula-purple/10 overflow-hidden z-50"
+        class="absolute right-0 mt-2 w-44 bg-surface-raised border border-border rounded-lg shadow-lg overflow-hidden z-50"
       >
         <div class="py-1">
           <button
@@ -42,22 +40,21 @@
             :key="language.code"
             @click="changeLanguage(language.code)"
             :class="[
-              'w-full px-4 py-3 flex items-center gap-3 text-left hover:bg-dracula-purple/10 transition-colors duration-150',
+              'w-full px-3 py-2.5 flex items-center gap-2.5 text-left hover:bg-surface-overlay transition-colors duration-150',
               currentLanguage.code === language.code
-                ? 'bg-dracula-purple/20 text-dracula-purple'
-                : 'text-dracula-comment hover:text-dracula-foreground',
+                ? 'bg-accent-subtle text-accent'
+                : 'text-text-secondary hover:text-text-primary',
             ]"
           >
-            <div class="w-6 h-6 rounded-sm overflow-hidden border border-dracula-purple/30">
+            <div class="w-5 h-4 rounded-sm overflow-hidden">
               <img :src="language.flag" :alt="language.name" class="w-full h-full object-cover" />
             </div>
             <div class="flex-1">
-              <div class="text-sm font-medium">{{ language.name }}</div>
-              <div class="text-xs text-dracula-comment">{{ language.nativeName }}</div>
+              <div class="text-sm">{{ language.name }}</div>
             </div>
             <Check
               v-if="currentLanguage.code === language.code"
-              class="w-4 h-4 text-dracula-purple"
+              class="w-3.5 h-3.5 text-accent"
             />
           </button>
         </div>
@@ -112,12 +109,10 @@ const closeDropdown = (event: Event) => {
 }
 
 onMounted(() => {
-  // Load saved language preference
   const savedLanguage = localStorage.getItem('portfolio-language')
   if (savedLanguage && languages.some((lang) => lang.code === savedLanguage)) {
     locale.value = savedLanguage
   }
-
   document.addEventListener('click', closeDropdown)
 })
 
