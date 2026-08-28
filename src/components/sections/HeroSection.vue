@@ -95,7 +95,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { Eye, Mail } from 'lucide-vue-next'
 import { usePortfolio } from '@/composables/usePortfolio'
 
@@ -120,6 +120,7 @@ const socialLinks = [
 let roleIndex = 0
 let charIndex = 0
 let isDeleting = false
+let typeTimer: ReturnType<typeof setTimeout> | null = null
 
 const typeRole = () => {
   const role = roles[roleIndex]
@@ -142,11 +143,18 @@ const typeRole = () => {
     roleIndex = (roleIndex + 1) % roles.length
   }
 
-  setTimeout(typeRole, typeSpeed)
+  typeTimer = setTimeout(typeRole, typeSpeed)
 }
 
 onMounted(() => {
   typeRole()
+})
+
+onUnmounted(() => {
+  if (typeTimer) {
+    clearTimeout(typeTimer)
+    typeTimer = null
+  }
 })
 
 const scrollToContact = () => {

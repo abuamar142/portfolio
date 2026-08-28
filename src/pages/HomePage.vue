@@ -6,10 +6,10 @@
 
       <div v-else class="animate-fade-in">
         <HeroSection />
-        <AboutSection />
-        <ExperienceSection />
         <ProjectsSection />
         <SkillsSection />
+        <ExperienceSection />
+        <AboutSection />
         <ContactSection />
       </div>
     </main>
@@ -27,11 +27,9 @@ import ErrorState from '@/components/ui/ErrorState.vue'
 import HeroSection from '@/components/sections/HeroSection.vue'
 import AboutSection from '@/components/sections/AboutSection.vue'
 import ExperienceSection from '@/components/sections/ExperienceSection.vue'
-import EducationSection from '@/components/sections/EducationSection.vue'
 
 const ProjectsSection = defineAsyncComponent(() => import('@/components/sections/ProjectsSection.vue'))
 const SkillsSection = defineAsyncComponent(() => import('@/components/sections/SkillsSection.vue'))
-const AchievementsSection = defineAsyncComponent(() => import('@/components/sections/AchievementsSection.vue'))
 const ContactSection = defineAsyncComponent(() => import('@/components/sections/ContactSection.vue'))
 
 useHead({

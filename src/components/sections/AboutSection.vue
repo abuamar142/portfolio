@@ -23,7 +23,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16 animate-slide-up" style="animation-delay: 0.1s">
         <div class="bg-surface-raised border border-border rounded-xl p-6 hover:border-border transition-colors duration-200">
           <div class="text-3xl font-bold text-text-primary mb-1">
-            {{ portfolio?.experiences?.length || 0 }}+
+            {{ calculateExperienceYears() }}+
           </div>
           <div class="text-sm text-text-muted">
             {{ $t('about.stats.years') }} {{ $t('about.stats.experience') }}
@@ -41,7 +41,7 @@
 
         <div class="bg-surface-raised border border-border rounded-xl p-6 hover:border-border transition-colors duration-200">
           <div class="text-3xl font-bold text-text-primary mb-1">
-            {{ portfolio?.skills?.length || 0 }}+
+            6+
           </div>
           <div class="text-sm text-text-muted">
             {{ $t('about.stats.technologies') }} {{ $t('about.stats.mastered') }}
@@ -69,4 +69,22 @@ import { Mail, MapPin } from 'lucide-vue-next'
 import { usePortfolio } from '@/composables/usePortfolio'
 
 const { portfolio } = usePortfolio()
+
+const calculateExperienceYears = (): number => {
+  const experiences = portfolio.value?.experiences || []
+  if (experiences.length === 0) return 0
+
+  // Find the earliest start date
+  let earliest = new Date()
+  experiences.forEach((exp: any) => {
+    if (exp.startDate) {
+      const start = new Date(exp.startDate)
+      if (start < earliest) earliest = start
+    }
+  })
+
+  const now = new Date()
+  const years = now.getFullYear() - earliest.getFullYear()
+  return Math.max(years, 1)
+}
 </script>

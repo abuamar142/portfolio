@@ -19,27 +19,18 @@
           :key="category.name"
         >
           <h3 class="text-sm font-medium text-text-muted uppercase tracking-wider mb-5">
-            {{ $t(`skills.categories.${category.key}`) }}
+            {{ category.name }}
           </h3>
 
-          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          <div class="flex flex-wrap gap-3">
             <div
               v-for="(skill, index) in category.skills"
               :key="index"
-              class="bg-surface-raised border border-border rounded-lg p-4 text-center hover:border-border transition-all duration-200 group"
+              class="inline-flex items-center gap-2 px-4 py-2 bg-surface-raised border border-border rounded-lg hover:border-accent transition-all duration-200 group"
             >
-              <div class="text-lg font-semibold text-text-primary mb-1 group-hover:text-accent transition-colors duration-200">
-                {{ skill.name.charAt(0).toUpperCase() }}
-              </div>
-              <h4 class="text-xs text-text-secondary font-medium leading-tight">
+              <span class="text-sm text-text-secondary font-medium group-hover:text-text-primary transition-colors duration-200">
                 {{ skill.name }}
-              </h4>
-              <div class="mt-2 w-full bg-surface-overlay rounded-full h-1">
-                <div
-                  class="h-1 rounded-full bg-accent transition-all duration-500"
-                  :style="{ width: `${getSkillLevelPercentage(skill.level)}%` }"
-                ></div>
-              </div>
+              </span>
             </div>
           </div>
         </div>
@@ -54,38 +45,38 @@ import { usePortfolio } from '@/composables/usePortfolio'
 
 const { portfolio } = usePortfolio()
 
+const MAX_SKILLS_PER_CATEGORY = 6
+
 const skillCategories = computed(() =>
   [
     {
       name: 'Mobile',
       key: 'mobile',
-      skills: (portfolio.value?.skills || []).filter((skill) => skill.category === 'mobile'),
+      skills: (portfolio.value?.skills || [])
+        .filter((skill) => skill.category === 'mobile')
+        .slice(0, MAX_SKILLS_PER_CATEGORY),
     },
     {
       name: 'Web',
       key: 'web',
-      skills: (portfolio.value?.skills || []).filter((skill) => skill.category === 'web'),
+      skills: (portfolio.value?.skills || [])
+        .filter((skill) => skill.category === 'web')
+        .slice(0, MAX_SKILLS_PER_CATEGORY),
     },
     {
       name: 'Backend',
       key: 'backend',
-      skills: (portfolio.value?.skills || []).filter((skill) => skill.category === 'backend'),
+      skills: (portfolio.value?.skills || [])
+        .filter((skill) => skill.category === 'backend')
+        .slice(0, MAX_SKILLS_PER_CATEGORY),
     },
     {
       name: 'Tools',
       key: 'tools',
-      skills: (portfolio.value?.skills || []).filter((skill) => skill.category === 'tools'),
+      skills: (portfolio.value?.skills || [])
+        .filter((skill) => skill.category === 'tools')
+        .slice(0, MAX_SKILLS_PER_CATEGORY),
     },
   ].filter((category) => category.skills.length > 0),
 )
-
-const getSkillLevelPercentage = (level: string): number => {
-  switch (level) {
-    case 'beginner': return 25
-    case 'intermediate': return 50
-    case 'advanced': return 75
-    case 'expert': return 100
-    default: return 0
-  }
-}
 </script>
