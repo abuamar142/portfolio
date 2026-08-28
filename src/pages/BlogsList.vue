@@ -10,29 +10,38 @@
         <p class="text-text-muted text-sm">Thoughts, tutorials, and updates.</p>
       </div>
 
-      <!-- Search + Filter -->
-      <div class="mb-8 flex flex-col sm:flex-row gap-4">
-        <div class="flex-1">
-          <SearchInput
-            v-model="searchQuery"
-            :placeholder="'Search posts...'"
-            :results-count="totalPosts"
-            @update:model-value="onSearch"
-          />
-        </div>
-        <div class="flex gap-2 flex-wrap">
-          <button
-            v-for="cat in categories"
-            :key="cat"
-            @click="selectedCategory = selectedCategory === cat ? '' : cat"
-            class="px-3 py-1.5 text-xs rounded-full border transition-colors duration-200"
-            :class="selectedCategory === cat
-              ? 'bg-accent text-white border-accent'
-              : 'border-border text-text-muted hover:border-text-muted hover:text-text-primary'"
-          >
-            {{ cat }}
-          </button>
-        </div>
+      <!-- Filter chips -->
+      <div class="mb-8 flex items-center gap-2 flex-wrap">
+        <button
+          @click="selectedCategory = ''"
+          class="px-4 py-2 text-sm rounded-lg border transition-all duration-200"
+          :class="selectedCategory === ''
+            ? 'bg-accent text-white border-accent'
+            : 'border-border text-text-muted hover:border-text-muted hover:text-text-primary'"
+        >
+          All
+        </button>
+        <button
+          v-for="cat in categories"
+          :key="cat"
+          @click="selectedCategory = selectedCategory === cat ? '' : cat"
+          class="px-4 py-2 text-sm rounded-lg border transition-all duration-200"
+          :class="selectedCategory === cat
+            ? 'bg-accent text-white border-accent'
+            : 'border-border text-text-muted hover:border-text-muted hover:text-text-primary'"
+        >
+          {{ cat }}
+        </button>
+      </div>
+
+      <!-- Search -->
+      <div class="mb-8">
+        <SearchInput
+          v-model="searchQuery"
+          :placeholder="'Search posts...'"
+          :results-count="totalPosts"
+          @update:model-value="onSearch"
+        />
       </div>
 
       <!-- Loading Skeleton -->
