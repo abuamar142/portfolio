@@ -1,13 +1,13 @@
 <template>
-  <section class="relative pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 lg:pb-20 bg-dracula-background min-h-screen">
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6">
+  <section class="pt-24 pb-20 bg-surface min-h-screen">
+    <div class="max-w-4xl mx-auto px-6">
       <!-- Header -->
       <div class="mb-10">
-        <router-link to="/" class="inline-flex items-center gap-2 text-dracula-comment hover:text-dracula-purple font-mono text-sm mb-4 transition-colors">
-          ← Back to home
+        <router-link to="/" class="inline-flex items-center gap-2 text-text-muted hover:text-text-primary text-sm mb-6 transition-colors duration-200">
+          &larr; Back to home
         </router-link>
-        <h1 class="text-3xl sm:text-4xl font-bold text-dracula-foreground font-mono mb-2">Blog</h1>
-        <p class="text-dracula-comment">Thoughts, tutorials, and updates.</p>
+        <h1 class="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight mb-2">Blog</h1>
+        <p class="text-text-muted text-sm">Thoughts, tutorials, and updates.</p>
       </div>
 
       <!-- Search + Filter -->
@@ -25,10 +25,10 @@
             v-for="cat in categories"
             :key="cat"
             @click="selectedCategory = selectedCategory === cat ? '' : cat"
-            class="px-3 py-1.5 text-xs font-mono rounded-full border transition-colors"
+            class="px-3 py-1.5 text-xs rounded-full border transition-colors duration-200"
             :class="selectedCategory === cat
-              ? 'bg-dracula-purple text-dracula-background border-dracula-purple'
-              : 'border-dracula-comment text-dracula-comment hover:border-dracula-purple hover:text-dracula-purple'"
+              ? 'bg-accent text-white border-accent'
+              : 'border-border text-text-muted hover:border-text-muted hover:text-text-primary'"
           >
             {{ cat }}
           </button>
@@ -36,14 +36,14 @@
       </div>
 
       <!-- Loading Skeleton -->
-      <div v-if="loading" class="space-y-6" role="status" aria-label="Loading posts">
-        <div v-for="i in 3" :key="i" class="bg-dracula-selection border border-dracula-current rounded-lg p-6 animate-pulse">
+      <div v-if="loading" class="space-y-4" role="status" aria-label="Loading posts">
+        <div v-for="i in 3" :key="i" class="bg-surface-raised border border-border rounded-xl p-5 animate-pulse">
           <div class="flex gap-4">
-            <div class="w-32 h-24 bg-dracula-current rounded flex-shrink-0"></div>
+            <div class="w-28 h-20 bg-surface-overlay rounded-lg flex-shrink-0"></div>
             <div class="flex-1 space-y-3">
-              <div class="h-5 bg-dracula-current rounded w-3/4"></div>
-              <div class="h-4 bg-dracula-current rounded w-1/4"></div>
-              <div class="h-4 bg-dracula-current rounded w-full"></div>
+              <div class="h-4 bg-surface-overlay rounded w-3/4"></div>
+              <div class="h-3 bg-surface-overlay rounded w-1/4"></div>
+              <div class="h-3 bg-surface-overlay rounded w-full"></div>
             </div>
           </div>
         </div>
@@ -51,33 +51,33 @@
 
       <!-- Error State -->
       <div v-else-if="error" class="text-center py-16" role="alert">
-        <p class="text-dracula-red text-lg mb-4">{{ error }}</p>
-        <button @click="loadPosts" class="px-4 py-2 bg-dracula-purple text-dracula-background rounded-lg hover:bg-dracula-pink transition-colors">
+        <p class="text-error text-lg mb-4">{{ error }}</p>
+        <button @click="loadPosts" class="px-5 py-2.5 bg-accent text-white rounded-lg hover:bg-accent-hover transition-colors duration-200 text-sm font-medium">
           Retry
         </button>
       </div>
 
       <!-- Empty State -->
       <div v-else-if="filteredPosts.length === 0" class="text-center py-16" role="status">
-        <p class="text-dracula-comment text-lg">No posts found.</p>
-        <p class="text-dracula-comment text-sm mt-2">Check back later for updates!</p>
+        <p class="text-text-muted text-lg">No posts found.</p>
+        <p class="text-text-muted text-sm mt-2">Check back later for updates!</p>
       </div>
 
       <!-- Posts -->
-      <div v-else class="space-y-6">
+      <div v-else class="space-y-4">
         <article
           v-for="post in filteredPosts"
           :key="post._id"
-          class="group bg-dracula-selection border border-dracula-current rounded-lg overflow-hidden hover:border-dracula-purple/50 transition-all duration-300"
+          class="group bg-surface-raised border border-border rounded-xl overflow-hidden hover:border-accent/30 transition-all duration-200"
         >
-          <router-link :to="`/blogs/${post.slug}`" class="flex flex-col sm:flex-row gap-4 p-6">
+          <router-link :to="`/blogs/${post.slug}`" class="flex flex-col sm:flex-row gap-4 p-5">
             <!-- Cover Image -->
             <img
               v-if="getCoverUrl(post)"
               :src="getCoverUrl(post)"
               :alt="post.title"
               loading="lazy"
-              class="w-full sm:w-40 h-32 sm:h-24 object-cover rounded group-hover:scale-105 transition-transform duration-300"
+              class="w-full sm:w-36 h-28 sm:h-24 object-cover rounded-lg"
             />
 
             <!-- Content -->
@@ -87,26 +87,26 @@
                 <span
                   v-for="tag in post.tags.slice(0, 3)"
                   :key="tag.tag || tag"
-                  class="px-2 py-0.5 text-xs font-mono bg-dracula-purple/10 text-dracula-purple border border-dracula-purple/20 rounded"
+                  class="px-2 py-0.5 text-xs bg-accent-subtle text-accent rounded"
                 >
                   {{ tag.tag || tag }}
                 </span>
               </div>
 
               <!-- Title -->
-              <h2 class="text-lg font-bold text-dracula-foreground font-mono group-hover:text-dracula-purple transition-colors mb-1 line-clamp-1">
+              <h2 class="text-base font-semibold text-text-primary group-hover:text-accent transition-colors duration-200 mb-1 line-clamp-1">
                 {{ post.title }}
               </h2>
 
               <!-- Meta -->
-              <div class="flex items-center gap-3 text-xs text-dracula-comment mb-2">
+              <div class="flex items-center gap-3 text-xs text-text-muted mb-1.5">
                 <span>{{ formatDate(post.publishedAt) }}</span>
-                <span>·</span>
+                <span>&middot;</span>
                 <span>{{ estimateReadingTime(post) }} min read</span>
               </div>
 
               <!-- Excerpt -->
-              <p class="text-dracula-comment text-sm leading-relaxed line-clamp-2">
+              <p class="text-text-muted text-sm leading-relaxed line-clamp-2">
                 {{ post.excerpt || 'No description available.' }}
               </p>
             </div>
@@ -120,35 +120,35 @@
           <button
             :disabled="currentPage === 1"
             @click="goToPage(currentPage - 1)"
-            class="px-3 py-1.5 text-sm font-mono rounded border transition-colors"
+            class="px-3 py-1.5 text-sm rounded border transition-colors duration-200"
             :class="currentPage === 1
-              ? 'border-dracula-current text-dracula-current cursor-not-allowed'
-              : 'border-dracula-comment text-dracula-comment hover:border-dracula-purple hover:text-dracula-purple'"
+              ? 'border-border text-text-muted cursor-not-allowed'
+              : 'border-border text-text-muted hover:border-text-muted hover:text-text-primary'"
             aria-label="Previous page"
           >
-            ←
+            &larr;
           </button>
           <button
             v-for="page in totalPages"
             :key="page"
             @click="goToPage(page)"
-            class="px-3 py-1.5 text-sm font-mono rounded border transition-colors"
+            class="px-3 py-1.5 text-sm rounded border transition-colors duration-200"
             :class="page === currentPage
-              ? 'bg-dracula-purple text-dracula-background border-dracula-purple'
-              : 'border-dracula-current text-dracula-comment hover:border-dracula-purple hover:text-dracula-purple'"
+              ? 'bg-accent text-white border-accent'
+              : 'border-border text-text-muted hover:border-text-muted hover:text-text-primary'"
           >
             {{ page }}
           </button>
           <button
             :disabled="currentPage === totalPages"
             @click="goToPage(currentPage + 1)"
-            class="px-3 py-1.5 text-sm font-mono rounded border transition-colors"
+            class="px-3 py-1.5 text-sm rounded border transition-colors duration-200"
             :class="currentPage === totalPages
-              ? 'border-dracula-current text-dracula-current cursor-not-allowed'
-              : 'border-dracula-comment text-dracula-comment hover:border-dracula-purple hover:text-dracula-purple'"
+              ? 'border-border text-text-muted cursor-not-allowed'
+              : 'border-border text-text-muted hover:border-text-muted hover:text-text-primary'"
             aria-label="Next page"
           >
-            →
+            &rarr;
           </button>
         </nav>
       </div>
@@ -157,7 +157,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useHead } from '@vueuse/head'
 import { usePosts } from '@/composables/usePosts'
 import SearchInput from '@/components/ui/SearchInput.vue'

@@ -1,141 +1,63 @@
 <template>
   <section
     id="about"
-    class="relative py-12 sm:py-16 lg:py-20 scroll-mt-16 sm:scroll-mt-18 lg:scroll-mt-20 bg-dracula-background overflow-hidden transition-colors"
+    class="py-20 bg-surface scroll-mt-16"
   >
-    <!-- Background Elements -->
-    <div class="absolute inset-0">
-      <div
-        class="absolute top-20 left-4 sm:left-10 w-48 h-48 sm:w-72 sm:h-72 bg-dracula-purple/10 rounded-full blur-3xl"
-      ></div>
-      <div
-        class="absolute bottom-20 right-4 sm:right-10 w-64 h-64 sm:w-96 sm:h-96 bg-dracula-pink/10 rounded-full blur-3xl"
-      ></div>
-    </div>
-
-    <!-- Floating Code Elements -->
-    <div class="absolute inset-0 overflow-hidden opacity-20 hidden md:block">
-      <div class="absolute top-32 right-32 animate-float">
-        <div
-          class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg backdrop-blur-sm"
-        >
-          <code class="text-dracula-purple text-sm">class</code>
-          <code class="text-dracula-cyan text-sm"> Developer</code>
-          <code class="text-dracula-foreground text-sm"> {</code>
-        </div>
-      </div>
-
-      <div class="absolute bottom-40 left-32 animate-float" style="animation-delay: 1.5s">
-        <div class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg">
-          <code class="text-dracula-foreground text-sm">skills.</code>
-          <code class="text-dracula-cyan text-sm">add</code>
-          <code class="text-dracula-foreground text-sm">(</code>
-          <code class="text-dracula-green text-sm">'Flutter'</code>
-          <code class="text-dracula-foreground text-sm">);</code>
-        </div>
-      </div>
-    </div>
-
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
-      <!-- Enhanced Header -->
-      <div class="text-center mb-12 sm:mb-16 lg:mb-20 animate-fade-in">
-        <div
-          class="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-dracula-purple to-dracula-pink text-dracula-background mb-6 sm:mb-8 shadow-glow"
-        >
-          <User class="w-6 h-6 sm:w-8 sm:h-8" />
-        </div>
-
-        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">
-          <span class="text-dracula-foreground font-mono">
-            {{ $t('about.title') }}
-          </span>
+    <div class="max-w-5xl mx-auto px-6">
+      <!-- Header -->
+      <div class="mb-16 animate-fade-in">
+        <h2 class="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight mb-4">
+          {{ $t('about.title') }}
         </h2>
-
-        <div class="max-w-4xl mx-auto px-4 sm:px-0">
-          <p
-            class="text-base sm:text-lg md:text-xl lg:text-2xl text-dracula-comment leading-relaxed mb-6 sm:mb-8"
-          >
-            {{ portfolio?.about }}
-          </p>
-          <div
-            class="w-16 sm:w-24 h-1 bg-gradient-to-r from-dracula-purple to-dracula-pink mx-auto rounded-full"
-          ></div>
-        </div>
+        <div class="w-12 h-0.5 bg-accent"></div>
       </div>
 
-      <!-- Enhanced Stats -->
-      <div
-        class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-16 lg:mb-20 animate-slide-up delay-200"
-      >
-        <div
-          class="bg-dracula-selection border border-dracula-comment rounded-lg p-6 sm:p-8 text-center group hover:scale-105 hover:border-dracula-purple/50 transition-all duration-300 shadow-lg backdrop-blur-sm"
-        >
-          <div
-            class="text-3xl sm:text-4xl md:text-5xl font-bold text-dracula-purple mb-2 sm:mb-3 font-mono"
-          >
+      <!-- About Text -->
+      <div class="max-w-3xl mb-16 animate-slide-up">
+        <p class="text-text-secondary text-base sm:text-lg leading-relaxed">
+          {{ portfolio?.about }}
+        </p>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16 animate-slide-up" style="animation-delay: 0.1s">
+        <div class="bg-surface-raised border border-border rounded-xl p-6 hover:border-border transition-colors duration-200">
+          <div class="text-3xl font-bold text-text-primary mb-1">
             {{ portfolio?.experiences?.length || 0 }}+
           </div>
-          <div class="text-base sm:text-lg font-medium text-dracula-foreground mb-1 sm:mb-2">
-            {{ $t('about.stats.years') }}
-          </div>
-          <div class="text-sm sm:text-base text-dracula-comment">
-            {{ $t('about.stats.experience') }}
+          <div class="text-sm text-text-muted">
+            {{ $t('about.stats.years') }} {{ $t('about.stats.experience') }}
           </div>
         </div>
 
-        <div
-          class="bg-dracula-selection border border-dracula-comment rounded-lg p-6 sm:p-8 text-center group hover:scale-105 hover:border-dracula-purple/50 transition-all duration-300 shadow-lg backdrop-blur-sm"
-        >
-          <div
-            class="text-3xl sm:text-4xl md:text-5xl font-bold text-dracula-purple mb-2 sm:mb-3 font-mono"
-          >
+        <div class="bg-surface-raised border border-border rounded-xl p-6 hover:border-border transition-colors duration-200">
+          <div class="text-3xl font-bold text-text-primary mb-1">
             {{ portfolio?.projects?.length || 0 }}+
           </div>
-          <div class="text-base sm:text-lg font-medium text-dracula-foreground mb-1 sm:mb-2">
-            {{ $t('about.stats.projects') }}
-          </div>
-          <div class="text-sm sm:text-base text-dracula-comment">
-            {{ $t('about.stats.completed') }}
+          <div class="text-sm text-text-muted">
+            {{ $t('about.stats.projects') }} {{ $t('about.stats.completed') }}
           </div>
         </div>
 
-        <div
-          class="bg-dracula-selection border border-dracula-comment rounded-lg p-6 sm:p-8 text-center group hover:scale-105 hover:border-dracula-purple/50 transition-all duration-300 shadow-lg backdrop-blur-sm"
-        >
-          <div class="text-4xl md:text-5xl font-bold text-dracula-purple mb-3 font-mono">
+        <div class="bg-surface-raised border border-border rounded-xl p-6 hover:border-border transition-colors duration-200">
+          <div class="text-3xl font-bold text-text-primary mb-1">
             {{ portfolio?.skills?.length || 0 }}+
           </div>
-          <div class="text-lg font-medium text-dracula-foreground mb-2">
-            {{ $t('about.stats.technologies') }}
+          <div class="text-sm text-text-muted">
+            {{ $t('about.stats.technologies') }} {{ $t('about.stats.mastered') }}
           </div>
-          <div class="text-dracula-comment">{{ $t('about.stats.mastered') }}</div>
         </div>
       </div>
 
-      <!-- Enhanced Contact Info -->
-      <div class="text-center animate-slide-up delay-400">
-        <div
-          class="bg-dracula-selection border border-dracula-comment rounded-lg p-8 max-w-2xl mx-auto shadow-lg backdrop-blur-sm"
-        >
-          <div class="flex flex-col md:flex-row items-center justify-center gap-8">
-            <div class="flex items-center gap-3 text-dracula-foreground">
-              <div
-                class="w-10 h-10 rounded-full bg-dracula-purple/20 border border-dracula-purple/30 flex items-center justify-center"
-              >
-                <Mail class="w-5 h-5 text-dracula-purple" />
-              </div>
-              <span class="font-medium font-mono">{{ portfolio?.personalInfo.email }}</span>
-            </div>
-
-            <div class="flex items-center gap-3 text-dracula-foreground">
-              <div
-                class="w-10 h-10 rounded-full bg-dracula-purple/20 border border-dracula-purple/30 flex items-center justify-center"
-              >
-                <MapPin class="w-5 h-5 text-dracula-purple" />
-              </div>
-              <span class="font-medium font-mono">{{ portfolio?.personalInfo.location }}</span>
-            </div>
-          </div>
+      <!-- Contact Info -->
+      <div class="flex flex-col sm:flex-row items-start gap-6 animate-slide-up" style="animation-delay: 0.2s">
+        <div class="flex items-center gap-3 text-text-secondary">
+          <Mail class="w-4 h-4 text-text-muted flex-shrink-0" />
+          <span class="text-sm">{{ portfolio?.personalInfo.email }}</span>
+        </div>
+        <div class="flex items-center gap-3 text-text-secondary">
+          <MapPin class="w-4 h-4 text-text-muted flex-shrink-0" />
+          <span class="text-sm">{{ portfolio?.personalInfo.location }}</span>
         </div>
       </div>
     </div>
@@ -143,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { User, Mail, MapPin } from 'lucide-vue-next'
+import { Mail, MapPin } from 'lucide-vue-next'
 import { usePortfolio } from '@/composables/usePortfolio'
 
 const { portfolio } = usePortfolio()

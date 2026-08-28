@@ -45,30 +45,20 @@ const tag = computed(() => {
 })
 
 const buttonClasses = computed(() => [
-  'inline-flex items-center justify-center font-semibold rounded-full transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2',
-
-  // Full width
+  'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-surface',
   {
     'w-full': props.fullWidth,
   },
-
-  // Variants
   {
-    'bg-gradient-to-r from-dracula-purple to-dracula-pink text-dracula-background hover:from-dracula-pink hover:to-dracula-purple shadow-button hover:shadow-button-hover focus:ring-dracula-purple':
-      props.variant === 'primary',
-    'bg-dracula-selection text-dracula-foreground border-2 border-gray-500 hover:border-dracula-purple hover:text-dracula-purple shadow-button hover:shadow-card focus:ring-dracula-purple':
-      props.variant === 'secondary',
-    'bg-transparent text-dracula-purple border-2 border-dracula-purple hover:bg-dracula-purple hover:text-dracula-background shadow-button hover:shadow-button-hover focus:ring-dracula-purple':
-      props.variant === 'outline',
-    'bg-transparent text-dracula-comment hover:text-dracula-foreground hover:bg-dracula-selection focus:ring-dracula-purple':
-      props.variant === 'ghost',
+    'bg-accent text-white hover:bg-accent-hover': props.variant === 'primary',
+    'bg-surface-overlay text-text-primary border border-border hover:border-text-muted': props.variant === 'secondary',
+    'bg-transparent text-accent border border-accent hover:bg-accent hover:text-white': props.variant === 'outline',
+    'bg-transparent text-text-muted hover:text-text-primary hover:bg-surface-overlay': props.variant === 'ghost',
   },
-
-  // Sizes
   {
     'px-4 py-2 text-sm': props.size === 'sm',
-    'px-6 py-3 text-base': props.size === 'md',
-    'px-8 py-4 text-lg': props.size === 'lg',
+    'px-5 py-2.5 text-sm': props.size === 'md',
+    'px-6 py-3 text-base': props.size === 'lg',
   },
 ])
 

@@ -1,140 +1,67 @@
 <template>
   <section
     id="experiences"
-    class="relative py-12 sm:py-16 lg:py-20 scroll-mt-16 sm:scroll-mt-18 lg:scroll-mt-20 bg-dracula-background overflow-hidden transition-colors"
+    class="py-20 bg-surface scroll-mt-16"
   >
-    <!-- Background Elements -->
-    <div class="absolute inset-0">
-      <div
-        class="absolute top-32 right-4 sm:right-10 w-56 h-56 sm:w-80 sm:h-80 bg-dracula-purple/10 rounded-full blur-3xl"
-      ></div>
-      <div
-        class="absolute bottom-32 left-4 sm:left-10 w-48 h-48 sm:w-64 sm:h-64 bg-dracula-pink/10 rounded-full blur-3xl"
-      ></div>
-    </div>
-
-    <!-- Floating Code Elements -->
-    <div class="absolute inset-0 overflow-hidden opacity-20 hidden md:block">
-      <div class="absolute top-20 right-20 animate-float">
-        <div
-          class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg backdrop-blur-sm"
-        >
-          <code class="text-dracula-purple text-sm">Future&lt;String&gt;</code>
-          <code class="text-dracula-cyan text-sm"> buildCareer</code>
-          <code class="text-dracula-foreground text-sm">() </code>
-          <code class="text-dracula-purple text-sm">async</code>
-          <code class="text-dracula-foreground text-sm"> {</code>
-        </div>
-      </div>
-
-      <div class="absolute bottom-32 left-16 animate-float" style="animation-delay: 2s">
-        <div class="bg-dracula-selection border border-dracula-comment rounded-lg p-3 shadow-lg">
-          <code class="text-dracula-purple text-sm">return</code>
-          <code class="text-dracula-green text-sm"> 'Experienced Developer'</code>
-          <code class="text-dracula-foreground text-sm">;</code>
-        </div>
-      </div>
-    </div>
-
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
-      <!-- Enhanced Header -->
-      <div class="text-center mb-12 sm:mb-16 lg:mb-20 animate-fade-in">
-        <div
-          class="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-dracula-purple to-dracula-pink text-dracula-background mb-6 sm:mb-8 shadow-glow"
-        >
-          <BriefcaseBusiness class="w-6 h-6 sm:w-8 sm:h-8" />
-        </div>
-
-        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 sm:mb-8">
-          <span class="text-dracula-foreground font-mono">
-            {{ $t('experience.title') }}
-          </span>
+    <div class="max-w-5xl mx-auto px-6">
+      <!-- Header -->
+      <div class="mb-16 animate-fade-in">
+        <h2 class="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight mb-4">
+          {{ $t('experience.title') }}
         </h2>
-
-        <p
-          class="text-base sm:text-lg lg:text-xl text-dracula-comment max-w-2xl mx-auto px-4 sm:px-0"
-        >
-          {{ $t('experience.subtitle') }}
-        </p>
+        <div class="w-12 h-0.5 bg-accent"></div>
       </div>
 
-      <!-- Enhanced Timeline -->
+      <!-- Timeline -->
       <div class="relative">
         <!-- Timeline Line -->
-        <div
-          class="absolute left-4 sm:left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-dracula-purple via-dracula-purple to-dracula-pink"
-        ></div>
+        <div class="absolute left-[7px] top-2 bottom-2 w-px bg-border"></div>
 
-        <div class="space-y-8 sm:space-y-12 lg:space-y-16 animate-slide-up delay-200">
+        <div class="space-y-10">
           <div
             v-for="(experience, index) in portfolio?.experiences"
             :key="index"
-            class="relative group"
+            class="relative pl-10 group"
           >
             <!-- Timeline Dot -->
-            <div
-              class="absolute left-2.5 sm:left-6 w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-dracula-purple to-dracula-pink rounded-full shadow-glow group-hover:scale-125 transition-transform duration-300 border-2 sm:border-4 border-dracula-background"
-            ></div>
+            <div class="absolute left-0 top-2 w-[15px] h-[15px] rounded-full border-2 border-border bg-surface group-hover:border-accent transition-colors duration-200"></div>
 
-            <!-- Content Card -->
-            <div class="ml-8 sm:ml-16 lg:ml-20">
-              <div
-                class="bg-dracula-selection border border-dracula-comment rounded-lg p-4 sm:p-6 lg:p-8 group-hover:border-dracula-purple/50 hover:shadow-lg hover:shadow-dracula-purple/10 transition-all duration-300 hover:-translate-y-1 backdrop-blur-sm"
-              >
-                <div
-                  class="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-4 sm:mb-6"
+            <!-- Content -->
+            <div class="group-hover:translate-x-1 transition-transform duration-200">
+              <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-3">
+                <div>
+                  <h3 class="text-lg font-semibold text-text-primary leading-snug">
+                    {{ experience.position }}
+                  </h3>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="text-accent text-sm font-medium">{{ experience.company }}</span>
+                    <span class="text-text-muted text-xs">&middot;</span>
+                    <span class="text-text-muted text-sm">{{ experience.duration }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <ul class="mt-4 space-y-2">
+                <li
+                  v-for="desc in experience.description"
+                  :key="desc"
+                  class="flex items-start gap-2.5 text-text-secondary text-sm leading-relaxed"
                 >
-                  <div class="flex-1">
-                    <h3
-                      class="text-lg sm:text-xl lg:text-2xl font-bold text-dracula-foreground mb-2 group-hover:text-dracula-purple transition-colors duration-300 font-mono leading-tight"
-                    >
-                      {{ experience.position }}
-                    </h3>
+                  <span class="text-text-muted mt-1.5 flex-shrink-0">&ndash;</span>
+                  <span>{{ desc }}</span>
+                </li>
+              </ul>
 
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4 mb-3 sm:mb-4">
-                      <div
-                        class="flex items-center gap-2 text-dracula-purple font-semibold font-mono text-sm sm:text-base"
-                      >
-                        <Building class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                        <span class="break-words">{{ experience.company }}</span>
-                      </div>
-
-                      <div
-                        class="flex items-center gap-2 text-dracula-comment font-mono text-xs sm:text-sm"
-                      >
-                        <Calendar class="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                        {{ experience.duration }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Enhanced Description -->
-                <div class="mb-6">
-                  <div class="space-y-3">
-                    <div
-                      v-for="desc in experience.description"
-                      :key="desc"
-                      class="flex items-start gap-3 text-dracula-foreground leading-relaxed"
-                    >
-                      <div
-                        class="w-1.5 h-1.5 bg-dracula-purple rounded-full mt-2 flex-shrink-0"
-                      ></div>
-                      <span>{{ desc }}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Enhanced Technologies -->
-                <div class="flex flex-wrap gap-3">
-                  <span
-                    v-for="tech in experience.technologies"
-                    :key="tech"
-                    class="px-3 py-1 bg-dracula-purple/20 border border-dracula-purple/30 text-dracula-purple text-sm rounded-full font-mono hover:scale-105 hover:bg-dracula-purple/30 transition-all duration-200"
-                  >
-                    {{ tech }}
-                  </span>
-                </div>
+              <!-- Technologies -->
+              <div class="flex flex-wrap gap-2 mt-4">
+                <span
+                  v-for="tech in experience.technologies"
+                  :key="tech"
+                  class="px-2.5 py-1 bg-accent-subtle text-accent text-xs rounded-md font-medium"
+                >
+                  {{ tech }}
+                </span>
               </div>
             </div>
           </div>
@@ -145,7 +72,6 @@
 </template>
 
 <script setup lang="ts">
-import { BriefcaseBusiness, Building, Calendar } from 'lucide-vue-next'
 import { usePortfolio } from '@/composables/usePortfolio'
 
 const { portfolio } = usePortfolio()

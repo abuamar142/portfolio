@@ -1,76 +1,66 @@
 <template>
   <div
-    class="bg-dracula-selection border border-gray-500 rounded-lg p-6 sm:p-8 group hover:border-dracula-purple/50 hover:shadow-glow transition-all duration-500 hover:-translate-y-2"
+    class="bg-surface-raised border border-border rounded-xl p-6 group hover:border-accent/30 transition-all duration-200"
   >
     <!-- Category Badge -->
-    <div class="flex justify-between items-start mb-4">
+    <div class="flex justify-between items-start mb-3">
       <span
-        class="inline-flex items-center px-3 py-1 rounded-lg text-xs font-medium font-mono border"
+        class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium border"
         :class="categoryColors[achievement.type]"
       >
         {{ $t(`achievements.categories.${achievement.type}`) }}
       </span>
-      <span class="text-sm text-dracula-comment font-mono">
+      <span class="text-xs text-text-muted">
         {{ formatDate(achievement.date) }}
       </span>
     </div>
 
     <!-- Title -->
-    <h3
-      class="text-xl font-bold text-dracula-foreground mb-3 group-hover:text-dracula-purple transition-colors duration-300 font-mono"
-    >
+    <h3 class="text-base font-semibold text-text-primary mb-2 group-hover:text-accent transition-colors duration-200 leading-snug">
       {{ achievement.title }}
     </h3>
 
     <!-- Organizer -->
-    <p class="text-sm font-medium text-dracula-cyan mb-4 font-mono">
+    <p class="text-sm text-accent mb-3">
       {{ achievement.organizer }}
     </p>
 
     <!-- Description & Certificate Number -->
-    <div class="mb-6">
+    <div class="mb-4">
       <p
         v-if="achievement.description"
-        class="text-dracula-foreground text-sm mb-2 line-clamp-3 leading-relaxed"
+        class="text-text-secondary text-sm mb-2 line-clamp-3 leading-relaxed"
       >
         {{ achievement.description }}
       </p>
-      <p v-if="achievement.certificate_number" class="text-xs text-dracula-comment font-mono">
+      <p v-if="achievement.certificate_number" class="text-xs text-text-muted">
         Certificate: {{ achievement.certificate_number }}
       </p>
-      <p v-if="achievement.participant_as" class="text-xs text-dracula-comment font-mono">
+      <p v-if="achievement.participant_as" class="text-xs text-text-muted">
         As: {{ achievement.participant_as }}
       </p>
-      <p v-if="achievement.valid_until" class="text-xs text-dracula-yellow font-mono mt-1">
+      <p v-if="achievement.valid_until" class="text-xs text-accent mt-1">
         Valid until: {{ formatDate(achievement.valid_until) }}
       </p>
     </div>
 
     <!-- Evidence Button -->
     <div class="flex justify-end" v-if="achievement.drive_file_id">
-      <BaseButton
-        variant="outline"
-        size="sm"
+      <button
         @click="openEvidence"
-        class="inline-flex items-center gap-2 border-dracula-purple/30 text-dracula-purple hover:bg-dracula-purple hover:text-dracula-background transition-all duration-300"
+        class="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-accent transition-colors duration-200"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-          ></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
         </svg>
-        <span class="font-mono">{{ $t('achievements.buttons.evidence') }}</span>
-      </BaseButton>
+        {{ $t('achievements.buttons.evidence') }}
+      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Achievement } from '@/types/portfolio'
-import BaseButton from './BaseButton.vue'
 
 interface Props {
   achievement: Achievement
@@ -78,11 +68,11 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const categoryColors = {
-  certificate: 'bg-dracula-green/20 text-dracula-green border-dracula-green/30',
-  certification: 'bg-dracula-yellow/20 text-dracula-yellow border-dracula-yellow/30',
-  webinar: 'bg-dracula-cyan/20 text-dracula-cyan border-dracula-cyan/30',
-  seminar: 'bg-dracula-purple/20 text-dracula-purple border-dracula-purple/30',
+const categoryColors: Record<string, string> = {
+  certificate: 'bg-success/10 text-success border-success/20',
+  certification: 'bg-accent-subtle text-accent border-accent/20',
+  webinar: 'bg-surface-overlay text-text-secondary border-border',
+  seminar: 'bg-surface-overlay text-text-secondary border-border',
 }
 
 const formatDate = (dateString: string) => {
