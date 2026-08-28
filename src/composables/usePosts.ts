@@ -3,10 +3,10 @@ import axios from 'axios'
 
 const BACKEND_API = import.meta.env.VITE_BACKEND_URL || 'https://backend.abuamar.online'
 
-const loading = ref(false)
-const errorMsg = ref<string | null>(null)
-
 export function usePosts() {
+  const loading = ref(false)
+  const errorMsg = ref<string | null>(null)
+
   async function listPublished({
     search,
     limit = 20,
