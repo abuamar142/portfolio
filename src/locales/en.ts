@@ -3,8 +3,7 @@ export default {
     about: 'About',
     experience: 'Experience',
     projects: 'Projects',
-    skills: 'Skills',
-    achievements: 'Achievements',
+    blog: 'Blog',
     contact: 'Contact',
   },
   hero: {

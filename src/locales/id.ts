@@ -3,8 +3,7 @@ export default {
     about: 'Tentang',
     experience: 'Pengalaman',
     projects: 'Proyek',
-    skills: 'Keahlian',
-    achievements: 'Pencapaian',
+    blog: 'Blog',
     contact: 'Kontak',
   },
   hero: {
