@@ -24,7 +24,7 @@
             <router-link
               v-for="item in navigation"
               :key="item.name"
-              :to="{ path: '/', hash: item.href }"
+              :to="item.isRoute ? item.href : { path: '/', hash: item.href }"
               class="text-sm text-dracula-foreground hover:text-dracula-purple transition-colors font-mono relative group py-2"
             >
               <span class="text-dracula-purple mr-1">.</span>{{ $t(item.name) }}()
@@ -78,7 +78,7 @@
             <router-link
               v-for="item in navigation"
               :key="item.name"
-              :to="{ path: '/', hash: item.href }"
+              :to="item.isRoute ? item.href : { path: '/', hash: item.href }"
               class="text-dracula-comment hover:text-dracula-purple block px-4 py-4 text-base font-mono transition-colors rounded-lg hover:bg-dracula-selection border border-transparent hover:border-dracula-purple/30"
               @click="isMobileMenuOpen = false"
             >
@@ -104,8 +104,7 @@ const navigation = [
   { name: 'navigation.about', href: '#about' },
   { name: 'navigation.experience', href: '#experiences' },
   { name: 'navigation.projects', href: '#projects' },
-  { name: 'navigation.skills', href: '#skills' },
-  { name: 'navigation.achievements', href: '#achievements' },
+  { name: 'navigation.blog', href: '/blogs', isRoute: true },
   { name: 'navigation.contact', href: '#contact' },
 ]
 

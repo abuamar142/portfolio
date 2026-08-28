@@ -1,85 +1,47 @@
 <template>
-  <footer
-    class="bg-dracula-background border-t border-dracula-comment transition-colors"
-  >
-    <div class="max-w-6xl mx-auto px-6 py-12">
-      <div class="text-center space-y-6">
-        <!-- Code-style footer -->
-        <div class="font-mono text-sm space-y-2">
-          <div class="text-dracula-comment">
-            <span class="text-dracula-green">{{ $t('footer.comment') }}</span>
-          </div>
-          <div class="text-dracula-current">
-            <span class="text-code-keyword">class</span>
-            <span class="text-code-variable"> Footer</span>
-            <span class="text-code-text"> {</span>
-          </div>
-          <div class="pl-4 text-dracula-foreground">
-            <span class="text-code-keyword">final int</span>
-            <span class="text-code-text"> year = </span>
-            <span class="text-code-string">{{ new Date().getFullYear() }}</span>
-            <span class="text-code-text">;</span>
-          </div>
-          <div class="pl-4 text-dracula-foreground">
-            <span class="text-code-keyword">final String</span>
-            <span class="text-code-text"> author = </span>
-            <span class="text-code-string"
-              >'{{ portfolio?.personalInfo?.fullname || 'Abu Amar' }}'</span
-            >
-            <span class="text-code-text">;</span>
-          </div>
-          <div class="pl-4 text-dracula-foreground">
-            <span class="text-code-keyword">final List&lt;String&gt;</span>
-            <span class="text-code-text"> tech = [</span>
-          </div>
-          <div class="pl-8 text-dracula-foreground">
-            <span class="text-code-string">'Vue.js'</span>
-            <span class="text-code-text">, </span>
-            <span class="text-code-string">'TypeScript'</span>
-            <span class="text-code-text">, </span>
-            <span class="text-code-string">'Tailwind CSS'</span>
-            <span class="text-code-text">, </span>
-            <span class="text-code-string">'Vercel'</span>
-          </div>
-          <div class="pl-4 text-dracula-foreground">
-            <span class="text-code-text">];</span>
-          </div>
-          <div class="pl-4 text-dracula-foreground">
-            <span class="text-code-keyword">final bool</span>
-            <span class="text-code-text"> coffee = </span>
-            <span class="text-code-keyword">true</span>
-            <span class="text-code-text">;</span>
-          </div>
-          <div class="text-dracula-foreground">
-            <span class="text-code-text">}</span>
-          </div>
-        </div>
+  <footer class="bg-dracula-background border-t border-dracula-comment">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <!-- Left: Copyright -->
+        <p class="text-dracula-comment text-sm font-mono">
+          © {{ new Date().getFullYear() }} {{ portfolio?.personalInfo?.fullname || 'Abu Amar' }}
+        </p>
 
-        <!-- Minimal navigation -->
-        <div class="pt-2">
-          <router-link
-            to="/blogs"
-            class="inline-block px-3 py-1 text-sm font-mono text-dracula-comment hover:text-dracula-purple border border-transparent hover:border-dracula-purple/30 rounded transition-colors"
+        <!-- Center: Social links -->
+        <div class="flex items-center gap-4">
+          <a
+            v-for="social in socialLinks"
+            :key="social.label"
+            :href="social.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-dracula-comment hover:text-dracula-purple transition-colors"
+            :aria-label="social.label"
           >
-            Blog
-          </router-link>
+            <component :is="social.icon" class="w-4 h-4" />
+          </a>
         </div>
 
-        <!-- Copyright -->
-        <div class="pt-4 border-t border-dracula-comment">
-          <p class="text-dracula-comment text-sm">
-            © {{ new Date().getFullYear() }}
-            {{ portfolio?.personalInfo?.fullname || 'M. Abu Amar Al Badawi' }}.
-            <span class="text-dracula-comment">{{ $t('footer.copyright') }}</span>
-          </p>
-        </div>
+        <!-- Right: Built with -->
+        <p class="text-dracula-comment text-xs font-mono">
+          Built with <span class="text-dracula-purple">Vue</span> + <span class="text-dracula-purple">Vite</span>
+        </p>
       </div>
     </div>
   </footer>
 </template>
 
 <script setup lang="ts">
+import { markRaw } from 'vue'
+import { Github, Linkedin, Instagram, Mail } from 'lucide-vue-next'
 import { usePortfolio } from '@/composables/usePortfolio'
 
 const { portfolio } = usePortfolio()
+
+const socialLinks = [
+  { label: 'GitHub', url: 'https://github.com/abuamar142', icon: markRaw(Github) },
+  { label: 'LinkedIn', url: 'https://linkedin.com/in/abu-amar', icon: markRaw(Linkedin) },
+  { label: 'Instagram', url: 'https://instagram.com/abuuamar_', icon: markRaw(Instagram) },
+  { label: 'Email', url: 'mailto:abuamar.albadawi@gmail.com', icon: markRaw(Mail) },
+]
 </script>

@@ -8,10 +8,8 @@
         <HeroSection />
         <AboutSection />
         <ExperienceSection />
-        <EducationSection />
         <ProjectsSection />
         <SkillsSection />
-        <AchievementsSection />
         <ContactSection />
       </div>
     </main>
