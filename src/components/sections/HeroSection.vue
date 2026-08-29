@@ -2,24 +2,27 @@
   <!-- Loading State -->
   <div
     v-if="loading"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-surface"
+    class="fixed inset-0 z-50 flex items-center justify-center"
+    style="background: var(--color-surface)"
   >
     <div class="text-center">
-      <div class="animate-spin rounded-full h-6 w-6 border border-border border-t-accent mx-auto mb-3"></div>
-      <p class="text-text-muted text-xs">Loading...</p>
+      <div class="animate-spin rounded-full h-6 w-6 border border-[var(--color-border)] border-t-[var(--color-accent)] mx-auto mb-3"></div>
+      <p class="text-xs" style="color: var(--color-text-muted)">Loading...</p>
     </div>
   </div>
 
   <!-- Error State -->
   <div
     v-else-if="error"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-surface"
+    class="fixed inset-0 z-50 flex items-center justify-center"
+    style="background: var(--color-surface)"
   >
     <div class="text-center">
-      <p class="text-text-muted text-sm mb-4">Failed to load portfolio data</p>
+      <p class="text-sm mb-4" style="color: var(--color-text-muted)">Failed to load portfolio data</p>
       <button
         @click="reloadPage"
-        class="px-4 py-2 border border-border text-text-secondary rounded-lg hover:text-text-primary hover:border-text-muted transition-colors duration-150 text-xs"
+        class="px-4 py-2 border rounded-lg transition-colors duration-150 text-xs"
+        style="border-color: var(--color-border); color: var(--color-text-secondary)"
       >
         Retry
       </button>
@@ -30,7 +33,8 @@
   <section
     v-else
     id="hero"
-    class="min-h-[70vh] flex items-center bg-surface scroll-mt-14"
+    class="min-h-[70vh] flex items-center scroll-mt-14"
+    style="background: var(--color-surface)"
   >
     <div class="max-w-3xl mx-auto px-6 py-20 w-full">
       <!-- Name with gradient -->
@@ -39,12 +43,12 @@
       </h1>
 
       <!-- Role -->
-      <p class="text-text-secondary text-sm mb-6">
+      <p class="text-sm mb-6" style="color: var(--color-text-secondary)">
         {{ currentRole }}
       </p>
 
       <!-- Bio -->
-      <p class="text-text-muted text-sm leading-relaxed mb-8 max-w-lg">
+      <p class="text-sm leading-relaxed mb-8 max-w-lg" style="color: var(--color-text-muted)">
         {{ portfolio?.personalInfo.title || '' }}. Building mobile and web applications with a focus on clean code and user experience.
       </p>
 
@@ -57,7 +61,7 @@
           target="_blank"
           rel="noopener noreferrer"
           class="transition-colors duration-150"
-          :class="social.color"
+          :style="{ color: social.color }"
           :aria-label="social.label"
         >
           <component :is="social.icon" class="w-4 h-4" />
@@ -83,10 +87,10 @@ const roles = [
 ]
 
 const socialLinks = [
-  { label: 'GitHub', url: 'https://github.com/abuamar142', icon: Github, color: 'text-text-muted hover:text-text-primary' },
-  { label: 'LinkedIn', url: 'https://linkedin.com/in/abu-amar', icon: Linkedin, color: 'text-text-muted hover:text-[#0A66C2]' },
-  { label: 'Instagram', url: 'https://instagram.com/abuuamar_', icon: Instagram, color: 'text-text-muted hover:text-[#E4405F]' },
-  { label: 'Email', url: 'mailto:abuamar.albadawi@gmail.com', icon: Mail, color: 'text-text-muted hover:text-accent' },
+  { label: 'GitHub', url: 'https://github.com/abuamar142', icon: Github, color: 'var(--color-text-muted)' },
+  { label: 'LinkedIn', url: 'https://linkedin.com/in/abu-amar', icon: Linkedin, color: 'var(--color-text-muted)' },
+  { label: 'Instagram', url: 'https://instagram.com/abuuamar_', icon: Instagram, color: 'var(--color-text-muted)' },
+  { label: 'Email', url: 'mailto:abuamar.albadawi@gmail.com', icon: Mail, color: 'var(--color-text-muted)' },
 ]
 
 let roleIndex = 0

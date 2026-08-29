@@ -1,45 +1,39 @@
 <template>
-  <section id="contact" class="py-16 bg-surface scroll-mt-14">
+  <section id="contact" class="py-16 scroll-mt-14" style="background: var(--color-surface)">
     <div class="max-w-3xl mx-auto px-6">
-      <!-- Header -->
-      <h2 class="text-lg font-semibold text-text-primary tracking-tight mb-8">
+      <h2 class="text-lg font-semibold tracking-tight mb-8" style="color: var(--color-text-primary)">
         {{ $t('contact.title') }}
       </h2>
 
-      <!-- Contact Content -->
       <div class="space-y-8">
-        <!-- Description -->
-        <p class="text-text-secondary text-sm leading-relaxed max-w-lg">
+        <p class="text-sm leading-relaxed max-w-lg" style="color: var(--color-text-secondary)">
           {{ $t('contact.subtitle') }}
         </p>
 
-        <!-- Contact Info -->
         <div class="space-y-3">
           <a
             v-if="portfolio?.personalInfo.email"
             :href="`mailto:${portfolio.personalInfo.email}`"
-            class="flex items-center gap-3 text-text-secondary hover:text-accent transition-colors duration-150"
+            class="flex items-center gap-3 transition-colors duration-150"
+            style="color: var(--color-text-secondary)"
           >
-            <Mail class="w-4 h-4 text-accent" />
+            <Mail class="w-4 h-4" style="color: var(--color-accent)" />
             <span class="text-sm">{{ portfolio.personalInfo.email }}</span>
           </a>
-          <div
-            v-if="portfolio?.personalInfo.location"
-            class="flex items-center gap-3 text-text-muted"
-          >
-            <MapPin class="w-4 h-4 text-[#10B981]" />
+          <div v-if="portfolio?.personalInfo.location" class="flex items-center gap-3" style="color: var(--color-text-muted)">
+            <MapPin class="w-4 h-4" style="color: var(--color-success)" />
             <span class="text-sm">{{ portfolio.personalInfo.location }}</span>
           </div>
         </div>
 
-        <!-- Social Links with brand colors -->
         <div class="flex items-center gap-4">
           <a
             v-if="portfolio?.personalInfo.github"
             :href="portfolio.personalInfo.github"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-text-muted hover:text-text-primary transition-colors duration-150"
+            class="transition-colors duration-150"
+            style="color: var(--color-text-muted)"
             aria-label="GitHub"
           >
             <Github class="w-4 h-4" />
@@ -49,7 +43,8 @@
             :href="portfolio.personalInfo.linkedin"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-text-muted hover:text-[#0A66C2] transition-colors duration-150"
+            class="transition-colors duration-150"
+            style="color: var(--color-text-muted)"
             aria-label="LinkedIn"
           >
             <Linkedin class="w-4 h-4" />
@@ -59,7 +54,8 @@
             :href="portfolio.personalInfo.instagram"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-text-muted hover:text-[#E4405F] transition-colors duration-150"
+            class="transition-colors duration-150"
+            style="color: var(--color-text-muted)"
             aria-label="Instagram"
           >
             <Instagram class="w-4 h-4" />
@@ -69,7 +65,8 @@
             :href="portfolio.personalInfo.whatsApp"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-text-muted hover:text-[#25D366] transition-colors duration-150"
+            class="transition-colors duration-150"
+            style="color: var(--color-text-muted)"
             aria-label="WhatsApp"
           >
             <MessageCircle class="w-4 h-4" />
