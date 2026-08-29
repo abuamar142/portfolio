@@ -33,6 +33,16 @@
               <MessageCircle class="w-4 h-4" />
               WhatsApp
             </a>
+            <a
+              href="/cv.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border text-sm font-medium"
+              style="border-color: var(--color-border); color: var(--color-text-secondary); background: var(--color-surface)"
+            >
+              <FileText class="w-4 h-4" />
+              {{ $t('hero.cta.resume') }}
+            </a>
           </div>
 
           <div class="mt-8 flex items-center gap-3 text-xs" style="color: var(--color-text-faint)">
@@ -133,7 +143,7 @@
 </template>
 
 <script setup lang="ts">
-import { Github, Linkedin, Instagram, MessageCircle, Mail, MapPin } from 'lucide-vue-next'
+import { Github, Linkedin, Instagram, MessageCircle, Mail, MapPin, FileText } from 'lucide-vue-next'
 import { usePortfolio } from '@/composables/usePortfolio'
 
 const { portfolio } = usePortfolio()
