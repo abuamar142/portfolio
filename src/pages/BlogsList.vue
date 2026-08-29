@@ -61,18 +61,18 @@
         <p class="text-sm" style="color: var(--color-text-muted)">No posts found.</p>
       </div>
 
-      <!-- List — victoreke writing list: title + meta + excerpt, subtle border -->
+      <!-- List — full-width single column (victoreke style): tags + title + meta + excerpt only -->
       <div v-else class="border-t" style="border-color: var(--color-border)">
         <article
           v-for="post in filteredPosts"
           :key="post._id"
-          class="group grid md:grid-cols-[1fr_220px] gap-4 md:gap-6 py-6 border-b transition-colors hover:brightness-[1.02]"
+          class="group py-6 md:py-7 border-b transition-colors hover:brightness-[1.02]"
           style="border-color: var(--color-border)"
         >
           <router-link :to="`/blogs/${post.slug}`" class="block min-w-0">
-            <div v-if="post.tags && post.tags.length" class="flex flex-wrap gap-1.5 mb-2">
+            <div v-if="post.tags && post.tags.length" class="flex flex-wrap gap-1.5 mb-2.5">
               <span
-                v-for="(tag, i) in post.tags.slice(0, 3)"
+                v-for="tag in post.tags.slice(0, 3)"
                 :key="tag.tag || tag"
                 class="text-[10px] font-mono tracking-wide px-2 py-1 rounded-full border"
                 :style="{ borderColor: 'var(--color-border)', background: 'var(--color-surface-raised)', color: 'var(--color-text-muted)' }"
@@ -80,21 +80,13 @@
                 {{ tag.tag || tag }}
               </span>
             </div>
-            <h2 class="text-[16px] md:text-[17px] font-medium tracking-tight leading-tight group-hover:underline underline-offset-4 decoration-1" style="color: var(--color-text-primary); text-decoration-color: var(--color-border-contrast)">
+            <h2 class="text-[17px] md:text-[19px] font-medium tracking-tight leading-tight group-hover:underline underline-offset-4 decoration-1" style="color: var(--color-text-primary); text-decoration-color: var(--color-border-contrast)">
               {{ post.title }}
             </h2>
             <div class="flex items-center gap-2 text-xs font-mono mt-2" style="color: var(--color-text-faint)">
               <span>{{ formatDate(post.publishedAt) }}</span><span>·</span><span>{{ estimateReadingTime(post) }} min</span>
             </div>
-            <p class="text-sm leading-relaxed mt-2 line-clamp-2 max-w-[62ch]" style="color: var(--color-text-muted)">{{ post.excerpt || 'No description available.' }}</p>
-          </router-link>
-          <router-link :to="`/blogs/${post.slug}`" class="hidden md:block">
-            <div v-if="getCoverUrl(post)" class="w-full h-28 rounded-lg overflow-hidden border" style="border-color: var(--color-border); background: var(--color-surface-raised)">
-              <img :src="getCoverUrl(post)" :alt="post.title" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300" />
-            </div>
-            <div v-else class="w-full h-28 rounded-lg border flex items-center justify-center" style="border-color: var(--color-border); background: var(--color-surface)">
-              <span class="text-[11px] font-mono" style="color: var(--color-text-faint)">No cover</span>
-            </div>
+            <p class="text-[14px] leading-relaxed mt-2.5 line-clamp-2 max-w-[72ch]" style="color: var(--color-text-muted)">{{ post.excerpt || 'No description available.' }}</p>
           </router-link>
         </article>
       </div>
@@ -194,9 +186,6 @@ function formatDate(iso?: string | null) {
   } catch {
     return String(iso)
   }
-}
-function getCoverUrl(post: any) {
-  return post.coverImage?.url
 }
 onMounted(loadPosts)
 </script>
