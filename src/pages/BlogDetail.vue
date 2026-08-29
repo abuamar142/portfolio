@@ -62,7 +62,7 @@
               @click="handleShare"
             >
               <Share2 :size="14" aria-hidden="true" />
-              Share — copy link
+              Share
             </button>
           </div>
         </div>
