@@ -11,7 +11,7 @@
             Selected work — 3 deployed products, minimal cards, generous gap.
           </p>
         </div>
-        <div class="text-xs font-mono" style="color: var(--color-text-faint)">{{ portfolio?.projects?.length || 0 }} total</div>
+        <div class="text-[11px] font-mono" style="color: var(--color-text-faint)">{{ portfolio?.projects?.length || 0 }} total</div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
@@ -33,7 +33,7 @@
             <div v-else class="w-full h-full flex items-center justify-center">
               <span class="text-[11px] font-mono tracking-[0.14em] uppercase" style="color: var(--color-text-faint)">{{ project.title.slice(0, 12) }} — IMG</span>
             </div>
-            <div class="absolute top-3 left-3 text-[10px] font-mono px-2 py-1 rounded border" style="background: var(--color-bg); border-color: var(--color-border); color: var(--color-text-faint)">
+            <div class="absolute top-3 left-3 text-[11px] font-mono px-2 py-1 rounded border" style="background: var(--color-bg); border-color: var(--color-border); color: var(--color-text-faint)">
               {{ index + 1 < 10 ? `0${index + 1}` : index + 1 }} / {{ String(displayedProjects.length).padStart(2, '0') }}
             </div>
           </div>
@@ -42,7 +42,7 @@
             <h3 class="text-sm font-medium tracking-tight leading-tight" style="color: var(--color-text-primary)">
               {{ project.title }}
             </h3>
-            <p class="mt-2 text-xs leading-relaxed line-clamp-3" style="color: var(--color-text-muted)">
+            <p class="mt-2 text-[11px] font-mono leading-relaxed line-clamp-3" style="color: var(--color-text-muted)">
               {{ project.description }}
             </p>
 
@@ -50,14 +50,14 @@
               <span
                 v-for="tech in project.technologies.slice(0, 6)"
                 :key="tech"
-                class="px-2 py-1 text-[10px] font-mono tracking-wide rounded border"
+                class="px-2 py-1 text-[11px] font-mono tracking-wide rounded border"
                 style="border-color: var(--color-border); background: var(--color-surface-raised); color: var(--color-text-muted)"
               >
                 {{ tech }}
               </span>
               <span
                 v-if="project.technologies.length > 6"
-                class="px-2 py-1 text-[10px] font-mono rounded"
+                class="px-2 py-1 text-[11px] font-mono rounded"
                 style="color: var(--color-text-faint)"
               >
                 +{{ project.technologies.length - 6 }}
@@ -70,7 +70,7 @@
                 :href="project.githubUrl"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-1.5 text-xs font-medium transition-colors"
+                class="inline-flex items-center gap-1.5 text-[11px] font-mono font-medium transition-colors"
                 style="color: var(--color-text-muted)"
               >
                 <Github class="w-3.5 h-3.5" />
@@ -81,7 +81,7 @@
                 :href="project.liveUrl"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex items-center gap-1.5 text-xs font-medium transition-colors"
+                class="inline-flex items-center gap-1.5 text-[11px] font-mono font-medium transition-colors"
                 style="color: var(--color-text-primary)"
               >
                 <ExternalLink class="w-3.5 h-3.5" />
@@ -96,7 +96,7 @@
       <div v-if="shouldShowSeeMore || showAll" class="mt-8 flex justify-center">
         <button
           @click="toggleShowAll"
-          class="px-4 py-2 rounded-full border text-xs font-mono tracking-wide transition-colors"
+          class="px-4 py-2 rounded-full border text-[11px] font-mono tracking-wide transition-colors"
           style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface)"
         >
           <span v-if="!showAll">{{ $t('projects.buttons.seeMore') }} — {{ (portfolio?.projects.length || 0) - maxItems }} more</span>

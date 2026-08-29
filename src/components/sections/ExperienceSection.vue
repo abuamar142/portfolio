@@ -8,7 +8,7 @@
             {{ $t('experience.title') }}
           </h2>
         </div>
-        <div class="text-xs font-mono" style="color: var(--color-text-faint)">{{ portfolio?.experiences?.length || 0 }} roles — victoreke list</div>
+        <div class="text-[11px] font-mono" style="color: var(--color-text-faint)">{{ portfolio?.experiences?.length || 0 }} roles — victoreke list</div>
       </div>
 
       <div class="border-t" style="border-color: var(--color-border)">
@@ -20,7 +20,7 @@
         >
           <!-- Left: duration -->
           <div class="md:pt-1">
-            <div class="text-xs font-mono" style="color: var(--color-text-muted)">{{ experience.duration }}</div>
+            <div class="text-[11px] font-mono" style="color: var(--color-text-muted)">{{ experience.duration }}</div>
             <div class="mt-1 text-[11px] font-mono tracking-wide" style="color: var(--color-text-faint)">{{ experience.company }}</div>
           </div>
 
@@ -37,7 +37,7 @@
                 {{ index + 1 < 10 ? `0${index + 1}` : index + 1 }}
               </span>
             </div>
-            <div class="text-xs font-medium mt-1" style="color: var(--color-text-muted)">{{ experience.company }}</div>
+            <div class="text-[11px] font-mono font-medium mt-1" style="color: var(--color-text-muted)">{{ experience.company }}</div>
 
             <ul class="mt-3 space-y-1.5">
               <li
@@ -55,7 +55,7 @@
               <span
                 v-for="tech in experience.technologies"
                 :key="tech"
-                class="px-2 py-1 text-[10px] font-mono tracking-wide rounded border"
+                class="px-2 py-1 text-[11px] font-mono tracking-wide rounded border"
                 style="border-color: var(--color-border); background: var(--color-surface-raised); color: var(--color-text-muted)"
               >
                 {{ tech }}

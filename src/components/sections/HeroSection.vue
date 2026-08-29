@@ -79,7 +79,7 @@
             <a
               v-if="portfolio?.personalInfo.email"
               :href="`mailto:${portfolio.personalInfo.email}`"
-              class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs transition-colors hover:brightness-110"
+              class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-[11px] font-mono transition-colors hover:brightness-110"
               style="border-color: var(--color-border); background: var(--color-surface-raised); color: var(--color-text-secondary)"
             >
               <Mail class="w-3.5 h-3.5" style="color: var(--color-text-muted)" />
@@ -87,7 +87,7 @@
             </a>
             <span
               v-if="portfolio?.personalInfo.location"
-              class="inline-flex items-center gap-1.5 text-xs"
+              class="inline-flex items-center gap-1.5 text-[11px] font-mono"
               style="color: var(--color-text-faint)"
             >
               <MapPin class="w-3.5 h-3.5" />
@@ -178,7 +178,7 @@
                 <div class="text-sm font-medium leading-none truncate" style="color: var(--color-text-primary)">
                   {{ portfolio?.personalInfo.fullname || 'Abu Amar' }}
                 </div>
-                <div class="text-xs mt-1" style="color: var(--color-text-muted)">Mobile & Full Stack — Jakarta</div>
+                <div class="text-[11px] font-mono mt-1" style="color: var(--color-text-muted)">Mobile & Full Stack — Jakarta</div>
                 <div class="mt-2 inline-flex items-center gap-1.5 text-[11px] font-mono" style="color: var(--color-text-faint)">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Open to opportunities
                 </div>
@@ -187,21 +187,21 @@
 
             <!-- Details list -->
             <div class="px-5 pb-6 space-y-4 flex-1">
-              <div class="grid grid-cols-2 gap-4 text-xs">
+              <div class="grid grid-cols-2 gap-4 text-[11px] font-mono">
                 <div class="rounded-lg border p-4" style="background: var(--color-surface-raised); border-color: var(--color-border)">
                   <div class="text-[11px] font-mono tracking-[0.08em] uppercase mb-1" style="color: var(--color-text-faint)">Location</div>
                   <div class="font-medium truncate" style="color: var(--color-text-secondary)">{{ portfolio?.personalInfo.location || 'Jakarta, Indonesia' }}</div>
                 </div>
                 <div class="rounded-lg border p-4" style="background: var(--color-surface-raised); border-color: var(--color-border)">
                   <div class="text-[11px] font-mono tracking-[0.08em] uppercase mb-1" style="color: var(--color-text-faint)">Local time</div>
-                  <div class="font-medium font-mono text-xs" style="color: var(--color-text-secondary)">{{ currentTime }}</div>
+                  <div class="font-medium font-mono text-[11px]" style="color: var(--color-text-secondary)">{{ currentTime }}</div>
                 </div>
               </div>
 
               <div class="rounded-lg border p-4 flex items-center justify-between" style="background: var(--color-surface-raised); border-color: var(--color-border)">
                 <div>
                   <div class="text-[11px] font-mono tracking-[0.08em] uppercase mb-1" style="color: var(--color-text-faint)">Response</div>
-                  <div class="text-xs font-medium" style="color: var(--color-text-secondary)">&lt; 24 hours</div>
+                  <div class="text-[11px] font-mono font-medium" style="color: var(--color-text-secondary)">&lt; 24 hours</div>
                 </div>
                 <div class="w-8 h-8 rounded-full border flex items-center justify-center" style="border-color: var(--color-border); color: var(--color-text-muted)">
                   <Mail class="w-3.5 h-3.5" />
@@ -212,7 +212,7 @@
                 <a
                   v-if="portfolio?.personalInfo.email"
                   :href="`mailto:${portfolio.personalInfo.email}`"
-                  class="flex items-center justify-between text-xs group"
+                  class="flex items-center justify-between text-[11px] font-mono group"
                   style="color: var(--color-text-muted)"
                 >
                   <span class="truncate">{{ portfolio.personalInfo.email }}</span>

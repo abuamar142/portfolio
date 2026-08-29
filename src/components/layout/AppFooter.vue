@@ -28,7 +28,7 @@
             :href="social.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-xs transition-colors duration-150"
+            class="text-[11px] font-mono tracking-wide transition-colors duration-150"
             style="color: var(--color-text-muted)"
           >
             {{ social.label }}

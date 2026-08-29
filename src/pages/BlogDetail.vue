@@ -3,7 +3,7 @@
     <div class="max-w-[1280px] mx-auto px-6 md:px-8 py-10 md:py-12">
       <router-link
         to="/blogs"
-        class="inline-flex items-center gap-1.5 text-xs font-mono mb-8 transition-colors"
+        class="inline-flex items-center gap-1.5 text-[11px] font-mono mb-8 transition-colors"
         style="color: var(--color-text-faint)"
       >
         ← All posts
@@ -17,7 +17,7 @@
 
       <div v-else-if="error" class="max-w-[720px] py-12 rounded-xl border p-8" style="background: var(--color-surface); border-color: var(--color-border)">
         <p class="text-sm mb-4" style="color: var(--color-error)">{{ error }}</p>
-        <router-link to="/blogs" class="text-xs font-mono" style="color: var(--color-text-muted)">← Back to blog</router-link>
+        <router-link to="/blogs" class="text-[11px] font-mono" style="color: var(--color-text-muted)">← Back to blog</router-link>
       </div>
 
       <article v-else class="grid lg:grid-cols-[720px_1fr] gap-10 lg:gap-12 items-start">
@@ -37,7 +37,7 @@
             {{ post?.title }}
           </h1>
 
-          <div class="flex flex-wrap items-center gap-3 text-xs font-mono mt-4 pb-6 border-b" style="color: var(--color-text-faint); border-color: var(--color-border)">
+          <div class="flex flex-wrap items-center gap-3 text-[11px] font-mono mt-4 pb-6 border-b" style="color: var(--color-text-faint); border-color: var(--color-border)">
             <time :datetime="post?.publishedAt">{{ formatDate(post?.publishedAt) }}</time>
             <span>·</span>
             <span>{{ readingTime }} min read</span>
@@ -52,7 +52,7 @@
           <div class="blog-content max-w-none" v-html="contentHtml"></div>
 
           <div class="mt-12 pt-6 border-t flex items-center justify-between" style="border-color: var(--color-border)">
-            <router-link to="/blogs" class="text-xs font-mono inline-flex items-center gap-1.5" style="color: var(--color-text-muted)">← More posts</router-link>
+            <router-link to="/blogs" class="text-[11px] font-mono inline-flex items-center gap-1.5" style="color: var(--color-text-muted)">← More posts</router-link>
             <button
               ref="shareBtnRef"
               type="button"
@@ -73,9 +73,9 @@
             <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-3" style="color: var(--color-text-faint)">On this page</div>
             <div class="pt-4 border-t space-y-2" style="border-color: var(--color-border)">
               <div class="text-[11px] font-mono" style="color: var(--color-text-faint)">Published</div>
-              <div class="text-xs" style="color: var(--color-text-secondary)">{{ formatDate(post?.publishedAt) }}</div>
+              <div class="text-[11px] font-mono" style="color: var(--color-text-secondary)">{{ formatDate(post?.publishedAt) }}</div>
               <div class="text-[11px] font-mono mt-3" style="color: var(--color-text-faint)">Reading time</div>
-              <div class="text-xs" style="color: var(--color-text-secondary)">{{ readingTime }} minutes</div>
+              <div class="text-[11px] font-mono" style="color: var(--color-text-secondary)">{{ readingTime }} minutes</div>
             </div>
           </div>
         </div>
@@ -106,7 +106,7 @@
             <h2 id="share-title" class="text-sm font-mono tracking-tight font-semibold" style="color: var(--color-text-primary)">Share this post</h2>
             <button
               type="button"
-              class="inline-flex h-7 w-7 items-center justify-center rounded-md border text-xs transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2"
+              class="inline-flex h-7 w-7 items-center justify-center rounded-md border text-[11px] font-mono transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2"
               style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"
               aria-label="Close share dialog"
               @click="closeModal"
@@ -130,7 +130,7 @@
           <div class="mt-4 flex gap-2 justify-end">
             <button
               type="button"
-              class="inline-flex items-center justify-center rounded-lg border px-4 py-2 text-xs font-mono font-medium transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2"
+              class="inline-flex items-center justify-center rounded-lg border px-4 py-2 text-[11px] font-mono font-medium transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2"
               style="border-color: var(--color-border); color: var(--color-text-muted); background: transparent"
               @click="closeModal"
             >
@@ -138,7 +138,7 @@
             </button>
             <button
               type="button"
-              class="inline-flex items-center justify-center rounded-lg px-4 py-2 text-xs font-mono font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:opacity-60"
+              class="inline-flex items-center justify-center rounded-lg px-4 py-2 text-[11px] font-mono font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:opacity-60"
               :style="{
                 background: copied ? 'var(--color-success, #16a34a)' : 'var(--color-text-primary)',
                 color: 'var(--color-bg)',
