@@ -2,6 +2,7 @@
 
 /* — Dark slate palette — single source, no light mode */
 :root {
+  --header-h: 56px;
   --color-bg: #0F1217;
   --color-surface: #11151C;
   --color-surface-raised: #1A1F2B;
@@ -51,6 +52,8 @@ html {
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: var(--color-border-contrast) transparent;
+  scroll-padding-top: 56px;
+  scroll-padding-top: var(--header-h);
 }
 
 html.dark {
@@ -91,6 +94,33 @@ body {
   text-rendering: optimizeLegibility;
   letter-spacing: -0.011em;
   line-height: 1.6;
+}
+
+/* Hero — 100vh / svh / dvh cascade, header-aware (h-14 = 56px) */
+#hero {
+  min-height: calc(100vh - 56px);
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - 56px);
+  min-height: calc(100svh - var(--header-h));
+}
+
+@supports (height: 100dvh) {
+  #hero {
+    min-height: calc(100dvh - 56px);
+    min-height: calc(100dvh - var(--header-h));
+  }
+}
+
+/* Safe-area — keep 1.5rem / 2rem gutter but respect notch; override Tailwind px */
+#hero > div {
+  padding-left: max(1.5rem, env(safe-area-inset-left));
+  padding-right: max(1.5rem, env(safe-area-inset-right));
+}
+@media (min-width: 768px) {
+  #hero > div {
+    padding-left: max(2rem, env(safe-area-inset-left));
+    padding-right: max(2rem, env(safe-area-inset-right));
+  }
 }
 
 /* Selection */
