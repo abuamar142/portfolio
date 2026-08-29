@@ -14,9 +14,9 @@
       </div>
 
       <div class="mt-4 flex justify-center gap-1.5">
-        <div class="w-1.5 h-1.5 bg-accent rounded-full animate-bounce" style="animation-delay: 0ms"></div>
-        <div class="w-1.5 h-1.5 bg-accent rounded-full animate-bounce" style="animation-delay: 150ms"></div>
-        <div class="w-1.5 h-1.5 bg-accent rounded-full animate-bounce" style="animation-delay: 300ms"></div>
+        <div class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" style="animation-delay: 0ms"></div>
+        <div class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" style="animation-delay: 200ms"></div>
+        <div class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" style="animation-delay: 400ms"></div>
       </div>
     </div>
   </div>
@@ -55,7 +55,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .animate-spin,
-  .animate-bounce {
+  .animate-pulse {
     animation: none;
   }
   .progress-bar-animation {
