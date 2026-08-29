@@ -33,9 +33,9 @@
     class="min-h-[70vh] flex items-center bg-surface scroll-mt-14"
   >
     <div class="max-w-3xl mx-auto px-6 py-20 w-full">
-      <!-- Name -->
-      <h1 class="text-3xl sm:text-4xl font-semibold text-text-primary tracking-tight mb-2">
-        {{ portfolio?.personalInfo.nickname || 'Abu Amar' }}
+      <!-- Name with gradient -->
+      <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight mb-2">
+        <span class="gradient-text">{{ portfolio?.personalInfo.nickname || 'Abu Amar' }}</span>
       </h1>
 
       <!-- Role -->
@@ -48,7 +48,7 @@
         {{ portfolio?.personalInfo.title || '' }}. Building mobile and web applications with a focus on clean code and user experience.
       </p>
 
-      <!-- Social Links -->
+      <!-- Social Links with colors -->
       <div class="flex items-center gap-4">
         <a
           v-for="social in socialLinks"
@@ -56,7 +56,8 @@
           :href="social.url"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-text-muted hover:text-text-primary transition-colors duration-150"
+          class="transition-colors duration-150"
+          :class="social.color"
           :aria-label="social.label"
         >
           <component :is="social.icon" class="w-4 h-4" />
@@ -82,10 +83,10 @@ const roles = [
 ]
 
 const socialLinks = [
-  { label: 'GitHub', url: 'https://github.com/abuamar142', icon: Github },
-  { label: 'LinkedIn', url: 'https://linkedin.com/in/abu-amar', icon: Linkedin },
-  { label: 'Instagram', url: 'https://instagram.com/abuuamar_', icon: Instagram },
-  { label: 'Email', url: 'mailto:abuamar.albadawi@gmail.com', icon: Mail },
+  { label: 'GitHub', url: 'https://github.com/abuamar142', icon: Github, color: 'text-text-muted hover:text-text-primary' },
+  { label: 'LinkedIn', url: 'https://linkedin.com/in/abu-amar', icon: Linkedin, color: 'text-text-muted hover:text-[#0A66C2]' },
+  { label: 'Instagram', url: 'https://instagram.com/abuuamar_', icon: Instagram, color: 'text-text-muted hover:text-[#E4405F]' },
+  { label: 'Email', url: 'mailto:abuamar.albadawi@gmail.com', icon: Mail, color: 'text-text-muted hover:text-accent' },
 ]
 
 let roleIndex = 0

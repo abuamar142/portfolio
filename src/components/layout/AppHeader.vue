@@ -20,11 +20,13 @@
           >
             {{ $t(item.name) }}
           </router-link>
+          <ThemeToggle />
           <LanguageDropdown />
         </div>
 
         <!-- Mobile Menu Button -->
-        <div class="md:hidden flex items-center gap-3">
+        <div class="md:hidden flex items-center gap-2">
+          <ThemeToggle />
           <LanguageDropdown />
           <button
             class="text-text-muted hover:text-text-primary transition-colors p-1"
@@ -70,6 +72,7 @@
 import { ref } from 'vue'
 import { Menu, X } from 'lucide-vue-next'
 import LanguageDropdown from '@/components/LanguageDropdown.vue'
+import ThemeToggle from '@/components/ui/ThemeToggle.vue'
 
 const isMobileMenuOpen = ref(false)
 

@@ -13,26 +13,26 @@
         </p>
       </div>
 
-      <!-- Stats -->
+      <!-- Stats with colorful accents -->
       <div class="flex flex-wrap gap-8 mb-8">
-        <div>
-          <div class="text-lg font-semibold text-text-primary">
+        <div class="group">
+          <div class="text-lg font-semibold text-accent">
             {{ calculateExperienceYears() }}+
           </div>
           <div class="text-xs text-text-muted">
             years experience
           </div>
         </div>
-        <div>
-          <div class="text-lg font-semibold text-text-primary">
+        <div class="group">
+          <div class="text-lg font-semibold text-[#10B981]">
             {{ portfolio?.projects?.length || 0 }}+
           </div>
           <div class="text-xs text-text-muted">
             projects completed
           </div>
         </div>
-        <div>
-          <div class="text-lg font-semibold text-text-primary">
+        <div class="group">
+          <div class="text-lg font-semibold text-[#F97316]">
             6+
           </div>
           <div class="text-xs text-text-muted">
@@ -43,13 +43,20 @@
 
       <!-- Contact Info -->
       <div class="flex flex-col sm:flex-row items-start gap-4">
-        <div class="flex items-center gap-2 text-text-muted">
+        <a
+          v-if="portfolio?.personalInfo.email"
+          :href="`mailto:${portfolio.personalInfo.email}`"
+          class="flex items-center gap-2 text-text-muted hover:text-accent transition-colors duration-150"
+        >
           <Mail class="w-3.5 h-3.5" />
-          <span class="text-xs">{{ portfolio?.personalInfo.email }}</span>
-        </div>
-        <div class="flex items-center gap-2 text-text-muted">
+          <span class="text-xs">{{ portfolio.personalInfo.email }}</span>
+        </a>
+        <div
+          v-if="portfolio?.personalInfo.location"
+          class="flex items-center gap-2 text-text-muted"
+        >
           <MapPin class="w-3.5 h-3.5" />
-          <span class="text-xs">{{ portfolio?.personalInfo.location }}</span>
+          <span class="text-xs">{{ portfolio.personalInfo.location }}</span>
         </div>
       </div>
     </div>
