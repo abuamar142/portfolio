@@ -34,15 +34,15 @@
   <section
     v-else
     id="hero"
-    class="scroll-mt-14 border-b"
+    class="scroll-mt-14 border-b flex items-center min-h-[calc(100vh-56px)] min-h-[calc(100svh-56px)] supports-[height:100dvh]:min-h-[calc(100dvh-56px)]"
     style="background: var(--color-bg); border-color: var(--color-border)"
   >
-    <div class="max-w-[1280px] mx-auto px-6 md:px-8">
-      <div class="grid lg:grid-cols-[1.4fr_0.85fr] gap-10 lg:gap-12 py-12 md:py-16 lg:py-20 items-start">
+    <div class="max-w-[1280px] mx-auto px-6 md:px-8 w-full py-8 lg:py-10">
+      <div class="grid lg:grid-cols-[1.4fr_0.85fr] gap-10 lg:gap-12 items-center">
         <!-- Left: copy -->
         <div class="min-w-0">
           <!-- Mono label -->
-          <div class="flex flex-wrap items-center gap-2 md:gap-3 text-[11px] font-mono tracking-[0.14em] uppercase mb-6">
+          <div class="flex flex-wrap items-center gap-2 md:gap-3 text-[11px] font-mono tracking-[0.14em] uppercase mb-5">
             <span style="color: var(--color-text-faint)">FIG_001</span>
             <span class="w-6 h-px hidden sm:block" style="background: var(--color-border)"></span>
             <span class="inline-flex items-center gap-1.5" style="color: var(--color-text-muted)">
@@ -55,9 +55,9 @@
             </span>
           </div>
 
-          <!-- Name -->
+          <!-- Name — fluid clamp for 1-screen balance -->
           <h1
-            class="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[54px] font-semibold tracking-tighter leading-[0.9] mb-4"
+            class="text-[clamp(32px,5vw,54px)] font-semibold tracking-tighter leading-[0.9] mb-3"
             style="color: var(--color-text-primary); letter-spacing: -0.04em"
           >
             {{ portfolio?.personalInfo.fullname || 'M. Abu Amar Al Badawi' }}
@@ -68,10 +68,10 @@
             Mobile & Full Stack Developer
           </p>
 
-          <!-- Value prop -->
+          <!-- Value prop — full text on all breakpoints -->
           <p class="mt-4 text-sm md:text-[15px] leading-relaxed max-w-[560px]" style="color: var(--color-text-muted)">
             {{ portfolio?.personalInfo.title || 'Building mobile and web applications with a focus on clean code and user experience.' }}
-            <span class="hidden md:inline" style="color: var(--color-text-secondary)"> Focused on robust, scalable solutions — from idea to shipped product.</span>
+            <span style="color: var(--color-text-secondary)"> Focused on robust, scalable solutions — from idea to shipped product.</span>
           </p>
 
           <!-- Meta row -->
@@ -95,18 +95,18 @@
             </span>
           </div>
 
-          <!-- Socials + CTA -->
+          <!-- Socials + CTA — 44px thumb target -->
           <div class="mt-8 flex flex-wrap items-center gap-3">
             <a
               href="#projects"
-              class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
+              class="inline-flex items-center justify-center px-5 py-2.5 min-h-[44px] rounded-lg text-sm font-medium transition-colors"
               style="background: var(--color-text-primary); color: var(--color-bg)"
             >
               View projects
             </a>
             <a
               href="#contact"
-              class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg border text-sm font-medium transition-colors"
+              class="inline-flex items-center justify-center px-5 py-2.5 min-h-[44px] rounded-lg border text-sm font-medium transition-colors"
               style="border-color: var(--color-border); color: var(--color-text-secondary); background: var(--color-surface-raised)"
             >
               Let's connect
@@ -115,7 +115,7 @@
               href="/cv.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-lg border text-sm font-medium transition-colors"
+              class="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 min-h-[44px] rounded-lg border text-sm font-medium transition-colors"
               style="border-color: var(--color-border); color: var(--color-text-secondary); background: var(--color-surface-raised)"
             >
               <FileText class="w-4 h-4" />
@@ -154,10 +154,10 @@
           </div>
         </div>
 
-        <!-- Right: Overview card (fikril-style) -->
-        <div class="lg:pl-2">
+        <!-- Right: Overview card — centered vertically, capped width on ultra-wide -->
+        <div class="lg:pl-2 lg:self-center">
           <div
-            class="rounded-xl border overflow-hidden"
+            class="rounded-xl border overflow-hidden w-full max-w-[385px] mx-auto lg:mx-0 lg:ml-auto"
             style="background: var(--color-surface); border-color: var(--color-border)"
           >
             <!-- Card header -->
