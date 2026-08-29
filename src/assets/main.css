@@ -96,6 +96,59 @@ body {
   line-height: 1.6;
 }
 
+/* — Global Ornament: Grid + Radial Fade — fikril.dev inspired, subtle dev vibe — */
+html {
+  background: var(--color-bg);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(30, 41, 59, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 41, 59, 0.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 70%, transparent 110%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 70%, transparent 110%);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(600px 400px at 50% 0%, rgba(99, 102, 241, 0.06), transparent 70%),
+    radial-gradient(800px 600px at 80% 85%, rgba(99, 102, 241, 0.03), transparent 70%);
+}
+
+/* Content layers above ornament — grid stays between bg and text */
+section > div,
+footer > div,
+#hero > div {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  body::before {
+    background-size: 24px 24px;
+    background-image:
+      linear-gradient(rgba(30, 41, 59, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30, 41, 59, 0.04) 1px, transparent 1px);
+  }
+
+  body::after {
+    background:
+      radial-gradient(400px 300px at 50% 0%, rgba(99, 102, 241, 0.05), transparent 70%),
+      radial-gradient(500px 400px at 80% 85%, rgba(99, 102, 241, 0.025), transparent 70%);
+  }
+}
+
 /* Hero — 100vh / svh / dvh cascade, header-aware (h-14 = 56px) */
 #hero {
   min-height: calc(100vh - 56px);
