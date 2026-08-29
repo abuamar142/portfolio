@@ -1,22 +1,18 @@
 <template>
-  <header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-sm border-b border-border">
+  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm border-b" style="background: color-mix(in srgb, var(--color-surface) 90%, transparent); border-color: var(--color-border)">
     <nav class="max-w-3xl mx-auto px-6">
       <div class="flex items-center justify-between h-14">
-        <!-- Logo -->
-        <router-link
-          to="/"
-          class="text-text-primary font-medium text-sm tracking-tight hover:text-accent transition-colors duration-150"
-        >
+        <router-link to="/" class="font-medium text-sm tracking-tight transition-colors duration-150" style="color: var(--color-text-primary)">
           abuamar
         </router-link>
 
-        <!-- Desktop Navigation -->
         <div class="hidden md:flex items-center gap-6">
           <router-link
             v-for="item in navigation"
             :key="item.name"
             :to="item.isRoute ? item.href : { path: '/', hash: item.href }"
-            class="text-xs text-text-muted hover:text-text-primary transition-colors duration-150"
+            class="text-xs transition-colors duration-150"
+            style="color: var(--color-text-muted)"
           >
             {{ $t(item.name) }}
           </router-link>
@@ -24,12 +20,12 @@
           <LanguageDropdown />
         </div>
 
-        <!-- Mobile Menu Button -->
         <div class="md:hidden flex items-center gap-2">
           <ThemeToggle />
           <LanguageDropdown />
           <button
-            class="text-text-muted hover:text-text-primary transition-colors p-1"
+            class="transition-colors p-1"
+            style="color: var(--color-text-muted)"
             :aria-expanded="isMobileMenuOpen"
             aria-controls="mobile-menu"
             aria-label="Toggle mobile menu"
@@ -41,7 +37,6 @@
         </div>
       </div>
 
-      <!-- Mobile Navigation -->
       <Transition
         enter-active-class="transition duration-150 ease-out"
         enter-from-class="opacity-0 -translate-y-1"
@@ -51,12 +46,13 @@
         leave-to-class="opacity-0 -translate-y-1"
       >
         <div v-if="isMobileMenuOpen" id="mobile-menu" class="md:hidden pb-3" role="menu">
-          <div class="space-y-0.5 border-t border-border pt-2">
+          <div class="space-y-0.5 border-t pt-2" style="border-color: var(--color-border)">
             <router-link
               v-for="item in navigation"
               :key="item.name"
               :to="item.isRoute ? item.href : { path: '/', hash: item.href }"
-              class="text-text-muted hover:text-text-primary block px-2 py-2 text-xs transition-colors duration-150 rounded hover:bg-surface-overlay"
+              class="block px-2 py-2 text-xs transition-colors duration-150 rounded"
+              style="color: var(--color-text-muted)"
               @click="isMobileMenuOpen = false"
             >
               {{ $t(item.name) }}
