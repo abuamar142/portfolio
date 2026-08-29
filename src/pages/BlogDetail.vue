@@ -53,7 +53,17 @@
 
           <div class="mt-12 pt-6 border-t flex items-center justify-between" style="border-color: var(--color-border)">
             <router-link to="/blogs" class="text-xs font-mono inline-flex items-center gap-1.5" style="color: var(--color-text-muted)">← More posts</router-link>
-            <span class="text-[11px] font-mono" style="color: var(--color-text-faint)">Share — copy link</span>
+            <button
+              ref="shareBtnRef"
+              type="button"
+              class="text-[11px] font-mono inline-flex items-center gap-1.5 rounded-md px-2 py-1 -mr-2 transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              style="color: var(--color-text-faint)"
+              aria-label="Share this post"
+              @click="handleShare"
+            >
+              <Share2 :size="14" aria-hidden="true" />
+              Share — copy link
+            </button>
           </div>
         </div>
 
@@ -71,13 +81,84 @@
         </div>
       </article>
     </div>
+
+    <Teleport to="body">
+      <div
+        v-if="showShareModal"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4"
+        aria-hidden="false"
+      >
+        <div
+          class="absolute inset-0 bg-black/50 backdrop-blur-[2px]"
+          aria-hidden="true"
+          @click="closeModal"
+        ></div>
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="share-title"
+          class="relative w-full max-w-md rounded-xl border p-5 sm:p-6 shadow-xl"
+          style="background: var(--color-surface); border-color: var(--color-border)"
+          @click.stop
+          @keydown.esc="closeModal"
+        >
+          <div class="flex items-start justify-between gap-4 mb-4">
+            <h2 id="share-title" class="text-sm font-mono tracking-tight font-semibold" style="color: var(--color-text-primary)">Share this post</h2>
+            <button
+              type="button"
+              class="inline-flex h-7 w-7 items-center justify-center rounded-md border text-xs transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2"
+              style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"
+              aria-label="Close share dialog"
+              @click="closeModal"
+            >
+              ✕
+            </button>
+          </div>
+
+          <label for="share-url-input" class="block text-[11px] font-mono mb-1.5" style="color: var(--color-text-faint)">Link</label>
+          <input
+            id="share-url-input"
+            ref="shareInputRef"
+            :value="shareUrl"
+            readonly
+            class="w-full rounded-lg border px-3 py-2.5 text-sm font-mono focus:outline-none focus:ring-2"
+            style="background: var(--color-surface-raised); border-color: var(--color-border); color: var(--color-text-secondary)"
+            @focus="selectAll"
+            @click="selectAll"
+          />
+
+          <div class="mt-4 flex gap-2 justify-end">
+            <button
+              type="button"
+              class="inline-flex items-center justify-center rounded-lg border px-4 py-2 text-xs font-mono font-medium transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2"
+              style="border-color: var(--color-border); color: var(--color-text-muted); background: transparent"
+              @click="closeModal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="inline-flex items-center justify-center rounded-lg px-4 py-2 text-xs font-mono font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:opacity-60"
+              :style="{
+                background: copied ? 'var(--color-success, #16a34a)' : 'var(--color-text-primary)',
+                color: 'var(--color-bg)',
+              }"
+              @click="copyText"
+            >
+              {{ copied ? 'Copied!' : 'Copy' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </Teleport>
   </section>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, nextTick, watch, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@vueuse/head'
+import { Share2 } from 'lucide-vue-next'
 import { usePosts } from '@/composables/usePosts'
 
 const route = useRoute()
@@ -119,6 +200,134 @@ function formatDate(iso?: string | null) {
     return String(iso)
   }
 }
+
+// — Share state & helpers
+const showShareModal = ref(false)
+const copied = ref(false)
+const shareInputRef = ref<HTMLInputElement | null>(null)
+const shareBtnRef = ref<HTMLButtonElement | null>(null)
+
+const shareUrl = computed(() => {
+  if (typeof window !== 'undefined' && window.location?.href) return window.location.href
+  const s = (post.value?.slug as string) || slug.value
+  return s ? `https://abuamar.online/blogs/${encodeURIComponent(s)}` : 'https://abuamar.online/blogs'
+})
+const shareTitle = computed(() => post.value?.title || (typeof document !== 'undefined' ? document.title : '') || 'Blog post')
+const shareText = computed(() => {
+  const raw: string = post.value?.excerpt || ''
+  const text = raw.replace(/<[^>]*>/g, '').trim()
+  return text.slice(0, 200)
+})
+
+function isMobileUA(): boolean {
+  if (typeof navigator === 'undefined') return false
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+}
+
+function openModal() {
+  showShareModal.value = true
+  nextTick(() => {
+    shareInputRef.value?.focus()
+    shareInputRef.value?.select()
+  })
+}
+
+function closeModal() {
+  showShareModal.value = false
+  copied.value = false
+  nextTick(() => {
+    shareBtnRef.value?.focus()
+  })
+}
+
+async function copyText(): Promise<boolean> {
+  const text = shareUrl.value
+  let ok = false
+  try {
+    if (typeof navigator !== 'undefined' && navigator.clipboard && (window as any).isSecureContext) {
+      await navigator.clipboard.writeText(text)
+      ok = true
+    } else {
+      throw new Error('clipboard unavailable')
+    }
+  } catch {
+    try {
+      const ta = document.createElement('textarea')
+      ta.value = text
+      ta.setAttribute('readonly', '')
+      ta.style.position = 'fixed'
+      ta.style.top = '-9999px'
+      ta.style.opacity = '0'
+      document.body.appendChild(ta)
+      ta.focus()
+      ta.select()
+      ok = document.execCommand('copy')
+      document.body.removeChild(ta)
+    } catch {
+      ok = false
+    }
+  }
+  if (ok) {
+    copied.value = true
+    setTimeout(() => {
+      copied.value = false
+    }, 2000)
+  }
+  return ok
+}
+
+async function handleShare() {
+  const title = shareTitle.value
+  const text = shareText.value
+  const url = shareUrl.value
+  const canNative = typeof navigator !== 'undefined' && !!navigator.share && isMobileUA()
+  if (canNative) {
+    try {
+      const nav: any = navigator as any
+      if (typeof nav.canShare === 'function') {
+        try {
+          if (!nav.canShare({ title, text, url })) {
+            openModal()
+            return
+          }
+        } catch {
+          // ignore canShare throw, fall through to share attempt
+        }
+      }
+      await (navigator as any).share({ title, text, url })
+      return
+    } catch (e: any) {
+      if (e?.name === 'AbortError') return
+      // fallthrough to modal for other errors
+    }
+  }
+  openModal()
+}
+
+function selectAll(e: Event) {
+  ;(e.target as HTMLInputElement)?.select()
+}
+
+function onEsc(e: KeyboardEvent) {
+  if (e.key === 'Escape' && showShareModal.value) closeModal()
+}
+
+watch(showShareModal, (open) => {
+  if (typeof window === 'undefined') return
+  if (open) {
+    window.addEventListener('keydown', onEsc)
+    // prevent background scroll
+    document.documentElement.style.overflow = 'hidden'
+  } else {
+    window.removeEventListener('keydown', onEsc)
+    document.documentElement.style.overflow = ''
+  }
+})
+
+onBeforeUnmount(() => {
+  if (typeof window !== 'undefined') window.removeEventListener('keydown', onEsc)
+  if (typeof document !== 'undefined') document.documentElement.style.overflow = ''
+})
 
 onMounted(async () => {
   try {
