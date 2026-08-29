@@ -26,7 +26,7 @@
             <div
               v-for="(skill, index) in category.skills"
               :key="index"
-              class="inline-flex items-center gap-2 px-4 py-2 bg-surface-raised border border-border rounded-lg hover:border-accent transition-all duration-200 group"
+              class="inline-flex items-center gap-2 px-4 py-2 bg-surface-raised border border-border rounded-lg hover:border-accent/30 hover:bg-accent-subtle transition-all duration-200 group"
             >
               <span class="text-sm text-text-secondary font-medium group-hover:text-text-primary transition-colors duration-200">
                 {{ skill.name }}

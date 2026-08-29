@@ -76,17 +76,19 @@
           </button>
         </div>
 
-        <!-- Social Links as Text -->
-        <div class="flex items-center gap-5">
+        <!-- Social Links -->
+        <div class="flex items-center gap-4">
           <a
             v-for="social in socialLinks"
             :key="social.label"
             :href="social.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-text-muted text-sm hover:text-text-primary transition-colors duration-200"
+            class="flex items-center gap-2 text-text-muted text-sm hover:text-text-primary transition-colors duration-200"
+            :aria-label="social.label"
           >
-            {{ social.label }}
+            <component :is="social.icon" class="w-4 h-4" />
+            <span class="hidden sm:inline">{{ social.label }}</span>
           </a>
         </div>
       </div>
@@ -96,7 +98,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Eye, Mail } from 'lucide-vue-next'
+import { Eye, Mail, Github, Linkedin, Instagram, MessageCircle } from 'lucide-vue-next'
 import { usePortfolio } from '@/composables/usePortfolio'
 
 const { portfolio, loading, error } = usePortfolio()
@@ -111,10 +113,10 @@ const roles = [
 ]
 
 const socialLinks = [
-  { label: 'GitHub', url: 'https://github.com/abuamar142' },
-  { label: 'LinkedIn', url: 'https://linkedin.com/in/abu-amar' },
-  { label: 'Instagram', url: 'https://instagram.com/abuuamar_' },
-  { label: 'Email', url: 'mailto:abuamar.albadawi@gmail.com' },
+  { label: 'GitHub', url: 'https://github.com/abuamar142', icon: Github },
+  { label: 'LinkedIn', url: 'https://linkedin.com/in/abu-amar', icon: Linkedin },
+  { label: 'Instagram', url: 'https://instagram.com/abuuamar_', icon: Instagram },
+  { label: 'Email', url: 'mailto:abuamar.albadawi@gmail.com', icon: MessageCircle },
 ]
 
 let roleIndex = 0
