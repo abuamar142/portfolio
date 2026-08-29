@@ -1,14 +1,13 @@
 <template>
   <section class="min-h-screen bg-surface flex items-center justify-center px-4">
-    <div class="text-center max-w-md">
-      <div class="text-8xl font-bold text-text-primary mb-4">404</div>
-      <h1 class="text-2xl font-semibold text-text-primary mb-2">Page not found</h1>
-      <p class="text-text-muted mb-8">The page you're looking for doesn't exist or has been moved.</p>
+    <div class="text-center">
+      <div class="text-6xl font-semibold text-text-primary mb-4 tracking-tighter">404</div>
+      <p class="text-text-muted text-sm mb-6">Page not found.</p>
       <router-link
         to="/"
-        class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-lg hover:bg-accent-hover transition-colors duration-200 text-sm font-medium"
+        class="text-xs text-text-muted hover:text-text-primary transition-colors duration-150"
       >
-        &larr; Back to home
+        &larr; Home
       </router-link>
     </div>
   </section>

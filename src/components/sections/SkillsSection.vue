@@ -1,37 +1,29 @@
 <template>
-  <section
-    id="skills"
-    class="py-20 bg-surface scroll-mt-16"
-  >
-    <div class="max-w-5xl mx-auto px-6">
+  <section id="skills" class="py-16 bg-surface scroll-mt-14">
+    <div class="max-w-3xl mx-auto px-6">
       <!-- Header -->
-      <div class="mb-16 animate-fade-in">
-        <h2 class="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight mb-4">
-          {{ $t('skills.title') }}
-        </h2>
-        <div class="w-12 h-0.5 bg-accent"></div>
-      </div>
+      <h2 class="text-lg font-semibold text-text-primary tracking-tight mb-8">
+        {{ $t('skills.title') }}
+      </h2>
 
       <!-- Skills by Category -->
-      <div class="space-y-12">
+      <div class="space-y-6">
         <div
           v-for="category in skillCategories"
           :key="category.name"
         >
-          <h3 class="text-sm font-medium text-text-muted uppercase tracking-wider mb-5">
+          <h3 class="text-xs text-text-muted uppercase tracking-wider mb-3">
             {{ category.name }}
           </h3>
 
-          <div class="flex flex-wrap gap-3">
-            <div
+          <div class="flex flex-wrap gap-2">
+            <span
               v-for="(skill, index) in category.skills"
               :key="index"
-              class="inline-flex items-center gap-2 px-4 py-2 bg-surface-raised border border-border rounded-lg hover:border-accent/30 hover:bg-accent-subtle transition-all duration-200 group"
+              class="px-2.5 py-1 bg-surface-overlay text-text-secondary text-xs rounded font-mono"
             >
-              <span class="text-sm text-text-secondary font-medium group-hover:text-text-primary transition-colors duration-200">
-                {{ skill.name }}
-              </span>
-            </div>
+              {{ skill.name }}
+            </span>
           </div>
         </div>
       </div>
@@ -45,7 +37,7 @@ import { usePortfolio } from '@/composables/usePortfolio'
 
 const { portfolio } = usePortfolio()
 
-const MAX_SKILLS_PER_CATEGORY = 6
+const MAX_SKILLS_PER_CATEGORY = 8
 
 const skillCategories = computed(() =>
   [

@@ -1,22 +1,22 @@
 <template>
-  <section class="pt-24 pb-20 bg-surface min-h-screen">
+  <section class="pt-20 pb-16 bg-surface min-h-screen">
     <div class="max-w-3xl mx-auto px-6">
       <!-- Back link -->
-      <router-link to="/blogs" class="inline-flex items-center gap-2 text-text-muted hover:text-text-primary text-sm mb-8 transition-colors duration-200">
+      <router-link to="/blogs" class="inline-flex items-center gap-1 text-text-muted hover:text-text-primary text-xs mb-8 transition-colors duration-150">
         &larr; All posts
       </router-link>
 
       <!-- Loading -->
-      <div v-if="loading" class="space-y-6">
-        <div class="h-7 bg-surface-overlay rounded w-3/4 animate-pulse"></div>
-        <div class="h-4 bg-surface-overlay rounded w-1/4 animate-pulse"></div>
-        <div class="h-56 bg-surface-overlay rounded-lg animate-pulse"></div>
+      <div v-if="loading" class="space-y-4">
+        <div class="h-4 bg-surface-overlay rounded w-3/4 animate-pulse"></div>
+        <div class="h-3 bg-surface-overlay rounded w-1/4 animate-pulse"></div>
+        <div class="h-48 bg-surface-overlay rounded-lg animate-pulse"></div>
       </div>
 
       <!-- Error -->
-      <div v-else-if="error" class="text-center py-20" role="alert">
-        <p class="text-error text-lg mb-4">{{ error }}</p>
-        <router-link to="/blogs" class="text-accent hover:text-accent-hover text-sm transition-colors duration-200">
+      <div v-else-if="error" class="py-20" role="alert">
+        <p class="text-error text-sm mb-4">{{ error }}</p>
+        <router-link to="/blogs" class="text-xs text-text-muted hover:text-text-primary transition-colors duration-150">
           &larr; Back to blog
         </router-link>
       </div>
@@ -24,25 +24,25 @@
       <!-- Article -->
       <article v-else>
         <!-- Tags -->
-        <div v-if="post?.tags?.length" class="flex flex-wrap gap-2 mb-4">
+        <div v-if="post?.tags?.length" class="flex flex-wrap gap-1.5 mb-3">
           <span
             v-for="tag in post.tags"
             :key="tag.tag || tag"
-            class="px-2 py-0.5 text-xs bg-accent-subtle text-accent rounded"
+            class="text-[10px] text-text-muted font-mono"
           >
             {{ tag.tag || tag }}
           </span>
         </div>
 
         <!-- Title -->
-        <h1 class="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight mb-4 leading-tight">
+        <h1 class="text-xl sm:text-2xl font-semibold text-text-primary tracking-tight mb-3 leading-tight">
           {{ post?.title }}
         </h1>
 
         <!-- Meta -->
-        <div class="flex items-center gap-3 text-sm text-text-muted mb-8">
+        <div class="flex items-center gap-2 text-xs text-text-muted mb-6">
           <time :datetime="post?.publishedAt">{{ formatDate(post?.publishedAt) }}</time>
-          <span>&middot;</span>
+          <span>·</span>
           <span>{{ readingTime }} min read</span>
         </div>
 
@@ -52,7 +52,7 @@
             :src="coverUrl"
             :alt="post?.title"
             loading="lazy"
-            class="w-full rounded-xl border border-border"
+            class="w-full rounded-lg"
           />
         </div>
 
@@ -60,8 +60,8 @@
         <div class="blog-content max-w-none text-text-secondary leading-relaxed" v-html="contentHtml"></div>
 
         <!-- Footer -->
-        <div class="mt-12 pt-8 border-t border-border">
-          <router-link to="/blogs" class="text-accent hover:text-accent-hover text-sm transition-colors duration-200">
+        <div class="mt-12 pt-6 border-t border-border">
+          <router-link to="/blogs" class="text-xs text-text-muted hover:text-text-primary transition-colors duration-150">
             &larr; More posts
           </router-link>
         </div>
@@ -95,9 +95,6 @@ useHead({
     { property: 'og:url', content: `${siteUrl}/blogs/${slug.value}` },
     { property: 'article:published_time', content: post.value?.publishedAt || '' },
     { property: 'article:author', content: 'Abu Amar' },
-    { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: post.value?.title || 'Blog Post' },
-    { name: 'twitter:description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
   ]),
   link: computed(() => [
     { rel: 'canonical', href: `${siteUrl}/blogs/${slug.value}` },
