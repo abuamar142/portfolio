@@ -34,15 +34,15 @@
   <section
     v-else
     id="hero"
-    class="scroll-mt-14 border-b flex items-center min-h-[calc(100vh-56px)] min-h-[calc(100svh-56px)] supports-[height:100dvh]:min-h-[calc(100dvh-56px)]"
+    class="scroll-mt-14 border-b flex flex-col justify-center pt-[8vh] lg:pt-[10vh] pb-8 lg:pb-10 min-h-[calc(100vh-56px)] min-h-[calc(100svh-56px)] supports-[height:100dvh]:min-h-[calc(100dvh-56px)]"
     style="background: var(--color-bg); border-color: var(--color-border)"
   >
-    <div class="max-w-[1280px] mx-auto px-6 md:px-8 w-full py-8 lg:py-10">
-      <div class="grid lg:grid-cols-[1.4fr_0.85fr] gap-10 lg:gap-12 items-center">
+    <div class="max-w-[1280px] mx-auto px-6 md:px-8 w-full">
+      <div class="grid lg:grid-cols-[1.4fr_0.85fr] gap-10 lg:gap-16 items-start lg:items-center">
         <!-- Left: copy -->
         <div class="min-w-0">
           <!-- Mono label -->
-          <div class="flex flex-wrap items-center gap-2 md:gap-3 text-[11px] font-mono tracking-[0.14em] uppercase mb-5">
+          <div class="flex flex-wrap items-center gap-2 md:gap-3 text-[11px] font-mono tracking-[0.14em] uppercase mb-6">
             <span style="color: var(--color-text-faint)">FIG_001</span>
             <span class="w-6 h-px hidden sm:block" style="background: var(--color-border)"></span>
             <span class="inline-flex items-center gap-1.5" style="color: var(--color-text-muted)">
@@ -57,7 +57,7 @@
 
           <!-- Name — fluid clamp for 1-screen balance -->
           <h1
-            class="text-[clamp(32px,5vw,54px)] font-semibold tracking-tighter leading-[0.9] mb-3"
+            class="text-[clamp(32px,5vw,54px)] font-semibold tracking-tighter leading-[0.9] mb-4"
             style="color: var(--color-text-primary); letter-spacing: -0.04em"
           >
             {{ portfolio?.personalInfo.fullname || 'M. Abu Amar Al Badawi' }}
@@ -69,13 +69,13 @@
           </p>
 
           <!-- Value prop — full text on all breakpoints -->
-          <p class="mt-4 text-sm md:text-[15px] leading-relaxed max-w-[560px]" style="color: var(--color-text-muted)">
+          <p class="mt-5 text-sm md:text-[15px] leading-relaxed max-w-[600px]" style="color: var(--color-text-muted)">
             {{ portfolio?.personalInfo.title || 'Building mobile and web applications with a focus on clean code and user experience.' }}
             <span style="color: var(--color-text-secondary)"> Focused on robust, scalable solutions — from idea to shipped product.</span>
           </p>
 
           <!-- Meta row -->
-          <div class="mt-6 flex flex-wrap items-center gap-3 md:gap-4">
+          <div class="mt-8 flex flex-wrap items-center gap-3 md:gap-4">
             <a
               v-if="portfolio?.personalInfo.email"
               :href="`mailto:${portfolio.personalInfo.email}`"
@@ -96,7 +96,7 @@
           </div>
 
           <!-- Socials + CTA — 44px thumb target -->
-          <div class="mt-8 flex flex-wrap items-center gap-3">
+          <div class="mt-10 flex flex-wrap items-center gap-3.5">
             <a
               href="#projects"
               class="inline-flex items-center justify-center px-5 py-2.5 min-h-[44px] rounded-lg text-sm font-medium transition-colors"
@@ -155,9 +155,9 @@
         </div>
 
         <!-- Right: Overview card — centered vertically, capped width on ultra-wide -->
-        <div class="lg:pl-2 lg:self-center">
+        <div class="lg:pl-2 lg:self-center mt-10 lg:mt-0">
           <div
-            class="rounded-xl border overflow-hidden w-full max-w-[385px] mx-auto lg:mx-0 lg:ml-auto"
+            class="rounded-xl border overflow-hidden w-full max-w-[385px] mx-auto lg:mx-0 lg:ml-auto flex flex-col min-h-[420px]"
             style="background: var(--color-surface); border-color: var(--color-border)"
           >
             <!-- Card header -->
@@ -167,7 +167,7 @@
             </div>
 
             <!-- Identity -->
-            <div class="px-5 py-5 flex gap-3">
+            <div class="px-5 py-6 flex gap-4">
               <div
                 class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold shrink-0 border"
                 style="background: var(--color-surface-raised); border-color: var(--color-border); color: var(--color-text-primary)"
@@ -186,19 +186,19 @@
             </div>
 
             <!-- Details list -->
-            <div class="px-5 pb-5 space-y-3">
-              <div class="grid grid-cols-2 gap-3 text-xs">
-                <div class="rounded-lg border p-3" style="background: var(--color-surface-raised); border-color: var(--color-border)">
+            <div class="px-5 pb-6 space-y-4 flex-1">
+              <div class="grid grid-cols-2 gap-4 text-xs">
+                <div class="rounded-lg border p-4" style="background: var(--color-surface-raised); border-color: var(--color-border)">
                   <div class="text-[11px] font-mono tracking-[0.08em] uppercase mb-1" style="color: var(--color-text-faint)">Location</div>
                   <div class="font-medium truncate" style="color: var(--color-text-secondary)">{{ portfolio?.personalInfo.location || 'Jakarta, Indonesia' }}</div>
                 </div>
-                <div class="rounded-lg border p-3" style="background: var(--color-surface-raised); border-color: var(--color-border)">
+                <div class="rounded-lg border p-4" style="background: var(--color-surface-raised); border-color: var(--color-border)">
                   <div class="text-[11px] font-mono tracking-[0.08em] uppercase mb-1" style="color: var(--color-text-faint)">Local time</div>
                   <div class="font-medium font-mono text-xs" style="color: var(--color-text-secondary)">{{ currentTime }}</div>
                 </div>
               </div>
 
-              <div class="rounded-lg border p-3 flex items-center justify-between" style="background: var(--color-surface-raised); border-color: var(--color-border)">
+              <div class="rounded-lg border p-4 flex items-center justify-between" style="background: var(--color-surface-raised); border-color: var(--color-border)">
                 <div>
                   <div class="text-[11px] font-mono tracking-[0.08em] uppercase mb-1" style="color: var(--color-text-faint)">Response</div>
                   <div class="text-xs font-medium" style="color: var(--color-text-secondary)">&lt; 24 hours</div>
