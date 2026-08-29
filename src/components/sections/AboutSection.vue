@@ -1,63 +1,55 @@
 <template>
-  <section
-    id="about"
-    class="py-20 bg-surface scroll-mt-16"
-  >
-    <div class="max-w-5xl mx-auto px-6">
+  <section id="about" class="py-16 bg-surface scroll-mt-14">
+    <div class="max-w-3xl mx-auto px-6">
       <!-- Header -->
-      <div class="mb-16 animate-fade-in">
-        <h2 class="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight mb-4">
-          {{ $t('about.title') }}
-        </h2>
-        <div class="w-12 h-0.5 bg-accent"></div>
-      </div>
+      <h2 class="text-lg font-semibold text-text-primary tracking-tight mb-8">
+        {{ $t('about.title') }}
+      </h2>
 
       <!-- About Text -->
-      <div class="max-w-3xl mb-16 animate-slide-up">
-        <p class="text-text-secondary text-base sm:text-lg leading-relaxed">
+      <div class="max-w-2xl mb-8">
+        <p class="text-text-secondary text-sm leading-relaxed">
           {{ portfolio?.about }}
         </p>
       </div>
 
       <!-- Stats -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16 animate-slide-up" style="animation-delay: 0.1s">
-        <div class="bg-surface-raised border border-border rounded-xl p-6 hover:border-border transition-colors duration-200">
-          <div class="text-3xl font-bold text-text-primary mb-1">
+      <div class="flex flex-wrap gap-8 mb-8">
+        <div>
+          <div class="text-lg font-semibold text-text-primary">
             {{ calculateExperienceYears() }}+
           </div>
-          <div class="text-sm text-text-muted">
-            {{ $t('about.stats.years') }} {{ $t('about.stats.experience') }}
+          <div class="text-xs text-text-muted">
+            years experience
           </div>
         </div>
-
-        <div class="bg-surface-raised border border-border rounded-xl p-6 hover:border-border transition-colors duration-200">
-          <div class="text-3xl font-bold text-text-primary mb-1">
+        <div>
+          <div class="text-lg font-semibold text-text-primary">
             {{ portfolio?.projects?.length || 0 }}+
           </div>
-          <div class="text-sm text-text-muted">
-            {{ $t('about.stats.projects') }} {{ $t('about.stats.completed') }}
+          <div class="text-xs text-text-muted">
+            projects completed
           </div>
         </div>
-
-        <div class="bg-surface-raised border border-border rounded-xl p-6 hover:border-border transition-colors duration-200">
-          <div class="text-3xl font-bold text-text-primary mb-1">
+        <div>
+          <div class="text-lg font-semibold text-text-primary">
             6+
           </div>
-          <div class="text-sm text-text-muted">
-            {{ $t('about.stats.technologies') }} {{ $t('about.stats.mastered') }}
+          <div class="text-xs text-text-muted">
+            technologies
           </div>
         </div>
       </div>
 
       <!-- Contact Info -->
-      <div class="flex flex-col sm:flex-row items-start gap-6 animate-slide-up" style="animation-delay: 0.2s">
-        <div class="flex items-center gap-3 text-text-secondary">
-          <Mail class="w-4 h-4 text-text-muted flex-shrink-0" />
-          <span class="text-sm">{{ portfolio?.personalInfo.email }}</span>
+      <div class="flex flex-col sm:flex-row items-start gap-4">
+        <div class="flex items-center gap-2 text-text-muted">
+          <Mail class="w-3.5 h-3.5" />
+          <span class="text-xs">{{ portfolio?.personalInfo.email }}</span>
         </div>
-        <div class="flex items-center gap-3 text-text-secondary">
-          <MapPin class="w-4 h-4 text-text-muted flex-shrink-0" />
-          <span class="text-sm">{{ portfolio?.personalInfo.location }}</span>
+        <div class="flex items-center gap-2 text-text-muted">
+          <MapPin class="w-3.5 h-3.5" />
+          <span class="text-xs">{{ portfolio?.personalInfo.location }}</span>
         </div>
       </div>
     </div>
@@ -74,7 +66,6 @@ const calculateExperienceYears = (): number => {
   const experiences = portfolio.value?.experiences || []
   if (experiences.length === 0) return 0
 
-  // Find the earliest start date
   let earliest = new Date()
   experiences.forEach((exp: any) => {
     if (exp.startDate) {

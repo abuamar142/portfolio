@@ -1,23 +1,23 @@
 <template>
-  <section class="pt-24 pb-20 bg-surface min-h-screen">
-    <div class="max-w-4xl mx-auto px-6">
+  <section class="pt-20 pb-16 bg-surface min-h-screen">
+    <div class="max-w-3xl mx-auto px-6">
       <!-- Header -->
-      <div class="mb-10">
-        <router-link to="/" class="inline-flex items-center gap-2 text-text-muted hover:text-text-primary text-sm mb-6 transition-colors duration-200">
-          &larr; Back to home
+      <div class="mb-8">
+        <router-link to="/" class="inline-flex items-center gap-1 text-text-muted hover:text-text-primary text-xs mb-4 transition-colors duration-150">
+          &larr; Home
         </router-link>
-        <h1 class="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight mb-2">Blog</h1>
-        <p class="text-text-muted text-sm">Thoughts, tutorials, and updates.</p>
+        <h1 class="text-xl font-semibold text-text-primary tracking-tight mb-1">Blog</h1>
+        <p class="text-text-muted text-xs">Thoughts, tutorials, and updates.</p>
       </div>
 
       <!-- Filter chips -->
-      <div class="mb-8 flex items-center gap-2 flex-wrap">
+      <div class="mb-6 flex items-center gap-1.5 flex-wrap">
         <button
           @click="selectedCategory = ''"
-          class="px-4 py-2 text-sm rounded-lg border transition-all duration-200"
+          class="px-3 py-1 text-xs rounded transition-colors duration-150"
           :class="selectedCategory === ''
-            ? 'bg-accent text-white border-accent'
-            : 'border-border text-text-muted hover:border-text-muted hover:text-text-primary'"
+            ? 'bg-text-primary text-surface'
+            : 'text-text-muted hover:text-text-primary'"
         >
           All
         </button>
@@ -25,17 +25,17 @@
           v-for="cat in categories"
           :key="cat"
           @click="selectedCategory = selectedCategory === cat ? '' : cat"
-          class="px-4 py-2 text-sm rounded-lg border transition-all duration-200"
+          class="px-3 py-1 text-xs rounded transition-colors duration-150"
           :class="selectedCategory === cat
-            ? 'bg-accent text-white border-accent'
-            : 'border-border text-text-muted hover:border-text-muted hover:text-text-primary'"
+            ? 'bg-text-primary text-surface'
+            : 'text-text-muted hover:text-text-primary'"
         >
           {{ cat }}
         </button>
       </div>
 
       <!-- Search -->
-      <div class="mb-8">
+      <div class="mb-6">
         <SearchInput
           v-model="searchQuery"
           :placeholder="'Search posts...'"
@@ -46,79 +46,70 @@
 
       <!-- Loading Skeleton -->
       <div v-if="loading" class="space-y-4" role="status" aria-label="Loading posts">
-        <div v-for="i in 3" :key="i" class="bg-surface-raised border border-border rounded-xl p-5 animate-pulse">
-          <div class="flex gap-4">
-            <div class="w-28 h-20 bg-surface-overlay rounded-lg flex-shrink-0"></div>
-            <div class="flex-1 space-y-3">
-              <div class="h-4 bg-surface-overlay rounded w-3/4"></div>
-              <div class="h-3 bg-surface-overlay rounded w-1/4"></div>
-              <div class="h-3 bg-surface-overlay rounded w-full"></div>
-            </div>
-          </div>
+        <div v-for="i in 3" :key="i" class="animate-pulse">
+          <div class="h-3 bg-surface-overlay rounded w-1/4 mb-2"></div>
+          <div class="h-4 bg-surface-overlay rounded w-3/4 mb-2"></div>
+          <div class="h-3 bg-surface-overlay rounded w-full"></div>
         </div>
       </div>
 
       <!-- Error State -->
-      <div v-else-if="error" class="text-center py-16" role="alert">
-        <p class="text-error text-lg mb-4">{{ error }}</p>
-        <button @click="loadPosts" class="px-5 py-2.5 bg-accent text-white rounded-lg hover:bg-accent-hover transition-colors duration-200 text-sm font-medium">
+      <div v-else-if="error" class="py-16" role="alert">
+        <p class="text-error text-sm mb-4">{{ error }}</p>
+        <button @click="loadPosts" class="text-xs text-text-muted hover:text-text-primary transition-colors duration-150">
           Retry
         </button>
       </div>
 
       <!-- Empty State -->
-      <div v-else-if="filteredPosts.length === 0" class="text-center py-16" role="status">
-        <p class="text-text-muted text-lg">No posts found.</p>
-        <p class="text-text-muted text-sm mt-2">Check back later for updates!</p>
+      <div v-else-if="filteredPosts.length === 0" class="py-16" role="status">
+        <p class="text-text-muted text-sm">No posts found.</p>
       </div>
 
       <!-- Posts -->
-      <div v-else class="space-y-4">
+      <div v-else class="space-y-6">
         <article
           v-for="post in filteredPosts"
           :key="post._id"
-          class="group bg-surface-raised border border-border rounded-xl overflow-hidden hover:border-accent/30 transition-all duration-200"
+          class="group"
         >
-          <router-link :to="`/blogs/${post.slug}`" class="flex flex-col sm:flex-row gap-4 p-5">
+          <router-link :to="`/blogs/${post.slug}`" class="block">
             <!-- Cover Image -->
             <img
               v-if="getCoverUrl(post)"
               :src="getCoverUrl(post)"
               :alt="post.title"
               loading="lazy"
-              class="w-full sm:w-36 h-28 sm:h-24 object-cover rounded-lg"
+              class="w-full h-48 object-cover rounded-lg mb-3"
             />
 
-            <!-- Content -->
-            <div class="flex-1 min-w-0">
-              <!-- Tags -->
-              <div v-if="post.tags && post.tags.length" class="flex flex-wrap gap-2 mb-2">
-                <span
-                  v-for="tag in post.tags.slice(0, 3)"
-                  :key="tag.tag || tag"
-                  class="px-2 py-0.5 text-xs bg-accent-subtle text-accent rounded"
-                >
-                  {{ tag.tag || tag }}
-                </span>
-              </div>
-
-              <!-- Title -->
-              <h2 class="text-base font-semibold text-text-primary group-hover:text-accent transition-colors duration-200 mb-1 line-clamp-1">
-                {{ post.title }}
-              </h2>
-
-              <!-- Meta -->
-              <div class="flex items-center gap-3 text-xs text-text-muted mb-1.5">
-                <span>{{ formatDate(post.publishedAt) }}</span>
-                <span>&middot;</span>
-                <span>{{ estimateReadingTime(post) }} min read</span>
-              </div>
-
-              <!-- Excerpt -->
-              <p class="text-text-muted text-sm leading-relaxed line-clamp-2">
-                {{ post.excerpt || 'No description available.' }}
-              </p>
+            <!-- Tags -->
+            <div v-if="post.tags && post.tags.length" class="flex flex-wrap gap-1.5 mb-2">
+              <span
+                v-for="tag in post.tags.slice(0, 3)"
+                :key="tag.tag || tag"
+                class="text-[10px] text-text-muted font-mono"
+              >
+                {{ tag.tag || tag }}
+              </span>
             </div>
+
+            <!-- Title -->
+            <h2 class="text-sm font-medium text-text-primary group-hover:text-accent transition-colors duration-150 mb-1">
+              {{ post.title }}
+            </h2>
+
+            <!-- Meta -->
+            <div class="flex items-center gap-2 text-[11px] text-text-muted mb-1.5">
+              <span>{{ formatDate(post.publishedAt) }}</span>
+              <span>·</span>
+              <span>{{ estimateReadingTime(post) }} min</span>
+            </div>
+
+            <!-- Excerpt -->
+            <p class="text-text-muted text-xs leading-relaxed line-clamp-2">
+              {{ post.excerpt || 'No description available.' }}
+            </p>
           </router-link>
         </article>
       </div>
@@ -129,10 +120,10 @@
           <button
             :disabled="currentPage === 1"
             @click="goToPage(currentPage - 1)"
-            class="px-3 py-1.5 text-sm rounded border transition-colors duration-200"
+            class="px-2.5 py-1 text-xs rounded transition-colors duration-150"
             :class="currentPage === 1
-              ? 'border-border text-text-muted cursor-not-allowed'
-              : 'border-border text-text-muted hover:border-text-muted hover:text-text-primary'"
+              ? 'text-text-muted cursor-not-allowed'
+              : 'text-text-muted hover:text-text-primary'"
             aria-label="Previous page"
           >
             &larr;
@@ -141,20 +132,20 @@
             v-for="page in totalPages"
             :key="page"
             @click="goToPage(page)"
-            class="px-3 py-1.5 text-sm rounded border transition-colors duration-200"
+            class="px-2.5 py-1 text-xs rounded transition-colors duration-150"
             :class="page === currentPage
-              ? 'bg-accent text-white border-accent'
-              : 'border-border text-text-muted hover:border-text-muted hover:text-text-primary'"
+              ? 'bg-text-primary text-surface'
+              : 'text-text-muted hover:text-text-primary'"
           >
             {{ page }}
           </button>
           <button
             :disabled="currentPage === totalPages"
             @click="goToPage(currentPage + 1)"
-            class="px-3 py-1.5 text-sm rounded border transition-colors duration-200"
+            class="px-2.5 py-1 text-xs rounded transition-colors duration-150"
             :class="currentPage === totalPages
-              ? 'border-border text-text-muted cursor-not-allowed'
-              : 'border-border text-text-muted hover:border-text-muted hover:text-text-primary'"
+              ? 'text-text-muted cursor-not-allowed'
+              : 'text-text-muted hover:text-text-primary'"
             aria-label="Next page"
           >
             &rarr;
@@ -177,7 +168,6 @@ useHead({
     { property: 'og:title', content: 'Blog | Abu Amar' },
     { property: 'og:description', content: 'Thoughts, tutorials, and updates from Abu Amar.' },
     { property: 'og:type', content: 'website' },
-    { name: 'twitter:card', content: 'summary_large_image' },
   ],
 })
 

@@ -1,15 +1,15 @@
 <template>
   <div :class="loading || error ? 'h-screen flex flex-col' : 'min-h-screen'">
-    <main :class="loading || error ? 'flex-1 flex flex-col mt-16 sm:mt-18 lg:mt-20' : 'pt-4 sm:pt-6 lg:pt-8'">
+    <main :class="loading || error ? 'flex-1 flex flex-col mt-14' : 'pt-14'">
       <HomePageSkeleton v-if="loading" />
       <ErrorState v-else-if="error" :message="error || 'Unknown error occurred'" @retry="refresh" />
 
-      <div v-else class="animate-fade-in">
+      <div v-else>
         <HeroSection />
+        <AboutSection />
+        <ExperienceSection />
         <ProjectsSection />
         <SkillsSection />
-        <ExperienceSection />
-        <AboutSection />
         <ContactSection />
       </div>
     </main>
@@ -53,20 +53,6 @@ useHead({
         ],
       }),
     },
-    {
-      type: 'application/ld+json',
-      innerHTML: JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        name: 'Abu Amar Portfolio',
-        url: 'https://abuamar.online',
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: 'https://abuamar.online/blogs?search={search_term_string}',
-          'query-input': 'required name=search_term_string',
-        },
-      }),
-    },
   ],
 })
 
@@ -76,4 +62,3 @@ onMounted(async () => {
   await refresh()
 })
 </script>
-

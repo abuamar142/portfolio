@@ -1,79 +1,71 @@
 <template>
-  <section
-    id="projects"
-    class="py-20 bg-surface scroll-mt-16"
-  >
-    <div class="max-w-5xl mx-auto px-6">
+  <section id="projects" class="py-16 bg-surface scroll-mt-14">
+    <div class="max-w-3xl mx-auto px-6">
       <!-- Header -->
-      <div class="mb-16 animate-fade-in">
-        <h2 class="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight mb-4">
-          {{ $t('projects.title') }}
-        </h2>
-        <div class="w-12 h-0.5 bg-accent"></div>
-      </div>
+      <h2 class="text-lg font-semibold text-text-primary tracking-tight mb-8">
+        {{ $t('projects.title') }}
+      </h2>
 
       <!-- Projects Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div class="space-y-4">
         <div
           v-for="(project, index) in displayedProjects"
           :key="index"
-          class="bg-surface-raised border border-border rounded-xl p-6 group hover:border-accent/30 hover:shadow-lg transition-all duration-200"
+          class="group"
         >
-          <!-- Project Header -->
-          <div class="flex items-start justify-between mb-3">
-            <h3 class="text-lg font-semibold text-text-primary group-hover:text-accent transition-colors duration-200">
-              {{ project.title }}
-            </h3>
-            <ExternalLink class="w-4 h-4 text-text-muted group-hover:text-accent transition-colors duration-200 flex-shrink-0 mt-1" />
-          </div>
+          <div class="flex items-start justify-between gap-4">
+            <div class="flex-1 min-w-0">
+              <h3 class="text-sm font-medium text-text-primary mb-1">
+                {{ project.title }}
+              </h3>
+              <p class="text-xs text-text-muted leading-relaxed mb-2">
+                {{ project.description }}
+              </p>
 
-          <!-- Description -->
-          <p class="text-text-secondary text-sm leading-relaxed mb-4">
-            {{ project.description }}
-          </p>
+              <!-- Technologies -->
+              <div class="flex flex-wrap gap-1.5 mb-3">
+                <span
+                  v-for="tech in project.technologies"
+                  :key="tech"
+                  class="px-2 py-0.5 bg-surface-overlay text-text-muted text-[10px] rounded font-mono"
+                >
+                  {{ tech }}
+                </span>
+              </div>
 
-          <!-- Technologies -->
-          <div class="flex flex-wrap gap-2 mb-5">
-            <span
-              v-for="tech in project.technologies"
-              :key="tech"
-              class="px-2.5 py-1 bg-surface-overlay text-text-muted text-xs rounded-md"
-            >
-              {{ tech }}
-            </span>
-          </div>
-
-          <!-- Links -->
-          <div class="flex gap-3">
-            <a
-              v-if="project.githubUrl"
-              :href="project.githubUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-text-primary transition-colors duration-200"
-            >
-              <Github class="w-4 h-4" />
-              Source
-            </a>
-            <a
-              v-if="project.liveUrl"
-              :href="project.liveUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-1.5 text-sm text-accent hover:text-accent-hover transition-colors duration-200"
-            >
-              <ExternalLink class="w-4 h-4" />
-              Live Demo
-            </a>
+              <!-- Links -->
+              <div class="flex gap-3">
+                <a
+                  v-if="project.githubUrl"
+                  :href="project.githubUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1 text-xs text-text-muted hover:text-text-primary transition-colors duration-150"
+                >
+                  <Github class="w-3 h-3" />
+                  Source
+                </a>
+                <a
+                  v-if="project.liveUrl"
+                  :href="project.liveUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1 text-xs text-accent hover:text-accent-hover transition-colors duration-150"
+                >
+                  <ExternalLink class="w-3 h-3" />
+                  Live Demo
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- See More Button -->
-      <div v-if="shouldShowSeeMore || showAll" class="mt-10 text-center">
+      <div v-if="shouldShowSeeMore || showAll" class="mt-8">
         <button
           @click="toggleShowAll"
-          class="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-text-secondary rounded-lg hover:text-text-primary hover:border-text-muted transition-colors duration-200 text-sm font-medium"
+          class="text-xs text-text-muted hover:text-text-primary transition-colors duration-150"
         >
           <span v-if="!showAll">{{ $t('projects.buttons.seeMore') }}</span>
           <span v-else>{{ $t('projects.buttons.seeLess') }}</span>
