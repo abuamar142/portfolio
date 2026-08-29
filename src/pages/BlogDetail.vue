@@ -2,7 +2,7 @@
   <section class="pt-20 pb-16 bg-surface min-h-screen">
     <div class="max-w-3xl mx-auto px-6">
       <!-- Back link -->
-      <router-link to="/blogs" class="inline-flex items-center gap-1 text-text-muted hover:text-text-primary text-xs mb-8 transition-colors duration-150">
+      <router-link to="/blogs" class="inline-flex items-center gap-1 text-text-muted hover:text-accent text-xs mb-8 transition-colors duration-150">
         &larr; All posts
       </router-link>
 
@@ -16,19 +16,20 @@
       <!-- Error -->
       <div v-else-if="error" class="py-20" role="alert">
         <p class="text-error text-sm mb-4">{{ error }}</p>
-        <router-link to="/blogs" class="text-xs text-text-muted hover:text-text-primary transition-colors duration-150">
+        <router-link to="/blogs" class="text-xs text-text-muted hover:text-accent transition-colors duration-150">
           &larr; Back to blog
         </router-link>
       </div>
 
       <!-- Article -->
       <article v-else>
-        <!-- Tags -->
+        <!-- Tags with colors -->
         <div v-if="post?.tags?.length" class="flex flex-wrap gap-1.5 mb-3">
           <span
-            v-for="tag in post.tags"
+            v-for="(tag, tagIndex) in post.tags"
             :key="tag.tag || tag"
-            class="text-[10px] text-text-muted font-mono"
+            class="text-[10px] font-mono px-1.5 py-0.5 rounded text-white"
+            :style="{ background: getTagColor(tag.tag || tag, tagIndex) }"
           >
             {{ tag.tag || tag }}
           </span>
@@ -61,7 +62,7 @@
 
         <!-- Footer -->
         <div class="mt-12 pt-6 border-t border-border">
-          <router-link to="/blogs" class="text-xs text-text-muted hover:text-text-primary transition-colors duration-150">
+          <router-link to="/blogs" class="text-xs text-text-muted hover:text-accent transition-colors duration-150">
             &larr; More posts
           </router-link>
         </div>
@@ -127,6 +128,12 @@ function formatDate(iso?: string | null): string {
       year: 'numeric',
     })
   } catch { return String(iso) }
+}
+
+const tagColors = ['#7C3AED', '#3B82F6', '#10B981', '#F97316', '#EC4899', '#14B8A6']
+
+function getTagColor(tag: string, index: number): string {
+  return tagColors[index % tagColors.length]
 }
 
 onMounted(async () => {

@@ -3,21 +3,21 @@
     <div class="max-w-3xl mx-auto px-6">
       <!-- Header -->
       <div class="mb-8">
-        <router-link to="/" class="inline-flex items-center gap-1 text-text-muted hover:text-text-primary text-xs mb-4 transition-colors duration-150">
+        <router-link to="/" class="inline-flex items-center gap-1 text-text-muted hover:text-accent text-xs mb-4 transition-colors duration-150">
           &larr; Home
         </router-link>
         <h1 class="text-xl font-semibold text-text-primary tracking-tight mb-1">Blog</h1>
         <p class="text-text-muted text-xs">Thoughts, tutorials, and updates.</p>
       </div>
 
-      <!-- Filter chips -->
+      <!-- Filter chips with colors -->
       <div class="mb-6 flex items-center gap-1.5 flex-wrap">
         <button
           @click="selectedCategory = ''"
           class="px-3 py-1 text-xs rounded transition-colors duration-150"
           :class="selectedCategory === ''
-            ? 'bg-text-primary text-surface'
-            : 'text-text-muted hover:text-text-primary'"
+            ? 'bg-accent text-white'
+            : 'text-text-muted hover:text-text-primary hover:bg-surface-overlay'"
         >
           All
         </button>
@@ -27,8 +27,9 @@
           @click="selectedCategory = selectedCategory === cat ? '' : cat"
           class="px-3 py-1 text-xs rounded transition-colors duration-150"
           :class="selectedCategory === cat
-            ? 'bg-text-primary text-surface'
-            : 'text-text-muted hover:text-text-primary'"
+            ? 'text-white'
+            : 'text-text-muted hover:text-text-primary hover:bg-surface-overlay'"
+          :style="selectedCategory === cat ? { background: getCategoryColor(cat) } : {}"
         >
           {{ cat }}
         </button>
@@ -56,7 +57,7 @@
       <!-- Error State -->
       <div v-else-if="error" class="py-16" role="alert">
         <p class="text-error text-sm mb-4">{{ error }}</p>
-        <button @click="loadPosts" class="text-xs text-text-muted hover:text-text-primary transition-colors duration-150">
+        <button @click="loadPosts" class="text-xs text-text-muted hover:text-accent transition-colors duration-150">
           Retry
         </button>
       </div>
@@ -83,12 +84,13 @@
               class="w-full h-48 object-cover rounded-lg mb-3"
             />
 
-            <!-- Tags -->
+            <!-- Tags with colors -->
             <div v-if="post.tags && post.tags.length" class="flex flex-wrap gap-1.5 mb-2">
               <span
-                v-for="tag in post.tags.slice(0, 3)"
+                v-for="(tag, tagIndex) in post.tags.slice(0, 3)"
                 :key="tag.tag || tag"
-                class="text-[10px] text-text-muted font-mono"
+                class="text-[10px] font-mono px-1.5 py-0.5 rounded"
+                :style="{ background: getTagColor(tag.tag || tag, tagIndex), color: 'white' }"
               >
                 {{ tag.tag || tag }}
               </span>
@@ -123,7 +125,7 @@
             class="px-2.5 py-1 text-xs rounded transition-colors duration-150"
             :class="currentPage === 1
               ? 'text-text-muted cursor-not-allowed'
-              : 'text-text-muted hover:text-text-primary'"
+              : 'text-text-muted hover:text-text-primary hover:bg-surface-overlay'"
             aria-label="Previous page"
           >
             &larr;
@@ -134,8 +136,8 @@
             @click="goToPage(page)"
             class="px-2.5 py-1 text-xs rounded transition-colors duration-150"
             :class="page === currentPage
-              ? 'bg-text-primary text-surface'
-              : 'text-text-muted hover:text-text-primary'"
+              ? 'bg-accent text-white'
+              : 'text-text-muted hover:text-text-primary hover:bg-surface-overlay'"
           >
             {{ page }}
           </button>
@@ -145,7 +147,7 @@
             class="px-2.5 py-1 text-xs rounded transition-colors duration-150"
             :class="currentPage === totalPages
               ? 'text-text-muted cursor-not-allowed'
-              : 'text-text-muted hover:text-text-primary'"
+              : 'text-text-muted hover:text-text-primary hover:bg-surface-overlay'"
             aria-label="Next page"
           >
             &rarr;
@@ -182,6 +184,18 @@ const totalPosts = ref(0)
 const postsPerPage = 6
 
 const categories = ['Mobile', 'Web', 'Backend', 'DevOps', 'Tools']
+
+const categoryColors: Record<string, string> = {
+  'Mobile': '#7C3AED',
+  'Web': '#3B82F6',
+  'Backend': '#10B981',
+  'DevOps': '#F97316',
+  'Tools': '#EC4899',
+}
+
+const getCategoryColor = (cat: string): string => {
+  return categoryColors[cat] || '#7C3AED'
+}
 
 const totalPages = computed(() => Math.max(1, Math.ceil(totalPosts.value / postsPerPage)))
 
@@ -249,6 +263,12 @@ function getCoverUrl(post: any): string | undefined {
     return post.coverImage.url
   }
   return undefined
+}
+
+const tagColors = ['#7C3AED', '#3B82F6', '#10B981', '#F97316', '#EC4899', '#14B8A6']
+
+function getTagColor(tag: string, index: number): string {
+  return tagColors[index % tagColors.length]
 }
 
 onMounted(loadPosts)

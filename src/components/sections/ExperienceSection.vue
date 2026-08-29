@@ -14,8 +14,11 @@
           class="group"
         >
           <div class="flex items-start gap-4">
-            <!-- Company Logo -->
-            <div class="w-10 h-10 rounded-lg bg-surface-overlay border border-border flex items-center justify-center flex-shrink-0 text-text-muted text-xs font-medium">
+            <!-- Company Logo with color -->
+            <div
+              class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 text-white text-xs font-medium"
+              :style="{ background: getCompanyColor(experience.company) }"
+            >
               {{ getInitials(experience.company) }}
             </div>
 
@@ -29,7 +32,7 @@
                   {{ experience.duration }}
                 </span>
               </div>
-              <p class="text-xs text-text-muted mb-3">
+              <p class="text-xs text-accent font-medium mb-3">
                 {{ experience.company }}
               </p>
 
@@ -40,17 +43,17 @@
                   :key="desc"
                   class="flex items-start gap-2 text-text-secondary text-xs leading-relaxed"
                 >
-                  <span class="text-text-muted mt-0.5">—</span>
+                  <span class="text-accent mt-0.5">—</span>
                   <span>{{ desc }}</span>
                 </li>
               </ul>
 
-              <!-- Technologies -->
+              <!-- Technologies with colors -->
               <div class="flex flex-wrap gap-1.5">
                 <span
                   v-for="tech in experience.technologies"
                   :key="tech"
-                  class="px-2 py-0.5 bg-surface-overlay text-text-muted text-[10px] rounded font-mono"
+                  class="px-2 py-0.5 bg-accent-subtle text-accent text-[10px] rounded font-mono"
                 >
                   {{ tech }}
                 </span>
@@ -75,5 +78,22 @@ const getInitials = (name: string): string => {
     .join('')
     .substring(0, 2)
     .toUpperCase()
+}
+
+const companyColors: Record<string, string> = {
+  'Kalbe': '#10B981',
+  'SIESTA': '#8B5CF6',
+  'Studyo.io': '#3B82F6',
+  'Nodewave': '#F97316',
+}
+
+const getCompanyColor = (company: string): string => {
+  const normalized = company.toLowerCase()
+  for (const [key, color] of Object.entries(companyColors)) {
+    if (normalized.includes(key.toLowerCase())) return color
+  }
+  // Default colors based on index
+  const defaults = ['#7C3AED', '#3B82F6', '#EC4899', '#14B8A6', '#F97316']
+  return defaults[Math.abs(company.charCodeAt(0)) % defaults.length]
 }
 </script>
