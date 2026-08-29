@@ -61,10 +61,7 @@
         <div class="hidden lg:block sticky top-20">
           <div class="rounded-xl border p-5" style="background: var(--color-surface); border-color: var(--color-border)">
             <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-3" style="color: var(--color-text-faint)">On this page</div>
-            <div class="text-xs leading-relaxed" style="color: var(--color-text-muted)">
-              Dark slate reading experience — max 65ch measure, 1.75 line height.
-            </div>
-            <div class="mt-4 pt-4 border-t space-y-2" style="border-color: var(--color-border)">
+            <div class="pt-4 border-t space-y-2" style="border-color: var(--color-border)">
               <div class="text-[11px] font-mono" style="color: var(--color-text-faint)">Published</div>
               <div class="text-xs" style="color: var(--color-text-secondary)">{{ formatDate(post?.publishedAt) }}</div>
               <div class="text-[11px] font-mono mt-3" style="color: var(--color-text-faint)">Reading time</div>
