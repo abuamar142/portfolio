@@ -1,35 +1,27 @@
 <template>
-  <div class="flex-1 flex items-center justify-center p-4">
-    <div class="text-center max-w-sm w-full mx-auto">
-      <div class="text-error text-5xl mb-4">!</div>
-
-      <h2 class="text-xl font-semibold text-text-primary mb-2">
+  <div class="flex-1 flex items-center justify-center p-6 md:p-8">
+    <div class="text-center max-w-sm w-full mx-auto rounded-xl border p-6 md:p-8" style="background: var(--color-surface); border-color: var(--color-border)">
+      <div class="w-8 h-8 rounded-full border flex items-center justify-center mx-auto mb-4" style="border-color: var(--color-border); color: var(--color-error); background: var(--color-surface-raised)">!</div>
+      <h2 class="text-sm font-semibold tracking-tight mb-2" style="color: var(--color-text-primary)">
         Oops! Something went wrong
       </h2>
-
-      <div class="text-sm mb-6">
-        <div class="bg-surface-raised rounded-lg p-3 border border-error/20">
-          <span class="text-error font-medium">Error:</span>
-          <div class="text-text-muted mt-1 text-left break-words">
+      <div class="text-xs mb-6">
+        <div class="rounded-lg p-3 border text-left break-words" style="background: var(--color-surface-raised); border-color: var(--color-border)">
+          <span class="font-medium" style="color: var(--color-error)">Error:</span>
+          <div class="mt-1" style="color: var(--color-text-muted)">
             {{ message }}
           </div>
         </div>
       </div>
-
       <button
         @click="$emit('retry')"
-        class="bg-accent hover:bg-accent-hover text-white px-5 py-2.5 rounded-lg font-medium transition-all duration-200 text-sm w-full min-h-[44px]"
+        class="w-full px-5 py-2.5 rounded-lg font-medium transition-colors text-sm"
+        style="background: var(--color-text-primary); color: var(--color-bg)"
       >
-        <span class="flex items-center justify-center">
-          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
-          Try Again
-        </span>
+        Try Again
       </button>
-
-      <p class="mt-4 text-xs text-text-muted">
-        If the problem persists, please check your internet connection or try again later.
+      <p class="mt-4 text-xs font-mono" style="color: var(--color-text-faint)">
+        Check your connection or try again later.
       </p>
     </div>
   </div>
@@ -39,10 +31,6 @@
 interface Props {
   message: string
 }
-
 defineProps<Props>()
-
-defineEmits<{
-  retry: []
-}>()
+defineEmits<{ retry: [] }>()
 </script>
