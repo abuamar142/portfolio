@@ -17,7 +17,7 @@
         <div
           v-for="(project, index) in displayedProjects"
           :key="index"
-          class="bg-surface-raised border border-border rounded-xl p-6 group hover:border-border transition-all duration-200"
+          class="bg-surface-raised border border-border rounded-xl p-6 group hover:border-accent/30 hover:shadow-lg transition-all duration-200"
         >
           <!-- Project Header -->
           <div class="flex items-start justify-between mb-3">
