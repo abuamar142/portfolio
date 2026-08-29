@@ -6,7 +6,7 @@
         <div>
           <router-link
             to="/"
-            class="inline-flex items-center gap-1.5 text-xs font-mono mb-4 transition-colors"
+            class="inline-flex items-center gap-1.5 text-[11px] font-mono mb-4 transition-colors"
             style="color: var(--color-text-faint)"
           >
             ← Home
@@ -15,7 +15,7 @@
           <h1 class="text-[28px] md:text-[32px] font-semibold tracking-tighter leading-none" style="color: var(--color-text-primary); letter-spacing: -0.03em">Blog</h1>
           <p class="mt-2 text-sm leading-relaxed max-w-[520px]" style="color: var(--color-text-muted)">Thoughts, tutorials, and updates. Monochrome list, generous whitespace.</p>
         </div>
-        <div class="hidden md:block text-xs font-mono" style="color: var(--color-text-faint)">{{ totalPosts }} posts</div>
+        <div class="hidden md:block text-[11px] font-mono" style="color: var(--color-text-faint)">{{ totalPosts }} posts</div>
       </div>
 
       <!-- Filters -->
@@ -23,7 +23,7 @@
         <span class="text-[11px] font-mono tracking-wide mr-1" style="color: var(--color-text-faint)">Filter:</span>
         <button
           @click="selectedCategory = ''"
-          class="px-3 py-1.5 text-xs font-mono rounded-full border transition-colors"
+          class="px-3 py-1.5 text-[11px] font-mono tracking-wide rounded-full border transition-colors"
           :style="selectedCategory === '' ? { background: 'var(--color-text-primary)', color: 'var(--color-bg)', borderColor: 'var(--color-text-primary)' } : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', borderColor: 'var(--color-border)' }"
         >
           All
@@ -32,7 +32,7 @@
           v-for="cat in categories"
           :key="cat"
           @click="selectedCategory = selectedCategory === cat ? '' : cat"
-          class="px-3 py-1.5 text-xs font-mono rounded-full border transition-colors"
+          class="px-3 py-1.5 text-[11px] font-mono tracking-wide rounded-full border transition-colors"
           :style="selectedCategory === cat ? { background: 'var(--color-surface-raised)', color: 'var(--color-text-primary)', borderColor: 'var(--color-border-contrast)' } : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', borderColor: 'var(--color-border)' }"
         >
           {{ cat }}
@@ -54,7 +54,7 @@
 
       <div v-else-if="error" class="py-12 rounded-xl border p-8 text-center" style="background: var(--color-surface); border-color: var(--color-border)" role="alert">
         <p class="text-sm mb-4" style="color: var(--color-error)">{{ error }}</p>
-        <button @click="loadPosts" class="px-4 py-2 rounded-lg border text-xs font-medium" style="border-color: var(--color-border); color: var(--color-text-secondary); background: var(--color-surface-raised)">Retry</button>
+        <button @click="loadPosts" class="px-4 py-2 rounded-lg border text-[11px] font-mono tracking-wide font-medium" style="border-color: var(--color-border); color: var(--color-text-secondary); background: var(--color-surface-raised)">Retry</button>
       </div>
 
       <div v-else-if="filteredPosts.length === 0" class="py-12 rounded-xl border p-8 text-center" style="background: var(--color-surface); border-color: var(--color-border)">
@@ -74,7 +74,7 @@
               <span
                 v-for="tag in post.tags.slice(0, 3)"
                 :key="tag.tag || tag"
-                class="text-[10px] font-mono tracking-wide px-2 py-1 rounded-full border"
+                class="text-[11px] font-mono tracking-wide px-2 py-1 rounded-full border"
                 :style="{ borderColor: 'var(--color-border)', background: 'var(--color-surface-raised)', color: 'var(--color-text-muted)' }"
               >
                 {{ tag.tag || tag }}
@@ -83,7 +83,7 @@
             <h2 class="text-[17px] md:text-[19px] font-medium tracking-tight leading-tight group-hover:underline underline-offset-4 decoration-1" style="color: var(--color-text-primary); text-decoration-color: var(--color-border-contrast)">
               {{ post.title }}
             </h2>
-            <div class="flex items-center gap-2 text-xs font-mono mt-2" style="color: var(--color-text-faint)">
+            <div class="flex items-center gap-2 text-[11px] font-mono mt-2" style="color: var(--color-text-faint)">
               <span>{{ formatDate(post.publishedAt) }}</span><span>·</span><span>{{ estimateReadingTime(post) }} min</span>
             </div>
             <p class="text-[14px] leading-relaxed mt-2.5 line-clamp-2 max-w-[72ch]" style="color: var(--color-text-muted)">{{ post.excerpt || 'No description available.' }}</p>
@@ -97,7 +97,7 @@
           <button
             :disabled="currentPage === 1"
             @click="goToPage(currentPage - 1)"
-            class="w-8 h-8 inline-flex items-center justify-center rounded-full border text-xs transition-colors disabled:opacity-40"
+            class="w-8 h-8 inline-flex items-center justify-center rounded-full border text-[11px] font-mono transition-colors disabled:opacity-40"
             :style="{ borderColor: 'var(--color-border)', color: 'var(--color-text-muted)', background: 'var(--color-surface)' }"
           >
             ←
@@ -106,7 +106,7 @@
             v-for="page in totalPages"
             :key="page"
             @click="goToPage(page)"
-            class="w-8 h-8 inline-flex items-center justify-center rounded-full border text-xs font-mono transition-colors"
+            class="w-8 h-8 inline-flex items-center justify-center rounded-full border text-[11px] font-mono transition-colors"
             :style="page === currentPage ? { background: 'var(--color-text-primary)', color: 'var(--color-bg)', borderColor: 'var(--color-text-primary)' } : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', borderColor: 'var(--color-border)' }"
           >
             {{ page }}
@@ -114,7 +114,7 @@
           <button
             :disabled="currentPage === totalPages"
             @click="goToPage(currentPage + 1)"
-            class="w-8 h-8 inline-flex items-center justify-center rounded-full border text-xs transition-colors disabled:opacity-40"
+            class="w-8 h-8 inline-flex items-center justify-center rounded-full border text-[11px] font-mono transition-colors disabled:opacity-40"
             :style="{ borderColor: 'var(--color-border)', color: 'var(--color-text-muted)', background: 'var(--color-surface)' }"
           >
             →

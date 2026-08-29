@@ -228,7 +228,7 @@ footer > div,
 /* Mono label utility — for FIG_001 style */
 .mono-label {
   font-family: var(--font-family-mono);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   line-height: 1;

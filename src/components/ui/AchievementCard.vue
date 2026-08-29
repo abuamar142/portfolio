@@ -10,7 +10,7 @@
       >
         {{ $t(`achievements.categories.${achievement.type}`) }}
       </span>
-      <span class="text-xs font-mono shrink-0" style="color: var(--color-text-faint)">
+      <span class="text-[11px] font-mono shrink-0" style="color: var(--color-text-faint)">
         {{ formatDate(achievement.date) }}
       </span>
     </div>

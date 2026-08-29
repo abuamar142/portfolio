@@ -28,7 +28,7 @@
             <span
               v-for="skill in category.skills"
               :key="skill.name"
-              class="px-2.5 py-1.5 text-xs font-mono rounded-md border"
+              class="px-2.5 py-1.5 text-[11px] font-mono rounded-md border"
               style="border-color: var(--color-border); background: var(--color-surface-raised); color: var(--color-text-secondary)"
             >
               {{ skill.name }}

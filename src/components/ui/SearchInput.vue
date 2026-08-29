@@ -29,7 +29,7 @@
       </button>
     </div>
     <div v-if="resultsCount !== undefined" class="mt-2">
-      <span class="text-xs font-mono" style="color: var(--color-text-faint)"> {{ resultsCount }} {{ $t('search.results') }} </span>
+      <span class="text-[11px] font-mono" style="color: var(--color-text-faint)"> {{ resultsCount }} {{ $t('search.results') }} </span>
     </div>
   </div>
 </template>

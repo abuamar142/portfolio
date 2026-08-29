@@ -8,13 +8,13 @@
             {{ $t('achievements.title') }}
           </h2>
         </div>
-        <div class="text-xs font-mono" style="color: var(--color-text-faint)">{{ achievements.length }} items</div>
+        <div class="text-[11px] font-mono" style="color: var(--color-text-faint)">{{ achievements.length }} items</div>
       </div>
 
       <div class="flex flex-wrap gap-2 mb-6">
         <button
           @click="activeFilter = 'all'"
-          :class="['px-3 py-1.5 rounded-full text-xs font-mono tracking-wide border transition-colors']"
+          :class="['px-3 py-1.5 rounded-full text-[11px] font-mono tracking-wide border transition-colors']"
           :style="activeFilter === 'all' ? { background: 'var(--color-text-primary)', color: 'var(--color-bg)', borderColor: 'var(--color-text-primary)' } : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', borderColor: 'var(--color-border)' }"
         >
           {{ $t('achievements.filters.all') }} ({{ achievements.length }})
@@ -23,7 +23,7 @@
           v-for="category in categories"
           :key="category.key"
           @click="activeFilter = category.key"
-          :class="['px-3 py-1.5 rounded-full text-xs font-mono tracking-wide border transition-colors']"
+          :class="['px-3 py-1.5 rounded-full text-[11px] font-mono tracking-wide border transition-colors']"
           :style="activeFilter === category.key ? { background: 'var(--color-text-primary)', color: 'var(--color-bg)', borderColor: 'var(--color-text-primary)' } : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', borderColor: 'var(--color-border)' }"
         >
           {{ $t(`achievements.filters.${category.key}`) }} ({{ getCountByCategory(category.key) }})
@@ -45,7 +45,7 @@
       <div v-if="shouldShowSeeMore || showAll" class="mt-8 flex justify-center">
         <button
           @click="toggleShowAll"
-          class="px-4 py-2 rounded-full border text-xs font-mono tracking-wide transition-colors"
+          class="px-4 py-2 rounded-full border text-[11px] font-mono tracking-wide transition-colors"
           :style="{ borderColor: 'var(--color-border)', color: 'var(--color-text-muted)', background: 'var(--color-surface)' }"
         >
           <span v-if="!showAll">{{ $t('achievements.buttons.seeMore') }}</span>

@@ -18,7 +18,7 @@
             A
           </span>
           <span class="text-sm font-medium tracking-tight" style="color: var(--color-text-primary)">abuamar</span>
-          <span class="hidden sm:inline text-[10px] font-mono tracking-[0.14em] uppercase ml-1" style="color: var(--color-text-faint)">— portfolio 2026</span>
+          <span class="hidden sm:inline text-[11px] font-mono tracking-[0.14em] uppercase ml-1" style="color: var(--color-text-faint)">— portfolio 2026</span>
         </router-link>
 
         <!-- Desktop nav -->
@@ -27,7 +27,7 @@
             v-for="item in navigation"
             :key="item.name"
             :to="item.isRoute ? item.href : { path: '/', hash: item.href }"
-            class="text-xs font-normal tracking-wide transition-colors duration-150 hover:opacity-100"
+            class="text-[11px] font-mono tracking-wide transition-colors duration-150 hover:opacity-100"
             style="color: var(--color-text-muted)"
             active-class="!text-[var(--color-text-primary)]"
           >

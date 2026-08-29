@@ -45,7 +45,7 @@
             </a>
           </div>
 
-          <div class="mt-8 flex items-center gap-3 text-xs" style="color: var(--color-text-faint)">
+          <div class="mt-8 flex items-center gap-3 text-[11px] font-mono" style="color: var(--color-text-faint)">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
             <span class="font-mono">Usually replies &lt; 24h — Jakarta (WIB)</span>
           </div>
@@ -69,7 +69,7 @@
                 <Mail class="w-4 h-4" />
               </span>
               <div class="min-w-0">
-                <div class="text-xs font-mono tracking-wide" style="color: var(--color-text-faint)">Email</div>
+                <div class="text-[11px] font-mono tracking-wide" style="color: var(--color-text-faint)">Email</div>
                 <div class="text-sm font-medium truncate" style="color: var(--color-text-secondary)">{{ portfolio.personalInfo.email }}</div>
               </div>
               <span class="ml-auto text-xs" style="color: var(--color-text-faint)">↗</span>
@@ -80,7 +80,7 @@
                 <MapPin class="w-4 h-4" />
               </span>
               <div>
-                <div class="text-xs font-mono tracking-wide" style="color: var(--color-text-faint)">Location</div>
+                <div class="text-[11px] font-mono tracking-wide" style="color: var(--color-text-faint)">Location</div>
                 <div class="text-sm" style="color: var(--color-text-secondary)">{{ portfolio.personalInfo.location }} — Remote friendly</div>
               </div>
             </div>
@@ -93,7 +93,7 @@
                   :href="portfolio.personalInfo.github"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs font-medium transition-colors"
+                  class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[11px] font-mono font-medium transition-colors"
                   style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"
                 >
                   <Github class="w-3.5 h-3.5" /> GitHub
@@ -103,7 +103,7 @@
                   :href="portfolio.personalInfo.linkedin"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs font-medium transition-colors"
+                  class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[11px] font-mono font-medium transition-colors"
                   style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"
                 >
                   <Linkedin class="w-3.5 h-3.5" /> LinkedIn
@@ -113,7 +113,7 @@
                   :href="portfolio.personalInfo.instagram"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs font-medium transition-colors"
+                  class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[11px] font-mono font-medium transition-colors"
                   style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"
                 >
                   <Instagram class="w-3.5 h-3.5" /> Instagram
@@ -123,15 +123,15 @@
                   :href="portfolio.personalInfo.whatsApp"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs font-medium transition-colors"
+                  class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[11px] font-mono font-medium transition-colors"
                   style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"
                 >
                   <MessageCircle class="w-3.5 h-3.5" /> WhatsApp
                 </a>
                 <!-- Fallback socials if portfolio missing -->
                 <template v-if="!portfolio?.personalInfo.github && !portfolio?.personalInfo.linkedin">
-                  <a href="https://github.com/abuamar142" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs" style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"><Github class="w-3.5 h-3.5" /> GitHub</a>
-                  <a href="https://linkedin.com/in/abu-amar" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs" style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"><Linkedin class="w-3.5 h-3.5" /> LinkedIn</a>
+                  <a href="https://github.com/abuamar142" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[11px] font-mono" style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"><Github class="w-3.5 h-3.5" /> GitHub</a>
+                  <a href="https://linkedin.com/in/abu-amar" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[11px] font-mono" style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"><Linkedin class="w-3.5 h-3.5" /> LinkedIn</a>
                 </template>
               </div>
             </div>

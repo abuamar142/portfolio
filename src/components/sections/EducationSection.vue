@@ -18,16 +18,16 @@
           <h3 class="text-sm font-medium leading-snug" style="color: var(--color-text-primary)">
             {{ edu.institution }}
           </h3>
-          <div class="mt-2 text-xs">
+          <div class="mt-2 text-[11px] font-mono">
             <span class="font-medium" style="color: var(--color-text-secondary)">{{ edu.degree }}</span>
             <span class="mx-1.5" style="color: var(--color-text-faint)">—</span>
             <span style="color: var(--color-text-muted)">{{ edu.field }}</span>
           </div>
-          <p class="mt-3 text-xs font-mono" style="color: var(--color-text-faint)">
+          <p class="mt-3 text-[11px] font-mono" style="color: var(--color-text-faint)">
             {{ edu.duration }}
           </p>
-          <div v-if="edu.gpa" class="mt-3 inline-flex items-center gap-2 text-xs border rounded-full px-2.5 py-1" style="border-color: var(--color-border); background: var(--color-surface-raised); color: var(--color-text-muted)">
-            <span class="text-[10px] font-mono tracking-widest uppercase" style="color: var(--color-text-faint)">GPA</span>
+          <div v-if="edu.gpa" class="mt-3 inline-flex items-center gap-2 text-[11px] font-mono border rounded-full px-2.5 py-1" style="border-color: var(--color-border); background: var(--color-surface-raised); color: var(--color-text-muted)">
+            <span class="text-[11px] font-mono tracking-widest uppercase" style="color: var(--color-text-faint)">GPA</span>
             {{ edu.gpa }}
           </div>
         </div>

@@ -9,7 +9,7 @@
             {{ $t('about.title') }}
           </h2>
           <div class="mt-4 w-8 h-px" style="background: var(--color-border)"></div>
-          <p class="mt-4 text-xs leading-relaxed max-w-[28ch]" style="color: var(--color-text-faint)">
+          <p class="mt-4 text-[11px] font-mono leading-relaxed max-w-[28ch]" style="color: var(--color-text-faint)">
             Simple prose, generous whitespace. No metrics theater.
           </p>
         </div>
@@ -25,17 +25,17 @@
             <div class="rounded-lg border p-4" style="background: var(--color-surface); border-color: var(--color-border)">
               <div class="text-[11px] font-mono tracking-[0.1em] uppercase" style="color: var(--color-text-faint)">Experience</div>
               <div class="mt-1 text-sm font-medium" style="color: var(--color-text-secondary)">{{ calculateExperienceYears() }}+ years — building</div>
-              <div class="mt-1 text-xs" style="color: var(--color-text-muted)">Mobile & web, shipped to production</div>
+              <div class="mt-1 text-[11px] font-mono" style="color: var(--color-text-muted)">Mobile & web, shipped to production</div>
             </div>
             <div class="rounded-lg border p-4" style="background: var(--color-surface); border-color: var(--color-border)">
               <div class="text-[11px] font-mono tracking-[0.1em] uppercase" style="color: var(--color-text-faint)">Projects</div>
               <div class="mt-1 text-sm font-medium" style="color: var(--color-text-secondary)">{{ portfolio?.projects?.length || 0 }} deployed</div>
-              <div class="mt-1 text-xs" style="color: var(--color-text-muted)">Focused on clean, maintainable code</div>
+              <div class="mt-1 text-[11px] font-mono" style="color: var(--color-text-muted)">Focused on clean, maintainable code</div>
             </div>
             <div class="rounded-lg border p-4" style="background: var(--color-surface); border-color: var(--color-border)">
               <div class="text-[11px] font-mono tracking-[0.1em] uppercase" style="color: var(--color-text-faint)">Stacks</div>
               <div class="mt-1 text-sm font-medium" style="color: var(--color-text-secondary)">6+ technologies</div>
-              <div class="mt-1 text-xs" style="color: var(--color-text-muted)">Flutter, Vue, React, Node, etc.</div>
+              <div class="mt-1 text-[11px] font-mono" style="color: var(--color-text-muted)">Flutter, Vue, React, Node, etc.</div>
             </div>
           </div>
 
@@ -44,7 +44,7 @@
             <a
               v-if="portfolio?.personalInfo.email"
               :href="`mailto:${portfolio.personalInfo.email}`"
-              class="inline-flex items-center gap-2 text-xs px-3 py-2 rounded-full border"
+              class="inline-flex items-center gap-2 text-[11px] font-mono px-3 py-2 rounded-full border"
               style="border-color: var(--color-border); background: var(--color-surface-raised); color: var(--color-text-secondary)"
             >
               <Mail class="w-3.5 h-3.5" style="color: var(--color-text-muted)" />
@@ -52,7 +52,7 @@
             </a>
             <span
               v-if="portfolio?.personalInfo.location"
-              class="inline-flex items-center gap-1.5 text-xs px-3 py-2 rounded-full border"
+              class="inline-flex items-center gap-1.5 text-[11px] font-mono px-3 py-2 rounded-full border"
               style="border-color: var(--color-border); color: var(--color-text-muted)"
             >
               <MapPin class="w-3.5 h-3.5" />
