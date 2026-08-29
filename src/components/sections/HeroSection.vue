@@ -215,10 +215,7 @@
             </div>
           </div>
 
-          <!-- Caption under card -->
-          <p class="mt-3 text-[11px] font-mono leading-relaxed" style="color: var(--color-text-faint)">
-            Minimal slate — no gradients, no glass. Type leads, whitespace breathes.
-          </p>
+
         </div>
       </div>
     </div>
