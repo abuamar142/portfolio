@@ -22,8 +22,9 @@ export function usePosts() {
       const { data } = await axios.get(`${BACKEND_API}/api/v1/personal/posts`, {
         params,
       })
-      const posts = data.data?.posts || []
-      const total = data.data?.total ?? posts.length
+      const raw = data.data
+      const posts = Array.isArray(raw) ? raw : (raw?.posts || [])
+      const total = data.total ?? raw?.total ?? posts.length
       return { posts, total }
     } catch (e: any) {
       errorMsg.value = e.message
@@ -40,7 +41,8 @@ export function usePosts() {
       const { data } = await axios.get(`${BACKEND_API}/api/v1/personal/posts`, {
         params: { slug },
       })
-      return data.data?.posts?.[0] || null
+      const raw = data.data
+      return Array.isArray(raw) ? (raw[0] ?? null) : (raw?.posts?.[0] ?? null)
     } catch (e: any) {
       errorMsg.value = e.message
       throw e
