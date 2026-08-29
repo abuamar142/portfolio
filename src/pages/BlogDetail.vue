@@ -84,7 +84,14 @@ import { useHead } from '@vueuse/head'
 import { usePosts } from '@/composables/usePosts'
 
 const route = useRoute()
-const slug = computed(() => route.params.slug as string)
+const slug = computed(() => {
+  const raw = route.params.slug as string
+  try {
+    return decodeURIComponent(String(raw || '').trim())
+  } catch {
+    return String(raw || '').trim()
+  }
+})
 const { getBySlug } = usePosts()
 const post = ref<any | null>(null)
 const loading = ref(true)
@@ -99,11 +106,11 @@ useHead({
   ]),
 })
 
-const contentHtml = computed(() => post.value?.contentHtml || '')
-const coverUrl = computed(() => post.value?.coverImage?.url || '')
+const contentHtml = computed(() => post.value?.contentHtml || post.value?.content?.html || post.value?.excerpt || '')
+const coverUrl = computed(() => post.value?.coverImage?.url || post.value?.cover?.url || '')
 const readingTime = computed(() => {
   if (!post.value) return 0
-  const words = (post.value.contentHtml || post.value.excerpt || '').replace(/<[^>]*>/g, '').split(/\s+/).length
+  const words = (post.value.contentHtml || post.value.content?.html || post.value.excerpt || '').replace(/<[^>]*>/g, '').split(/\s+/).length
   return Math.max(1, Math.ceil(words / 200))
 })
 
@@ -119,9 +126,17 @@ function formatDate(iso?: string | null) {
 onMounted(async () => {
   try {
     loading.value = true
-    post.value = await getBySlug(slug.value)
-    if (!post.value || post.value.status === 'draft') throw new Error('Not found')
-  } catch {
+    const fetched = await getBySlug(slug.value)
+    // Debug log for shape/status inspection (do not rely on _status)
+    if (import.meta.env.DEV) {
+      console.debug('[BlogDetail] slug=', slug.value, 'fetched=', fetched)
+    }
+    post.value = fetched
+    // Only reject on explicit status === 'draft' (ignore legacy _status). Null means truly not found.
+    if (!post.value) throw new Error('Not found')
+    if (post.value.status === 'draft') throw new Error('Not found')
+  } catch (e) {
+    console.warn('[BlogDetail] failed to load', slug.value, e)
     error.value = 'Post not found'
   } finally {
     loading.value = false
