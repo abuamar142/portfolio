@@ -111,6 +111,16 @@
             >
               Let's connect
             </a>
+            <a
+              href="/cv.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-lg border text-sm font-medium transition-colors"
+              style="border-color: var(--color-border); color: var(--color-text-secondary); background: var(--color-surface-raised)"
+            >
+              <FileText class="w-4 h-4" />
+              {{ $t('hero.cta.resume') }}
+            </a>
             <div class="hidden sm:flex items-center gap-1.5 ml-1 pl-3 border-l" style="border-color: var(--color-border)">
               <a
                 v-for="social in socialLinks"
@@ -224,7 +234,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted } from 'vue'
-import { Github, Linkedin, Instagram, Mail, MapPin } from 'lucide-vue-next'
+import { Github, Linkedin, Instagram, Mail, MapPin, FileText } from 'lucide-vue-next'
 import { usePortfolio } from '@/composables/usePortfolio'
 
 const { portfolio, loading, error } = usePortfolio()
