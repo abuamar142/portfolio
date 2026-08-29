@@ -1,34 +1,51 @@
 <template>
-  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-sm border-b" style="background: color-mix(in srgb, var(--color-surface) 90%, transparent); border-color: var(--color-border)">
-    <nav class="max-w-3xl mx-auto px-6">
+  <header
+    class="fixed top-0 left-0 right-0 z-50 border-b"
+    style="background: var(--color-bg); border-color: var(--color-border)"
+  >
+    <nav class="max-w-[1280px] mx-auto px-6 md:px-8">
       <div class="flex items-center justify-between h-14">
-        <router-link to="/" class="font-medium text-sm tracking-tight transition-colors duration-150" style="color: var(--color-text-primary)">
-          abuamar
+        <!-- Monogram / wordmark -->
+        <router-link
+          to="/"
+          class="flex items-center gap-2.5 group"
+          aria-label="Home"
+        >
+          <span
+            class="w-7 h-7 rounded-md flex items-center justify-center text-[11px] font-medium tracking-widest border"
+            style="background: var(--color-surface-raised); border-color: var(--color-border); color: var(--color-text-primary)"
+          >
+            A
+          </span>
+          <span class="text-sm font-medium tracking-tight" style="color: var(--color-text-primary)">abuamar</span>
+          <span class="hidden sm:inline text-[10px] font-mono tracking-[0.14em] uppercase ml-1" style="color: var(--color-text-faint)">— portfolio 2026</span>
         </router-link>
 
-        <div class="hidden md:flex items-center gap-6">
+        <!-- Desktop nav -->
+        <div class="hidden md:flex items-center gap-7">
           <router-link
             v-for="item in navigation"
             :key="item.name"
             :to="item.isRoute ? item.href : { path: '/', hash: item.href }"
-            class="text-xs transition-colors duration-150"
+            class="text-xs font-normal tracking-wide transition-colors duration-150 hover:opacity-100"
             style="color: var(--color-text-muted)"
+            active-class="!text-[var(--color-text-primary)]"
           >
             {{ $t(item.name) }}
           </router-link>
-          <ThemeToggle />
+          <div class="h-4 w-px" style="background: var(--color-border)"></div>
           <LanguageDropdown />
         </div>
 
+        <!-- Mobile -->
         <div class="md:hidden flex items-center gap-2">
-          <ThemeToggle />
           <LanguageDropdown />
           <button
-            class="transition-colors p-1"
-            style="color: var(--color-text-muted)"
+            class="w-8 h-8 inline-flex items-center justify-center rounded-md border transition-colors"
+            :style="{ borderColor: 'var(--color-border)', color: 'var(--color-text-secondary)', background: isMobileMenuOpen ? 'var(--color-surface-raised)' : 'transparent' }"
             :aria-expanded="isMobileMenuOpen"
             aria-controls="mobile-menu"
-            aria-label="Toggle mobile menu"
+            aria-label="Toggle menu"
             @click="isMobileMenuOpen = !isMobileMenuOpen"
           >
             <X v-if="isMobileMenuOpen" class="h-4 w-4" />
@@ -45,17 +62,18 @@
         leave-from-class="opacity-100 translate-y-0"
         leave-to-class="opacity-0 -translate-y-1"
       >
-        <div v-if="isMobileMenuOpen" id="mobile-menu" class="md:hidden pb-3" role="menu">
-          <div class="space-y-0.5 border-t pt-2" style="border-color: var(--color-border)">
+        <div v-if="isMobileMenuOpen" id="mobile-menu" class="md:hidden pb-4" role="menu">
+          <div class="border-t pt-3 mt-1 space-y-0.5" style="border-color: var(--color-border)">
             <router-link
               v-for="item in navigation"
               :key="item.name"
               :to="item.isRoute ? item.href : { path: '/', hash: item.href }"
-              class="block px-2 py-2 text-xs transition-colors duration-150 rounded"
-              style="color: var(--color-text-muted)"
+              class="flex items-center justify-between px-3 py-2.5 text-sm rounded-md transition-colors"
+              style="color: var(--color-text-secondary); background: transparent"
               @click="isMobileMenuOpen = false"
             >
-              {{ $t(item.name) }}
+              <span>{{ $t(item.name) }}</span>
+              <span class="text-[11px] font-mono" style="color: var(--color-text-faint)">→</span>
             </router-link>
           </div>
         </div>
@@ -68,7 +86,6 @@
 import { ref } from 'vue'
 import { Menu, X } from 'lucide-vue-next'
 import LanguageDropdown from '@/components/LanguageDropdown.vue'
-import ThemeToggle from '@/components/ui/ThemeToggle.vue'
 
 const isMobileMenuOpen = ref(false)
 

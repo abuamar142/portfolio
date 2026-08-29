@@ -1,6 +1,6 @@
 <template>
-  <div id="app" class="min-h-screen flex flex-col bg-surface">
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-white focus:rounded-lg focus:text-sm">
+  <div id="app" class="min-h-screen flex flex-col" style="background: var(--color-bg)">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm" style="background: var(--color-accent); color: white">
       Skip to content
     </a>
     <AppHeader />
@@ -12,15 +12,20 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useHead } from '@vueuse/head'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
 
+// Force dark — no toggle, dark slate is the only theme
+if (typeof document !== 'undefined') {
+  document.documentElement.classList.add('dark')
+  document.documentElement.style.colorScheme = 'dark'
+}
+
 const siteUrl = 'https://abuamar.online'
 
 useHead({
-  titleTemplate: (title) => title ? `${title} | Abu Amar` : 'Abu Amar — Portfolio',
+  titleTemplate: (title) => (title ? `${title} | Abu Amar` : 'Abu Amar — Portfolio'),
   meta: [
     { name: 'description', content: 'Personal portfolio of Abu Amar — Mobile & Full Stack Developer' },
     { property: 'og:site_name', content: 'Abu Amar' },
@@ -32,12 +37,6 @@ useHead({
     { name: 'twitter:description', content: 'Personal portfolio of Abu Amar — Mobile & Full Stack Developer' },
     { name: 'twitter:image', content: 'https://abuamar.online/og-default.png' },
   ],
-  link: [
-    { rel: 'canonical', href: siteUrl },
-  ],
-})
-
-onMounted(() => {
-  document.documentElement.classList.remove('dark')
+  link: [{ rel: 'canonical', href: siteUrl }],
 })
 </script>

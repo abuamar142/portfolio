@@ -1,45 +1,34 @@
 <template>
-  <section
-    id="education"
-    class="py-20 bg-surface scroll-mt-16"
-  >
-    <div class="max-w-5xl mx-auto px-6">
-      <!-- Header -->
-      <div class="mb-16 animate-fade-in">
-        <h2 class="text-3xl sm:text-4xl font-bold text-text-primary tracking-tight mb-4">
+  <section id="education" class="scroll-mt-14 border-b" style="background: var(--color-bg); border-color: var(--color-border)">
+    <div class="max-w-[1280px] mx-auto px-6 md:px-8 py-16 md:py-20">
+      <div class="mb-10">
+        <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-3" style="color: var(--color-text-faint)">06 — Education</div>
+        <h2 class="text-[22px] md:text-[26px] font-semibold tracking-tighter leading-none" style="color: var(--color-text-primary); letter-spacing: -0.03em">
           {{ $t('education.title') }}
         </h2>
-        <div class="w-12 h-0.5 bg-accent"></div>
       </div>
 
-      <!-- Education Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
         <div
           v-for="(edu, index) in education"
           :key="index"
-          class="bg-surface-raised border border-border rounded-xl p-6 hover:border-accent/30 transition-all duration-200 group"
+          class="rounded-xl border p-5 md:p-6 transition-colors"
+          style="background: var(--color-surface); border-color: var(--color-border)"
         >
-          <!-- Institution Name -->
-          <h3 class="text-lg font-semibold text-text-primary mb-2 leading-snug">
+          <h3 class="text-sm font-medium leading-snug" style="color: var(--color-text-primary)">
             {{ edu.institution }}
           </h3>
-
-          <!-- Degree + Field -->
-          <div class="mb-3">
-            <span class="text-accent text-sm font-medium">{{ edu.degree }}</span>
-            <span class="text-text-muted mx-1.5">&mdash;</span>
-            <span class="text-text-secondary text-sm">{{ edu.field }}</span>
+          <div class="mt-2 text-xs">
+            <span class="font-medium" style="color: var(--color-text-secondary)">{{ edu.degree }}</span>
+            <span class="mx-1.5" style="color: var(--color-text-faint)">—</span>
+            <span style="color: var(--color-text-muted)">{{ edu.field }}</span>
           </div>
-
-          <!-- Duration -->
-          <p class="text-text-muted text-sm mb-2">
+          <p class="mt-3 text-xs font-mono" style="color: var(--color-text-faint)">
             {{ edu.duration }}
           </p>
-
-          <!-- GPA (if present) -->
-          <div v-if="edu.gpa" class="flex items-center gap-2">
-            <span class="text-xs text-text-muted uppercase tracking-wider">GPA</span>
-            <span class="text-sm text-text-primary font-medium">{{ edu.gpa }}</span>
+          <div v-if="edu.gpa" class="mt-3 inline-flex items-center gap-2 text-xs border rounded-full px-2.5 py-1" style="border-color: var(--color-border); background: var(--color-surface-raised); color: var(--color-text-muted)">
+            <span class="text-[10px] font-mono tracking-widest uppercase" style="color: var(--color-text-faint)">GPA</span>
+            {{ edu.gpa }}
           </div>
         </div>
       </div>

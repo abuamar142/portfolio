@@ -1,5 +1,5 @@
 <template>
-  <div :class="loading || error ? 'h-screen flex flex-col' : 'min-h-screen'">
+  <div :class="loading || error ? 'h-screen flex flex-col' : 'min-h-screen'" style="background: var(--color-bg)">
     <main :class="loading || error ? 'flex-1 flex flex-col mt-14' : 'pt-14'">
       <HomePageSkeleton v-if="loading" />
       <ErrorState v-else-if="error" :message="error || 'Unknown error occurred'" @retry="refresh" />
@@ -47,10 +47,7 @@ useHead({
         name: 'Abu Amar',
         url: 'https://abuamar.online',
         jobTitle: 'Software Engineer',
-        sameAs: [
-          'https://github.com/abuamar142',
-          'https://linkedin.com/in/abuamar',
-        ],
+        sameAs: ['https://github.com/abuamar142', 'https://linkedin.com/in/abu-amar'],
       }),
     },
   ],
