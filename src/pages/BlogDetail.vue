@@ -37,6 +37,21 @@
             {{ post?.title }}
           </h1>
 
+          <!-- Language switcher: toggles vue-i18n locale and refetches same slug with ?locale= -->
+          <div v-if="post" class="mt-4 flex items-center gap-2">
+            <button
+              type="button"
+              class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-mono tracking-wide transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2"
+              :style="{ borderColor: 'var(--color-border)', background: 'var(--color-surface-raised)', color: 'var(--color-text-secondary)' }"
+              :aria-label="switcherAriaLabel"
+              @click="toggleLocale"
+            >
+              <Languages :size="14" aria-hidden="true" />
+              {{ switcherLabel }}
+            </button>
+            <span class="text-[11px] font-mono" style="color: var(--color-text-faint)">· {{ locale.toUpperCase() }}</span>
+          </div>
+
           <div class="flex flex-wrap items-center gap-3 text-[11px] font-mono mt-4 pb-6 border-b" style="color: var(--color-text-faint); border-color: var(--color-border)">
             <time :datetime="post?.publishedAt">{{ formatDate(post?.publishedAt) }}</time>
             <span>·</span>
@@ -158,10 +173,12 @@
 import { onMounted, ref, computed, nextTick, watch, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@vueuse/head'
-import { Share2 } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
+import { Languages, Share2 } from 'lucide-vue-next'
 import { usePosts } from '@/composables/usePosts'
 
 const route = useRoute()
+const { locale } = useI18n()
 const slug = computed(() => {
   const raw = route.params.slug as string
   try {
@@ -195,9 +212,44 @@ const readingTime = computed(() => {
 function formatDate(iso?: string | null) {
   if (!iso) return ''
   try {
-    return new Date(iso).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
+    const dateLocale = locale.value === 'en' ? 'en-US' : 'id-ID'
+    return new Date(iso).toLocaleDateString(dateLocale, { day: 'numeric', month: 'long', year: 'numeric' })
   } catch {
     return String(iso)
+  }
+}
+
+// — Locale switcher (bilingual 1-doc-2-locale: slug localized per locale, same document ID)
+// Clicking toggles vue-i18n locale (persisted like LanguageDropdown) and watcher refetches same slug with new locale.
+// If translation missing, Payload fallback:true returns defaultLocale (id) content.
+const switcherLabel = computed(() => (locale.value === 'en' ? 'Baca versi Indonesia' : 'Read in English'))
+const switcherAriaLabel = computed(() => (locale.value === 'en' ? 'Switch to Indonesian' : 'Switch to English'))
+
+function toggleLocale() {
+  const next = locale.value === 'en' ? 'id' : 'en'
+  locale.value = next as any
+  try {
+    localStorage.setItem('portfolio-language', next)
+  } catch {}
+}
+
+async function fetchPost() {
+  loading.value = true
+  error.value = ''
+  try {
+    const fetched = await getBySlug(slug.value, locale.value)
+    if (import.meta.env.DEV) {
+      console.debug('[BlogDetail] slug=', slug.value, 'locale=', locale.value, 'fetched=', fetched)
+    }
+    post.value = fetched
+    if (!post.value) throw new Error('Not found')
+    if (post.value.status === 'draft') throw new Error('Not found')
+  } catch (e) {
+    console.warn('[BlogDetail] failed to load', slug.value, 'locale', locale.value, e)
+    // Keep existing post if refetch fails due to localized slug mismatch, but show error only on initial load
+    if (!post.value) error.value = 'Post not found'
+  } finally {
+    loading.value = false
   }
 }
 
@@ -329,23 +381,14 @@ onBeforeUnmount(() => {
   if (typeof document !== 'undefined') document.documentElement.style.overflow = ''
 })
 
-onMounted(async () => {
-  try {
-    loading.value = true
-    const fetched = await getBySlug(slug.value)
-    // Debug log for shape/status inspection (do not rely on _status)
-    if (import.meta.env.DEV) {
-      console.debug('[BlogDetail] slug=', slug.value, 'fetched=', fetched)
-    }
-    post.value = fetched
-    // Only reject on explicit status === 'draft' (ignore legacy _status). Null means truly not found.
-    if (!post.value) throw new Error('Not found')
-    if (post.value.status === 'draft') throw new Error('Not found')
-  } catch (e) {
-    console.warn('[BlogDetail] failed to load', slug.value, e)
-    error.value = 'Post not found'
-  } finally {
-    loading.value = false
-  }
+watch(locale, () => {
+  // Refetch same slug with new locale when user switches language via dropdown or switcher button
+  fetchPost()
 })
+
+watch(slug, () => {
+  fetchPost()
+})
+
+onMounted(fetchPost)
 </script>

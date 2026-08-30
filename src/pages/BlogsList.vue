@@ -126,13 +126,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useHead } from '@vueuse/head'
+import { useI18n } from 'vue-i18n'
 import { usePosts } from '@/composables/usePosts'
 import SearchInput from '@/components/ui/SearchInput.vue'
 
 useHead({ title: 'Blog | Abu Amar', meta: [{ property: 'og:title', content: 'Blog | Abu Amar' }] })
 
+const { locale } = useI18n()
 const { listPublished } = usePosts()
 const posts = ref<any[]>([])
 const loading = ref(false)
@@ -157,7 +159,12 @@ async function loadPosts() {
   try {
     loading.value = true
     error.value = ''
-    const r = await listPublished({ search: searchQuery.value, limit: postsPerPage, offset: (currentPage.value - 1) * postsPerPage })
+    const r = await listPublished({
+      locale: locale.value,
+      search: searchQuery.value,
+      limit: postsPerPage,
+      offset: (currentPage.value - 1) * postsPerPage,
+    })
     posts.value = r.posts
     totalPosts.value = r.total
   } catch (e: any) {
@@ -182,10 +189,15 @@ function estimateReadingTime(post: any) {
 function formatDate(iso?: string | null) {
   if (!iso) return ''
   try {
-    return new Date(iso).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
+    const dateLocale = locale.value === 'en' ? 'en-US' : 'id-ID'
+    return new Date(iso).toLocaleDateString(dateLocale, { day: 'numeric', month: 'short', year: 'numeric' })
   } catch {
     return String(iso)
   }
 }
+watch(locale, () => {
+  currentPage.value = 1
+  loadPosts()
+})
 onMounted(loadPosts)
 </script>
