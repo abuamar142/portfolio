@@ -2,7 +2,7 @@
   <section id="education" class="scroll-mt-14 border-b" style="background: var(--color-bg); border-color: var(--color-border)">
     <div class="max-w-[1280px] mx-auto px-6 md:px-8 py-16 md:py-20">
       <div class="mb-10">
-        <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-3" style="color: var(--color-text-faint)">06 — Education</div>
+        <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-3" style="color: var(--color-text-faint)">05 — Education</div>
         <h2 class="text-[22px] md:text-[26px] font-semibold tracking-tighter leading-none" style="color: var(--color-text-primary); letter-spacing: -0.03em">
           {{ $t('education.title') }}
         </h2>

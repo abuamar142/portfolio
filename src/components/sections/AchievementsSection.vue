@@ -3,7 +3,7 @@
     <div class="max-w-[1280px] mx-auto px-6 md:px-8 py-16 md:py-20">
       <div class="mb-10 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-3" style="color: var(--color-text-faint)">07 — Achievements</div>
+          <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-3" style="color: var(--color-text-faint)">06 — Achievements</div>
           <h2 class="text-[22px] md:text-[26px] font-semibold tracking-tighter leading-none" style="color: var(--color-text-primary); letter-spacing: -0.03em">
             {{ $t('achievements.title') }}
           </h2>

@@ -93,6 +93,8 @@ const navigation = [
   { name: 'navigation.about', href: '#about' },
   { name: 'navigation.experience', href: '#experiences' },
   { name: 'navigation.projects', href: '#projects' },
+  { name: 'navigation.education', href: '#education' },
+  { name: 'navigation.achievements', href: '#achievements' },
   { name: 'navigation.blog', href: '/blogs', isRoute: true },
   { name: 'navigation.contact', href: '#contact' },
 ]

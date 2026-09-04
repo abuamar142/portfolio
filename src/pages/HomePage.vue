@@ -10,9 +10,9 @@
         <ExperienceSection />
         <ProjectsSection />
         <SkillsSection />
-        <ContactSection />
         <EducationSection />
         <AchievementsSection />
+        <ContactSection />
       </div>
     </main>
   </div>

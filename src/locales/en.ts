@@ -3,6 +3,8 @@ export default {
     about: 'About',
     experience: 'Experience',
     projects: 'Projects',
+    education: 'Education',
+    achievements: 'Achievements',
     blog: 'Blog',
     contact: 'Contact',
   },

@@ -4,7 +4,7 @@
       <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-12 items-start">
         <!-- Left copy -->
         <div>
-          <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-3" style="color: var(--color-text-faint)">05 — Contact</div>
+          <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-3" style="color: var(--color-text-faint)">07 — Contact</div>
           <h2 class="text-[22px] md:text-[26px] font-semibold tracking-tighter leading-none" style="color: var(--color-text-primary); letter-spacing: -0.03em">
             {{ $t('contact.title') }}
           </h2>
