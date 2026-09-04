@@ -11,6 +11,8 @@
         <ProjectsSection />
         <SkillsSection />
         <ContactSection />
+        <EducationSection />
+        <AchievementsSection />
       </div>
     </main>
   </div>
@@ -31,6 +33,8 @@ import ExperienceSection from '@/components/sections/ExperienceSection.vue'
 const ProjectsSection = defineAsyncComponent(() => import('@/components/sections/ProjectsSection.vue'))
 const SkillsSection = defineAsyncComponent(() => import('@/components/sections/SkillsSection.vue'))
 const ContactSection = defineAsyncComponent(() => import('@/components/sections/ContactSection.vue'))
+const EducationSection = defineAsyncComponent(() => import('@/components/sections/EducationSection.vue'))
+const AchievementsSection = defineAsyncComponent(() => import('@/components/sections/AchievementsSection.vue'))
 
 useHead({
   meta: [
