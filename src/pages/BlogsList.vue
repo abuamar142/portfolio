@@ -126,13 +126,26 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
-import { useHead } from '@vueuse/head'
+import { computed, onMounted, onServerPrefetch, ref, watch } from 'vue'
+import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { usePosts } from '@/composables/usePosts'
 import SearchInput from '@/components/ui/SearchInput.vue'
 
-useHead({ title: 'Blog | Abu Amar', meta: [{ property: 'og:title', content: 'Blog | Abu Amar' }] })
+// — Per-page SEO head (baked into the prerendered HTML + SPA client) —
+// Overrides App.vue's `| Abu Amar` titleTemplate so the title is exactly
+// "Blog — Abu Amar" without doubling the site name.
+useHead({
+  title: 'Blog — Abu Amar',
+  titleTemplate: '%s',
+  meta: [
+    { name: 'description', content: 'Blog by Abu Amar — tutorials, notes, and updates on mobile & full-stack development.' },
+    { property: 'og:title', content: 'Blog — Abu Amar' },
+    { property: 'og:description', content: 'Tutorials, notes, and updates on mobile & full-stack development.' },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: 'https://abuamar.online/blogs' },
+  ],
+})
 
 const { locale } = useI18n()
 const { listPublished } = usePosts()
@@ -173,6 +186,20 @@ async function loadPosts() {
     loading.value = false
   }
 }
+
+// — Prerender-time data fetch —
+// onServerPrefetch runs only during SSG/SSR: the first page of posts is
+// fetched at build time so the prerendered /blogs HTML contains the post
+// links. The try/catch keeps an API hiccup from failing the build. On the
+// client this hook never fires — the existing onMounted flow below keeps the
+// loading/empty states working as before.
+onServerPrefetch(async () => {
+  try {
+    await loadPosts()
+  } catch {
+    // loadPosts already captured the error state; never fail the prerender.
+  }
+})
 function onSearch() {
   currentPage.value = 1
   loadPosts()

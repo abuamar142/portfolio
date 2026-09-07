@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
 

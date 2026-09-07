@@ -170,9 +170,9 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed, nextTick, watch, onBeforeUnmount } from 'vue'
+import { onMounted, onServerPrefetch, ref, computed, nextTick, watch, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
-import { useHead } from '@vueuse/head'
+import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { Languages, Share2 } from 'lucide-vue-next'
 import { usePosts } from '@/composables/usePosts'
@@ -192,13 +192,61 @@ const post = ref<any | null>(null)
 const loading = ref(true)
 const error = ref('')
 
+// — Prerender-time data fetch —
+// onServerPrefetch runs only during SSG/SSR: the post is fetched at build time
+// so the static HTML carries the real article content, head tags and JSON-LD.
+// The try/catch keeps a bad slug or API hiccup from failing the build (the
+// error state renders instead). On the client this hook never fires — the
+// existing onMounted flow below keeps the loading/empty states working.
+onServerPrefetch(async () => {
+  try {
+    const fetched = await getBySlug(slug.value, locale.value)
+    if (!fetched || fetched.status === 'draft') throw new Error('Not found')
+    post.value = fetched
+  } catch (e) {
+    console.warn('[BlogDetail] prerender fetch failed', slug.value, locale.value, e)
+    error.value = 'Post not found'
+  } finally {
+    loading.value = false
+  }
+})
+
+// — Per-page SEO head (baked into the prerendered HTML + SPA client) —
+const SITE_URL = 'https://abuamar.online'
+const canonical = computed(() => `${SITE_URL}/blogs/${encodeURIComponent(slug.value)}`)
+
 useHead({
-  title: computed(() => (post.value ? `${post.value.title} | Abu Amar` : 'Blog Post')),
+  // Override App.vue's `| Abu Amar` titleTemplate so the title is exactly
+  // "<post title> — Abu Amar" without doubling the site name.
+  title: computed(() => (post.value ? post.value.title : 'Blog Post')),
+  titleTemplate: '%s — Abu Amar',
   meta: computed(() => [
-    { property: 'og:title', content: post.value?.title || 'Blog Post' },
+    { name: 'description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
+    { property: 'og:title', content: post.value ? `${post.value.title} — Abu Amar` : 'Blog Post — Abu Amar' },
     { property: 'og:description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
     { property: 'og:type', content: 'article' },
+    { property: 'og:url', content: canonical.value },
   ]),
+  link: computed(() => [{ rel: 'canonical', href: canonical.value }]),
+  // JSON-LD BlogPosting — emitted once real data exists, so the prerendered
+  // HTML always carries the structured data.
+  script: computed(() => {
+    if (!post.value) return []
+    return [
+      {
+        type: 'application/ld+json',
+        textContent: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BlogPosting',
+          headline: post.value.title,
+          description: post.value.excerpt || '',
+          datePublished: post.value.publishedAt || undefined,
+          author: { '@type': 'Person', name: 'M. Abu Amar Al Badawi' },
+          mainEntityOfPage: { '@type': 'WebPage', '@id': canonical.value },
+        }),
+      },
+    ]
+  }),
 })
 
 const contentHtml = computed(() => post.value?.contentHtml || post.value?.content?.html || post.value?.excerpt || '')
