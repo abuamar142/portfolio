@@ -27,7 +27,7 @@
 
       <article
         v-else
-        class="mt-8 grid items-start gap-12 lg:grid-cols-[minmax(0,45rem)_minmax(0,16rem)]"
+        class="mt-8 grid items-start gap-12 overflow-x-clip lg:grid-cols-[minmax(0,45rem)_minmax(0,16rem)]"
       >
         <div class="min-w-0">
           <div v-if="post?.tags?.length" class="flex flex-wrap gap-2">

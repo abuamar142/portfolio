@@ -390,6 +390,168 @@
     font-weight: 600;
   }
 
+  /* ── Rich text blocks (converter emits rt-* hooks) ──────────────────────── */
+  .blog-content figure {
+    margin: 0;
+  }
+
+  .blog-content .rt-figure {
+    margin-block: 2rem;
+  }
+
+  .blog-content .rt-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-box);
+    border: 1px solid var(--color-base-300);
+  }
+
+  .blog-content .rt-figure-caption {
+    margin-top: 0.65rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.55;
+    color: var(--color-ink-3);
+  }
+
+  .blog-content .rt-figure--inset {
+    max-width: 32rem;
+  }
+
+  /* Escapes the 45rem measure; the article container sets `overflow-x: clip`. */
+  .blog-content .rt-figure--wide {
+    margin-inline: calc(-1 * clamp(0rem, 3vw, 3rem));
+  }
+
+  /* Full-bleed: the article column is not viewport-centred (a rail sits beside it), so the
+     offset is computed from the wrap geometry instead of `calc(50% - 50vw)`. */
+  .blog-content .rt-figure--full {
+    position: relative;
+    left: calc(-1 * max(0rem, (100vw - 76rem) / 2) - 1.25rem);
+    width: 100vw;
+    margin-inline: 0;
+  }
+
+  @media (min-width: 768px) {
+    .blog-content .rt-figure--full {
+      left: calc(-1 * max(0rem, (100vw - 76rem) / 2) - 2rem);
+    }
+  }
+
+  .blog-content .rt-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 0.75rem;
+    margin-block: 2rem;
+  }
+
+  .blog-content .rt-gallery .rt-figure {
+    margin: 0;
+  }
+
+  .blog-content .rt-callout,
+  .blog-content .rt-takeaways {
+    border: 1px solid var(--color-base-300);
+    border-radius: var(--radius-box);
+    background: var(--color-base-200);
+    padding: 1rem 1.25rem;
+    margin-block: 2rem;
+  }
+
+  .blog-content .rt-callout {
+    border-left-width: 3px;
+    border-left-color: var(--color-primary);
+  }
+
+  .blog-content .rt-callout--tip {
+    border-left-color: var(--color-accent);
+  }
+
+  .blog-content .rt-callout--warning {
+    border-left-color: oklch(0.72 0.16 45);
+  }
+
+  .blog-content .rt-callout-title,
+  .blog-content .rt-takeaways-title {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-base-content);
+    margin-bottom: 0.5rem;
+  }
+
+  .blog-content .rt-takeaways ul {
+    margin-top: 0;
+  }
+
+  .blog-content .rt-pullquote {
+    border: 0;
+    padding: 0;
+    margin-block: 2.5rem;
+  }
+
+  .blog-content .rt-pullquote p {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1.35;
+    color: var(--color-base-content);
+    max-width: 40ch;
+  }
+
+  .blog-content .rt-pullquote cite {
+    display: block;
+    margin-top: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-style: normal;
+    color: var(--color-ink-3);
+  }
+
+  .blog-content .rt-embed-frame {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 1px solid var(--color-base-300);
+    border-radius: var(--radius-box);
+    background: var(--color-base-200);
+  }
+
+  .blog-content .rt-embed-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .blog-content .rt-code {
+    margin-block: 2rem;
+  }
+
+  .blog-content .rt-divider--dots {
+    border-top: 0;
+    height: 1rem;
+  }
+
+  .blog-content .rt-divider--dots::after {
+    content: "· · ·";
+    display: block;
+    text-align: center;
+    color: var(--color-ink-4);
+    letter-spacing: 0.5em;
+  }
+
+  .blog-content .rt-divider--space {
+    border-top: 0;
+    height: 2.5rem;
+  }
+
+  .blog-content .rt-related {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+
   /* Reveal on mount — single authored easing, opt-in per element. */
   .reveal {
     animation: reveal 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
