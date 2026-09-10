@@ -251,7 +251,10 @@
     line-height: 1.75;
   }
 
-  .blog-content > * + * {
+  /* Payload's HTML field wraps the body in `.payload-richtext`, so the rhythm rule has to
+     reach one level deeper than the injected container. */
+  .blog-content > * + *,
+  .blog-content .payload-richtext > * + * {
     margin-top: 1.15rem;
   }
 
