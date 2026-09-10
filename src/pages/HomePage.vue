@@ -1,20 +1,20 @@
 <template>
-  <div :class="loading || error ? 'h-screen flex flex-col' : 'min-h-screen'" style="background: var(--color-bg)">
-    <main :class="loading || error ? 'flex-1 flex flex-col mt-14' : 'pt-14'">
-      <HomePageSkeleton v-if="loading" />
-      <ErrorState v-else-if="error" :message="error || 'Unknown error occurred'" @retry="refresh" />
+  <div class="min-h-screen bg-base-100">
+    <!-- Identity is static: render it immediately, never behind a fetch. -->
+    <HeroSection />
 
-      <div v-else>
-        <HeroSection />
-        <AboutSection />
-        <ExperienceSection />
-        <ProjectsSection />
-        <SkillsSection />
-        <EducationSection />
-        <AchievementsSection />
-        <ContactSection />
-      </div>
-    </main>
+    <HomePageSkeleton v-if="loading" />
+    <ErrorState v-else-if="error" :message="error || 'Unknown error occurred'" @retry="refresh" />
+
+    <div v-else>
+      <AboutSection />
+      <ExperienceSection />
+      <ProjectsSection />
+      <SkillsSection />
+      <EducationSection />
+      <AchievementsSection />
+      <ContactSection />
+    </div>
   </div>
 </template>
 
@@ -30,16 +30,27 @@ import HeroSection from '@/components/sections/HeroSection.vue'
 import AboutSection from '@/components/sections/AboutSection.vue'
 import ExperienceSection from '@/components/sections/ExperienceSection.vue'
 
-const ProjectsSection = defineAsyncComponent(() => import('@/components/sections/ProjectsSection.vue'))
+const ProjectsSection = defineAsyncComponent(
+  () => import('@/components/sections/ProjectsSection.vue'),
+)
 const SkillsSection = defineAsyncComponent(() => import('@/components/sections/SkillsSection.vue'))
-const ContactSection = defineAsyncComponent(() => import('@/components/sections/ContactSection.vue'))
-const EducationSection = defineAsyncComponent(() => import('@/components/sections/EducationSection.vue'))
-const AchievementsSection = defineAsyncComponent(() => import('@/components/sections/AchievementsSection.vue'))
+const ContactSection = defineAsyncComponent(
+  () => import('@/components/sections/ContactSection.vue'),
+)
+const EducationSection = defineAsyncComponent(
+  () => import('@/components/sections/EducationSection.vue'),
+)
+const AchievementsSection = defineAsyncComponent(
+  () => import('@/components/sections/AchievementsSection.vue'),
+)
 
 useHead({
   meta: [
     { property: 'og:title', content: 'Abu Amar — Portfolio' },
-    { property: 'og:description', content: 'Mobile & Full Stack Developer portfolio — projects, skills, and experience.' },
+    {
+      property: 'og:description',
+      content: 'Mobile & Full Stack Developer portfolio — projects, skills, and experience.',
+    },
     { property: 'og:type', content: 'website' },
   ],
   script: [

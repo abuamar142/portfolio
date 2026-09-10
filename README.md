@@ -5,6 +5,7 @@
 [![Vue.js](https://img.shields.io/badge/Vue.js-3.x-4FC08D?style=flat&logo=vue.js&logoColor=white)](https://vuejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![daisyUI](https://img.shields.io/badge/daisyUI-5.x-5A0EF8?style=flat&logo=daisyui&logoColor=white)](https://daisyui.com/)
 
 ## ✨ Overview
 
@@ -17,10 +18,10 @@ A modern, responsive portfolio showcasing my journey as a Software Engineer spec
 - **Frontend:** Vue.js 3 + TypeScript + Composition API
 - **Database:** MongoDB Atlas
 - **Backend API:** Separate Express.js project ([backend.abuamar.online](https://backend.abuamar.online))
-- **Styling:** Tailwind CSS v4 with Dracula Theme
-- **Build Tool:** Vite
-- **Icons:** Heroicons
-- **Deployment:** Vercel (Frontend) + Vercel (Backend API)
+- **Styling:** Tailwind CSS v4 + daisyUI v5 — custom `portfolio` dark theme, serif display type (Newsreader), mono meta labels (JetBrains Mono)
+- **Build Tool:** Vite + vite-ssg (prerendered pages + sitemap)
+- **Icons:** lucide-vue-next
+- **Deployment:** GitHub Actions → VPS (main → production, development → dev.abuamar.online)
 
 ## 🚀 Quick Start
 

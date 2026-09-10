@@ -1,67 +1,90 @@
 <template>
-  <section id="achievements" class="scroll-mt-14 border-b" style="background: var(--color-bg); border-color: var(--color-border)">
-    <div class="max-w-[1280px] mx-auto px-6 md:px-8 py-16 md:py-20">
-      <div class="mb-10 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-3" style="color: var(--color-text-faint)">06 — Achievements</div>
-          <h2 class="text-[22px] md:text-[26px] font-semibold tracking-tighter leading-none" style="color: var(--color-text-primary); letter-spacing: -0.03em">
-            {{ $t('achievements.title') }}
-          </h2>
+  <section id="achievements" class="section">
+    <div class="wrap">
+      <SectionHeader
+        index="06"
+        :label="$t('navigation.achievements')"
+        :title="$t('headings.achievements')"
+        :lead="$t('achievements.subtitle')"
+      >
+        <template #meta>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
+            {{ achievements.length }} {{ $t('meta.items') }}
+          </p>
+        </template>
+      </SectionHeader>
+
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div class="flex flex-wrap gap-2">
+          <button
+            type="button"
+            class="chip min-h-11 transition-colors"
+            :class="
+              activeFilter === 'all'
+                ? 'border-primary bg-primary text-primary-content'
+                : 'hover:border-ink-4 hover:text-base-content'
+            "
+            :aria-pressed="activeFilter === 'all'"
+            @click="activeFilter = 'all'"
+          >
+            {{ $t('achievements.filters.all') }}
+            <span class="font-mono text-[11px] opacity-70">{{ achievements.length }}</span>
+          </button>
+          <button
+            v-for="category in categories"
+            :key="category.key"
+            type="button"
+            class="chip min-h-11 transition-colors"
+            :class="
+              activeFilter === category.key
+                ? 'border-primary bg-primary text-primary-content'
+                : 'hover:border-ink-4 hover:text-base-content'
+            "
+            :aria-pressed="activeFilter === category.key"
+            @click="activeFilter = category.key"
+          >
+            {{ $t('achievements.filters.' + category.key) }}
+            <span class="font-mono text-[11px] opacity-70">
+              {{ getCountByCategory(category.key) }}
+            </span>
+          </button>
         </div>
-        <div class="text-[11px] font-mono" style="color: var(--color-text-faint)">{{ achievements.length }} items</div>
+
+        <div class="w-full lg:w-80 lg:shrink-0">
+          <SearchInput
+            v-model="searchQuery"
+            :placeholder="$t('search.placeholder')"
+            :results-count="filteredAchievements.length"
+          />
+        </div>
       </div>
 
-      <div class="flex flex-wrap gap-2 mb-6">
-        <button
-          @click="activeFilter = 'all'"
-          :class="['px-3 py-1.5 rounded-full text-[11px] font-mono tracking-wide border transition-colors']"
-          :style="activeFilter === 'all' ? { background: 'var(--color-text-primary)', color: 'var(--color-bg)', borderColor: 'var(--color-text-primary)' } : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', borderColor: 'var(--color-border)' }"
-        >
-          {{ $t('achievements.filters.all') }} ({{ achievements.length }})
-        </button>
-        <button
-          v-for="category in categories"
-          :key="category.key"
-          @click="activeFilter = category.key"
-          :class="['px-3 py-1.5 rounded-full text-[11px] font-mono tracking-wide border transition-colors']"
-          :style="activeFilter === category.key ? { background: 'var(--color-text-primary)', color: 'var(--color-bg)', borderColor: 'var(--color-text-primary)' } : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', borderColor: 'var(--color-border)' }"
-        >
-          {{ $t(`achievements.filters.${category.key}`) }} ({{ getCountByCategory(category.key) }})
-        </button>
-      </div>
-
-      <div class="mb-6 max-w-md">
-        <SearchInput v-model="searchQuery" :placeholder="$t('search.placeholder')" :results-count="filteredAchievements.length" />
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div
+        v-if="filteredAchievements.length"
+        class="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3"
+      >
         <AchievementCard
-          v-for="(achievement, index) in filteredAchievements"
-          :key="index"
+          v-for="achievement in filteredAchievements"
+          :key="`${achievement.title}-${achievement.date}`"
           :achievement="achievement"
         />
       </div>
 
       <div v-if="shouldShowSeeMore || showAll" class="mt-8 flex justify-center">
-        <button
-          @click="toggleShowAll"
-          class="px-4 py-2 rounded-full border text-[11px] font-mono tracking-wide transition-colors"
-          :style="{ borderColor: 'var(--color-border)', color: 'var(--color-text-muted)', background: 'var(--color-surface)' }"
-        >
-          <span v-if="!showAll">{{ $t('achievements.buttons.seeMore') }}</span>
-          <span v-else>{{ $t('achievements.buttons.seeLess') }}</span>
-        </button>
+        <BaseButton variant="ghost" size="sm" class="min-h-11" @click="toggleShowAll">
+          {{ showAll ? $t('achievements.buttons.seeLess') : $t('achievements.buttons.seeMore') }}
+        </BaseButton>
       </div>
 
-      <div v-if="filteredAchievements.length === 0" class="text-center py-12 rounded-xl border mt-6" style="border-color: var(--color-border); background: var(--color-surface)">
-        <p class="text-sm" style="color: var(--color-text-muted)">
+      <div v-if="filteredAchievements.length === 0" class="panel mt-6 p-8 text-center">
+        <p class="text-sm text-ink-2">
           {{ searchQuery.trim() ? $t('search.noResults') : $t('achievements.empty') }}
         </p>
         <button
           v-if="searchQuery.trim()"
+          type="button"
+          class="mt-2 inline-flex min-h-11 items-center text-sm text-primary underline underline-offset-4 transition-opacity hover:opacity-80"
           @click="searchQuery = ''"
-          class="mt-3 text-xs underline underline-offset-2"
-          style="color: var(--color-text-secondary); text-decoration-color: var(--color-border-contrast)"
         >
           {{ $t('search.clearSearch') }}
         </button>
@@ -75,6 +98,8 @@ import { computed, ref, watch } from 'vue'
 import { usePortfolio } from '@/composables/usePortfolio'
 import AchievementCard from '@/components/ui/AchievementCard.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
+import SectionHeader from '@/components/ui/SectionHeader.vue'
+import BaseButton from '@/components/ui/BaseButton.vue'
 
 const { portfolio } = usePortfolio()
 

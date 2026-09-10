@@ -1,31 +1,18 @@
 <template>
-  <section class="min-h-screen flex items-center justify-center px-6 py-16" style="background: var(--color-bg)">
-    <div class="max-w-[1280px] w-full">
-      <div class="max-w-[560px]">
-        <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-6" style="color: var(--color-text-faint)">404 — Not found — FIG_404</div>
-        <div class="text-[56px] md:text-[72px] font-semibold tracking-tighter leading-none" style="color: var(--color-text-primary); letter-spacing: -0.05em">404</div>
-        <p class="mt-4 text-sm leading-relaxed max-w-[42ch]" style="color: var(--color-text-muted)">
-          The page you’re looking for doesn’t exist or has been moved. Head back home or browse writing.
-        </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <router-link
-            to="/"
-            class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg text-sm font-medium"
-            style="background: var(--color-text-primary); color: var(--color-bg)"
-          >
-            ← Home
-          </router-link>
-          <router-link
-            to="/blogs"
-            class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg border text-sm font-medium"
-            style="border-color: var(--color-border); color: var(--color-text-secondary); background: var(--color-surface)"
-          >
-            Browse blog
-          </router-link>
-        </div>
-        <div class="mt-10 pt-6 border-t text-xs font-mono" style="border-color: var(--color-border); color: var(--color-text-faint)">
-          wide container · dark slate · max-w-[1280px]
-        </div>
+  <section id="not-found" class="page-top">
+    <div
+      class="wrap flex min-h-[60vh] flex-col items-center justify-center pb-20 text-center md:pb-28"
+    >
+      <p class="eyebrow">{{ $t('blog.notFoundLabel') }}</p>
+      <h1 class="display-1 mt-6 text-base-content">404</h1>
+      <p class="mt-6 max-w-[46ch] text-ink-2">{{ $t('blog.notFoundBody') }}</p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+        <BaseButton variant="primary" size="lg" to="/" :icon-left="ArrowLeft">
+          {{ $t('blog.backHome') }}
+        </BaseButton>
+        <BaseButton variant="ghost" size="lg" to="/blogs">
+          {{ $t('navigation.blog') }}
+        </BaseButton>
       </div>
     </div>
   </section>
@@ -33,5 +20,8 @@
 
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
-useHead({ title: '404 | Abu Amar' })
+import { ArrowLeft } from 'lucide-vue-next'
+import BaseButton from '@/components/ui/BaseButton.vue'
+
+useHead({ title: '404', titleTemplate: '%s | Abu Amar' })
 </script>

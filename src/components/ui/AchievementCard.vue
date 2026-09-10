@@ -1,77 +1,57 @@
 <template>
-  <div
-    class="rounded-xl border p-5 md:p-6 group transition-colors hover:brightness-[1.02]"
-    style="background: var(--color-surface); border-color: var(--color-border)"
-  >
-    <div class="flex justify-between items-start gap-3 mb-3">
-      <span
-        class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-mono tracking-wide border"
-        :style="categoryStyle"
-      >
-        {{ $t(`achievements.categories.${achievement.type}`) }}
-      </span>
-      <span class="text-[11px] font-mono shrink-0" style="color: var(--color-text-faint)">
+  <article class="panel flex flex-col p-5 transition-colors hover:border-primary/40">
+    <div class="flex items-start justify-between gap-3">
+      <span class="chip">{{ $t('achievements.categories.' + achievement.type) }}</span>
+      <p class="shrink-0 font-mono text-[11px] leading-none text-ink-4">
         {{ formatDate(achievement.date) }}
-      </span>
+      </p>
     </div>
 
-    <h3 class="text-sm font-medium leading-snug" style="color: var(--color-text-primary)">
+    <h3 class="mt-4 text-[15px] font-medium leading-snug text-base-content">
       {{ achievement.title }}
     </h3>
 
-    <p class="text-xs font-medium mt-1.5" style="color: var(--color-text-muted)">
-      {{ achievement.organizer }}
+    <p class="mt-1 text-sm text-ink-3">{{ achievement.organizer }}</p>
+
+    <p v-if="achievement.description" class="mt-3 line-clamp-3 text-sm text-ink-2">
+      {{ achievement.description }}
     </p>
 
-    <div class="mt-3 space-y-1.5">
-      <p v-if="achievement.description" class="text-xs leading-relaxed line-clamp-3" style="color: var(--color-text-secondary)">
-        {{ achievement.description }}
-      </p>
-      <p v-if="achievement.certificate_number" class="text-[11px] font-mono" style="color: var(--color-text-faint)">
-        Certificate: {{ achievement.certificate_number }}
-      </p>
-      <p v-if="achievement.participant_as" class="text-[11px] font-mono" style="color: var(--color-text-faint)">
-        As: {{ achievement.participant_as }}
-      </p>
-      <p v-if="achievement.valid_until" class="text-[11px] font-mono" style="color: var(--color-text-muted)">
-        Valid until: {{ formatDate(achievement.valid_until) }}
-      </p>
+    <div
+      v-if="achievement.certificate_number || achievement.participant_as || achievement.valid_until"
+      class="mt-3 space-y-1 font-mono text-[11px] leading-relaxed text-ink-4"
+    >
+      <p v-if="achievement.certificate_number">{{ achievement.certificate_number }}</p>
+      <p v-if="achievement.participant_as">{{ achievement.participant_as }}</p>
+      <p v-if="achievement.valid_until">{{ formatDate(achievement.valid_until) }}</p>
     </div>
 
-    <div class="flex justify-end mt-4 pt-4 border-t" style="border-color: var(--color-border)" v-if="achievement.drive_file_id">
-      <button
-        @click="openEvidence"
-        class="inline-flex items-center gap-1.5 text-xs font-medium transition-colors"
-        style="color: var(--color-text-muted)"
-      >
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-        </svg>
-        {{ $t('achievements.buttons.evidence') }}
-      </button>
+    <div v-if="achievement.drive_file_id" class="mt-auto pt-4">
+      <div class="flex justify-end border-t border-base-300 pt-3">
+        <BaseButton
+          variant="ghost"
+          size="sm"
+          class="min-h-11"
+          :icon-right="ArrowUpRight"
+          @click="openEvidence"
+        >
+          {{ $t('achievements.buttons.evidence') }}
+        </BaseButton>
+      </div>
     </div>
-  </div>
+  </article>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ArrowUpRight } from 'lucide-vue-next'
 import type { Achievement } from '@/types/portfolio'
+import BaseButton from '@/components/ui/BaseButton.vue'
 
 interface Props {
   achievement: Achievement
 }
 
 const props = defineProps<Props>()
-
-const categoryStyle = computed(() => {
-  const map: Record<string, string> = {
-    certificate: 'background: var(--color-surface-raised); color: var(--color-text-secondary); border-color: var(--color-border)',
-    certification: 'background: var(--color-accent-subtle); color: var(--color-accent-hover); border-color: rgba(99,102,241,0.2)',
-    webinar: 'background: var(--color-surface-raised); color: var(--color-text-muted); border-color: var(--color-border)',
-    seminar: 'background: var(--color-surface-raised); color: var(--color-text-muted); border-color: var(--color-border)',
-  }
-  return map[props.achievement.type] || map.webinar
-})
 
 const formatDate = (dateString: string) => {
   try {
@@ -89,13 +69,3 @@ const openEvidence = () => {
   }
 }
 </script>
-
-<style scoped>
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-</style>

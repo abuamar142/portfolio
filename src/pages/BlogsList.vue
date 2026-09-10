@@ -1,126 +1,142 @@
 <template>
-  <section class="pt-14 min-h-screen" style="background: var(--color-bg)">
-    <div class="max-w-[1280px] mx-auto px-6 md:px-8 py-10 md:py-12">
-      <!-- Header -->
-      <div class="flex flex-wrap items-start justify-between gap-6 mb-8 border-b pb-8" style="border-color: var(--color-border)">
-        <div>
-          <router-link
-            to="/"
-            class="inline-flex items-center gap-1.5 text-[11px] font-mono mb-4 transition-colors"
-            style="color: var(--color-text-faint)"
-          >
-            ← Home
-          </router-link>
-          <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-2" style="color: var(--color-text-faint)">Writing — FIG_003</div>
-          <h1 class="text-[28px] md:text-[32px] font-semibold tracking-tighter leading-none" style="color: var(--color-text-primary); letter-spacing: -0.03em">Blog</h1>
-          <p class="mt-2 text-sm leading-relaxed max-w-[520px]" style="color: var(--color-text-muted)">Thoughts, tutorials, and updates. Monochrome list, generous whitespace.</p>
-        </div>
-        <div class="hidden md:block text-[11px] font-mono" style="color: var(--color-text-faint)">{{ totalPosts }} posts</div>
-      </div>
+  <section id="blogs" class="page-top">
+    <div class="wrap pb-20 md:pb-28">
+      <SectionHeader level="h1" :label="$t('navigation.blog')" :title="$t('headings.blog')">
+        <template #meta>
+          <p class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
+            {{ totalPosts }} {{ $t('blog.posts') }}
+          </p>
+        </template>
+      </SectionHeader>
 
-      <!-- Filters -->
-      <div class="flex flex-wrap items-center gap-2 mb-6">
-        <span class="text-[11px] font-mono tracking-wide mr-1" style="color: var(--color-text-faint)">Filter:</span>
+      <!-- Category filter -->
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="eyebrow mr-1">{{ $t('blog.filters.label') }}</span>
         <button
+          type="button"
+          class="chip min-h-11 px-4 transition-colors"
+          :class="
+            selectedCategory === ''
+              ? 'chip-accent'
+              : 'hover:border-base-content/25 hover:text-base-content'
+          "
+          :aria-pressed="selectedCategory === ''"
           @click="selectedCategory = ''"
-          class="px-3 py-1.5 text-[11px] font-mono tracking-wide rounded-full border transition-colors"
-          :style="selectedCategory === '' ? { background: 'var(--color-text-primary)', color: 'var(--color-bg)', borderColor: 'var(--color-text-primary)' } : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', borderColor: 'var(--color-border)' }"
         >
-          All
+          {{ $t('blog.filters.all') }}
         </button>
         <button
           v-for="cat in categories"
           :key="cat"
+          type="button"
+          class="chip min-h-11 px-4 transition-colors"
+          :class="
+            selectedCategory === cat
+              ? 'chip-accent'
+              : 'hover:border-base-content/25 hover:text-base-content'
+          "
+          :aria-pressed="selectedCategory === cat"
           @click="selectedCategory = selectedCategory === cat ? '' : cat"
-          class="px-3 py-1.5 text-[11px] font-mono tracking-wide rounded-full border transition-colors"
-          :style="selectedCategory === cat ? { background: 'var(--color-surface-raised)', color: 'var(--color-text-primary)', borderColor: 'var(--color-border-contrast)' } : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', borderColor: 'var(--color-border)' }"
         >
           {{ cat }}
         </button>
       </div>
 
-      <div class="mb-8 max-w-md">
-        <SearchInput v-model="searchQuery" placeholder="Search posts..." :results-count="totalPosts" @update:model-value="onSearch" />
+      <!-- Search -->
+      <div class="mt-6">
+        <SearchInput
+          v-model="searchQuery"
+          :placeholder="$t('blog.searchPlaceholder')"
+          @update:model-value="onSearch"
+        />
       </div>
 
-      <!-- States -->
-      <div v-if="loading" class="space-y-6" role="status">
-        <div v-for="i in 3" :key="i" class="rounded-xl border p-5 animate-pulse" style="background: var(--color-surface); border-color: var(--color-border)">
-          <div class="h-3 rounded w-1/5 mb-3" style="background: var(--color-surface-raised)"></div>
-          <div class="h-4 rounded w-3/4 mb-2" style="background: var(--color-surface-raised)"></div>
-          <div class="h-3 rounded w-full" style="background: var(--color-surface-overlay)"></div>
+      <!-- Loading -->
+      <div v-if="loading" class="mt-12 border-t border-base-300" role="status">
+        <div v-for="i in 3" :key="i" class="row animate-pulse py-6">
+          <div class="h-3 w-24 rounded-full bg-base-300"></div>
+          <div class="mt-4 h-5 w-3/4 rounded bg-base-300"></div>
+          <div class="mt-3 h-3 w-full rounded bg-base-200"></div>
         </div>
       </div>
 
-      <div v-else-if="error" class="py-12 rounded-xl border p-8 text-center" style="background: var(--color-surface); border-color: var(--color-border)" role="alert">
-        <p class="text-sm mb-4" style="color: var(--color-error)">{{ error }}</p>
-        <button @click="loadPosts" class="px-4 py-2 rounded-lg border text-[11px] font-mono tracking-wide font-medium" style="border-color: var(--color-border); color: var(--color-text-secondary); background: var(--color-surface-raised)">Retry</button>
+      <!-- Error -->
+      <div v-else-if="error" class="panel mt-12 p-8 text-center" role="alert">
+        <p class="text-base-content">{{ $t('blog.error') }}</p>
+        <p class="mt-2 font-mono text-[11px] text-ink-3">{{ error }}</p>
+        <BaseButton class="mt-6" variant="outline" size="sm" @click="loadPosts">
+          {{ $t('blog.retry') }}
+        </BaseButton>
       </div>
 
-      <div v-else-if="filteredPosts.length === 0" class="py-12 rounded-xl border p-8 text-center" style="background: var(--color-surface); border-color: var(--color-border)">
-        <p class="text-sm" style="color: var(--color-text-muted)">No posts found.</p>
+      <!-- Empty -->
+      <div v-else-if="filteredPosts.length === 0" class="panel mt-12 p-8 text-center">
+        <p class="text-ink-2">{{ $t('blog.noResults') }}</p>
       </div>
 
-      <!-- List — full-width single column (victoreke style): tags + title + meta + excerpt only -->
-      <div v-else class="border-t" style="border-color: var(--color-border)">
-        <article
-          v-for="post in filteredPosts"
-          :key="post._id"
-          class="group py-6 md:py-7 border-b transition-colors hover:brightness-[1.02]"
-          style="border-color: var(--color-border)"
-        >
-          <router-link :to="`/blogs/${post.slug}`" class="block min-w-0">
-            <div v-if="post.tags && post.tags.length" class="flex flex-wrap gap-1.5 mb-2.5">
-              <span
-                v-for="tag in post.tags.slice(0, 3)"
-                :key="tag.tag || tag"
-                class="text-[11px] font-mono tracking-wide px-2 py-1 rounded-full border"
-                :style="{ borderColor: 'var(--color-border)', background: 'var(--color-surface-raised)', color: 'var(--color-text-muted)' }"
-              >
+      <!-- Posts -->
+      <ul v-else class="mt-12 border-t border-base-300">
+        <li v-for="post in filteredPosts" :key="post._id" class="row">
+          <router-link :to="`/blogs/${post.slug}`" class="group block py-6">
+            <div v-if="post.tags && post.tags.length" class="flex flex-wrap gap-2">
+              <span v-for="tag in post.tags.slice(0, 3)" :key="tag.tag || tag" class="chip">
                 {{ tag.tag || tag }}
               </span>
             </div>
-            <h2 class="text-[17px] md:text-[19px] font-medium tracking-tight leading-tight group-hover:underline underline-offset-4 decoration-1" style="color: var(--color-text-primary); text-decoration-color: var(--color-border-contrast)">
+            <h2
+              class="mt-3 font-display text-xl leading-snug tracking-tight text-base-content transition-colors group-hover:text-primary"
+            >
               {{ post.title }}
             </h2>
-            <div class="flex items-center gap-2 text-[11px] font-mono mt-2" style="color: var(--color-text-faint)">
-              <span>{{ formatDate(post.publishedAt) }}</span><span>·</span><span>{{ estimateReadingTime(post) }} min</span>
-            </div>
-            <p class="text-[14px] leading-relaxed mt-2.5 line-clamp-2 max-w-[72ch]" style="color: var(--color-text-muted)">{{ post.excerpt || 'No description available.' }}</p>
+            <p class="mt-2 font-mono text-[11px] uppercase tracking-wider text-ink-3">
+              <time :datetime="post.publishedAt">{{ formatDate(post.publishedAt) }}</time>
+              <span aria-hidden="true"> · </span>
+              {{ estimateReadingTime(post) }} {{ $t('blog.readTimeShort') }}
+            </p>
+            <p v-if="post.excerpt" class="mt-3 line-clamp-2 max-w-[72ch] text-sm leading-relaxed text-ink-2">
+              {{ post.excerpt }}
+            </p>
           </router-link>
-        </article>
-      </div>
+        </li>
+      </ul>
 
       <!-- Pagination -->
-      <div v-if="totalPages > 1" class="mt-10 flex justify-center">
-        <nav class="flex items-center gap-1.5">
-          <button
-            :disabled="currentPage === 1"
-            @click="goToPage(currentPage - 1)"
-            class="w-8 h-8 inline-flex items-center justify-center rounded-full border text-[11px] font-mono transition-colors disabled:opacity-40"
-            :style="{ borderColor: 'var(--color-border)', color: 'var(--color-text-muted)', background: 'var(--color-surface)' }"
-          >
-            ←
-          </button>
-          <button
-            v-for="page in totalPages"
-            :key="page"
-            @click="goToPage(page)"
-            class="w-8 h-8 inline-flex items-center justify-center rounded-full border text-[11px] font-mono transition-colors"
-            :style="page === currentPage ? { background: 'var(--color-text-primary)', color: 'var(--color-bg)', borderColor: 'var(--color-text-primary)' } : { background: 'var(--color-surface)', color: 'var(--color-text-muted)', borderColor: 'var(--color-border)' }"
-          >
-            {{ page }}
-          </button>
-          <button
-            :disabled="currentPage === totalPages"
-            @click="goToPage(currentPage + 1)"
-            class="w-8 h-8 inline-flex items-center justify-center rounded-full border text-[11px] font-mono transition-colors disabled:opacity-40"
-            :style="{ borderColor: 'var(--color-border)', color: 'var(--color-text-muted)', background: 'var(--color-surface)' }"
-          >
-            →
-          </button>
-        </nav>
-      </div>
+      <nav
+        v-if="totalPages > 1"
+        class="mt-12 flex flex-wrap items-center justify-center gap-1"
+        :aria-label="$t('navigation.blog')"
+      >
+        <button
+          type="button"
+          class="btn btn-square h-11 w-11"
+          :disabled="currentPage === 1"
+          :aria-label="$t('blog.previous')"
+          @click="goToPage(currentPage - 1)"
+        >
+          <ArrowLeft class="size-4" aria-hidden="true" />
+        </button>
+        <button
+          v-for="page in totalPages"
+          :key="page"
+          type="button"
+          class="btn h-11 min-w-11 font-mono"
+          :class="page === currentPage ? 'btn-primary' : 'btn-ghost'"
+          :aria-current="page === currentPage ? 'page' : undefined"
+          :aria-label="`${$t('blog.page')} ${page}`"
+          @click="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+        <button
+          type="button"
+          class="btn btn-square h-11 w-11"
+          :disabled="currentPage === totalPages"
+          :aria-label="$t('blog.next')"
+          @click="goToPage(currentPage + 1)"
+        >
+          <ArrowRight class="size-4" aria-hidden="true" />
+        </button>
+      </nav>
     </div>
   </section>
 </template>
@@ -129,7 +145,10 @@
 import { computed, onMounted, onServerPrefetch, ref, watch } from 'vue'
 import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
+import { ArrowLeft, ArrowRight } from 'lucide-vue-next'
 import { usePosts } from '@/composables/usePosts'
+import SectionHeader from '@/components/ui/SectionHeader.vue'
+import BaseButton from '@/components/ui/BaseButton.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 
 // — Per-page SEO head (baked into the prerendered HTML + SPA client) —

@@ -1,45 +1,51 @@
 <template>
-  <div class="relative w-full max-w-md">
+  <div class="w-full max-w-md">
+    <label :for="inputId" class="sr-only">{{ placeholder || $t('search.placeholder') }}</label>
+
     <div class="relative">
-      <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <svg class="w-4 h-4" style="color: var(--color-text-faint)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      </div>
-      <input
-        :value="modelValue"
-        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
-        type="text"
-        :placeholder="placeholder"
-        class="block w-full pl-10 pr-10 py-2.5 rounded-lg border text-sm focus:outline-none focus:ring-2 transition-all"
-        style="background: var(--color-surface-raised); border-color: var(--color-border); color: var(--color-text-primary)"
-        :style="{ '--tw-ring-color': 'var(--color-accent-ring)' } as any"
+      <SearchIcon
+        class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink-4"
+        aria-hidden="true"
       />
+
+      <input
+        :id="inputId"
+        :value="modelValue"
+        type="search"
+        :placeholder="placeholder"
+        class="input input-sm min-h-11 w-full border-base-300 bg-base-200 pl-9 pr-12 text-sm text-base-content placeholder:text-ink-4 focus:border-primary/40 [&::-webkit-search-cancel-button]:hidden"
+        @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      />
+
       <button
         v-if="modelValue"
-        @click="$emit('update:modelValue', '')"
-        class="absolute inset-y-0 right-0 pr-3 flex items-center transition-colors"
         type="button"
+        class="absolute inset-y-0 right-0 inline-flex w-12 items-center justify-center rounded-r-lg text-ink-3 transition-colors hover:text-base-content"
         :aria-label="$t('search.clearSearch')"
-        style="color: var(--color-text-faint)"
+        @click="$emit('update:modelValue', '')"
       >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
+        <X class="size-4" aria-hidden="true" />
       </button>
     </div>
-    <div v-if="resultsCount !== undefined" class="mt-2">
-      <span class="text-[11px] font-mono" style="color: var(--color-text-faint)"> {{ resultsCount }} {{ $t('search.results') }} </span>
-    </div>
+
+    <p v-if="resultsCount !== undefined" class="mt-2 font-mono text-[11px] text-ink-4">
+      {{ resultsCount }} {{ $t('search.results') }}
+    </p>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useId } from 'vue'
+import { Search as SearchIcon, X } from 'lucide-vue-next'
+
 interface Props {
   modelValue: string
   placeholder?: string
   resultsCount?: number
 }
+
 defineProps<Props>()
 defineEmits<{ 'update:modelValue': [value: string] }>()
+
+const inputId = `search-${useId()}`
 </script>

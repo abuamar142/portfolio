@@ -4,17 +4,17 @@
     :href="href"
     :to="to"
     :class="buttonClasses"
-    :disabled="disabled"
+    :disabled="tag === 'button' ? disabled : undefined"
     @click="handleClick"
   >
-    <component v-if="iconLeft" :is="iconLeft" class="w-5 h-5 mr-2" />
+    <component :is="iconLeft" v-if="iconLeft" class="size-4 shrink-0" aria-hidden="true" />
     <slot />
-    <component v-if="iconRight" :is="iconRight" class="w-5 h-5 ml-2" />
+    <component :is="iconRight" v-if="iconRight" class="size-4 shrink-0" aria-hidden="true" />
   </component>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, type Component } from 'vue'
 
 interface Props {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
@@ -22,8 +22,8 @@ interface Props {
   href?: string
   to?: string
   disabled?: boolean
-  iconLeft?: object
-  iconRight?: object
+  iconLeft?: Component
+  iconRight?: Component
   fullWidth?: boolean
 }
 
@@ -44,27 +44,31 @@ const tag = computed(() => {
   return 'button'
 })
 
+const variantClass: Record<NonNullable<Props['variant']>, string> = {
+  primary: 'btn-primary',
+  secondary: 'btn-outline',
+  outline: 'btn-outline btn-primary',
+  ghost: 'btn-ghost',
+}
+
+const sizeClass: Record<NonNullable<Props['size']>, string> = {
+  sm: 'btn-sm',
+  md: '',
+  lg: 'btn-lg',
+}
+
 const buttonClasses = computed(() => [
-  'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-surface',
-  {
-    'w-full': props.fullWidth,
-  },
-  {
-    'bg-accent text-white hover:bg-accent-hover': props.variant === 'primary',
-    'bg-surface-overlay text-text-primary border border-border hover:border-text-muted': props.variant === 'secondary',
-    'bg-transparent text-accent border border-accent hover:bg-accent hover:text-white': props.variant === 'outline',
-    'bg-transparent text-text-muted hover:text-text-primary hover:bg-surface-overlay': props.variant === 'ghost',
-  },
-  {
-    'px-4 py-2 text-sm': props.size === 'sm',
-    'px-5 py-2.5 text-sm': props.size === 'md',
-    'px-6 py-3 text-base': props.size === 'lg',
-  },
+  'btn gap-2 font-medium tracking-tight',
+  variantClass[props.variant],
+  sizeClass[props.size],
+  props.fullWidth ? 'btn-block' : '',
 ])
 
 const handleClick = (event: Event) => {
-  if (!props.disabled) {
-    emit('click', event)
+  if (props.disabled) {
+    event.preventDefault()
+    return
   }
+  emit('click', event)
 }
 </script>

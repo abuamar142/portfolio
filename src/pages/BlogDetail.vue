@@ -1,110 +1,128 @@
 <template>
-  <section class="pt-14 min-h-screen" style="background: var(--color-bg)">
-    <div class="max-w-[1280px] mx-auto px-6 md:px-8 py-10 md:py-12">
+  <section id="blog-post" class="page-top">
+    <div class="wrap pb-20 md:pb-28">
       <router-link
         to="/blogs"
-        class="inline-flex items-center gap-1.5 text-[11px] font-mono mb-8 transition-colors"
-        style="color: var(--color-text-faint)"
+        class="inline-flex min-h-11 items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-ink-3 transition-colors hover:text-base-content"
       >
-        ← All posts
+        <ArrowLeft class="size-4" aria-hidden="true" />
+        {{ $t('blog.backToList') }}
       </router-link>
 
-      <div v-if="loading" class="max-w-[720px] space-y-4">
-        <div class="h-4 rounded w-3/4 animate-pulse" style="background: var(--color-surface-raised)"></div>
-        <div class="h-3 rounded w-1/4 animate-pulse" style="background: var(--color-surface-raised)"></div>
-        <div class="h-64 rounded-xl animate-pulse" style="background: var(--color-surface)"></div>
+      <!-- Loading -->
+      <div v-if="loading" class="mt-8 max-w-[45rem] animate-pulse" role="status">
+        <div class="h-3 w-1/4 rounded bg-base-300"></div>
+        <div class="mt-4 h-8 w-3/4 rounded bg-base-300"></div>
+        <div class="mt-4 h-64 rounded bg-base-200"></div>
       </div>
 
-      <div v-else-if="error" class="max-w-[720px] py-12 rounded-xl border p-8" style="background: var(--color-surface); border-color: var(--color-border)">
-        <p class="text-sm mb-4" style="color: var(--color-error)">{{ error }}</p>
-        <router-link to="/blogs" class="text-[11px] font-mono" style="color: var(--color-text-muted)">← Back to blog</router-link>
+      <!-- Error -->
+      <div v-else-if="error" class="panel mt-8 max-w-[45rem] p-8" role="alert">
+        <p class="text-base-content">{{ $t('blog.postNotFound') }}</p>
+        <p class="mt-2 font-mono text-[11px] text-ink-3">{{ error }}</p>
+        <BaseButton class="mt-6" variant="outline" size="sm" to="/blogs">
+          {{ $t('blog.backToList') }}
+        </BaseButton>
       </div>
 
-      <article v-else class="grid lg:grid-cols-[720px_1fr] gap-10 lg:gap-12 items-start">
+      <article
+        v-else
+        class="mt-8 grid items-start gap-12 lg:grid-cols-[minmax(0,45rem)_minmax(0,16rem)]"
+      >
         <div class="min-w-0">
-          <div v-if="post?.tags?.length" class="flex flex-wrap gap-1.5 mb-4">
-            <span
-              v-for="(tag, i) in post.tags"
-              :key="tag.tag || tag"
-              class="text-[11px] font-mono tracking-wide px-2.5 py-1 rounded-full border"
-              :style="{ borderColor: 'var(--color-border)', background: 'var(--color-surface-raised)', color: 'var(--color-text-muted)' }"
-            >
+          <div v-if="post?.tags?.length" class="flex flex-wrap gap-2">
+            <span v-for="tag in post.tags" :key="tag.tag || tag" class="chip">
               {{ tag.tag || tag }}
             </span>
           </div>
 
-          <h1 class="text-[26px] md:text-[32px] font-semibold tracking-tighter leading-[1.05]" style="color: var(--color-text-primary); letter-spacing: -0.03em">
-            {{ post?.title }}
-          </h1>
+          <h1 class="display-2 mt-4 text-balance text-base-content">{{ post?.title }}</h1>
 
-          <!-- Language switcher: toggles vue-i18n locale and refetches same slug with ?locale= -->
-          <div v-if="post" class="mt-4 flex items-center gap-2">
+          <!-- Language switcher: toggles vue-i18n locale and refetches same slug -->
+          <div v-if="post" class="mt-5">
             <button
               type="button"
-              class="inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-mono tracking-wide transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2"
-              :style="{ borderColor: 'var(--color-border)', background: 'var(--color-surface-raised)', color: 'var(--color-text-secondary)' }"
-              :aria-label="switcherAriaLabel"
+              class="chip min-h-11 px-4 transition-colors hover:border-primary/40 hover:text-primary"
+              :aria-label="$t('blog.switchLanguageAria')"
               @click="toggleLocale"
             >
-              <Languages :size="14" aria-hidden="true" />
-              {{ switcherLabel }}
+              <Languages class="size-4" aria-hidden="true" />
+              {{ $t('blog.switchLanguage') }}
             </button>
-            <span class="text-[11px] font-mono" style="color: var(--color-text-faint)">· {{ locale.toUpperCase() }}</span>
           </div>
 
-          <div class="flex flex-wrap items-center gap-3 text-[11px] font-mono mt-4 pb-6 border-b" style="color: var(--color-text-faint); border-color: var(--color-border)">
+          <p
+            class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-base-300 pb-6 font-mono text-[11px] uppercase tracking-wider text-ink-3"
+          >
             <time :datetime="post?.publishedAt">{{ formatDate(post?.publishedAt) }}</time>
-            <span>·</span>
-            <span>{{ readingTime }} min read</span>
-            <span v-if="post?.tags?.length" class="hidden sm:inline">·</span>
-            <span v-if="post?.tags?.length" class="hidden sm:inline truncate max-w-[260px]">{{ (post.tags || []).map((t:any)=>t.tag||t).join(', ') }}</span>
+            <span aria-hidden="true">·</span>
+            <span>{{ readingTime }} {{ $t('blog.readTime') }}</span>
+          </p>
+
+          <div v-if="coverUrl" class="panel mt-8 overflow-hidden">
+            <img :src="coverUrl" :alt="post?.title || ''" loading="lazy" class="w-full object-cover" />
           </div>
 
-          <div v-if="coverUrl" class="mt-6 mb-8 rounded-xl overflow-hidden border" style="border-color: var(--color-border)">
-            <img :src="coverUrl" :alt="post?.title" loading="lazy" class="w-full object-cover" />
-          </div>
+          <div class="blog-content mt-8" v-html="contentHtml"></div>
 
-          <div class="blog-content max-w-none" v-html="contentHtml"></div>
-
-          <div class="mt-12 pt-6 border-t flex items-center justify-between" style="border-color: var(--color-border)">
-            <router-link to="/blogs" class="text-[11px] font-mono inline-flex items-center gap-1.5" style="color: var(--color-text-muted)">← More posts</router-link>
+          <div
+            class="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-base-300 pt-6"
+          >
+            <BaseButton variant="ghost" size="sm" to="/blogs" :icon-left="ArrowLeft">
+              {{ $t('blog.backToList') }}
+            </BaseButton>
             <button
               ref="shareBtnRef"
               type="button"
-              class="text-[11px] font-mono inline-flex items-center gap-1.5 rounded-md px-2 py-1 -mr-2 transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-              style="color: var(--color-text-faint)"
-              aria-label="Share this post"
+              class="btn btn-ghost btn-sm gap-2"
+              :aria-label="$t('blog.shareAria')"
               @click="handleShare"
             >
-              <Share2 :size="14" aria-hidden="true" />
-              Share
+              <Share2 class="size-4" aria-hidden="true" />
+              {{ $t('blog.share') }}
             </button>
           </div>
         </div>
 
-        <!-- Right meta — sticky TOC placeholder -->
-        <div class="hidden lg:block sticky top-20">
-          <div class="rounded-xl border p-5" style="background: var(--color-surface); border-color: var(--color-border)">
-            <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-3" style="color: var(--color-text-faint)">On this page</div>
-            <div class="pt-4 border-t space-y-2" style="border-color: var(--color-border)">
-              <div class="text-[11px] font-mono" style="color: var(--color-text-faint)">Published</div>
-              <div class="text-[11px] font-mono" style="color: var(--color-text-secondary)">{{ formatDate(post?.publishedAt) }}</div>
-              <div class="text-[11px] font-mono mt-3" style="color: var(--color-text-faint)">Reading time</div>
-              <div class="text-[11px] font-mono" style="color: var(--color-text-secondary)">{{ readingTime }} minutes</div>
+        <!-- Reading rail -->
+        <aside class="panel sticky top-24 hidden p-5 lg:block">
+          <p class="eyebrow">{{ $t('blog.details') }}</p>
+          <dl class="mt-5 space-y-4 border-t border-base-300 pt-5">
+            <div>
+              <dt class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
+                {{ $t('blog.published') }}
+              </dt>
+              <dd class="mt-1 font-mono text-[11px] text-ink-2">
+                {{ formatDate(post?.publishedAt) }}
+              </dd>
             </div>
-          </div>
-        </div>
+            <div>
+              <dt class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
+                {{ $t('blog.readingTime') }}
+              </dt>
+              <dd class="mt-1 font-mono text-[11px] text-ink-2">
+                {{ readingTime }} {{ $t('blog.readTimeShort') }}
+              </dd>
+            </div>
+            <div v-if="post?.tags?.length">
+              <dt class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
+                {{ $t('blog.tags') }}
+              </dt>
+              <dd class="mt-2 flex flex-wrap gap-1.5">
+                <span v-for="tag in post.tags" :key="tag.tag || tag" class="chip">
+                  {{ tag.tag || tag }}
+                </span>
+              </dd>
+            </div>
+          </dl>
+        </aside>
       </article>
     </div>
 
     <Teleport to="body">
-      <div
-        v-if="showShareModal"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4"
-        aria-hidden="false"
-      >
+      <div v-if="showShareModal" class="fixed inset-0 z-[60] flex items-center justify-center p-4">
         <div
-          class="absolute inset-0 bg-black/50 backdrop-blur-[2px]"
+          class="absolute inset-0 bg-base-100/80 backdrop-blur-sm"
           aria-hidden="true"
           @click="closeModal"
         ></div>
@@ -112,55 +130,51 @@
           role="dialog"
           aria-modal="true"
           aria-labelledby="share-title"
-          class="relative w-full max-w-md rounded-xl border p-5 sm:p-6 shadow-xl"
-          style="background: var(--color-surface); border-color: var(--color-border)"
+          class="panel relative w-full max-w-md p-5 shadow-xl sm:p-6"
           @click.stop
           @keydown.esc="closeModal"
         >
-          <div class="flex items-start justify-between gap-4 mb-4">
-            <h2 id="share-title" class="text-sm font-mono tracking-tight font-semibold" style="color: var(--color-text-primary)">Share this post</h2>
+          <div class="flex items-start justify-between gap-4">
+            <h2 id="share-title" class="font-display text-lg text-base-content">
+              {{ $t('blog.shareTitle') }}
+            </h2>
             <button
               type="button"
-              class="inline-flex h-7 w-7 items-center justify-center rounded-md border text-[11px] font-mono transition-colors hover:opacity-80 focus-visible:outline-none focus-visible:ring-2"
-              style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"
-              aria-label="Close share dialog"
+              class="btn btn-ghost btn-square btn-sm"
+              :aria-label="$t('blog.closeAria')"
               @click="closeModal"
             >
-              ✕
+              <X class="size-4" aria-hidden="true" />
             </button>
           </div>
 
-          <label for="share-url-input" class="block text-[11px] font-mono mb-1.5" style="color: var(--color-text-faint)">Link</label>
+          <label
+            for="share-url-input"
+            class="mt-5 block font-mono text-[11px] uppercase tracking-wider text-ink-3"
+          >
+            {{ $t('blog.shareLink') }}
+          </label>
           <input
             id="share-url-input"
             ref="shareInputRef"
             :value="shareUrl"
             readonly
-            class="w-full rounded-lg border px-3 py-2.5 text-sm font-mono focus:outline-none focus:ring-2"
-            style="background: var(--color-surface-raised); border-color: var(--color-border); color: var(--color-text-secondary)"
+            class="input mt-2 h-11 w-full font-mono text-sm"
             @focus="selectAll"
             @click="selectAll"
           />
 
-          <div class="mt-4 flex gap-2 justify-end">
-            <button
-              type="button"
-              class="inline-flex items-center justify-center rounded-lg border px-4 py-2 text-[11px] font-mono font-medium transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2"
-              style="border-color: var(--color-border); color: var(--color-text-muted); background: transparent"
-              @click="closeModal"
-            >
-              Close
+          <div class="mt-6 flex justify-end gap-2">
+            <button type="button" class="btn btn-ghost btn-sm" @click="closeModal">
+              {{ $t('blog.close') }}
             </button>
             <button
               type="button"
-              class="inline-flex items-center justify-center rounded-lg px-4 py-2 text-[11px] font-mono font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:opacity-60"
-              :style="{
-                background: copied ? 'var(--color-success, #16a34a)' : 'var(--color-text-primary)',
-                color: 'var(--color-bg)',
-              }"
+              class="btn btn-sm"
+              :class="copied ? 'btn-success' : 'btn-primary'"
               @click="copyText"
             >
-              {{ copied ? 'Copied!' : 'Copy' }}
+              {{ copied ? $t('blog.copied') : $t('blog.copy') }}
             </button>
           </div>
         </div>
@@ -174,8 +188,9 @@ import { onMounted, onServerPrefetch, ref, computed, nextTick, watch, onBeforeUn
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
-import { Languages, Share2 } from 'lucide-vue-next'
+import { ArrowLeft, Languages, Share2, X } from 'lucide-vue-next'
 import { usePosts } from '@/composables/usePosts'
+import BaseButton from '@/components/ui/BaseButton.vue'
 
 const route = useRoute()
 const { locale } = useI18n()
@@ -270,9 +285,6 @@ function formatDate(iso?: string | null) {
 // — Locale switcher (bilingual 1-doc-2-locale: slug localized per locale, same document ID)
 // Clicking toggles vue-i18n locale (persisted like LanguageDropdown) and watcher refetches same slug with new locale.
 // If translation missing, Payload fallback:true returns defaultLocale (id) content.
-const switcherLabel = computed(() => (locale.value === 'en' ? 'Baca versi Indonesia' : 'Read in English'))
-const switcherAriaLabel = computed(() => (locale.value === 'en' ? 'Switch to Indonesian' : 'Switch to English'))
-
 function toggleLocale() {
   const next = locale.value === 'en' ? 'id' : 'en'
   locale.value = next as any
@@ -355,9 +367,7 @@ async function copyText(): Promise<boolean> {
       const ta = document.createElement('textarea')
       ta.value = text
       ta.setAttribute('readonly', '')
-      ta.style.position = 'fixed'
-      ta.style.top = '-9999px'
-      ta.style.opacity = '0'
+      ta.className = 'sr-only'
       document.body.appendChild(ta)
       ta.focus()
       ta.select()

@@ -1,150 +1,135 @@
 <template>
-  <section id="contact" class="scroll-mt-14" style="background: var(--color-bg)">
-    <div class="max-w-[1280px] mx-auto px-6 md:px-8 py-16 md:py-20">
-      <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-12 items-start">
-        <!-- Left copy -->
+  <section id="contact" class="section">
+    <div class="wrap">
+      <div
+        class="grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16"
+      >
+        <!-- Invitation -->
         <div>
-          <div class="text-[11px] font-mono tracking-[0.14em] uppercase mb-3" style="color: var(--color-text-faint)">07 — Contact</div>
-          <h2 class="text-[22px] md:text-[26px] font-semibold tracking-tighter leading-none" style="color: var(--color-text-primary); letter-spacing: -0.03em">
-            {{ $t('contact.title') }}
-          </h2>
-          <p class="mt-3 text-sm leading-relaxed max-w-[48ch]" style="color: var(--color-text-muted)">
-            {{ $t('contact.subtitle') }}
+          <SectionHeader
+            index="07"
+            :label="$t('navigation.contact')"
+            :title="$t('headings.contact')"
+            :lead="$t('contact.subtitle')"
+          />
+
+          <p class="chip chip-accent">
+            <span class="size-1.5 rounded-full bg-primary" aria-hidden="true"></span>
+            {{ $t('contact.badge') }}
           </p>
 
-          <div class="mt-8 flex flex-wrap gap-3">
-            <a
-              v-if="portfolio?.personalInfo.email"
-              :href="`mailto:${portfolio.personalInfo.email}`"
-              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
-              style="background: var(--color-text-primary); color: var(--color-bg)"
-            >
-              <Mail class="w-4 h-4" />
-              {{ portfolio.personalInfo.email }}
-            </a>
-            <a
-              v-if="portfolio?.personalInfo.whatsApp"
-              :href="portfolio.personalInfo.whatsApp"
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <BaseButton class="min-h-11" :href="`mailto:${profile.email}`" :icon-left="Mail">
+              {{ $t('contact.cards.email.title') }}
+            </BaseButton>
+
+            <BaseButton
+              class="min-h-11"
+              variant="secondary"
+              :href="profile.whatsapp"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border text-sm font-medium"
-              style="border-color: var(--color-border); color: var(--color-text-secondary); background: var(--color-surface)"
+              :icon-left="MessageCircle"
             >
-              <MessageCircle class="w-4 h-4" />
               WhatsApp
-            </a>
-            <a
-              href="/cv.pdf"
+            </BaseButton>
+
+            <BaseButton
+              class="min-h-11"
+              variant="ghost"
+              :href="profile.resume"
               target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border text-sm font-medium"
-              style="border-color: var(--color-border); color: var(--color-text-secondary); background: var(--color-surface)"
+              rel="noopener"
+              :icon-left="Download"
             >
-              <FileText class="w-4 h-4" />
               {{ $t('hero.cta.resume') }}
-            </a>
-          </div>
-
-          <div class="mt-8 flex items-center gap-3 text-[11px] font-mono" style="color: var(--color-text-faint)">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-            <span class="font-mono">Usually replies &lt; 24h — Jakarta (WIB)</span>
+            </BaseButton>
           </div>
         </div>
 
-        <!-- Right: minimal contact card -->
-        <div class="rounded-xl border overflow-hidden" style="background: var(--color-surface); border-color: var(--color-border)">
-          <div class="px-5 py-4 border-b flex items-center justify-between" style="border-color: var(--color-border)">
-            <span class="text-[11px] font-mono tracking-[0.14em] uppercase" style="color: var(--color-text-muted)">Get in touch</span>
-            <span class="text-[11px] font-mono" style="color: var(--color-text-faint)">FIG_005</span>
-          </div>
+        <!-- Details -->
+        <aside class="panel p-6 md:p-7">
+          <dl>
+            <div class="flex items-baseline justify-between gap-4 py-3.5">
+              <dt class="eyebrow">{{ $t('contact.cards.email.title') }}</dt>
+              <dd class="min-w-0 text-right">
+                <a
+                  :href="`mailto:${profile.email}`"
+                  class="break-all text-sm text-ink-2 transition-colors hover:text-primary"
+                >
+                  {{ profile.email }}
+                </a>
+              </dd>
+            </div>
 
-          <div class="p-5 space-y-4">
-            <a
-              v-if="portfolio?.personalInfo.email"
-              :href="`mailto:${portfolio.personalInfo.email}`"
-              class="flex items-center gap-3 p-3 rounded-lg border transition-colors hover:brightness-110"
-              style="background: var(--color-surface-raised); border-color: var(--color-border)"
+            <div
+              class="flex items-baseline justify-between gap-4 border-t border-base-300 py-3.5"
             >
-              <span class="w-9 h-9 rounded-lg border flex items-center justify-center shrink-0" style="background: var(--color-bg); border-color: var(--color-border); color: var(--color-text-muted)">
-                <Mail class="w-4 h-4" />
-              </span>
-              <div class="min-w-0">
-                <div class="text-[11px] font-mono tracking-wide" style="color: var(--color-text-faint)">Email</div>
-                <div class="text-sm font-medium truncate" style="color: var(--color-text-secondary)">{{ portfolio.personalInfo.email }}</div>
-              </div>
-              <span class="ml-auto text-xs" style="color: var(--color-text-faint)">↗</span>
-            </a>
-
-            <div v-if="portfolio?.personalInfo.location" class="flex items-center gap-3 p-3 rounded-lg border" style="background: var(--color-surface-raised); border-color: var(--color-border)">
-              <span class="w-9 h-9 rounded-lg border flex items-center justify-center shrink-0" style="background: var(--color-bg); border-color: var(--color-border); color: var(--color-text-muted)">
-                <MapPin class="w-4 h-4" />
-              </span>
-              <div>
-                <div class="text-[11px] font-mono tracking-wide" style="color: var(--color-text-faint)">Location</div>
-                <div class="text-sm" style="color: var(--color-text-secondary)">{{ portfolio.personalInfo.location }} — Remote friendly</div>
-              </div>
+              <dt class="eyebrow">{{ $t('contact.cards.phone.title') }}</dt>
+              <dd class="text-right">
+                <a
+                  :href="profile.phoneHref"
+                  class="text-sm text-ink-2 transition-colors hover:text-primary"
+                >
+                  {{ profile.phone }}
+                </a>
+              </dd>
             </div>
 
-            <div class="pt-2">
-              <div class="text-[11px] font-mono tracking-[0.12em] uppercase mb-3" style="color: var(--color-text-faint)">Connect</div>
-              <div class="flex flex-wrap gap-2">
-                <a
-                  v-if="portfolio?.personalInfo.github"
-                  :href="portfolio.personalInfo.github"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[11px] font-mono font-medium transition-colors"
-                  style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"
-                >
-                  <Github class="w-3.5 h-3.5" /> GitHub
-                </a>
-                <a
-                  v-if="portfolio?.personalInfo.linkedin"
-                  :href="portfolio.personalInfo.linkedin"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[11px] font-mono font-medium transition-colors"
-                  style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"
-                >
-                  <Linkedin class="w-3.5 h-3.5" /> LinkedIn
-                </a>
-                <a
-                  v-if="portfolio?.personalInfo.instagram"
-                  :href="portfolio.personalInfo.instagram"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[11px] font-mono font-medium transition-colors"
-                  style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"
-                >
-                  <Instagram class="w-3.5 h-3.5" /> Instagram
-                </a>
-                <a
-                  v-if="portfolio?.personalInfo.whatsApp"
-                  :href="portfolio.personalInfo.whatsApp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[11px] font-mono font-medium transition-colors"
-                  style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"
-                >
-                  <MessageCircle class="w-3.5 h-3.5" /> WhatsApp
-                </a>
-                <!-- Fallback socials if portfolio missing -->
-                <template v-if="!portfolio?.personalInfo.github && !portfolio?.personalInfo.linkedin">
-                  <a href="https://github.com/abuamar142" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[11px] font-mono" style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"><Github class="w-3.5 h-3.5" /> GitHub</a>
-                  <a href="https://linkedin.com/in/abu-amar" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[11px] font-mono" style="border-color: var(--color-border); color: var(--color-text-muted); background: var(--color-surface-raised)"><Linkedin class="w-3.5 h-3.5" /> LinkedIn</a>
-                </template>
-              </div>
+            <div
+              class="flex items-baseline justify-between gap-4 border-t border-base-300 py-3.5"
+            >
+              <dt class="eyebrow">{{ $t('contact.cards.location.title') }}</dt>
+              <dd class="text-right">
+                <span class="block text-sm text-ink-2">{{ profile.location }}</span>
+                <span class="mt-1 block font-mono text-[11px] text-ink-4">
+                  {{ profile.timeZoneLabel }}
+                </span>
+              </dd>
             </div>
+          </dl>
+
+          <div class="border-t border-base-300 pt-5">
+            <p class="eyebrow">{{ $t('contact.social') }}</p>
+
+            <ul class="mt-3">
+              <li
+                v-for="link in socialLinks"
+                :key="link.platform"
+                class="border-t border-base-300"
+              >
+                <SocialLink
+                  :platform="link.platform"
+                  :href="link.href"
+                  :label="link.label"
+                  class="py-2.5"
+                />
+              </li>
+            </ul>
           </div>
-        </div>
+        </aside>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { Github, Linkedin, Instagram, MessageCircle, Mail, MapPin, FileText } from 'lucide-vue-next'
-import { usePortfolio } from '@/composables/usePortfolio'
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { Download, Mail, MessageCircle } from 'lucide-vue-next'
+import BaseButton from '@/components/ui/BaseButton.vue'
+import SectionHeader from '@/components/ui/SectionHeader.vue'
+import SocialLink from '@/components/ui/SocialLink.vue'
+import { profile } from '@/data/profile'
 
-const { portfolio } = usePortfolio()
+const { t } = useI18n()
+
+/** Profile links, labelled with the platform names already translated in the locales. */
+const socialLinks = computed<
+  { platform: 'github' | 'linkedin' | 'instagram'; href: string; label: string }[]
+>(() => [
+  { platform: 'github', href: profile.social.github, label: t('hero.labels.github') },
+  { platform: 'linkedin', href: profile.social.linkedin, label: t('hero.labels.linkedin') },
+  { platform: 'instagram', href: profile.social.instagram, label: 'Instagram' },
+])
 </script>

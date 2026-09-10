@@ -32,7 +32,7 @@ Full Stack + Mobile Expertise — one person who can handle the entire stack fro
 - Dynamic data from MongoDB via Payload CMS backend
 - Blog section with search and category filtering
 - Multiple deployed projects with live demos
-- Dark mode design system with Tailwind CSS
+- Dark-only design system: Tailwind CSS v4 + daisyUI v5 custom theme (`portfolio`) — serif display type, mono meta labels, single teal accent
 - Auto-renews SSL, CI/CD via GitHub Actions
 
 ## Evidence on Hand

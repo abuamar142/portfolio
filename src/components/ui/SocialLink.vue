@@ -4,15 +4,16 @@
     target="_blank"
     rel="noopener noreferrer"
     :aria-label="label"
-    class="inline-flex items-center gap-1.5 text-text-muted hover:text-text-primary transition-colors duration-200"
+    class="inline-flex min-h-11 items-center gap-2 text-sm text-ink-2 transition-colors hover:text-primary"
   >
     <component
       :is="iconComponent"
-      class="w-4 h-4"
+      class="size-4 shrink-0"
       fill="currentColor"
       viewBox="0 0 24 24"
+      aria-hidden="true"
     />
-    <span class="text-sm">{{ label }}</span>
+    <span>{{ label }}</span>
   </a>
 </template>
 
