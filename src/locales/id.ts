@@ -27,16 +27,14 @@ export default {
   },
   hero: {
     badge: 'Terbuka untuk peluang',
-    kicker: 'Portofolio — 2026',
     role: 'Mobile & Full Stack Developer',
     subtitle:
-      'Saya membangun dan merilis perangkat lunak produksi secara end-to-end — aplikasi mobile, frontend web, API backend, hingga infrastruktur yang menjalankannya.',
+      'Saya merilis perangkat lunak produksi end to end: aplikasi mobile, frontend web, API backend, dan infrastruktur di belakangnya.',
     cta: {
       projects: 'Lihat proyek',
       resume: 'CV',
     },
     labels: {
-      status: 'Status',
       location: 'Lokasi',
       email: 'Email',
       phone: 'Telepon',
@@ -51,7 +49,7 @@ export default {
     },
   },
   about: {
-    body: 'Software engineer yang bekerja di ranah mobile dan full stack. Mahasiswa Informatika di Yogyakarta, dengan pengalaman magang full stack hampir satu tahun di Refactory dan program Mobile Development di Bangkit Academy — saya merilis produk ke produksi, bukan sekadar mengumpulkan tutorial. Linux adalah sistem operasi harian saya, dan saya menangani proyek dari perancangan data hingga deployment.',
+    body: 'Software engineer di ranah mobile dan full stack. Mahasiswa Informatika di Yogyakarta dengan pengalaman full stack di Refactory dan pelatihan mobile di Bangkit Academy. Saya merilis produk ke produksi, dari model data hingga deployment, dengan Linux harian.',
     stats: {
       years: 'Tahun berkarya',
       projects: 'Proyek dirilis',
@@ -59,19 +57,19 @@ export default {
     },
   },
   experience: {
-    subtitle: 'Perjalanan profesional dan pengalaman yang membentuk keahlian saya',
+    subtitle: 'Peran produksi dan hasil yang dikirim tiap peran',
   },
   skills: {
-    subtitle: 'Teknologi dan alat yang saya pakai untuk mewujudkan ide',
+    subtitle: 'Stack yang saya pakai dari model data hingga deployment',
     categories: {
-      mobile: 'mobile',
-      web: 'web',
-      backend: 'backend',
-      tools: 'tools',
+      mobile: 'Mobile',
+      web: 'Web',
+      backend: 'Backend',
+      tools: 'Tools',
     },
   },
   projects: {
-    subtitle: 'Kumpulan pekerjaan dan solusi yang saya bangun',
+    subtitle: 'Produk live, bukan mockup. Buka demo atau baca kodenya.',
     buttons: {
       github: 'GitHub',
       demo: 'Demo Langsung',
@@ -80,7 +78,7 @@ export default {
     },
   },
   achievements: {
-    subtitle: 'Sertifikat, sertifikasi, webinar, dan seminar yang saya ikuti',
+    subtitle: 'Kredensial terverifikasi dengan bukti terlampir',
     filters: {
       all: 'Semua',
       certificate: 'Sertifikat',
@@ -108,13 +106,13 @@ export default {
     clearSearch: 'Hapus pencarian',
   },
   education: {
-    subtitle: 'Latar akademik dan pengetahuan yang membentuk keahlian saya',
+    subtitle: 'Pendidikan formal di balik karya yang dirilis',
     labels: {
       gpa: 'IPK',
     },
   },
   contact: {
-    subtitle: 'Saya senang berdiskusi tentang proyek baru dan ide kreatif',
+    subtitle: 'Punya peran atau proyek? Kotak masuk saya terbuka.',
     badge: 'Siap berkolaborasi',
     cards: {
       email: {

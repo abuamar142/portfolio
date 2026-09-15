@@ -10,6 +10,7 @@ import { routes } from './router'
 import en from './locales/en'
 import id from './locales/id'
 
+import { vReveal } from './composables/useReveal'
 // https://github.com/antfu-collective/vite-ssg
 export const createApp = ViteSSG(
   App,
@@ -43,6 +44,7 @@ export const createApp = ViteSSG(
       },
     })
     app.use(i18n)
+    app.directive('reveal', vReveal)
 
     // Head (@unhead/vue) is registered automatically by vite-ssg
     // (`useHead: true` client option default) — no manual createHead needed.

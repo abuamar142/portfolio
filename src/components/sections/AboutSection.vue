@@ -1,7 +1,7 @@
 <template>
   <section id="about" class="section">
-    <div class="wrap">
-      <SectionHeader index="01" :label="$t('navigation.about')" :title="$t('headings.about')" />
+    <div v-reveal class="wrap">
+      <SectionHeader :title="$t('headings.about')" />
 
       <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16">
         <!-- Facts, straight from portfolio data -->
@@ -10,17 +10,17 @@
             v-if="yearsBuilding"
             class="flex items-baseline justify-between gap-4 border-b border-base-300 py-3.5"
           >
-            <dt class="eyebrow">{{ $t('about.stats.years') }}</dt>
+            <dt class="text-xs text-ink-3">{{ $t('about.stats.years') }}</dt>
             <dd class="font-mono text-sm text-base-content">{{ yearsBuilding }}+</dd>
           </div>
 
           <div class="flex items-baseline justify-between gap-4 border-b border-base-300 py-3.5">
-            <dt class="eyebrow">{{ $t('about.stats.projects') }}</dt>
+            <dt class="text-xs text-ink-3">{{ $t('about.stats.projects') }}</dt>
             <dd class="font-mono text-sm text-base-content">{{ projectCount }}</dd>
           </div>
 
           <div class="flex items-baseline justify-between gap-4 border-b border-base-300 py-3.5">
-            <dt class="eyebrow">{{ $t('about.stats.technologies') }}</dt>
+            <dt class="text-xs text-ink-3">{{ $t('about.stats.technologies') }}</dt>
             <dd class="font-mono text-sm text-base-content">{{ technologyCount }}</dd>
           </div>
         </dl>

@@ -175,7 +175,8 @@
     );
   }
 
-  /* Mono eyebrow — carries the section index and label. */
+  /* Mono micro-label. Reserved ONLY for real data (stats, meta rows, table
+     headers). Never above headlines or section titles. */
   .eyebrow {
     font-family: var(--font-mono);
     font-size: 0.6875rem;
@@ -569,5 +570,108 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+}
+/* ── Revamp: motivated motion + tactility. Theme tokens above untouched. ───── */
+@layer components {
+  /* Scroll reveal: v-reveal directive adds .rv on mount, .is-in in view. */
+  /* Transform + opacity only, staggered through --rv-i. */
+  .rv {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--rv-i, 0) * 70ms);
+  }
+
+  .rv.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Above-the-fold load cascade (hero). Single authored easing. */
+  .rise {
+    animation: rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--rv-i, 0) * 90ms);
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Tactile press on every button. */
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  /* Lift for linked cards only (featured project, post rows stay flat). */
+  .lift {
+    transition:
+      transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 300ms ease;
+  }
+
+  .lift:hover {
+    transform: translateY(-2px);
+  }
+
+  /* The one semantic live dot (hero availability). Pulsing ring. */
+  .pulse-dot {
+    position: relative;
+  }
+
+  .pulse-dot::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in oklab, var(--color-primary) 55%, transparent);
+    animation: ping-soft 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes ping-soft {
+    0% {
+      transform: scale(0.6);
+      opacity: 0.9;
+    }
+    80%,
+    100% {
+      transform: scale(1.4);
+      opacity: 0;
+    }
+  }
+
+  /* Underline sweep for large inline links (contact email). */
+  .link-sweep {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+    text-decoration-color: color-mix(in oklab, var(--color-primary) 45%, transparent);
+    transition:
+      text-decoration-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .link-sweep:hover {
+    text-decoration-color: var(--color-primary);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .rise,
+  .pulse-dot::after {
+    animation: none !important;
   }
 }

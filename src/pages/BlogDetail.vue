@@ -86,7 +86,7 @@
 
         <!-- Reading rail -->
         <aside class="panel sticky top-24 hidden p-5 lg:block">
-          <p class="eyebrow">{{ $t('blog.details') }}</p>
+          <p class="text-sm font-medium text-base-content">{{ $t('blog.details') }}</p>
           <dl class="mt-5 space-y-4 border-t border-base-300 pt-5">
             <div>
               <dt class="font-mono text-[11px] uppercase tracking-wider text-ink-4">

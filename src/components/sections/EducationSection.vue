@@ -1,12 +1,7 @@
 <template>
   <section id="education" class="section">
-    <div class="wrap">
-      <SectionHeader
-        index="05"
-        :label="$t('navigation.education')"
-        :title="$t('headings.education')"
-        :lead="$t('education.subtitle')"
-      />
+    <div v-reveal class="wrap">
+      <SectionHeader :title="$t('headings.education')" :lead="$t('education.subtitle')" />
 
       <div class="grid gap-5 sm:grid-cols-2 md:gap-6">
         <article

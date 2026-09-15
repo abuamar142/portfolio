@@ -1,12 +1,7 @@
 <template>
   <section id="skills" class="section">
     <div class="wrap">
-      <SectionHeader
-        index="04"
-        :label="$t('navigation.skills')"
-        :title="$t('headings.skills')"
-        :lead="$t('skills.subtitle')"
-      >
+      <SectionHeader :title="$t('headings.skills')" :lead="$t('skills.subtitle')">
         <template #meta>
           <p class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
             {{ technologyCount }} {{ $t('meta.technologies') }}
@@ -15,8 +10,16 @@
       </SectionHeader>
 
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        <div v-for="category in skillCategories" :key="category.key" class="panel p-5">
-          <h3 class="eyebrow">{{ $t('skills.categories.' + category.key) }}</h3>
+        <div
+          v-for="(category, index) in skillCategories"
+          :key="category.key"
+          v-reveal
+          :style="{ '--rv-i': index }"
+          class="panel p-5"
+        >
+          <h3 class="text-sm font-medium text-base-content">
+            {{ $t('skills.categories.' + category.key) }}
+          </h3>
           <div class="mt-4 flex flex-wrap gap-1.5">
             <span v-for="skill in category.skills" :key="skill.name" class="chip">
               {{ skill.name }}

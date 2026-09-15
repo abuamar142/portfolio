@@ -32,3 +32,10 @@ coverage
 
 .env*
 !.env.example
+
+# Agent skills & local AI state (never commit)
+.agents/
+.claude/
+skills-lock.json
+.hermes/
+.opencode-mem/

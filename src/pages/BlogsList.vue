@@ -1,7 +1,7 @@
 <template>
   <section id="blogs" class="page-top">
     <div class="wrap pb-20 md:pb-28">
-      <SectionHeader level="h1" :label="$t('navigation.blog')" :title="$t('headings.blog')">
+      <SectionHeader level="h1" :title="$t('headings.blog')">
         <template #meta>
           <p class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
             {{ totalPosts }} {{ $t('blog.posts') }}
@@ -11,7 +11,7 @@
 
       <!-- Category filter -->
       <div class="flex flex-wrap items-center gap-2">
-        <span class="eyebrow mr-1">{{ $t('blog.filters.label') }}</span>
+        <span class="mr-1 text-sm text-ink-3">{{ $t('blog.filters.label') }}</span>
         <button
           type="button"
           class="chip min-h-11 px-4 transition-colors"

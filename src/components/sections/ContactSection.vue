@@ -1,22 +1,23 @@
 <template>
   <section id="contact" class="section">
-    <div class="wrap">
-      <div
-        class="grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16"
-      >
+    <div v-reveal class="wrap">
+      <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
         <!-- Invitation -->
-        <div>
-          <SectionHeader
-            index="07"
-            :label="$t('navigation.contact')"
-            :title="$t('headings.contact')"
-            :lead="$t('contact.subtitle')"
-          />
+        <div class="min-w-0">
+          <SectionHeader :title="$t('headings.contact')" :lead="$t('contact.subtitle')" />
 
-          <p class="chip chip-accent">
-            <span class="size-1.5 rounded-full bg-primary" aria-hidden="true"></span>
-            {{ $t('contact.badge') }}
-          </p>
+          <div class="mt-8">
+            <a
+              :href="`mailto:${profile.email}`"
+              class="link-sweep text-lg font-medium tracking-tight text-base-content md:text-xl"
+            >
+              {{ profile.email }}
+            </a>
+            <p class="mt-3 flex items-center gap-2 text-sm text-ink-3">
+              <span class="size-1.5 rounded-full bg-primary" aria-hidden="true"></span>
+              {{ $t('contact.badge') }} {{ profile.timeZoneLabel }}
+            </p>
+          </div>
 
           <div class="mt-8 flex flex-wrap items-center gap-3">
             <BaseButton class="min-h-11" :href="`mailto:${profile.email}`" :icon-left="Mail">
@@ -33,17 +34,6 @@
             >
               WhatsApp
             </BaseButton>
-
-            <BaseButton
-              class="min-h-11"
-              variant="ghost"
-              :href="profile.resume"
-              target="_blank"
-              rel="noopener"
-              :icon-left="Download"
-            >
-              {{ $t('hero.cta.resume') }}
-            </BaseButton>
           </div>
         </div>
 
@@ -51,7 +41,7 @@
         <aside class="panel p-6 md:p-7">
           <dl>
             <div class="flex items-baseline justify-between gap-4 py-3.5">
-              <dt class="eyebrow">{{ $t('contact.cards.email.title') }}</dt>
+              <dt class="text-xs text-ink-3">{{ $t('contact.cards.email.title') }}</dt>
               <dd class="min-w-0 text-right">
                 <a
                   :href="`mailto:${profile.email}`"
@@ -62,10 +52,8 @@
               </dd>
             </div>
 
-            <div
-              class="flex items-baseline justify-between gap-4 border-t border-base-300 py-3.5"
-            >
-              <dt class="eyebrow">{{ $t('contact.cards.phone.title') }}</dt>
+            <div class="flex items-baseline justify-between gap-4 border-t border-base-300 py-3.5">
+              <dt class="text-xs text-ink-3">{{ $t('contact.cards.phone.title') }}</dt>
               <dd class="text-right">
                 <a
                   :href="profile.phoneHref"
@@ -76,10 +64,8 @@
               </dd>
             </div>
 
-            <div
-              class="flex items-baseline justify-between gap-4 border-t border-base-300 py-3.5"
-            >
-              <dt class="eyebrow">{{ $t('contact.cards.location.title') }}</dt>
+            <div class="flex items-baseline justify-between gap-4 border-t border-base-300 py-3.5">
+              <dt class="text-xs text-ink-3">{{ $t('contact.cards.location.title') }}</dt>
               <dd class="text-right">
                 <span class="block text-sm text-ink-2">{{ profile.location }}</span>
                 <span class="mt-1 block font-mono text-[11px] text-ink-4">
@@ -90,14 +76,10 @@
           </dl>
 
           <div class="border-t border-base-300 pt-5">
-            <p class="eyebrow">{{ $t('contact.social') }}</p>
+            <p class="text-sm font-medium text-base-content">{{ $t('contact.social') }}</p>
 
             <ul class="mt-3">
-              <li
-                v-for="link in socialLinks"
-                :key="link.platform"
-                class="border-t border-base-300"
-              >
+              <li v-for="link in socialLinks" :key="link.platform" class="border-t border-base-300">
                 <SocialLink
                   :platform="link.platform"
                   :href="link.href"
@@ -116,7 +98,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Download, Mail, MessageCircle } from 'lucide-vue-next'
+import { Mail, MessageCircle } from 'lucide-vue-next'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SocialLink from '@/components/ui/SocialLink.vue'

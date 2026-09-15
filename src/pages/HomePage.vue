@@ -43,13 +43,12 @@ const EducationSection = defineAsyncComponent(
 const AchievementsSection = defineAsyncComponent(
   () => import('@/components/sections/AchievementsSection.vue'),
 )
-
 useHead({
   meta: [
-    { property: 'og:title', content: 'Abu Amar — Portfolio' },
+    { property: 'og:title', content: 'Abu Amar - Portfolio' },
     {
       property: 'og:description',
-      content: 'Mobile & Full Stack Developer portfolio — projects, skills, and experience.',
+      content: 'Mobile & Full Stack Developer portfolio - projects, skills, and experience.',
     },
     { property: 'og:type', content: 'website' },
   ],

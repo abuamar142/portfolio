@@ -27,23 +27,20 @@ export default {
   },
   hero: {
     badge: 'Available for work',
-    kicker: 'Portfolio — 2026',
     role: 'Mobile & Full Stack Developer',
     subtitle:
-      'I build and ship production software end to end — mobile apps, web frontends, backend APIs, and the infrastructure that runs them.',
+      'I ship production software end to end: mobile apps, web frontends, backend APIs, and the infrastructure behind them.',
     cta: {
       projects: 'View projects',
-      resume: 'Résumé',
-      connect: "Let's Connect",
+      resume: 'Resume',
     },
     labels: {
-      status: 'Status',
       location: 'Location',
       email: 'Email',
       phone: 'Phone',
       github: 'GitHub',
       linkedin: 'LinkedIn',
-      resume: 'Download résumé (PDF)',
+      resume: 'Download resume (PDF)',
     },
     stats: {
       experience: 'Years building',
@@ -52,7 +49,7 @@ export default {
     },
   },
   about: {
-    body: "Software engineer working across mobile and full stack. Informatics student in Yogyakarta, a year of full-stack experience at Refactory, and a mobile development cohort at Bangkit Academy — I ship products to production rather than collect tutorials. Linux is my daily OS, and I take a project from data model to deployment.",
+    body: 'Software engineer working across mobile and full stack. Informatics student in Yogyakarta with full stack experience at Refactory and mobile training at Bangkit Academy. I ship products to production, from data model to deployment, on Linux daily.',
     stats: {
       years: 'Years building',
       projects: 'Projects shipped',
@@ -60,19 +57,19 @@ export default {
     },
   },
   experience: {
-    subtitle: 'My professional journey and the experiences that shaped my expertise',
+    subtitle: 'Production roles and what each one shipped',
   },
   skills: {
-    subtitle: 'Technologies and tools I use to bring ideas to life',
+    subtitle: 'Stack I reach for to take an idea from data model to deployment',
     categories: {
-      mobile: 'mobile',
-      web: 'web',
-      backend: 'backend',
-      tools: 'tools',
+      mobile: 'Mobile',
+      web: 'Web',
+      backend: 'Backend',
+      tools: 'Tools',
     },
   },
   projects: {
-    subtitle: "A showcase of my work and the solutions I've built",
+    subtitle: 'Live products, not mockups. Open the demo or read the code.',
     buttons: {
       github: 'GitHub',
       demo: 'Live Demo',
@@ -81,7 +78,7 @@ export default {
     },
   },
   achievements: {
-    subtitle: 'Certificates, certifications, webinars, and seminars I have attended',
+    subtitle: 'Verified credentials with evidence attached',
     filters: {
       all: 'All',
       certificate: 'Certificates',
@@ -109,13 +106,13 @@ export default {
     clearSearch: 'Clear search',
   },
   education: {
-    subtitle: 'My academic journey and the knowledge that shaped my expertise',
+    subtitle: 'Formal training behind the shipped work',
     labels: {
       gpa: 'GPA',
     },
   },
   contact: {
-    subtitle: "I'm always excited to discuss new projects and creative ideas",
+    subtitle: 'Have a role or a project in mind? My inbox is open.',
     badge: 'Ready to collaborate',
     cards: {
       email: {

@@ -23,7 +23,7 @@
         <!-- Contact + social -->
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:gap-16">
           <div>
-            <p class="eyebrow">{{ $t('navigation.contact') }}</p>
+            <p class="text-sm font-medium text-base-content">{{ $t('navigation.contact') }}</p>
             <ul class="mt-2 space-y-0.5">
               <li>
                 <a
@@ -46,7 +46,7 @@
           </div>
 
           <div>
-            <p class="eyebrow">{{ $t('contact.social') }}</p>
+            <p class="text-sm font-medium text-base-content">{{ $t('contact.social') }}</p>
             <ul class="mt-2 space-y-0.5">
               <li v-for="link in socialLinks" :key="link.label">
                 <a
@@ -68,7 +68,7 @@
         class="mt-12 flex flex-col-reverse items-start justify-between gap-4 border-t border-base-300 pt-6 sm:flex-row sm:items-center"
       >
         <p class="font-mono text-[11px] tracking-wide text-ink-4">
-          © {{ year }} {{ profile.name }} — {{ $t('footer.built') }}
+          © {{ year }} {{ profile.name }} · {{ $t('footer.built') }}
         </p>
         <a
           href="#hero"

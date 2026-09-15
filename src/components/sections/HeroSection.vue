@@ -1,39 +1,39 @@
 <template>
   <section id="hero" class="relative overflow-hidden">
-    <!-- One restrained top light; the rest of the site stays flat. -->
     <div
       aria-hidden="true"
       class="hero-glow pointer-events-none absolute inset-x-0 top-0 h-[420px]"
     ></div>
 
-    <div
-      class="wrap relative pb-16 pt-[calc(var(--header-h)+3rem)] md:pb-24 md:pt-[calc(var(--header-h)+5rem)]"
-    >
+    <div class="wrap relative pb-16 md:pb-24 md:pt-24">
       <div class="grid items-start gap-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:gap-16">
-        <!-- Identity -->
-        <div>
-          <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <p class="eyebrow">{{ $t('hero.kicker') }}</p>
-            <p class="inline-flex items-center gap-2 font-mono text-[11px] text-primary">
-              <span
-                class="size-2 rounded-full bg-primary ring-2 ring-primary/25"
-                aria-hidden="true"
-              ></span>
-              {{ $t('hero.badge') }}
-            </p>
-          </div>
+        <div class="min-w-0">
+          <p
+            class="rise inline-flex items-center gap-2 font-mono text-[11px] tracking-wide text-primary"
+          >
+            <span class="pulse-dot size-2 rounded-full bg-primary" aria-hidden="true"></span>
+            {{ $t('hero.badge') }}
+          </p>
 
-          <h1 class="display-1 mt-6 text-balance text-base-content">{{ profile.name }}</h1>
+          <h1
+            class="rise display-1 mt-6 max-w-3xl text-balance text-base-content"
+            style="--rv-i: 1"
+          >
+            {{ profile.name }}
+          </h1>
 
-          <p class="mt-5 text-lg font-medium tracking-tight text-ink-2 md:text-xl">
+          <p
+            class="rise mt-5 text-lg font-medium tracking-tight text-ink-2 md:text-xl"
+            style="--rv-i: 2"
+          >
             {{ $t('hero.role') }}
           </p>
 
-          <p class="lead mt-5">
+          <p class="rise lead mt-5 max-w-xl" style="--rv-i: 3">
             {{ $t('hero.subtitle') }}
           </p>
 
-          <div class="mt-9 flex flex-wrap items-center gap-3">
+          <div class="rise mt-9 flex flex-wrap items-center gap-3" style="--rv-i: 4">
             <a href="#projects" class="btn btn-primary min-h-11 gap-2">
               {{ $t('hero.cta.projects') }}
               <ArrowRight class="size-4" aria-hidden="true" />
@@ -49,48 +49,48 @@
             </a>
           </div>
 
-          <!-- Facts, straight from portfolio data -->
           <dl
             v-if="projectCount"
-            class="mt-14 grid max-w-lg grid-cols-3 gap-6 border-t border-base-300 pt-6"
+            class="rise mt-14 grid max-w-lg grid-cols-3 gap-6 border-t border-base-300 pt-6"
+            style="--rv-i: 5"
           >
             <div v-if="yearsBuilding">
-              <dt class="eyebrow">{{ $t('hero.stats.experience') }}</dt>
-              <dd class="mt-2 font-display text-2xl tracking-tight text-base-content">
+              <dt class="text-xs text-ink-3">{{ $t('hero.stats.experience') }}</dt>
+              <dd class="mt-2 font-mono text-2xl tracking-tight text-base-content">
                 {{ yearsBuilding }}+
               </dd>
             </div>
             <div>
-              <dt class="eyebrow">{{ $t('hero.stats.projects') }}</dt>
-              <dd class="mt-2 font-display text-2xl tracking-tight text-base-content">
+              <dt class="text-xs text-ink-3">{{ $t('hero.stats.projects') }}</dt>
+              <dd class="mt-2 font-mono text-2xl tracking-tight text-base-content">
                 {{ projectCount }}
               </dd>
             </div>
             <div>
-              <dt class="eyebrow">{{ $t('hero.stats.technologies') }}</dt>
-              <dd class="mt-2 font-display text-2xl tracking-tight text-base-content">
+              <dt class="text-xs text-ink-3">{{ $t('hero.stats.technologies') }}</dt>
+              <dd class="mt-2 font-mono text-2xl tracking-tight text-base-content">
                 {{ technologyCount }}
               </dd>
             </div>
           </dl>
         </div>
 
-        <!-- Dossier -->
-        <aside class="panel p-6 md:p-7">
-          <p class="eyebrow">{{ $t('hero.labels.status') }}</p>
-          <p class="mt-3 inline-flex items-center gap-2 text-sm text-ink-2">
+        <aside class="panel rise p-6 md:p-7" style="--rv-i: 3" :aria-label="$t('hero.badge')">
+          <p class="inline-flex items-center gap-2 text-sm text-ink-2">
             <span class="size-2 rounded-full bg-primary" aria-hidden="true"></span>
             {{ $t('hero.badge') }}
           </p>
 
           <dl class="mt-6 border-t border-base-300">
             <div class="flex min-h-11 items-baseline justify-between gap-4 py-3.5">
-              <dt class="eyebrow">{{ $t('hero.labels.location') }}</dt>
+              <dt class="text-xs text-ink-3">{{ $t('hero.labels.location') }}</dt>
               <dd class="text-right text-sm text-ink-2">{{ profile.location }}</dd>
             </div>
 
-            <div class="relative flex min-h-11 items-baseline justify-between gap-4 border-t border-base-300 py-3.5">
-              <dt class="eyebrow">{{ $t('hero.labels.email') }}</dt>
+            <div
+              class="relative flex min-h-11 items-baseline justify-between gap-4 border-t border-base-300 py-3.5"
+            >
+              <dt class="text-xs text-ink-3">{{ $t('hero.labels.email') }}</dt>
               <dd class="min-w-0 text-right text-sm text-ink-2">
                 <a
                   :href="`mailto:${profile.email}`"
@@ -101,8 +101,10 @@
               </dd>
             </div>
 
-            <div class="relative flex min-h-11 items-baseline justify-between gap-4 border-t border-base-300 py-3.5">
-              <dt class="eyebrow">{{ $t('hero.labels.phone') }}</dt>
+            <div
+              class="relative flex min-h-11 items-baseline justify-between gap-4 border-t border-base-300 py-3.5"
+            >
+              <dt class="text-xs text-ink-3">{{ $t('hero.labels.phone') }}</dt>
               <dd class="text-right text-sm text-ink-2">
                 <a
                   :href="profile.phoneHref"
@@ -113,8 +115,10 @@
               </dd>
             </div>
 
-            <div class="relative flex min-h-11 items-baseline justify-between gap-4 border-t border-base-300 py-3.5">
-              <dt class="eyebrow">{{ $t('hero.labels.github') }}</dt>
+            <div
+              class="relative flex min-h-11 items-baseline justify-between gap-4 border-t border-base-300 py-3.5"
+            >
+              <dt class="text-xs text-ink-3">{{ $t('hero.labels.github') }}</dt>
               <dd class="min-w-0 text-right text-sm text-ink-2">
                 <a
                   :href="profile.social.github"
@@ -127,8 +131,10 @@
               </dd>
             </div>
 
-            <div class="relative flex min-h-11 items-baseline justify-between gap-4 border-t border-base-300 py-3.5">
-              <dt class="eyebrow">{{ $t('hero.labels.linkedin') }}</dt>
+            <div
+              class="relative flex min-h-11 items-baseline justify-between gap-4 border-t border-base-300 py-3.5"
+            >
+              <dt class="text-xs text-ink-3">{{ $t('hero.labels.linkedin') }}</dt>
               <dd class="min-w-0 text-right text-sm text-ink-2">
                 <a
                   :href="profile.social.linkedin"

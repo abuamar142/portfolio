@@ -22,21 +22,21 @@ import AppFooter from '@/components/layout/AppFooter.vue'
 const siteUrl = 'https://abuamar.online'
 
 useHead({
-  titleTemplate: (title) => (title ? `${title} | Abu Amar` : 'Abu Amar — Portfolio'),
+  titleTemplate: (title) => (title ? `${title} | Abu Amar` : 'Abu Amar - Portfolio'),
   meta: [
     {
       name: 'description',
-      content: 'Personal portfolio of Abu Amar — Mobile & Full Stack Developer',
+      content: 'Personal portfolio of Abu Amar - Mobile & Full Stack Developer',
     },
     { property: 'og:site_name', content: 'Abu Amar' },
     { property: 'og:url', content: siteUrl },
     { property: 'og:type', content: 'website' },
     { property: 'og:image', content: 'https://abuamar.online/og-default.png' },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'Abu Amar — Portfolio' },
+    { name: 'twitter:title', content: 'Abu Amar - Portfolio' },
     {
       name: 'twitter:description',
-      content: 'Personal portfolio of Abu Amar — Mobile & Full Stack Developer',
+      content: 'Personal portfolio of Abu Amar - Mobile & Full Stack Developer',
     },
     { name: 'twitter:image', content: 'https://abuamar.online/og-default.png' },
   ],

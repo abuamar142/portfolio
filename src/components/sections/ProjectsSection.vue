@@ -1,12 +1,7 @@
 <template>
   <section id="projects" class="section">
     <div class="wrap">
-      <SectionHeader
-        index="03"
-        :label="$t('navigation.projects')"
-        :title="$t('headings.projects')"
-        :lead="$t('projects.subtitle')"
-      >
+      <SectionHeader :title="$t('headings.projects')" :lead="$t('projects.subtitle')">
         <template #meta>
           <p class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
             {{ projectCount }} {{ $t('meta.projects') }}
@@ -17,8 +12,10 @@
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         <article
           v-for="(project, index) in displayedProjects"
+          v-reveal
           :key="project.title"
-          class="panel flex flex-col p-5 transition-colors hover:border-primary/40"
+          :style="{ '--rv-i': index % 3 }"
+          class="panel lift flex flex-col p-5"
         >
           <div class="flex items-center justify-between gap-3">
             <p class="font-mono text-[11px] tracking-wider text-ink-4">
@@ -37,7 +34,10 @@
             {{ project.description }}
           </p>
 
-          <div v-if="project.technologies.length" class="mt-4 mb-5 flex flex-wrap items-center gap-1.5">
+          <div
+            v-if="project.technologies.length"
+            class="mt-4 mb-5 flex flex-wrap items-center gap-1.5"
+          >
             <span v-for="tech in project.technologies.slice(0, 5)" :key="tech" class="chip">
               {{ tech }}
             </span>
@@ -106,7 +106,9 @@ const displayedProjects = computed(() => {
   return all
 })
 
-const shouldShowSeeMore = computed(() => !showAll.value && (portfolio.value?.projects.length || 0) > maxItems)
+const shouldShowSeeMore = computed(
+  () => !showAll.value && (portfolio.value?.projects.length || 0) > maxItems,
+)
 
 const toggleShowAll = () => {
   showAll.value = !showAll.value

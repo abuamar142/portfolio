@@ -1,12 +1,7 @@
 <template>
   <section id="experiences" class="section">
-    <div class="wrap">
-      <SectionHeader
-        index="02"
-        :label="$t('navigation.experience')"
-        :title="$t('headings.experience')"
-        :lead="$t('experience.subtitle')"
-      >
+    <div v-reveal class="wrap">
+      <SectionHeader :title="$t('headings.experience')" :lead="$t('experience.subtitle')">
         <template #meta>
           <p v-if="roleCount" class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
             {{ roleCount }} {{ $t('meta.roles') }}

@@ -3,7 +3,7 @@
     <div
       class="wrap flex min-h-[60vh] flex-col items-center justify-center pb-20 text-center md:pb-28"
     >
-      <p class="eyebrow">{{ $t('blog.notFoundLabel') }}</p>
+      <p class="font-mono text-[11px] uppercase tracking-wider text-ink-3">{{ $t('blog.notFoundLabel') }}</p>
       <h1 class="display-1 mt-6 text-base-content">404</h1>
       <p class="mt-6 max-w-[46ch] text-ink-2">{{ $t('blog.notFoundBody') }}</p>
       <div class="mt-10 flex flex-wrap items-center justify-center gap-3">

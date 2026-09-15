@@ -1,29 +1,16 @@
 <template>
-  <header class="mb-10 md:mb-14">
-    <div class="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
-      <div class="min-w-0">
-        <p class="eyebrow">
-          <span v-if="index" class="text-ink-4">{{ index }}</span>
-          <span v-if="index" aria-hidden="true" class="mx-2 text-ink-4">/</span>
-          <span>{{ label }}</span>
-        </p>
-        <component :is="level" class="display-2 mt-4 text-base-content">{{ title }}</component>
-      </div>
-      <div v-if="$slots.meta" class="shrink-0 pb-1">
-        <slot name="meta" />
-      </div>
-    </div>
+  <header class="mb-10 max-w-3xl md:mb-14">
+    <component :is="level" class="display-2 text-balance text-base-content">{{ title }}</component>
     <p v-if="lead" class="lead mt-4">{{ lead }}</p>
+    <div v-if="$slots.meta" class="mt-4">
+      <slot name="meta" />
+    </div>
   </header>
 </template>
 
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    /** Section number, e.g. "01". */
-    index?: string
-    /** Eyebrow label (already translated). */
-    label: string
     /** Display title (already translated). */
     title: string
     /** Optional supporting sentence. */

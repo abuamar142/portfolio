@@ -1,12 +1,7 @@
 <template>
   <section id="achievements" class="section">
-    <div class="wrap">
-      <SectionHeader
-        index="06"
-        :label="$t('navigation.achievements')"
-        :title="$t('headings.achievements')"
-        :lead="$t('achievements.subtitle')"
-      >
+    <div v-reveal class="wrap">
+      <SectionHeader :title="$t('headings.achievements')" :lead="$t('achievements.subtitle')">
         <template #meta>
           <p class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
             {{ achievements.length }} {{ $t('meta.items') }}
