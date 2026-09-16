@@ -3,6 +3,7 @@
     <button
       type="button"
       class="btn btn-ghost btn-sm min-h-11 gap-1.5 px-2 font-mono text-[11px] uppercase tracking-wider text-ink-3 hover:text-base-content sm:min-h-9"
+      :class="compact ? '!min-h-0 !border-0 !bg-transparent py-2' : ''"
       :aria-expanded="isOpen"
       aria-haspopup="menu"
       :aria-label="`Language: ${currentLanguage.name}`"
@@ -60,6 +61,8 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ChevronDown, Check } from 'lucide-vue-next'
+
+withDefaults(defineProps<{ compact?: boolean }>(), { compact: false })
 
 const { locale } = useI18n()
 

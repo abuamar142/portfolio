@@ -204,6 +204,51 @@
     letter-spacing: -0.02em;
   }
 
+  /* Hero voice: Inter-only per decision, larger and centered like reference. */
+  .display-hero {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+  }
+
+  /* Active pill item (floating nav): solid base on muted pill. */
+  .pill-active {
+    background: var(--color-base-100);
+    color: var(--color-base-content);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+  }
+
+  /* Floating decorative icons (hero). Slow pulse / spin, drift on top. */
+  .deco-float {
+    animation: deco-pulse 4s ease-in-out infinite;
+  }
+
+  .deco-spin {
+    animation: deco-spin 12s linear infinite;
+  }
+
+  @keyframes deco-pulse {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+      opacity: 0.7;
+    }
+    50% {
+      transform: translateY(-10px) scale(1.06);
+      opacity: 1;
+    }
+  }
+
+  @keyframes deco-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
   .lead {
     font-size: 1.0625rem;
     line-height: 1.7;
@@ -671,6 +716,8 @@
     transform: none !important;
   }
   .rise,
+  .deco-float,
+  .deco-spin,
   .pulse-dot::after {
     animation: none !important;
   }

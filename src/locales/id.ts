@@ -27,11 +27,13 @@ export default {
   },
   hero: {
     badge: 'Terbuka untuk peluang',
+    greeting: 'Halo, saya',
     role: 'Mobile & Full Stack Developer',
     subtitle:
       'Saya merilis perangkat lunak produksi end to end: aplikasi mobile, frontend web, API backend, dan infrastruktur di belakangnya.',
     cta: {
       projects: 'Lihat proyek',
+      contact: 'Hubungi Saya',
       resume: 'CV',
     },
     labels: {
@@ -73,6 +75,7 @@ export default {
     buttons: {
       github: 'GitHub',
       demo: 'Demo Langsung',
+      viewAll: 'Lihat Semua',
       seeMore: 'Lihat Semua',
       seeLess: 'Sembunyikan',
     },

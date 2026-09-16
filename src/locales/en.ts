@@ -27,11 +27,13 @@ export default {
   },
   hero: {
     badge: 'Available for work',
+    greeting: "Hi, I'm",
     role: 'Mobile & Full Stack Developer',
     subtitle:
       'I ship production software end to end: mobile apps, web frontends, backend APIs, and the infrastructure behind them.',
     cta: {
       projects: 'View projects',
+      contact: 'Contact Me',
       resume: 'Resume',
     },
     labels: {
@@ -73,6 +75,7 @@ export default {
     buttons: {
       github: 'GitHub',
       demo: 'Live Demo',
+      viewAll: 'View all',
       seeMore: 'See More',
       seeLess: 'See Less',
     },

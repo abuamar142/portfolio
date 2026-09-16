@@ -1,8 +1,8 @@
 <template>
-  <header class="mb-10 max-w-3xl md:mb-14">
+  <header class="mb-10 max-w-3xl md:mb-14" :class="align === 'center' ? 'mx-auto text-center' : ''">
     <component :is="level" class="display-2 text-balance text-base-content">{{ title }}</component>
-    <p v-if="lead" class="lead mt-4">{{ lead }}</p>
-    <div v-if="$slots.meta" class="mt-4">
+    <p v-if="lead" class="lead mt-4" :class="align === 'center' ? 'mx-auto text-center' : ''">{{ lead }}</p>
+    <div v-if="$slots.meta" class="mt-4" :class="align === 'center' ? 'flex justify-center' : ''">
       <slot name="meta" />
     </div>
   </header>
@@ -20,7 +20,9 @@ withDefaults(
      * standalone pages pass "h1" to own the document outline.
      */
     level?: 'h1' | 'h2'
+    /** Centered variant for hero-adjacent sections (projects, contact). */
+    align?: 'left' | 'center'
   }>(),
-  { level: 'h2' },
+  { level: 'h2', align: 'left' },
 )
 </script>

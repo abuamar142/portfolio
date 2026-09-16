@@ -1,7 +1,7 @@
 <template>
   <section id="skills" class="section">
     <div class="wrap">
-      <SectionHeader :title="$t('headings.skills')" :lead="$t('skills.subtitle')">
+      <SectionHeader :title="$t('headings.skills')" :lead="$t('skills.subtitle')" align="center">
         <template #meta>
           <p class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
             {{ technologyCount }} {{ $t('meta.technologies') }}
@@ -20,11 +20,11 @@
           <h3 class="text-sm font-medium text-base-content">
             {{ $t('skills.categories.' + category.key) }}
           </h3>
-          <div class="mt-4 flex flex-wrap gap-1.5">
-            <span v-for="skill in category.skills" :key="skill.name" class="chip">
-              {{ skill.name }}
-            </span>
-          </div>
+          <SkillChips
+            :skills="category.skills"
+            :label="$t('skills.categories.' + category.key)"
+            class="mt-4"
+          />
         </div>
       </div>
     </div>
@@ -36,6 +36,7 @@ import { computed } from 'vue'
 import { usePortfolio } from '@/composables/usePortfolio'
 import { useStats } from '@/composables/useStats'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
+import SkillChips from '@/components/sections/SkillChips.vue'
 import type { Skill } from '@/types/portfolio'
 
 const { portfolio } = usePortfolio()
