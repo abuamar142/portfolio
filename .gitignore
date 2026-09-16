@@ -39,3 +39,6 @@ coverage
 skills-lock.json
 .hermes/
 .opencode-mem/
+
+# Generated at build time from CMS (scripts/cv) — never commit stale copies
+/public/cv.pdf
