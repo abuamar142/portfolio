@@ -10,6 +10,10 @@ export interface PersonalInfo {
   instagram?: string
   whatsApp?: string
   website?: string
+  bio_en?: string
+  bio_id?: string
+  about_en?: string
+  about_id?: string
 }
 
 export interface Experience {

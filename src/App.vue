@@ -26,7 +26,7 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: 'Personal portfolio of Abu Amar - Mobile & Full Stack Developer',
+      content: 'Personal portfolio of Abu Amar - Software Engineer',
     },
     { property: 'og:site_name', content: 'Abu Amar' },
     { property: 'og:url', content: siteUrl },
@@ -36,7 +36,7 @@ useHead({
     { name: 'twitter:title', content: 'Abu Amar - Portfolio' },
     {
       name: 'twitter:description',
-      content: 'Personal portfolio of Abu Amar - Mobile & Full Stack Developer',
+      content: 'Personal portfolio of Abu Amar - Software Engineer',
     },
     { name: 'twitter:image', content: 'https://abuamar.online/og-default.png' },
   ],

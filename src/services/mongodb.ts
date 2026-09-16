@@ -61,9 +61,14 @@ export async function fetchPortfolioData(): Promise<Portfolio> {
       ? body.data
       : body
 
-    // Ensure all required fields exist with fallbacks
+    // Opsi A (identity-sync 2026-09-16): personalInfo is required. No static
+    // fallback — a missing document is a backend data error, surfaced as one.
+    const personalInfo = data.personalInfo
+    if (!personalInfo || typeof personalInfo !== 'object' || !personalInfo.fullname) {
+      throw new Error('Personal info is missing from the backend response.')
+    }
     const portfolioData: Portfolio = {
-      personalInfo: data.personalInfo || {},
+      personalInfo,
       about: data.about || data.personalInfo?.about || '',
       experiences: Array.isArray(data.experiences) ? data.experiences : [],
       projects: Array.isArray(data.projects) ? data.projects : [],

@@ -1,20 +1,20 @@
 <template>
-  <div class="rise mx-auto max-w-2xl text-center" style="--rv-i: 0">
+  <div v-if="identity" class="rise mx-auto max-w-2xl text-center" style="--rv-i: 0">
     <p class="inline-flex items-center gap-2 text-sm text-ink-3">
       <span class="pulse-dot size-2 rounded-full bg-primary" aria-hidden="true"></span>
       {{ $t('hero.badge') }}
     </p>
 
     <h1 class="rise display-hero mt-6 text-balance text-base-content" style="--rv-i: 1">
-      {{ greeting }} {{ profile.shortName }}.
+      {{ greeting }} {{ identity.nickname }}.
     </h1>
 
     <p class="rise mt-5 text-lg font-medium tracking-tight text-ink-2 md:text-xl" style="--rv-i: 2">
-      {{ $t('hero.role') }}
+      {{ identity.title }}
     </p>
 
     <p class="rise lead mx-auto mt-5 max-w-xl" style="--rv-i: 3">
-      {{ $t('hero.subtitle') }}
+      {{ bio }}
     </p>
 
     <div class="rise mt-9 flex flex-wrap items-center justify-center gap-3" style="--rv-i: 4">
@@ -23,7 +23,7 @@
         <ArrowRight class="size-4" aria-hidden="true" />
       </a>
       <a
-        :href="profile.resume"
+        :href="SITE_RESUME_PATH"
         target="_blank"
         rel="noopener"
         class="btn btn-outline min-h-11 gap-2"
@@ -32,7 +32,7 @@
         {{ $t('hero.cta.resume') }}
       </a>
       <a
-        :href="`mailto:${profile.email}`"
+        :href="`mailto:${identity.email}`"
         class="btn btn-ghost min-h-11 gap-2"
       >
         {{ $t('hero.cta.contact') }}
@@ -57,17 +57,24 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowRight, Download } from 'lucide-vue-next'
 import SocialLink from '@/components/ui/SocialLink.vue'
-import { profile } from '@/data/profile'
-const { t } = useI18n()
+import { SITE_RESUME_PATH, useIdentity } from '@/composables/useIdentity'
+
+const { t, locale } = useI18n()
+const { identity } = useIdentity()
 
 const greeting = computed(() => t('hero.greeting'))
+
+/** Hero subtitle from CMS, in the active locale. */
+const bio = computed(() =>
+  locale.value === 'id' ? (identity.value?.bio_id ?? '') : (identity.value?.bio_en ?? ''),
+)
 
 /** Icon-only social row under the CTAs (labels stay for screen readers via aria-label). */
 const socialLinks = computed<
   { platform: 'github' | 'linkedin' | 'instagram'; href: string; label: string }[]
 >(() => [
-  { platform: 'github', href: profile.social.github, label: t('hero.labels.github') },
-  { platform: 'linkedin', href: profile.social.linkedin, label: t('hero.labels.linkedin') },
-  { platform: 'instagram', href: profile.social.instagram, label: 'Instagram' },
+  { platform: 'github', href: identity.value?.github ?? '', label: t('hero.labels.github') },
+  { platform: 'linkedin', href: identity.value?.linkedin ?? '', label: t('hero.labels.linkedin') },
+  { platform: 'instagram', href: identity.value?.instagram ?? '', label: 'Instagram' },
 ])
 </script>

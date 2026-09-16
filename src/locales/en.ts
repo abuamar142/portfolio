@@ -26,11 +26,8 @@ export default {
     technologies: 'technologies',
   },
   hero: {
-    badge: 'Available for work',
+    badge: 'Open for collaboration',
     greeting: "Hi, I'm",
-    role: 'Mobile & Full Stack Developer',
-    subtitle:
-      'I ship production software end to end: mobile apps, web frontends, backend APIs, and the infrastructure behind them.',
     cta: {
       projects: 'View projects',
       contact: 'Contact Me',
@@ -51,7 +48,6 @@ export default {
     },
   },
   about: {
-    body: 'Software engineer working across mobile and full stack. Informatics student in Yogyakarta with full stack experience at Refactory and mobile training at Bangkit Academy. I ship products to production, from data model to deployment, on Linux daily.',
     stats: {
       years: 'Years building',
       projects: 'Projects shipped',
@@ -131,7 +127,6 @@ export default {
     social: 'Connect with me',
   },
   footer: {
-    role: 'Mobile & Full Stack Developer',
     built: 'Built with Vue 3 & Vite',
     backToTop: 'Back to top',
   },

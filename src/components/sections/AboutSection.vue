@@ -26,12 +26,12 @@
         </dl>
 
         <div class="order-1 min-w-0 lg:order-2">
-          <p class="lead">{{ portfolio?.about || $t('about.body') }}</p>
+          <p class="lead">{{ aboutBody }}</p>
 
-          <div class="mt-8">
-            <BaseButton variant="outline" size="sm" :href="`mailto:${profile.email}`">
+          <div v-if="identity" class="mt-8">
+            <BaseButton variant="outline" size="sm" :href="`mailto:${identity.email}`">
               <Mail class="size-4 shrink-0" aria-hidden="true" />
-              {{ profile.email }}
+              {{ identity.email }}
             </BaseButton>
           </div>
         </div>
@@ -41,13 +41,22 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Mail } from 'lucide-vue-next'
-import { profile } from '@/data/profile'
 import { usePortfolio } from '@/composables/usePortfolio'
 import { useStats } from '@/composables/useStats'
+import { useIdentity } from '@/composables/useIdentity'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
+const { locale } = useI18n()
 const { portfolio } = usePortfolio()
+const { identity } = useIdentity()
 const { yearsBuilding, projectCount, technologyCount } = useStats()
+
+/** About body from CMS, in the active locale. */
+const aboutBody = computed(() =>
+  locale.value === 'id' ? (identity.value?.about_id ?? '') : (identity.value?.about_en ?? ''),
+)
 </script>

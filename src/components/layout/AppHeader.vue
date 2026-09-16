@@ -18,9 +18,9 @@
             class="flex size-8 items-center justify-center rounded-md border border-base-300 bg-base-200 font-mono text-[11px] font-semibold tracking-wider text-base-content"
             aria-hidden="true"
           >
-            {{ profile.initials }}
+            {{ initials }}
           </span>
-          <span class="font-display text-[17px] tracking-tight text-base-content">Abu Amar</span>
+          <span class="font-display text-[17px] tracking-tight text-base-content">{{ identity?.nickname ?? '' }}</span>
         </router-link>
         <button
           type="button"
@@ -37,7 +37,7 @@
       <MobileMenu
         :open="isMenuOpen"
         :full-nav="fullNav"
-        :resume-href="profile.resume"
+        :resume-href="SITE_RESUME_PATH"
         @close="isMenuOpen = false"
       />
     </nav>
@@ -50,8 +50,9 @@ import { useRoute } from 'vue-router'
 import { Menu, X } from 'lucide-vue-next'
 import PillNav from '@/components/layout/PillNav.vue'
 import MobileMenu from '@/components/layout/MobileMenu.vue'
-import { profile } from '@/data/profile'
+import { SITE_RESUME_PATH, useIdentity } from '@/composables/useIdentity'
 
+const { identity, initials } = useIdentity()
 const route = useRoute()
 const isMenuOpen = ref(false)
 const activeSection = ref('')

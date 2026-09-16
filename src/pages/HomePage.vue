@@ -1,12 +1,10 @@
 <template>
   <div class="min-h-screen bg-base-100">
-    <!-- Identity is static: render it immediately, never behind a fetch. -->
-    <HeroSection />
-
     <HomePageSkeleton v-if="loading" />
     <ErrorState v-else-if="error" :message="error || 'Unknown error occurred'" @retry="refresh" />
 
     <div v-else>
+      <HeroSection />
       <AboutSection />
       <ExperienceSection />
       <ProjectsSection />
@@ -48,7 +46,7 @@ useHead({
     { property: 'og:title', content: 'Abu Amar - Portfolio' },
     {
       property: 'og:description',
-      content: 'Mobile & Full Stack Developer portfolio - projects, skills, and experience.',
+      content: 'Software Engineer portfolio - projects, skills, and experience.',
     },
     { property: 'og:type', content: 'website' },
   ],
@@ -58,7 +56,7 @@ useHead({
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'Person',
-        name: 'Abu Amar',
+        name: 'M. Abu Amar Al Badawi, S.Kom',
         url: 'https://abuamar.online',
         jobTitle: 'Software Engineer',
         sameAs: ['https://github.com/abuamar142', 'https://linkedin.com/in/abu-amar'],

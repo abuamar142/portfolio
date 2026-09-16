@@ -131,7 +131,6 @@ export default {
     social: 'Terhubung dengan saya',
   },
   footer: {
-    role: 'Mobile & Full Stack Developer',
     built: 'Dibangun dengan Vue 3 & Vite',
     backToTop: 'Kembali ke atas',
   },
