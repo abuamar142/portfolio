@@ -23,8 +23,17 @@
         <ArrowRight class="size-4" aria-hidden="true" />
       </a>
       <a
-        :href="`mailto:${profile.email}`"
+        :href="profile.resume"
+        target="_blank"
+        rel="noopener"
         class="btn btn-outline min-h-11 gap-2"
+      >
+        <Download class="size-4" aria-hidden="true" />
+        {{ $t('hero.cta.resume') }}
+      </a>
+      <a
+        :href="`mailto:${profile.email}`"
+        class="btn btn-ghost min-h-11 gap-2"
       >
         {{ $t('hero.cta.contact') }}
       </a>
@@ -46,10 +55,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { ArrowRight } from 'lucide-vue-next'
+import { ArrowRight, Download } from 'lucide-vue-next'
 import SocialLink from '@/components/ui/SocialLink.vue'
 import { profile } from '@/data/profile'
-
 const { t } = useI18n()
 
 const greeting = computed(() => t('hero.greeting'))
