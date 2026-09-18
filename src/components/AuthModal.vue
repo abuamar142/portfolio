@@ -1,66 +1,63 @@
 <template>
   <Teleport to="body">
-    <Transition name="modal">
-      <div v-if="show" class="fixed inset-0 z-50 flex items-center justify-center p-4" @click.self="$emit('close')">
-        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-        <div class="relative bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl w-full max-w-md p-8 z-10">
-          <button @click="$emit('close')" class="absolute top-4 right-4 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    <dialog :class="['modal', show ? 'modal-open' : '']" @click.self="$emit('close')">
+      <div class="modal-box">
+        <button @click="$emit('close')" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"><X :size="16" /></button>
+        <h2 class="font-bold text-lg mb-4">
+          {{ mode === 'login' ? 'Sign In' : 'Create Account' }}
+        </h2>
+
+        <form @submit.prevent="handleSubmit" class="space-y-3">
+          <div v-if="mode === 'register'">
+            <label class="label"><span class="label-text">Display Name</span></label>
+            <input v-model="form.display_name" type="text" class="input input-bordered w-full" placeholder="Your name" />
+          </div>
+
+          <div>
+            <label class="label"><span class="label-text">{{ mode === 'login' ? 'Email or Username' : 'Email' }}</span></label>
+            <input v-model="form.identifier" type="text" required class="input input-bordered w-full" :placeholder="mode === 'login' ? 'email or username' : 'email@example.com'" />
+          </div>
+
+          <div v-if="mode === 'register'">
+            <label class="label"><span class="label-text">Username</span></label>
+            <input v-model="form.username" type="text" class="input input-bordered w-full" placeholder="username" />
+          </div>
+
+          <div>
+            <label class="label"><span class="label-text">Password</span></label>
+            <input v-model="form.password" type="password" required minlength="8" class="input input-bordered w-full" placeholder="••••••••" />
+          </div>
+
+          <p v-if="error" class="text-sm text-error">{{ error }}</p>
+
+          <button type="submit" :disabled="loading" class="btn btn-primary w-full">
+            {{ loading ? 'Loading...' : mode === 'login' ? 'Sign In' : 'Create Account' }}
           </button>
+        </form>
 
-          <h2 class="text-2xl font-bold text-zinc-900 dark:text-white mb-6">
-            {{ mode === 'login' ? 'Sign In' : 'Create Account' }}
-          </h2>
-
-          <form @submit.prevent="handleSubmit" class="space-y-4">
-            <div v-if="mode === 'register'">
-              <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Display Name</label>
-              <input v-model="form.display_name" type="text" class="w-full px-4 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Your name" />
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">{{ mode === 'login' ? 'Email or Username' : 'Email' }}</label>
-              <input v-model="form.identifier" type="text" required class="w-full px-4 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" :placeholder="mode === 'login' ? 'email or username' : 'email@example.com'" />
-            </div>
-
-            <div v-if="mode === 'register'">
-              <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Username</label>
-              <input v-model="form.username" type="text" class="w-full px-4 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="username" />
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Password</label>
-              <input v-model="form.password" type="password" required minlength="8" class="w-full px-4 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="••••••••" />
-            </div>
-
-            <p v-if="error" class="text-sm text-red-500">{{ error }}</p>
-
-            <button type="submit" :disabled="loading" class="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium rounded-lg transition-colors">
-              {{ loading ? 'Loading...' : mode === 'login' ? 'Sign In' : 'Create Account' }}
-            </button>
-          </form>
-
-          <p class="mt-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
-            {{ mode === 'login' ? "Don't have an account?" : "Already have an account?" }}
-            <button @click="toggleMode" class="text-blue-600 hover:text-blue-700 font-medium ml-1">
-              {{ mode === 'login' ? 'Sign Up' : 'Sign In' }}
-            </button>
-          </p>
-        </div>
+        <p class="mt-3 text-center text-sm">
+          {{ mode === 'login' ? "Don't have an account?" : "Already have an account?" }}
+          <button @click="toggleMode" class="link link-primary">
+            {{ mode === 'login' ? 'Sign Up' : 'Sign In' }}
+          </button>
+        </p>
       </div>
-    </Transition>
+    </dialog>
   </Teleport>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import { X } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
+import { useToast } from '@/composables/useToast'
 import axios from 'axios'
 
-const props = defineProps<{ show: boolean }>()
+defineProps<{ show: boolean }>()
 const emit = defineEmits<{ close: [] }>()
 
 const { setToken, storeUser } = useAuth()
+const toast = useToast()
 const mode = ref<'login' | 'register'>('login')
 const loading = ref(false)
 const error = ref('')
@@ -79,46 +76,46 @@ function toggleMode() {
   error.value = ''
 }
 
+async function handleLogin(identifier: string, password: string) {
+  const { data } = await axios.post(`${AUTH_URL}/api/v1/auth/login`, { identifier, password })
+  if (data.data?.access_token) {
+    setToken(data.data.access_token)
+    // Login doesn't return user — fetch it from /me
+    const { data: meData } = await axios.get(`${AUTH_URL}/api/v1/auth/me`, {
+      headers: { Authorization: `Bearer ${data.data.access_token}` },
+    })
+    if (meData.data) {
+      storeUser(meData.data)
+    }
+    toast.success(mode.value === 'register' ? 'Account created!' : 'Welcome back!')
+    emit('close')
+  }
+}
+
 async function handleSubmit() {
   loading.value = true
   error.value = ''
 
   try {
     if (mode.value === 'register') {
-      const { data } = await axios.post(`${AUTH_URL}/api/v1/auth/register`, {
+      // Register first
+      await axios.post(`${AUTH_URL}/api/v1/auth/register`, {
         email: form.identifier,
         username: form.username,
         password: form.password,
         display_name: form.display_name,
       })
-      if (data.data?.access_token) {
-        setToken(data.data.access_token)
-        storeUser(data.data.user)
-        emit('close')
-      }
+      // Auto-login after register (register doesn't return token)
+      await handleLogin(form.identifier, form.password)
     } else {
-      // Detect if identifier is email
-      const isEmail = form.identifier.includes('@')
-      const payload = isEmail
-        ? { email: form.identifier, password: form.password }
-        : { username: form.identifier, password: form.password }
-
-      const { data } = await axios.post(`${AUTH_URL}/api/v1/auth/login`, payload)
-      if (data.data?.access_token) {
-        setToken(data.data.access_token)
-        storeUser(data.data.user)
-        emit('close')
-      }
+      await handleLogin(form.identifier, form.password)
     }
   } catch (e: any) {
-    error.value = e.response?.data?.error?.details || e.response?.data?.message || 'Something went wrong'
+    const msg = e.response?.data?.error?.details || e.response?.data?.message || 'Something went wrong'
+    error.value = msg
+    toast.error(msg)
   } finally {
     loading.value = false
   }
 }
 </script>
-
-<style scoped>
-.modal-enter-active, .modal-leave-active { transition: opacity 0.2s ease; }
-.modal-enter-from, .modal-leave-to { opacity: 0; }
-</style>

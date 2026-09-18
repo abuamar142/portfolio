@@ -3,7 +3,7 @@
     <dialog :class="['modal', show ? 'modal-open' : '']" @click.self="$emit('close')">
       <div class="modal-box">
         <button @click="$emit('close')" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"><X :size="16" /></button>
-        <h2 class="font-bold text-lg mb-4">New Quote</h2>
+        <h2 class="font-bold text-lg mb-4">Edit Quote</h2>
 
         <form @submit.prevent="handleSubmit" class="space-y-3">
           <div>
@@ -43,11 +43,15 @@
 
           <p v-if="error" class="text-sm text-error">{{ error }}</p>
 
-          <button type="submit" :disabled="loading || !form.content.trim()" class="btn btn-primary w-full">
-            {{ loading ? 'Posting...' : 'Post Quote' }}
-          </button>
+          <div class="modal-action">
+            <button type="button" @click="$emit('close')" class="btn btn-ghost">Cancel</button>
+            <button type="submit" :disabled="loading || !form.content.trim()" class="btn btn-primary">
+              {{ loading ? 'Saving...' : 'Save Changes' }}
+            </button>
+          </div>
         </form>
       </div>
+      <form method="dialog" class="modal-backdrop"><button>close</button></form>
     </dialog>
   </Teleport>
 </template>
@@ -55,14 +59,13 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue'
 import { X } from 'lucide-vue-next'
-import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
-import { createQuote } from '@/services/quote'
+import { updateQuote } from '@/services/quote'
+import type { Quote } from '@/types/quote'
 
-const props = defineProps<{ show: boolean }>()
-const emit = defineEmits<{ close: []; created: [] }>()
+const props = defineProps<{ show: boolean; quote: Quote | null }>()
+const emit = defineEmits<{ close: []; updated: [] }>()
 
-const { user } = useAuth()
 const toast = useToast()
 const loading = ref(false)
 const error = ref('')
@@ -76,12 +79,16 @@ const form = reactive({
   tags: [] as string[],
 })
 
-// Auto-fill author name when modal opens
-watch(() => props.show, (isOpen) => {
-  if (isOpen && user.value) {
-    form.author_name = user.value.display_name || user.value.username || ''
+// Populate form when quote changes
+watch(() => props.quote, (q) => {
+  if (q) {
+    form.content = q.content
+    form.author_name = q.author_name
+    form.is_anonymous = q.is_anonymous
+    form.source = q.source
+    form.tags = [...(q.tags || [])]
   }
-})
+}, { immediate: true })
 
 function addTag() {
   const tag = tagInput.value.trim().toLowerCase()
@@ -96,27 +103,23 @@ function removeTag(tag: string) {
 }
 
 async function handleSubmit() {
+  if (!props.quote) return
   loading.value = true
   error.value = ''
 
   try {
-    await createQuote({
+    await updateQuote(props.quote.id, {
       content: form.content.trim(),
       author_name: form.author_name.trim(),
       is_anonymous: form.is_anonymous,
       source: form.source.trim(),
       tags: form.tags,
     })
-    form.content = ''
-    form.author_name = ''
-    form.is_anonymous = false
-    form.source = ''
-    form.tags = []
-    toast.success('Quote posted!')
-    emit('created')
+    toast.success('Quote updated!')
+    emit('updated')
     emit('close')
   } catch (e: any) {
-    const msg = e.response?.data?.error?.details || e.response?.data?.message || 'Failed to create quote'
+    const msg = e.response?.data?.error?.details || e.response?.data?.message || 'Failed to update quote'
     error.value = msg
     toast.error(msg)
   } finally {

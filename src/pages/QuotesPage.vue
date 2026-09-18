@@ -1,22 +1,38 @@
 <template>
-  <div class="min-h-screen bg-zinc-50 dark:bg-zinc-950 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-6xl mx-auto">
+  <div class="page-top section">
+    <div class="wrap">
       <!-- Header -->
-      <div class="text-center mb-10">
-        <h1 class="text-4xl font-bold text-zinc-900 dark:text-white mb-3">💬 Quotes</h1>
-        <p class="text-zinc-500 dark:text-zinc-400">Words worth sharing</p>
+      <div class="mb-10 text-center">
+        <h1 class="display-2 flex items-center justify-center gap-3">
+          <MessageSquare :size="32" class="text-primary" />
+          Quotes
+        </h1>
+        <p class="lead mt-2 mx-auto">Words worth sharing</p>
       </div>
 
       <!-- Search + Actions -->
       <div class="flex flex-col sm:flex-row items-center gap-4 mb-8">
         <div class="relative flex-1 w-full">
-          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-          <input v-model="search" @input="debouncedFetch" type="text" placeholder="Search quotes..." class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+          <Search :size="18" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-4" />
+          <input v-model="search" @input="debouncedFetch" type="text" placeholder="Search quotes..." class="input input-bordered w-full pl-10" />
         </div>
-        <button v-if="isAuthenticated" @click="showCreate = true" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors whitespace-nowrap">
-          + Add Quote
-        </button>
-        <button v-else @click="showAuth = true" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors whitespace-nowrap">
+        <template v-if="isAuthenticated">
+          <button @click="showCreate = true" class="btn btn-primary">
+            <Plus :size="16" /> Add Quote
+          </button>
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
+              <div class="bg-neutral text-neutral-content rounded-full w-10 h-10 flex items-center justify-center">
+                <span class="text-sm leading-none">{{ userInitials }}</span>
+              </div>
+            </div>
+            <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-200 border border-base-300 rounded-box z-10 w-52 p-2 shadow-lg mt-2">
+              <li class="menu-title">{{ user?.display_name || user?.username }}</li>
+              <li><a @click="handleLogout"><LogOut :size="14" /> Logout</a></li>
+            </ul>
+          </div>
+        </template>
+        <button v-else @click="showAuth = true" class="btn btn-primary">
           Sign In
         </button>
       </div>
@@ -24,14 +40,14 @@
       <!-- Tags -->
       <div v-if="tags.length" class="flex flex-wrap gap-2 mb-8 justify-center">
         <button
-          @click="selectedTag = ''"
-          :class="['px-3 py-1.5 rounded-full text-sm font-medium transition-colors', !selectedTag ? 'bg-blue-600 text-white' : 'bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-300 dark:hover:bg-zinc-700']"
+          @click="selectedTag = ''; reloadQuotes()"
+          :class="['btn btn-sm', !selectedTag ? 'btn-primary' : 'btn-ghost']"
         >All</button>
         <button
           v-for="tag in tags"
           :key="tag.tag"
-          @click="selectedTag = tag.tag"
-          :class="['px-3 py-1.5 rounded-full text-sm font-medium transition-colors', selectedTag === tag.tag ? 'bg-blue-600 text-white' : 'bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-300 dark:hover:bg-zinc-700']"
+          @click="selectedTag = tag.tag; reloadQuotes()"
+          :class="['btn btn-sm', selectedTag === tag.tag ? 'btn-primary' : 'btn-ghost']"
         >
           #{{ tag.tag }} <span class="opacity-60">({{ tag.count }})</span>
         </button>
@@ -39,22 +55,22 @@
 
       <!-- Sort -->
       <div class="flex items-center gap-2 mb-6 justify-end">
-        <span class="text-sm text-zinc-500 dark:text-zinc-400">Sort:</span>
-        <button @click="sort = 'random'; reloadQuotes()" :class="['text-sm px-3 py-1 rounded', sort === 'random' ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300']">Random</button>
-        <button @click="sort = 'latest'; reloadQuotes()" :class="['text-sm px-3 py-1 rounded', sort === 'latest' ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300']">Latest</button>
+        <span class="eyebrow">Sort:</span>
+        <button @click="sortRandom" :class="['btn btn-sm', sort === 'random' ? 'btn-primary' : 'btn-ghost']">Random</button>
+        <button @click="sortLatest" :class="['btn btn-sm', sort === 'latest' ? 'btn-primary' : 'btn-ghost']">Latest</button>
       </div>
 
       <!-- Loading -->
       <div v-if="loading" class="text-center py-20">
-        <div class="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+        <span class="loading loading-spinner loading-lg text-primary"></span>
       </div>
 
       <!-- Empty -->
       <div v-else-if="quotes.length === 0" class="text-center py-20">
-        <p class="text-5xl mb-4">📝</p>
-        <p class="text-xl text-zinc-600 dark:text-zinc-400 mb-2">No quotes yet</p>
-        <p class="text-zinc-400 dark:text-zinc-500 mb-4">Be the first to share a quote!</p>
-        <button @click="isAuthenticated ? (showCreate = true) : (showAuth = true)" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+        <FileEdit :size="64" class="mx-auto mb-4 text-ink-4" />
+        <p class="display-2 text-2xl mb-2">No quotes yet</p>
+        <p class="text-ink-3 mb-4">Be the first to share a quote!</p>
+        <button @click="isAuthenticated ? (showCreate = true) : (showAuth = true)" class="btn btn-primary">
           Add Quote
         </button>
       </div>
@@ -66,37 +82,42 @@
           :key="quote.id"
           :quote="quote"
           @open="openQuote"
-          @edit="editQuote"
+          @edit="startEdit"
           @delete="confirmDelete"
         />
       </div>
 
       <!-- Pagination -->
       <div v-if="totalPages > 1" class="flex justify-center gap-2 mt-8">
-        <button @click="page > 1 && (page--, reloadQuotes())" :disabled="page <= 1" class="px-3 py-1.5 rounded border border-zinc-300 dark:border-zinc-600 disabled:opacity-40 text-sm">Prev</button>
-        <span class="px-3 py-1.5 text-sm text-zinc-500">{{ page }} / {{ totalPages }}</span>
-        <button @click="page < totalPages && (page++, reloadQuotes())" :disabled="page >= totalPages" class="px-3 py-1.5 rounded border border-zinc-300 dark:border-zinc-600 disabled:opacity-40 text-sm">Next</button>
+        <button @click="prevPage" :disabled="page <= 1" class="btn btn-sm btn-ghost">Prev</button>
+        <span class="btn btn-sm btn-ghost no-animation">{{ page }} / {{ totalPages }}</span>
+        <button @click="nextPage" :disabled="page >= totalPages" class="btn btn-sm btn-ghost">Next</button>
       </div>
     </div>
 
     <!-- Modals -->
     <AuthModal :show="showAuth" @close="showAuth = false" />
-    <CreateQuoteModal :show="showCreate" @close="showCreate = false" @created="fetchQuotes" />
+    <CreateQuoteModal :show="showCreate" @close="showCreate = false" @created="reloadQuotes" />
+    <EditQuoteModal :show="showEdit" :quote="editingQuote" @close="showEdit = false" @updated="reloadQuotes" />
     <QuoteModal :show="showModal" :quote="selectedQuote" @close="showModal = false" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { MessageSquare, FileEdit, Search, Plus, LogOut } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
+import { useToast } from '@/composables/useToast'
 import { fetchQuotes, fetchTags, deleteQuote } from '@/services/quote'
 import type { Quote, TagResponse } from '@/types/quote'
 import QuoteCard from '@/components/QuoteCard.vue'
 import QuoteModal from '@/components/QuoteModal.vue'
 import CreateQuoteModal from '@/components/CreateQuoteModal.vue'
+import EditQuoteModal from '@/components/EditQuoteModal.vue'
 import AuthModal from '@/components/AuthModal.vue'
 
-const { isAuthenticated } = useAuth()
+const { user, isAuthenticated, logout } = useAuth()
+const toast = useToast()
 
 const quotes = ref<Quote[]>([])
 const tags = ref<TagResponse[]>([])
@@ -109,17 +130,34 @@ const total = ref(0)
 const limit = 30
 
 const totalPages = computed(() => Math.ceil(total.value / limit))
+const userInitials = computed(() => {
+  const name = user.value?.display_name || user.value?.username || ''
+  return name.charAt(0).toUpperCase() || '?'
+})
 
 // Modals
 const showAuth = ref(false)
 const showCreate = ref(false)
+const showEdit = ref(false)
 const showModal = ref(false)
 const selectedQuote = ref<Quote | null>(null)
+const editingQuote = ref<Quote | null>(null)
 
 let debounceTimer: ReturnType<typeof setTimeout>
 function debouncedFetch() {
   clearTimeout(debounceTimer)
   debounceTimer = setTimeout(() => { page.value = 1; fetchQuotesData() }, 300)
+}
+
+function sortRandom() { sort.value = 'random'; reloadQuotes() }
+function sortLatest() { sort.value = 'latest'; reloadQuotes() }
+
+function prevPage() {
+  if (page.value > 1) { page.value--; reloadQuotes() }
+}
+
+function nextPage() {
+  if (page.value < totalPages.value) { page.value++; reloadQuotes() }
 }
 
 async function reloadQuotes() {
@@ -137,8 +175,9 @@ async function fetchQuotesData() {
     })
     quotes.value = result.quotes || []
     total.value = result.total || 0
-  } catch (e) {
+  } catch (e: any) {
     console.error('Failed to fetch quotes:', e)
+    toast.error('Failed to load quotes')
   } finally {
     loading.value = false
   }
@@ -155,18 +194,24 @@ function openQuote(quote: Quote) {
   showModal.value = true
 }
 
-function editQuote(quote: Quote) {
-  // TODO: open edit modal
-  console.log('Edit:', quote)
+function startEdit(quote: Quote) {
+  editingQuote.value = quote
+  showEdit.value = true
+}
+
+function handleLogout() {
+  logout()
+  toast.info('Logged out')
 }
 
 async function confirmDelete(quote: Quote) {
   if (!confirm('Delete this quote?')) return
   try {
     await deleteQuote(quote.id)
+    toast.success('Quote deleted')
     await reloadQuotes()
-  } catch (e) {
-    alert('Failed to delete quote')
+  } catch {
+    toast.error('Failed to delete quote')
   }
 }
 

@@ -11,6 +11,18 @@
       <router-view />
     </main>
     <AppFooter />
+
+    <!-- Toast notifications -->
+    <div class="toast toast-end toast-bottom z-[200]">
+      <div
+        v-for="t in toasts"
+        :key="t.id"
+        :class="['alert shadow-lg', alertClass(t.type)]"
+      >
+        <span>{{ t.message }}</span>
+        <button @click="dismiss(t.id)" class="btn btn-ghost btn-xs">✕</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,6 +30,18 @@
 import { useHead } from '@unhead/vue'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
+import { useToast, type ToastType } from '@/composables/useToast'
+
+const { toasts, dismiss } = useToast()
+
+function alertClass(type: ToastType) {
+  const map: Record<ToastType, string> = {
+    success: 'alert-success',
+    error: 'alert-error',
+    info: 'alert-info',
+  }
+  return map[type]
+}
 
 const siteUrl = 'https://abuamar.online'
 
