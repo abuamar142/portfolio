@@ -40,8 +40,8 @@
       <!-- Sort -->
       <div class="flex items-center gap-2 mb-6 justify-end">
         <span class="text-sm text-zinc-500 dark:text-zinc-400">Sort:</span>
-        <button @click="sort = 'random'; fetchQuotes()" :class="['text-sm px-3 py-1 rounded', sort === 'random' ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300']">Random</button>
-        <button @click="sort = 'latest'; fetchQuotes()" :class="['text-sm px-3 py-1 rounded', sort === 'latest' ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300']">Latest</button>
+        <button @click="sort = 'random'; reloadQuotes()" :class="['text-sm px-3 py-1 rounded', sort === 'random' ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300']">Random</button>
+        <button @click="sort = 'latest'; reloadQuotes()" :class="['text-sm px-3 py-1 rounded', sort === 'latest' ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-900' : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300']">Latest</button>
       </div>
 
       <!-- Loading -->
@@ -73,9 +73,9 @@
 
       <!-- Pagination -->
       <div v-if="totalPages > 1" class="flex justify-center gap-2 mt-8">
-        <button @click="page > 1 && (page--, fetchQuotes())" :disabled="page <= 1" class="px-3 py-1.5 rounded border border-zinc-300 dark:border-zinc-600 disabled:opacity-40 text-sm">Prev</button>
+        <button @click="page > 1 && (page--, reloadQuotes())" :disabled="page <= 1" class="px-3 py-1.5 rounded border border-zinc-300 dark:border-zinc-600 disabled:opacity-40 text-sm">Prev</button>
         <span class="px-3 py-1.5 text-sm text-zinc-500">{{ page }} / {{ totalPages }}</span>
-        <button @click="page < totalPages && (page++, fetchQuotes())" :disabled="page >= totalPages" class="px-3 py-1.5 rounded border border-zinc-300 dark:border-zinc-600 disabled:opacity-40 text-sm">Next</button>
+        <button @click="page < totalPages && (page++, reloadQuotes())" :disabled="page >= totalPages" class="px-3 py-1.5 rounded border border-zinc-300 dark:border-zinc-600 disabled:opacity-40 text-sm">Next</button>
       </div>
     </div>
 
@@ -122,7 +122,7 @@ function debouncedFetch() {
   debounceTimer = setTimeout(() => { page.value = 1; fetchQuotesData() }, 300)
 }
 
-async function fetchQuotes() {
+async function reloadQuotes() {
   await fetchQuotesData()
 }
 
@@ -164,7 +164,7 @@ async function confirmDelete(quote: Quote) {
   if (!confirm('Delete this quote?')) return
   try {
     await deleteQuote(quote.id)
-    await fetchQuotes()
+    await reloadQuotes()
   } catch (e) {
     alert('Failed to delete quote')
   }
