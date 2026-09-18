@@ -1,14 +1,16 @@
 import { ref, computed } from 'vue'
 import type { AuthUser } from '@/types/quote'
 
+const isClient = typeof window !== 'undefined'
+
 const user = ref<AuthUser | null>(null)
-const token = ref<string>(localStorage.getItem('quote_access_token') || '')
+const token = ref<string>(isClient ? (localStorage.getItem('quote_access_token') || '') : '')
 const isAuthenticated = computed(() => !!token.value && !!user.value)
 
 export function useAuth() {
   function setToken(newToken: string) {
     token.value = newToken
-    localStorage.setItem('quote_access_token', newToken)
+    if (isClient) localStorage.setItem('quote_access_token', newToken)
   }
 
   function setUser(newUser: AuthUser) {
@@ -18,11 +20,14 @@ export function useAuth() {
   function logout() {
     token.value = ''
     user.value = null
-    localStorage.removeItem('quote_access_token')
-    localStorage.removeItem('quote_user')
+    if (isClient) {
+      localStorage.removeItem('quote_access_token')
+      localStorage.removeItem('quote_user')
+    }
   }
 
   function loadStoredUser() {
+    if (!isClient) return
     const stored = localStorage.getItem('quote_user')
     if (stored) {
       try {
@@ -33,7 +38,7 @@ export function useAuth() {
 
   function storeUser(u: AuthUser) {
     user.value = u
-    localStorage.setItem('quote_user', JSON.stringify(u))
+    if (isClient) localStorage.setItem('quote_user', JSON.stringify(u))
   }
 
   // Load on init
