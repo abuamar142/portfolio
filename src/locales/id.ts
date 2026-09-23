@@ -136,6 +136,12 @@ export default {
     title: 'Kutipan',
     dek: 'Kata-kata yang layak dibagikan',
   },
+  theme: {
+    label: 'Tema',
+    system: 'Sistem',
+    light: 'Terang',
+    dark: 'Gelap',
+  },
   footer: {
     built: 'Dibangun dengan Vue 3 & Vite',
     backToTop: 'Kembali ke atas',

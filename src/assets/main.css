@@ -7,14 +7,17 @@
 
 /* ───────────────────────────────────────────────────────────────────────────
    Theme — "portfolio": cream dossier canvas, terracotta signal, dark colophon.
-   Single source of truth for colour. Light only, by design.
+   Single source of truth for colour. Light default; the dark twin lives in
+   the unlayered [data-theme="portfolio-dark"] block at the end of this file,
+   painted by the index.html prepaint script + src/composables/useTheme.ts.
 
-   Contrast budget (WCAG AA, measured against canvas #F3F4EF):
+   Contrast budget light (WCAG AA, measured against canvas #F3F4EF):
      base-content #1C2422  14.4:1     ink-2 #39443F   9.1:1
-     ink-3        #4E5A56   6.5:1     ink-4 #66716D   4.6:1
-     primary      #B8442A   5.0:1 (white on it: 5.5:1)
+     ink-3        #4E5A56  6.5:1     ink-4 #66716D   4.6:1
+     primary      #B8442A  5.0:1 (white on it: 5.5:1)
    voltage #D65A3A is 3.5:1 → marks, dots and rules ONLY, never small text.
    voltage-light #E27A5F is 5.2:1 on the dark footer → text there.
+   (Dark budget: documented in the portfolio-dark block at the file end.)
    ─────────────────────────────────────────────────────────────────────────── */
 @plugin "daisyui/theme" {
   name: "portfolio";
@@ -28,10 +31,6 @@
 
   --color-primary: #b8442a;
   --color-primary-content: #ffffff;
-  --color-secondary: #416b63;
-  --color-secondary-content: #f3f4ef;
-  --color-accent: #1a8f70;
-  --color-accent-content: #01130f;
   --color-neutral: #1d2826;
   --color-neutral-content: #f3f4ef;
 
@@ -39,8 +38,6 @@
   --color-info-content: #f3f4ef;
   --color-success: #157a5f;
   --color-success-content: #ffffff;
-  --color-warning: #8a5a14;
-  --color-warning-content: #ffffff;
   --color-error: #a33b26;
   --color-error-content: #ffffff;
 
@@ -78,9 +75,6 @@
   /* Same value by design (as in the reference): light rule AND hover fill. */
   --color-hairline-light: #e2e8e2;
   --color-surface-green: #e2e8e2;
-
-  --color-data-mark: #1a8f70;
-  --color-data-secondary: #416b63;
 }
 
 /* ── Base ─────────────────────────────────────────────────────────────────── */
@@ -855,4 +849,52 @@
   .row:hover, .row:focus-within, .lift:hover { transform: none !important; }
   .action .arrow, .row-arrow { transition: none !important; transform: none !important; }
   .spine-progress { animation: none !important; display: none; }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Dark canvas — "portfolio-dark". Deliberately UNLAYERED: unlayered CSS wins
+   over @layer output (Tailwind @theme + daisyUI plugin) regardless of source
+   order, so this single block is the whole switch. Activated by
+   <html data-theme="portfolio-dark"> — index.html prepaint script first
+   (anti-FOUC), then useTheme() on toggle; system mode follows the OS.
+
+   Contrast budget dark (WCAG AA, measured against canvas #14161A):
+     base-content #F0F2F4 16.1:1     ink-2 #C9CFCC 11.5:1
+     ink-3        #A4ABA8  7.7:1     ink-4 #8B928E  5.7:1
+     voltage-ink  #E27A5F  6.2:1 (text: links, actions, focus, hover)
+     error        #D9634A  5.0:1 (modal error text — light value scores 2.8)
+   voltage #D65A3A rises to 4.6:1 but stays marks/dots/rules ONLY (identity).
+   Footer colophon (#1D2826) and fill pairings keep their light values:
+     neutral-content 13.7:1, voltage-light on it 5.2:1, white on primary 5.4:1.
+   ─────────────────────────────────────────────────────────────────────────── */
+[data-theme='portfolio-dark'] {
+  color-scheme: dark;
+
+  --color-base-100: #14161a;
+  --color-base-200: #1b1f1d;
+  --color-base-300: #2c322e;
+  --color-base-content: #f0f2f4;
+
+  --color-primary: #b8442a;
+  --color-primary-content: #ffffff;
+  --color-neutral: #1d2826;
+  --color-neutral-content: #f3f4ef;
+
+  --color-info: #416b63;
+  --color-info-content: #f3f4ef;
+  --color-success: #157a5f;
+  --color-success-content: #ffffff;
+  --color-error: #d9634a;
+  --color-error-content: #ffffff;
+
+  --color-ink-2: #c9cfcc;
+  --color-ink-3: #a4aba8;
+  --color-ink-4: #8b928e;
+
+  --color-voltage: #d65a3a;
+  --color-voltage-ink: #e27a5f;
+  --color-voltage-light: #e27a5f;
+
+  --color-hairline-light: #262c28;
+  --color-surface-green: #1f2421;
 }

@@ -132,6 +132,12 @@ export default {
     title: 'Quotes',
     dek: 'Words worth sharing',
   },
+  theme: {
+    label: 'Theme',
+    system: 'System',
+    light: 'Light',
+    dark: 'Dark',
+  },
   footer: {
     built: 'Built with Vue 3 & Vite',
     backToTop: 'Back to top',

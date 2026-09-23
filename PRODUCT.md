@@ -32,7 +32,7 @@ Full Stack + Mobile Expertise — one person who can handle the entire stack fro
 - Dynamic data from MongoDB via Payload CMS backend
 - Blog section with search and category filtering
 - Multiple deployed projects with live demos
-- Light editorial dossier design system: Tailwind CSS v4 + daisyUI v5 custom theme (`portfolio`) — cream canvas (#F3F4EF), Source Serif 4 body, Newsreader display, IBM Plex Sans/Mono labels and data, single terracotta accent, numbered sections with a desktop spine rail, sharp (radius 0) shapes, dark colophon footer
+- Editorial dossier design system: Tailwind CSS v4 + daisyUI v5 custom themes (`portfolio` light default, `portfolio-dark` via `html[data-theme]`) — cream canvas (#F3F4EF) / charcoal dark canvas (#14161A), light·dark·system toggle (localStorage `portfolio-theme`, prepaint anti-FOUC), Source Serif 4 body, Newsreader display, IBM Plex Sans/Mono labels and data, single terracotta accent, numbered sections with a desktop spine rail, sharp (radius 0) shapes, dark colophon footer
 - Auto-renews SSL, CI/CD via GitHub Actions
 
 ## Evidence on Hand

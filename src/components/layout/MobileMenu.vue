@@ -27,7 +27,10 @@
           </li>
         </ul>
         <div class="mt-3 flex items-center justify-between gap-3 border-t border-hairline-light pt-3">
-          <LanguageDropdown />
+          <div class="flex items-center gap-4">
+            <LanguageDropdown />
+            <ThemeToggle />
+          </div>
           <a :href="resumeHref" target="_blank" rel="noopener" class="btn btn-sm min-h-11">
             {{ $t('hero.cta.resume') }}
           </a>
@@ -40,6 +43,7 @@
 <script setup lang="ts">
 import { ArrowUpRight } from 'lucide-vue-next'
 import LanguageDropdown from '@/components/LanguageDropdown.vue'
+import ThemeToggle from '@/components/ThemeToggle.vue'
 
 interface MenuItem {
   href: string

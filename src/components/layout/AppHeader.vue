@@ -40,6 +40,7 @@
 
       <div class="flex shrink-0 items-center gap-3">
         <LanguageDropdown />
+        <ThemeToggle />
         <button
           type="button"
           class="btn btn-ghost btn-square size-11 min-[1200px]:hidden"
@@ -84,6 +85,7 @@ import { useRoute } from 'vue-router'
 import { Menu, X } from 'lucide-vue-next'
 import LanguageDropdown from '@/components/LanguageDropdown.vue'
 import MobileMenu from '@/components/layout/MobileMenu.vue'
+import ThemeToggle from '@/components/ThemeToggle.vue'
 import { SITE_RESUME_PATH, useIdentity } from '@/composables/useIdentity'
 import { usePortfolio } from '@/composables/usePortfolio'
 
