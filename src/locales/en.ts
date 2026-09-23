@@ -7,7 +7,6 @@ export default {
     education: 'Education',
     achievements: 'Achievements',
     blog: 'Blog',
-    quotes: 'Quotes',
     explore: 'Explore',
     contact: 'Contact',
   },
@@ -36,12 +35,9 @@ export default {
       resume: 'Resume',
     },
     labels: {
-      location: 'Location',
       email: 'Email',
-      phone: 'Phone',
       github: 'GitHub',
       linkedin: 'LinkedIn',
-      resume: 'Download resume (PDF)',
     },
     stats: {
       experience: 'Years building',
@@ -74,7 +70,6 @@ export default {
       github: 'GitHub',
       demo: 'Live Demo',
       viewAll: 'View all',
-      seeMore: 'See More',
       seeLess: 'See Less',
     },
   },
@@ -118,12 +113,6 @@ export default {
     cards: {
       email: {
         title: 'Email',
-      },
-      location: {
-        title: 'Location',
-      },
-      phone: {
-        title: 'Phone',
       },
     },
     social: 'Connect with me',

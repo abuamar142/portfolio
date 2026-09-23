@@ -106,7 +106,7 @@ const sectionNav = [
   { id: 'contact', no: '07', label: 'navigation.contact' },
 ]
 
-/** Mobile menu: numbered sections plus the blog route. */
+/** Mobile menu: numbered sections plus the explore route. */
 const fullNav = [
   ...sectionNav.map((item) => ({
     href: `#${item.id}`,

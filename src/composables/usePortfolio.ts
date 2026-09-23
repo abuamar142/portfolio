@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import type { Portfolio } from '@/types/portfolio'
-import { fetchPortfolioData } from '@/services/mongodb'
+import { fetchPortfolioData } from '@/services/portfolio'
 
 // Shared state - singleton pattern
 const portfolio = ref<Portfolio | null>(null)

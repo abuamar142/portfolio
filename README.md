@@ -1,167 +1,107 @@
-# 🚀 Portfolio - M. Abu Amar Al Badawi
+# Portfolio - M. Abu Amar Al Badawi
 
-> Software Engineer passionate about Mobile Development & Full-Stack Solutions
+> Mobile & Full Stack Developer. Production projects, writing, and quotes in one editorial dossier.
 
 [![Vue.js](https://img.shields.io/badge/Vue.js-3.x-4FC08D?style=flat&logo=vue.js&logoColor=white)](https://vuejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38B2AC?style=flat&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![daisyUI](https://img.shields.io/badge/daisyUI-5.x-5A0EF8?style=flat&logo=daisyui&logoColor=white)](https://daisyui.com/)
 
-## ✨ Overview
+## Overview
 
-A modern, responsive portfolio showcasing my journey as a Software Engineer specializing in Mobile Development with Flutter, React, and Full-Stack technologies.
+A prerendered, bilingual portfolio (Indonesian default, English fallback) that presents shipped work at a glance: case-study ledger, writing, and a quotes surface with auth-gated publishing.
 
-**🌟 Live Demo:** [abuamar.online](https://abuamar.online)
+**Live demo:** [abuamar.online](https://abuamar.online)
 
-## 🛠️ Tech Stack
+## Tech stack
 
-- **Frontend:** Vue.js 3 + TypeScript + Composition API
-- **Database:** MongoDB Atlas
-- **Backend API:** Separate Express.js project ([backend.abuamar.online](https://backend.abuamar.online))
-- **Styling:** Tailwind CSS v4 + daisyUI v5 — custom `portfolio` dark theme, serif display type (Newsreader), mono meta labels (JetBrains Mono)
-- **Build Tool:** Vite + vite-ssg (prerendered pages + sitemap)
+- **Framework:** Vue 3 + TypeScript + Composition API, vue-router
+- **Styling:** Tailwind CSS v4 + daisyUI v5 with two custom themes (`portfolio` light, `portfolio-dark`) and a light / dark / system toggle resolved before first paint. Type: Newsreader display, Source Serif 4 body, IBM Plex Sans chrome, IBM Plex Mono data.
+- **Internationalization:** vue-i18n - Indonesian default locale, English fallback
+- **Build:** Vite + vite-ssg - seven prerendered pages plus sitemap; `bun scripts/cv/generate.ts` refreshes `public/cv.pdf` before every build
 - **Icons:** lucide-vue-next
-- **Deployment:** GitHub Actions → VPS (main → production, development → dev.abuamar.online)
+- **Content:** experience / projects / skills / achievements from MongoDB Atlas through a separate Express backend ([backend.abuamar.online](https://backend.abuamar.online)); posts published from Payload CMS
+- **CI/CD:** GitHub Actions over SSH to the VPS - `main` deploys production, `development` deploys dev.abuamar.online
 
-## 🚀 Quick Start
-
-### Development Setup
+## Quick start
 
 ```bash
-# Clone & install
 git clone https://github.com/abuamar142/portfolio.git
 cd portfolio
-npm install
-
-# Set up environment variables
+bun install
 cp .env.example .env.local
-# Edit .env.local with your backend API URL
-
-# Start frontend development
-npm run dev
+# set VITE_BACKEND_URL in .env.local
+bun run dev
 ```
 
-### Development Commands
+### Commands
+
+| Command | Purpose |
+| --- | --- |
+| `bun run dev` | Start the dev server |
+| `bun run build` | Type-check, regenerate CV, prerender production build |
+| `bun run preview` | Preview the `dist` build |
+| `bun run lint` | ESLint with autofix |
+| `bun run type-check` | `vue-tsc` project check |
+| `bun run format` | Prettier over `src/` |
+| `bun run generate-cv` | Rebuild `public/cv.pdf` from portfolio data |
+
+## Deployment
+
+Every push to `main` or `development` triggers the **Deploy Portfolio to VPS** workflow: it opens an SSH session with the repository's VPS secrets and runs `/opt/ops/bin/deploy-portfolio.sh <branch>`. Concurrent runs for the same ref cancel each other.
+
+Environment variable for production:
 
 ```bash
-# Start frontend development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# For development with local backend (optional)
-npm run api-server  # Start local API server
-npm run dev:full    # Start both API server and frontend
-
-# Start only API server
-npm run api-server
-
-# Start both API server and frontend
-npm run dev:full
-
-# Test MongoDB connection (for development only)
-npm run test-mongo
-```
-
-## 🚀 Deployment
-
-### Production Architecture
-
-```
-Frontend (Vue.js) → Backend API → MongoDB Atlas
-    Vercel           Vercel       Cloud Database
-```
-
-### Environment Variables for Production
-
-```bash
-# Vercel Environment Variables
 VITE_BACKEND_URL=https://backend.abuamar.online
 ```
 
-### Deploy to Vercel
+## Features
 
-1. Fork this repository
-2. Connect to Vercel
-3. Add environment variable: `VITE_BACKEND_URL=https://backend.abuamar.online`
-4. Deploy automatically
+- Light / dark / system theme with an icon toggle in the masthead and mobile menu
+- Editorial dossier layout: fixed numbered spine on desktop, numbered section strip on small screens, mobile menu
+- Blog list with search and category filters, per-post detail pages, quotes with auth-gated CRUD
+- Reveal and rise motion that fully yields to `prefers-reduced-motion`
+- Every text token measured against its canvas (contrast budgets documented in `src/assets/main.css`)
+- Toast notifications, loading skeletons, and retryable error states
 
-## 🎨 Features
-
-- 🌙 **Dracula Theme** - Beautiful dark theme with purple accents
-- 📱 **Fully Responsive** - Perfect on all devices
-- ⚡ **Fast & Optimized** - Built with Vite for optimal performance
-- 🎯 **TypeScript** - Full type safety
-- 🎨 **Smooth Animations** - Engaging user experience
-- 🔄 **Real-time Data** - Content managed via separate backend API
+## Structure
 
 ```
-
-# Start development
-
-npm run dev
-
-# Build for production
-
-npm run build
-
-```
-
-## 🎨 Features
-
-- 🌙 **Dracula Theme** - Beautiful dark theme with purple accents
-- 📱 **Fully Responsive** - Perfect on all devices
-- ⚡ **Fast & Optimized** - Built with Vite for optimal performance
-- 🎯 **TypeScript** - Full type safety
-- 🎨 **Smooth Animations** - Engaging user experience
-
-## 📁 Structure
-
-```
-
 src/
+├── assets/          # main.css: tokens, components layer, dark theme block
 ├── components/
-│ ├── layout/ # Header, Footer
-│ ├── sections/ # Hero, About, Experience, Projects, Skills, Contact
-│ └── ui/ # Reusable components
-├── data/ # Portfolio content
-├── types/ # TypeScript definitions
-└── assets/ # Styles & static files
-
+│   ├── layout/      # AppHeader, MobileMenu, AppFooter
+│   ├── sections/    # Hero, About, Experience, Projects, Skills, Contact
+│   └── ui/          # SectionHeader, BaseButton, SearchInput, cards, states
+├── composables/     # useAuth, usePortfolio, usePosts, useTheme, useToast, ...
+├── locales/         # en.ts, id.ts
+├── pages/           # HomePage, BlogsList, BlogDetail, ExplorePage, QuotesPage, NotFound
+├── router/          # routes + SSG registration
+├── services/        # backend API client, MongoDB helper
+└── types/           # shared TypeScript contracts
+scripts/cv/          # CV generator (PDF)
+public/              # cv.pdf, og image, robots.txt
+.github/workflows/   # deploy.yml - VPS deployment
 ```
 
-## �‍💻 About Me
+## About
 
 **Software Engineer** | **Mobile Developer** | **Full-Stack Enthusiast**
 
-🎓 Informatika Student at Universitas Jenderal Achmad Yani Yogyakarta
-💼 Full-Stack Software Engineer Intern at Refactory
-🏆 Bangkit Academy 2024 Graduate (Mobile Development)
+- Informatika student at Universitas Jenderal Achmad Yani Yogyakarta
+- Full-Stack Software Engineer Intern at Refactory
+- Bangkit Academy 2024 Graduate (Mobile Development)
 
-### 🛠️ Core Skills
+### Core skills
 
 - **Mobile:** Flutter, Dart, Kotlin, Android
 - **Web:** React, Vue.js, TypeScript, JavaScript
 - **Backend:** Supabase, REST APIs
 - **Tools:** Git, GitHub Actions, Linux
 
-## 📞 Connect
+## Connect
 
-- 📧 **Email:** [abuamar.albadawi@gmail.com](mailto:abuamar.albadawi@gmail.com)
-- 🌐 **GitHub:** [@abuamar142](https://github.com/abuamar142)
-- 📍 **Location:** Bantul, Indonesia
-
----
-
-<div align="center">
-
-**Built with ❤️ using Vue.js & TypeScript**
-
-⭐ Star this repo if you like it!
-
-</div>
-```
+- **Email:** [abuamar.albadawi@gmail.com](mailto:abuamar.albadawi@gmail.com)
+- **GitHub:** [@abuamar142](https://github.com/abuamar142)
+- **Location:** Bantul, Indonesia

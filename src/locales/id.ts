@@ -7,7 +7,6 @@ export default {
     education: 'Pendidikan',
     achievements: 'Pencapaian',
     blog: 'Blog',
-    quotes: 'Kutipan',
     explore: 'Jelajahi',
     contact: 'Kontak',
   },
@@ -30,21 +29,15 @@ export default {
   hero: {
     badge: 'Terbuka untuk peluang',
     greeting: 'Halo, saya',
-    role: 'Mobile & Full Stack Developer',
-    subtitle:
-      'Saya merilis perangkat lunak produksi end to end: aplikasi mobile, frontend web, API backend, dan infrastruktur di belakangnya.',
     cta: {
       projects: 'Lihat proyek',
       contact: 'Hubungi Saya',
       resume: 'CV',
     },
     labels: {
-      location: 'Lokasi',
       email: 'Email',
-      phone: 'Telepon',
       github: 'GitHub',
       linkedin: 'LinkedIn',
-      resume: 'Unduh CV (PDF)',
     },
     stats: {
       experience: 'Tahun berkarya',
@@ -53,7 +46,6 @@ export default {
     },
   },
   about: {
-    body: 'Software engineer di ranah mobile dan full stack. Mahasiswa Informatika di Yogyakarta dengan pengalaman full stack di Refactory dan pelatihan mobile di Bangkit Academy. Saya merilis produk ke produksi, dari model data hingga deployment, dengan Linux harian.',
     stats: {
       years: 'Tahun berkarya',
       projects: 'Proyek dirilis',
@@ -78,7 +70,6 @@ export default {
       github: 'GitHub',
       demo: 'Demo Langsung',
       viewAll: 'Lihat Semua',
-      seeMore: 'Lihat Semua',
       seeLess: 'Sembunyikan',
     },
   },
@@ -122,12 +113,6 @@ export default {
     cards: {
       email: {
         title: 'Email',
-      },
-      location: {
-        title: 'Lokasi',
-      },
-      phone: {
-        title: 'Telepon',
       },
     },
     social: 'Terhubung dengan saya',
