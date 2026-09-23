@@ -26,8 +26,10 @@ export function useIdentity() {
   })
 
   const phoneHref = computed(() => {
+    const whatsApp = identity.value?.whatsApp
+    if (whatsApp) return whatsApp
     const phone = identity.value?.phone ?? ''
-    return `tel:${phone.replace(/[^+\d]/g, '')}`
+    return `https://wa.me/${phone.replace(/[^+\d]/g, '').replace('+', '')}`
   })
 
   return { identity, initials, phoneHref }
