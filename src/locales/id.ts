@@ -185,6 +185,12 @@ export default {
     welcomeToast: 'Selamat datang kembali!',
     somethingWrong: 'Terjadi kesalahan',
   },
+  errors: {
+    title: 'Terjadi kesalahan',
+    retry: 'Coba lagi',
+    hint: 'Periksa koneksi Anda atau coba lagi nanti',
+    load: 'Gagal memuat data',
+  },
   theme: {
     label: 'Tema',
     system: 'Sistem',

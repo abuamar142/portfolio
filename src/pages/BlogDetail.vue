@@ -19,7 +19,6 @@
       <!-- Error -->
       <div v-else-if="error" class="panel mt-8 max-w-[45rem] p-8" role="alert">
         <p class="text-base-content">{{ $t('blog.postNotFound') }}</p>
-        <p class="mt-2 font-mono text-[11px] text-ink-3">{{ error }}</p>
         <BaseButton class="mt-6" variant="outline" size="sm" to="/blogs">
           {{ $t('blog.backToList') }}
         </BaseButton>

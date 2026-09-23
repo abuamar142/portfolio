@@ -63,7 +63,6 @@
       <!-- Error -->
       <div v-else-if="error" class="panel mt-12 p-8 text-center" role="alert">
         <p class="text-base-content">{{ $t('blog.error') }}</p>
-        <p class="mt-2 font-mono text-[11px] text-ink-3">{{ error }}</p>
         <BaseButton class="mt-6" variant="outline" size="sm" @click="loadPosts">
           {{ $t('blog.retry') }}
         </BaseButton>

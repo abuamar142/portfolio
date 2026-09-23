@@ -22,8 +22,7 @@
 
       <!-- Error -->
       <div v-else-if="error" class="panel mt-12 max-w-xl p-8" role="alert">
-        <p class="text-base-content text-lg">{{ $t('quotes.notFound') }}</p>
-        <p class="mt-2 font-mono text-[11px] text-ink-3">{{ error }}</p>
+        <p class="text-base-content text-lg">{{ error }}</p>
         <BaseButton class="mt-6" variant="outline" size="sm" to="/quotes">
           {{ $t('quotes.backToList') }}
         </BaseButton>
@@ -120,7 +119,7 @@ onMounted(async () => {
     if (err.response?.status === 404) {
       error.value = t('quotes.notFound')
     } else {
-      error.value = err.message || t('quotes.loadFailed')
+      error.value = t('quotes.loadFailed')
     }
   } finally {
     loading.value = false

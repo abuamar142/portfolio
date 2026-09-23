@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-base-100">
     <HomePageSkeleton v-if="loading" />
-    <ErrorState v-else-if="error" :message="error || 'Unknown error occurred'" @retry="refresh" />
+    <ErrorState v-else-if="error" :message="$t('errors.load')" @retry="refresh" />
 
     <div v-else>
       <HeroSection />

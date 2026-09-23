@@ -185,6 +185,12 @@ export default {
     welcomeToast: 'Welcome back!',
     somethingWrong: 'Something went wrong',
   },
+  errors: {
+    title: 'Something went wrong',
+    retry: 'Try again',
+    hint: 'Check your connection or try again later',
+    load: 'Failed to load data',
+  },
   theme: {
     label: 'Theme',
     system: 'System',
