@@ -79,7 +79,7 @@
         <li v-for="post in filteredPosts" :key="post._id" class="row">
           <router-link :to="`/blogs/${post.slug}`" class="group block py-6">
             <div v-if="post.tags && post.tags.length" class="flex flex-wrap gap-2">
-              <span v-for="tag in post.tags.slice(0, 3)" :key="tag.tag || tag" class="chip">
+              <span v-for="tag in post.tags.slice(0, 3)" :key="tag.tag || String(tag)" class="chip">
                 {{ tag.tag || tag }}
               </span>
             </div>
@@ -146,7 +146,7 @@ import { computed, onMounted, onServerPrefetch, ref, watch } from 'vue'
 import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft, ArrowRight } from 'lucide-vue-next'
-import { usePosts } from '@/composables/usePosts'
+import { usePosts, type Post } from '@/composables/usePosts'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
@@ -168,7 +168,7 @@ useHead({
 
 const { locale } = useI18n()
 const { listPublished } = usePosts()
-const posts = ref<any[]>([])
+const posts = ref<Post[]>([])
 const loading = ref(false)
 const error = ref('')
 const searchQuery = ref('')
@@ -183,7 +183,7 @@ const filteredPosts = computed(() => {
   if (!selectedCategory.value) return posts.value
   const cat = selectedCategory.value.toLowerCase()
   return posts.value.filter((p) => {
-    const tags = (p.tags || []).map((t: any) => (t.tag || t).toLowerCase())
+    const tags = (p.tags || []).map((t) => (typeof t === 'string' ? t : (t.tag ?? '')).toLowerCase())
     return tags.some((t: string) => t.includes(cat)) || (p.title || '').toLowerCase().includes(cat)
   })
 })
@@ -199,8 +199,8 @@ async function loadPosts() {
     })
     posts.value = r.posts
     totalPosts.value = r.total
-  } catch (e: any) {
-    error.value = e?.message || 'Failed to load posts'
+  } catch (e: unknown) {
+    error.value = (e instanceof Error ? e.message : null) || 'Failed to load posts'
   } finally {
     loading.value = false
   }
@@ -229,7 +229,7 @@ function goToPage(p: number) {
   loadPosts()
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
-function estimateReadingTime(post: any) {
+function estimateReadingTime(post: Post) {
   return Math.max(1, Math.ceil((post.excerpt || post.contentHtml || '').split(/\s+/).length / 200))
 }
 function formatDate(iso?: string | null) {

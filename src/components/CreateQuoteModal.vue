@@ -115,8 +115,10 @@ async function handleSubmit() {
     toast.success('Quote posted!')
     emit('created')
     emit('close')
-  } catch (e: any) {
-    const msg = e.response?.data?.error?.details || e.response?.data?.message || 'Failed to create quote'
+  } catch (e: unknown) {
+    type AxiosLike = { response?: { data?: { error?: { details?: string }; message?: string } } }
+    const err = (e && typeof e === 'object' && 'response' in e) ? (e as AxiosLike) : null
+    const msg = err?.response?.data?.error?.details || err?.response?.data?.message || 'Failed to create quote'
     error.value = msg
     toast.error(msg)
   } finally {

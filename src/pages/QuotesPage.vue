@@ -175,7 +175,7 @@ async function fetchQuotesData() {
     })
     quotes.value = result.quotes || []
     total.value = result.total || 0
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error('Failed to fetch quotes:', e)
     toast.error('Failed to load quotes')
   } finally {

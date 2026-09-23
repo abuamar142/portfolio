@@ -3,6 +3,39 @@ import axios from 'axios'
 
 const BACKEND_API = import.meta.env.VITE_BACKEND_URL || 'https://backend.abuamar.online'
 
+export interface PostTag {
+  tag?: string
+}
+
+export interface PostCover {
+  url?: string
+}
+
+export interface PostContent {
+  html?: string
+}
+
+export interface Post {
+  _id?: string
+  id?: string
+  slug: string
+  title: string
+  status?: string
+  excerpt?: string
+  publishedAt?: string
+  locale?: string
+  contentHtml?: string
+  content?: PostContent
+  coverImage?: PostCover
+  cover?: PostCover
+  tags?: PostTag[]
+}
+
+interface PostsEnvelope {
+  posts: Post[]
+  total: number
+}
+
 export function usePosts() {
   const loading = ref(false)
   const errorMsg = ref<string | null>(null)
@@ -12,7 +45,7 @@ export function usePosts() {
     search,
     limit = 20,
     offset = 0,
-  }: { locale?: string; search?: string; limit?: number; offset?: number } = {}) {
+  }: { locale?: string; search?: string; limit?: number; offset?: number } = {}): Promise<PostsEnvelope> {
     loading.value = true
     errorMsg.value = null
     try {
@@ -28,15 +61,15 @@ export function usePosts() {
       const posts = Array.isArray(raw) ? raw : (raw?.posts || [])
       const total = data.total ?? raw?.total ?? posts.length
       return { posts, total }
-    } catch (e: any) {
-      errorMsg.value = e.message
+    } catch (e: unknown) {
+      errorMsg.value = e instanceof Error ? e.message : String(e)
       throw e
     } finally {
       loading.value = false
     }
   }
 
-  async function getBySlug(slug: string, locale?: string | { locale?: string }) {
+  async function getBySlug(slug: string, locale?: string | { locale?: string }): Promise<Post | null> {
     loading.value = true
     errorMsg.value = null
     try {
@@ -50,22 +83,28 @@ export function usePosts() {
       })
       // Defensive: backend list = { success, data: [...] } but detail by slug = { success, data: {...single} }
       // Handle all known shapes: data.data array | data.data.posts | data.posts | data itself (single object)
-      const raw = body?.data ?? body
+      const raw = (body as Record<string, unknown>)?.data ?? body
       if (!raw) return null
-      if (Array.isArray(raw)) return raw[0] ?? null
-      if (Array.isArray((raw as any)?.posts)) return (raw as any).posts[0] ?? null
-      if (Array.isArray((body as any)?.posts)) return (body as any).posts[0] ?? null
+      if (Array.isArray(raw)) return (raw[0] as Post) ?? null
+      if (Array.isArray((raw as Record<string, unknown>)?.posts)) {
+        return ((raw as Record<string, unknown>).posts as Post[])[0] ?? null
+      }
+      if (Array.isArray((body as Record<string, unknown>)?.posts)) {
+        return ((body as Record<string, unknown>).posts as Post[])[0] ?? null
+      }
       // raw is single post object (has slug/id/title)
-      if (typeof raw === 'object' && ((raw as any).slug || (raw as any).id || (raw as any).title)) {
-        return raw as any
+      if (typeof raw === 'object' && ((raw as Post).slug || (raw as Post).id || (raw as Post).title)) {
+        return raw as Post
       }
       // nested fallback
-      const nested = (raw as any)?.data
-      if (Array.isArray(nested)) return nested[0] ?? null
-      if (Array.isArray(nested?.posts)) return nested.posts[0] ?? null
+      const nested = (raw as Record<string, unknown>)?.data
+      if (Array.isArray(nested)) return (nested[0] as Post) ?? null
+      if (Array.isArray((nested as Record<string, unknown>)?.posts)) {
+        return ((nested as Record<string, unknown>).posts as Post[])[0] ?? null
+      }
       return null
-    } catch (e: any) {
-      errorMsg.value = e.message
+    } catch (e: unknown) {
+      errorMsg.value = e instanceof Error ? e.message : String(e)
       throw e
     } finally {
       loading.value = false

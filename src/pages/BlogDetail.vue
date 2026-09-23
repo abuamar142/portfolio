@@ -31,7 +31,7 @@
       >
         <div class="min-w-0">
           <div v-if="post?.tags?.length" class="flex flex-wrap gap-2">
-            <span v-for="tag in post.tags" :key="tag.tag || tag" class="chip">
+            <span v-for="tag in post.tags" :key="tag.tag || String(tag)" class="chip">
               {{ tag.tag || tag }}
             </span>
           </div>
@@ -109,7 +109,7 @@
                 {{ $t('blog.tags') }}
               </dt>
               <dd class="mt-2 flex flex-wrap gap-1.5">
-                <span v-for="tag in post.tags" :key="tag.tag || tag" class="chip">
+                <span v-for="tag in post.tags" :key="tag.tag || String(tag)" class="chip">
                   {{ tag.tag || tag }}
                 </span>
               </dd>
@@ -189,7 +189,7 @@ import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft, Languages, Share2, X } from 'lucide-vue-next'
-import { usePosts } from '@/composables/usePosts'
+import { usePosts, type Post } from '@/composables/usePosts'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
 const route = useRoute()
@@ -203,7 +203,7 @@ const slug = computed(() => {
   }
 })
 const { getBySlug } = usePosts()
-const post = ref<any | null>(null)
+const post = ref<Post | null>(null)
 const loading = ref(true)
 const error = ref('')
 
@@ -287,7 +287,7 @@ function formatDate(iso?: string | null) {
 // If translation missing, Payload fallback:true returns defaultLocale (id) content.
 function toggleLocale() {
   const next = locale.value === 'en' ? 'id' : 'en'
-  locale.value = next as any
+  locale.value = next as never
   try {
     localStorage.setItem('portfolio-language', next)
   } catch {}
@@ -356,7 +356,7 @@ async function copyText(): Promise<boolean> {
   const text = shareUrl.value
   let ok = false
   try {
-    if (typeof navigator !== 'undefined' && navigator.clipboard && (window as any).isSecureContext) {
+    if (typeof navigator !== 'undefined' && navigator.clipboard && (window as { isSecureContext?: boolean }).isSecureContext) {
       await navigator.clipboard.writeText(text)
       ok = true
     } else {
@@ -393,7 +393,7 @@ async function handleShare() {
   const canNative = typeof navigator !== 'undefined' && !!navigator.share && isMobileUA()
   if (canNative) {
     try {
-      const nav: any = navigator as any
+      const nav = navigator as Navigator & { canShare?: (data: ShareData) => boolean; share?: (data: ShareData) => Promise<void> }
       if (typeof nav.canShare === 'function') {
         try {
           if (!nav.canShare({ title, text, url })) {
@@ -404,10 +404,10 @@ async function handleShare() {
           // ignore canShare throw, fall through to share attempt
         }
       }
-      await (navigator as any).share({ title, text, url })
+      await (navigator as Navigator & { share: (data: ShareData) => Promise<void> }).share({ title, text, url })
       return
-    } catch (e: any) {
-      if (e?.name === 'AbortError') return
+    } catch (e: unknown) {
+      if (e instanceof Error && e.name === 'AbortError') return
       // fallthrough to modal for other errors
     }
   }

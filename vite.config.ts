@@ -3,9 +3,6 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import generateSitemap from 'vite-ssg-sitemap'
-// Type-only import: pulls in vite-ssg's `declare module 'vite'` augmentation so
-// `ssgOptions` is contextually typed below.
-import type { ViteSSGOptions } from 'vite-ssg'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -22,10 +19,12 @@ export default defineConfig(({ mode }) => {
     try {
       const res = await fetch(`${apiBase}/api/v1/personal/posts?limit=100`)
       if (!res.ok) return []
-      const body: any = await res.json()
+      type PostSlugItem = { slug?: string }
+      type PostsBody = { data?: unknown; posts?: PostSlugItem[] }
+      const body = await res.json() as PostsBody
       const raw = body?.data ?? body
-      const posts = Array.isArray(raw) ? raw : (raw?.posts || [])
-      return posts.map((p: any) => String(p?.slug || '').trim()).filter(Boolean)
+      const posts = Array.isArray(raw) ? raw as PostSlugItem[] : ((raw as PostsBody)?.posts || [])
+      return posts.map((p) => String(p?.slug || '').trim()).filter(Boolean)
     } catch {
       // Never fail the build because the API hiccuped.
       return []
@@ -43,7 +42,7 @@ export default defineConfig(({ mode }) => {
       script: 'async',
       // Keep static routes ('/' and '/blogs'), swap '/blogs/:slug' for one
       // concrete path per post slug, and drop the ':pathMatch' catch-all.
-      async includedRoutes(paths) {
+      async includedRoutes(paths: string[]) {
         const staticPaths = paths.filter((p) => !p.includes(':') && !p.includes('*'))
         const slugs = await fetchPostSlugs()
         return staticPaths.concat(slugs.map((s) => `/blogs/${s}`))
@@ -52,7 +51,7 @@ export default defineConfig(({ mode }) => {
       // dirStyle; remap it to 'blogs/index.html' so the prerendered blog list
       // is served as the directory index while '/blogs/<slug>' pages stay at
       // 'blogs/<slug>.html' (matches the nginx $uri.html layout).
-      htmlFileName: (filename) => (filename === 'blogs.html' ? 'blogs/index.html' : undefined),
+      htmlFileName: (filename: string) => (filename === 'blogs.html' ? 'blogs/index.html' : undefined),
       async onFinished() {
         // Generate sitemap.xml only — robots.txt is a static file in public/.
         // The plugin auto-discovers every prerendered HTML file in dist, which

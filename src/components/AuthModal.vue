@@ -110,8 +110,10 @@ async function handleSubmit() {
     } else {
       await handleLogin(form.identifier, form.password)
     }
-  } catch (e: any) {
-    const msg = e.response?.data?.error?.details || e.response?.data?.message || 'Something went wrong'
+  } catch (e: unknown) {
+    type AxiosLike = { response?: { data?: { error?: { details?: string }; message?: string } } }
+    const err = (e && typeof e === 'object' && 'response' in e) ? (e as AxiosLike) : null
+    const msg = err?.response?.data?.error?.details || err?.response?.data?.message || 'Something went wrong'
     error.value = msg
     toast.error(msg)
   } finally {
