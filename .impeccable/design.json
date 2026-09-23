@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-23T20:12:26+07:00",
+  "title": "Design System: Abu Amar Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "archive-cream": { "role": "neutral", "displayName": "Archive Cream", "canonical": "#f3f4ef" },
+      "paper-white": { "role": "neutral", "displayName": "Paper White", "canonical": "#ffffff" },
+      "hairline-sage": { "role": "neutral", "displayName": "Hairline Sage", "canonical": "#aab8b1" },
+      "ink": { "role": "text", "displayName": "Ink", "canonical": "#1c2422" },
+      "ink-2": { "role": "text", "displayName": "Ink 2 (secondary prose)", "canonical": "#39443f" },
+      "ink-3": { "role": "text", "displayName": "Ink 3 (descriptions)", "canonical": "#4e5a56" },
+      "ink-4": { "role": "text", "displayName": "Ink 4 (labels/meta)", "canonical": "#66716d" },
+      "burnt-terracotta": { "role": "primary", "displayName": "Burnt Terracotta", "canonical": "#b8442a" },
+      "voltage": { "role": "accent", "displayName": "Voltage Mark", "canonical": "#d65a3a" },
+      "surface-green": { "role": "neutral", "displayName": "Surface Green", "canonical": "#e2e8e2", "note": "Same value as .hairline-light by design — light rule AND hover fill." },
+      "colophon-green-black": { "role": "neutral", "displayName": "Colophon Green-Black", "canonical": "#1d2826" },
+      "info-slate-teal": { "role": "info", "displayName": "Slate Teal", "canonical": "#416b63" },
+      "success-pine": { "role": "success", "displayName": "Pine", "canonical": "#157a5f" },
+      "error-rust": { "role": "error", "displayName": "Rust (light)", "canonical": "#a33b26" },
+      "newsprint-charcoal": { "role": "neutral", "displayName": "Newsprint Charcoal (dark canvas)", "canonical": "#14161a" },
+      "charcoal-paper": { "role": "neutral", "displayName": "Charcoal Paper (dark surface)", "canonical": "#1b1f1d" },
+      "charcoal-rule": { "role": "neutral", "displayName": "Charcoal Rule (dark border)", "canonical": "#2c322e" },
+      "ink-on-dark": { "role": "text", "displayName": "Ink on Dark", "canonical": "#f0f2f4" },
+      "ink-2-on-dark": { "role": "text", "displayName": "Ink 2 on Dark", "canonical": "#c9cfcc" },
+      "ink-3-on-dark": { "role": "text", "displayName": "Ink 3 on Dark", "canonical": "#a4aba8" },
+      "ink-4-on-dark": { "role": "text", "displayName": "Ink 4 on Dark", "canonical": "#8b928e" },
+      "ember": { "role": "accent", "displayName": "Ember (dark text accent)", "canonical": "#e27a5f" },
+      "hairline-dark": { "role": "neutral", "displayName": "Hairline Dark", "canonical": "#262c28" },
+      "surface-green-dark": { "role": "neutral", "displayName": "Surface Green Dark", "canonical": "#1f2421" },
+      "error-ember": { "role": "error", "displayName": "Error Ember (dark)", "canonical": "#d9634a" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero-scale statements only (.display-hero, hero greeting)." },
+      "headline": { "displayName": "Headline", "purpose": "Pull statements and outlined monogram (.display-1, .figure-monogram)." },
+      "title": { "displayName": "Title", "purpose": "Page and section titles (.display-2, .heading-sm)." },
+      "body": { "displayName": "Body", "purpose": "Default serif prose; .lead variant capped at 54ch, blog prose 68ch." },
+      "label": { "displayName": "Label", "purpose": "Uppercase kickers, section heads, metric names (.label)." },
+      "button": { "displayName": "Button", "purpose": "Uppercase tracked button text (.btn)." },
+      "caption": { "displayName": "Caption", "purpose": "Mono chips, row places, tags (.chip, .row-place)." },
+      "data": { "displayName": "Data", "purpose": "Dates, counts, values, meta (.data, .metric-value)." }
+    },
+    "shadows": [
+      { "name": "quote-card-rest", "value": "2px 3px 8px rgb(0 0 0 / 0.15)", "purpose": "QuoteCard at rest — the sticky-note motif; the only content card with depth." },
+      { "name": "quote-card-hover", "value": "4px 6px 16px rgb(0 0 0 / 0.25)", "purpose": "QuoteCard on hover; paired with its ±3° rotation." },
+      { "name": "overlay-lg", "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)", "purpose": "Toast, dropdown and modal — depth that means 'above the page' (Tailwind shadow-lg)." }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Entrance and lift easing: .rv reveal, .rise, .lift (700ms / 300ms)." },
+      { "name": "duration-ui", "value": "150ms ease-out", "purpose": "Color/border state changes (buttons, nav, action links)." },
+      { "name": "duration-row", "value": "180ms ease-out", "purpose": "Ledger row background + lift transition." },
+      { "name": "stagger-reveal", "value": "calc(var(--rv-i, 0) * 70ms)", "purpose": "Reveal stagger (.rv); .rise uses 90ms per index." },
+      { "name": "pulse-cycle", "value": "2.4s cubic-bezier(0, 0, 0.2, 1) infinite", "purpose": "Hero availability pulse-dot ring (.pulse-dot::after)." },
+      { "name": "reduced-motion", "value": "0.01ms !important / transform: none", "purpose": "Global prefers-reduced-motion kill switch for all of the above." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px", "purpose": "Quotes masonry columns 1→2, toolbar stacking." },
+      { "name": "md", "value": "768px", "purpose": "Page gutter 1.25rem→2rem; hero stack spacing." },
+      { "name": "rail", "value": "1100px", "purpose": "Fixed spine rail appears, .wrap indents past rail, numbered strip hides." },
+      { "name": "desktop", "value": "1200px", "purpose": "Masthead inline nav appears; MobileMenu hides." }
+    ],
+    "themes": {
+      "portfolio": {
+        "base-100": "#f3f4ef",
+        "base-200": "#ffffff",
+        "base-300": "#aab8b1",
+        "base-content": "#1c2422",
+        "primary": "#b8442a",
+        "primary-content": "#ffffff",
+        "neutral": "#1d2826",
+        "neutral-content": "#f3f4ef",
+        "info": "#416b63",
+        "success": "#157a5f",
+        "error": "#a33b26",
+        "ink-2": "#39443f",
+        "ink-3": "#4e5a56",
+        "ink-4": "#66716d",
+        "voltage": "#d65a3a",
+        "voltage-ink": "#b8442a",
+        "voltage-light": "#e27a5f",
+        "hairline-light": "#e2e8e2",
+        "surface-green": "#e2e8e2"
+      },
+      "portfolio-dark": {
+        "base-100": "#14161a",
+        "base-200": "#1b1f1d",
+        "base-300": "#2c322e",
+        "base-content": "#f0f2f4",
+        "primary": "#b8442a",
+        "primary-content": "#ffffff",
+        "neutral": "#1d2826",
+        "neutral-content": "#f3f4ef",
+        "info": "#416b63",
+        "success": "#157a5f",
+        "error": "#d9634a",
+        "ink-2": "#c9cfcc",
+        "ink-3": "#a4aba8",
+        "ink-4": "#8b928e",
+        "voltage": "#d65a3a",
+        "voltage-ink": "#e27a5f",
+        "voltage-light": "#e27a5f",
+        "hairline-light": "#262c28",
+        "surface-green": "#1f2421"
+      }
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Filled terracotta CTA; uppercase tracked sans, 44px target, presses 1px on active.",
+      "html": "<button class=\"ds-btn-primary\">View Projects <span aria-hidden=\"true\">→</span></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 0.8125rem; font-weight: 600; line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase; background: #b8442a; border: 1px solid #b8442a; color: #ffffff; border-radius: 0; min-height: 2.75rem; padding-inline: 1.25rem; transition: background-color 150ms ease-out, border-color 150ms ease-out, transform 100ms ease-out; } .ds-btn-primary:hover { background: color-mix(in oklab, #b8442a 86%, #000); border-color: color-mix(in oklab, #b8442a 86%, #000); } .ds-btn-primary:active { transform: translateY(1px); } .ds-btn-primary:focus-visible { outline: 2px solid #b8442a; outline-offset: 3px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action: 1px ink frame that turns terracotta on hover; never fills at rest.",
+      "html": "<button class=\"ds-btn-outline\">Download Resume</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 0.8125rem; font-weight: 600; line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase; background: transparent; border: 1px solid #1c2422; color: #1c2422; border-radius: 0; min-height: 2.75rem; padding-inline: 1.25rem; transition: border-color 150ms ease-out, color 150ms ease-out; } .ds-btn-outline:hover { border-color: #b8442a; color: #b8442a; } .ds-btn-outline:focus-visible { outline: 2px solid #b8442a; outline-offset: 3px; }"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Mono caption tag; hairline frame on paper. Selected state uses the accent tint.",
+      "html": "<span class=\"ds-chip\">Vue</span> <span class=\"ds-chip is-accent\">#jawa (12)</span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.25rem 0.5rem; border: 1px solid #aab8b1; background: #ffffff; color: #4e5a56; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.75rem; line-height: 1.5; white-space: nowrap; border-radius: 0; } .ds-chip.is-accent { border-color: color-mix(in oklab, #b8442a 35%, transparent); background: color-mix(in oklab, #b8442a 8%, #ffffff); color: #b8442a; }"
+    },
+    {
+      "name": "Figure Block (card)",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Project/evidence card: paper fill, sage frame, eyebrow head, hairline foot. No shadow.",
+      "html": "<article class=\"ds-figure\"><div class=\"ds-figure-head\"><span class=\"ds-figure-eyebrow\">Vue</span></div><div class=\"ds-figure-body\"><h3 class=\"ds-figure-title\">Portfolio CMS</h3><p class=\"ds-figure-dek\">Payload CMS backend with bilingual content.</p></div><div class=\"ds-figure-foot\">01 / LIVE DEMO</div></article>",
+      "css": ".ds-figure { background: #ffffff; border: 1px solid #aab8b1; border-radius: 0; } .ds-figure-head { padding: 16px 20px; border-bottom: 1px solid #e2e8e2; } .ds-figure-eyebrow { font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #b8442a; } .ds-figure-body { padding: 24px 20px; } .ds-figure-title { font-family: 'Source Serif 4', Georgia, serif; font-weight: 500; font-size: clamp(1.25rem, 1.8vw, 1.625rem); line-height: 1.2; color: #1c2422; } .ds-figure-dek { font-family: 'Source Serif 4', Georgia, serif; font-size: 0.9375rem; line-height: 1.45; color: #66716d; margin-top: 0.375rem; } .ds-figure-foot { padding: 14px 20px; border-top: 1px solid #e2e8e2; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; text-transform: uppercase; color: #66716d; }"
+    },
+    {
+      "name": "Section Header (signature)",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "The dossier head: voltage marker + NN / KICKER label + hairline rule, then the serif title.",
+      "html": "<div class=\"ds-head\"><span class=\"ds-head-marker\"></span><span class=\"ds-head-label\">03 / Projects</span><span class=\"ds-head-rule\"></span></div><h2 class=\"ds-head-title\">Selected work</h2>",
+      "css": ".ds-head { display: flex; align-items: center; gap: 14px; padding-top: 18px; } .ds-head-marker { width: 3px; height: 14px; background: #d65a3a; flex-shrink: 0; } .ds-head-label { font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 0.6875rem; font-weight: 600; line-height: 1.2; letter-spacing: 0.12em; text-transform: uppercase; color: #1c2422; } .ds-head-rule { flex: 1; height: 1px; background: #aab8b1; } .ds-head-title { font-family: 'Source Serif 4', Georgia, serif; font-weight: 500; font-size: clamp(1.875rem, 3vw, 2.625rem); line-height: 1.1; letter-spacing: -0.01em; color: #1c2422; margin-top: 1rem; }"
+    },
+    {
+      "name": "Action Link (signature)",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Text CTA: terracotta label that draws its underline while the arrow slides +6px.",
+      "html": "<a class=\"ds-action\" href=\"#\">Live demo <span class=\"ds-action-arrow\">→</span></a>",
+      "css": ".ds-action { display: inline-flex; align-items: center; gap: 10px; font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 0.8125rem; font-weight: 500; line-height: 1.2; color: #b8442a; padding-bottom: 4px; border-bottom: 1px solid transparent; text-decoration: none; width: fit-content; transition: border-color 180ms ease-out, color 150ms ease-out; } .ds-action-arrow { display: inline-block; transition: transform 150ms ease-out; } .ds-action:hover { border-bottom-color: #b8442a; } .ds-action:hover .ds-action-arrow { transform: translateX(6px); }"
+    },
+    {
+      "name": "Ledger Row",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "List/metric row: hairline bottom, surface-green fill and −2px lift on hover; mono value with terracotta suffix.",
+      "html": "<div class=\"ds-row\"><span class=\"ds-row-name\">Years building</span><span class=\"ds-row-value\">4<em>+</em></span></div>",
+      "css": ".ds-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid #e2e8e2; transition: background-color 180ms ease-out, transform 180ms ease-out; } .ds-row:hover { background: #e2e8e2; transform: translateY(-2px); } .ds-row-name { font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #1c2422; } .ds-row-value { font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 1.375rem; font-weight: 500; line-height: 1.1; color: #1c2422; white-space: nowrap; } .ds-row-value em { font-style: normal; color: #b8442a; font-size: 0.8125rem; }"
+    },
+    {
+      "name": "Quote Card",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "The only elevated content card: sticky-note shadow, deterministic ±3° rotation, italic serif quote.",
+      "html": "<div class=\"ds-quote-card\"><p class=\"ds-quote-text\">“Manut dalane gusti, ojo manut dalane cah-cah.”</p><p class=\"ds-quote-author\">— Abu Amar</p></div>",
+      "css": ".ds-quote-card { padding: 1.25rem; background: #ffffff; border: 1px solid #aab8b1; border-radius: 0; box-shadow: 2px 3px 8px rgb(0 0 0 / 0.15); transform: rotate(-2deg); transition: transform 0.2s ease, box-shadow 0.2s ease; } .ds-quote-card:hover { box-shadow: 4px 6px 16px rgb(0 0 0 / 0.25); } .ds-quote-text { font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 1.125rem; line-height: 1.6; text-align: center; color: #1c2422; } .ds-quote-author { font-family: 'Source Serif 4', Georgia, serif; font-size: 0.875rem; text-align: center; opacity: 0.7; color: #1c2422; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Editorial Dossier",
+    "overview": "The site reads like a curated case file: every section numbered 01–07, each number paired with an uppercase kicker and a hairline rule, a fixed vertical spine rail annotating the left margin on desktop, and a dark colophon footer closing the file. The voice is calm and scientific — Source Serif 4 prose carries the argument with capped measures, IBM Plex Mono delivers the evidence as data ladders, and Newsreader display type makes the hero-scale statements. One accent, Burnt Terracotta, signals action and current state; its scarcity is the point. Depth is tonal, never a resting shadow: a white card on cream, framed by hairlines. Rounded corners, gradients, gloss and any second accent color are rejected outright.",
+    "keyCharacteristics": [
+      "Numbered sections (01 / KICKER ——— title) with a desktop spine rail",
+      "Sharp geometry everywhere: border-radius 0 is absolute",
+      "Single terracotta accent; voltage marks vs text accent are different values",
+      "Flat and tonal: 1px hairlines plus tonal steps; shadows only for overlays and quote cards",
+      "Four-family type system: Newsreader display, Source Serif 4 prose, IBM Plex Sans chrome, IBM Plex Mono data",
+      "Archive Cream light default with a full Newsprint Charcoal dark twin via html[data-theme]"
+    ],
+    "rules": [
+      { "name": "The Voltage Rule", "body": "#D65A3A marks (dots, markers, rules, spine progress); #B8442A speaks on light; #E27A5F speaks on dark. Voltage never appears as small text on cream — it is a 3.5:1 mark by law.", "section": "colors" },
+      { "name": "The Same-Value Rule", "body": "Light .hairline-light and .surface-green are both #E2E8E2 on purpose: the line you rest on is the line you hover onto. Do not split them into two tokens.", "section": "colors" },
+      { "name": "The Role Rule", "body": "Prose = serif, chrome = sans, data = mono, statements = Newsreader. Never cross a role; never set prose in mono or labels in serif.", "section": "typography" },
+      { "name": "The Flat-by-Default Rule", "body": "Cards, panels and figure blocks never carry a shadow. Lift (-2px) and tonal fill communicate hover; shadow is reserved for overlays and the quote cards.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do divide content with 1px hairlines (sage for structure, hairline-light for internals) and clamp(3.5rem, 6vw, 5rem) section rhythm",
+      "Do number every page/section head NN / KICKER + marker + rule via SectionHeader; one h1 per page",
+      "Do assign type by role: serif prose capped at 54–68ch, mono for data/dates/counts, uppercase tracked sans for labels/nav/buttons",
+      "Do use #B8442A for text/interactive, #D65A3A only for marks, #E27A5F for text in dark",
+      "Do build depth tonally: Paper White on Archive Cream inside a 1px frame; reserve shadow-lg for overlays",
+      "Do keep targets at least 44px (min-h-11) and honor prefers-reduced-motion"
+    ],
+    "donts": [
+      "Don't round anything — no radius on buttons, cards, inputs, images, avatars or badges",
+      "Don't use gradients, glassmorphism, blur or decorative gloss",
+      "Don't add a second accent color; terracotta is the only signal (info/success/error are semantic states only)",
+      "Don't put #D65A3A on cream as text, or any accent text below WCAG AA contrast",
+      "Don't shadow content cards at rest, or lift them more than -2px on hover",
+      "Don't set prose in sans/mono, labels in serif, or uppercase the serif",
+      "Don't leave uncapped measures — leads 54ch, blog prose 68ch, pull quotes 36ch"
+    ]
+  }
+}
