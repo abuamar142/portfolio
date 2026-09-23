@@ -1,63 +1,490 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-23T20:12:26+07:00",
+  "generatedAt": "2026-09-23T21:30:48+07:00",
   "title": "Design System: Abu Amar Portfolio",
   "extensions": {
     "colorMeta": {
-      "archive-cream": { "role": "neutral", "displayName": "Archive Cream", "canonical": "#f3f4ef" },
-      "paper-white": { "role": "neutral", "displayName": "Paper White", "canonical": "#ffffff" },
-      "hairline-sage": { "role": "neutral", "displayName": "Hairline Sage", "canonical": "#aab8b1" },
-      "ink": { "role": "text", "displayName": "Ink", "canonical": "#1c2422" },
-      "ink-2": { "role": "text", "displayName": "Ink 2 (secondary prose)", "canonical": "#39443f" },
-      "ink-3": { "role": "text", "displayName": "Ink 3 (descriptions)", "canonical": "#4e5a56" },
-      "ink-4": { "role": "text", "displayName": "Ink 4 (labels/meta)", "canonical": "#66716d" },
-      "burnt-terracotta": { "role": "primary", "displayName": "Burnt Terracotta", "canonical": "#b8442a" },
-      "voltage": { "role": "accent", "displayName": "Voltage Mark", "canonical": "#d65a3a" },
-      "surface-green": { "role": "neutral", "displayName": "Surface Green", "canonical": "#e2e8e2", "note": "Same value as .hairline-light by design — light rule AND hover fill." },
-      "colophon-green-black": { "role": "neutral", "displayName": "Colophon Green-Black", "canonical": "#1d2826" },
-      "info-slate-teal": { "role": "info", "displayName": "Slate Teal", "canonical": "#416b63" },
-      "success-pine": { "role": "success", "displayName": "Pine", "canonical": "#157a5f" },
-      "error-rust": { "role": "error", "displayName": "Rust (light)", "canonical": "#a33b26" },
-      "newsprint-charcoal": { "role": "neutral", "displayName": "Newsprint Charcoal (dark canvas)", "canonical": "#14161a" },
-      "charcoal-paper": { "role": "neutral", "displayName": "Charcoal Paper (dark surface)", "canonical": "#1b1f1d" },
-      "charcoal-rule": { "role": "neutral", "displayName": "Charcoal Rule (dark border)", "canonical": "#2c322e" },
-      "ink-on-dark": { "role": "text", "displayName": "Ink on Dark", "canonical": "#f0f2f4" },
-      "ink-2-on-dark": { "role": "text", "displayName": "Ink 2 on Dark", "canonical": "#c9cfcc" },
-      "ink-3-on-dark": { "role": "text", "displayName": "Ink 3 on Dark", "canonical": "#a4aba8" },
-      "ink-4-on-dark": { "role": "text", "displayName": "Ink 4 on Dark", "canonical": "#8b928e" },
-      "ember": { "role": "accent", "displayName": "Ember (dark text accent)", "canonical": "#e27a5f" },
-      "hairline-dark": { "role": "neutral", "displayName": "Hairline Dark", "canonical": "#262c28" },
-      "surface-green-dark": { "role": "neutral", "displayName": "Surface Green Dark", "canonical": "#1f2421" },
-      "error-ember": { "role": "error", "displayName": "Error Ember (dark)", "canonical": "#d9634a" }
+      "archive-cream": {
+        "role": "neutral",
+        "displayName": "Archive Cream",
+        "canonical": "#f3f4ef",
+        "tonalRamp": [
+          "oklch(0.150 0.007 115.7)",
+          "oklch(0.264 0.007 115.7)",
+          "oklch(0.379 0.007 115.7)",
+          "oklch(0.493 0.007 115.7)",
+          "oklch(0.607 0.007 115.7)",
+          "oklch(0.721 0.007 115.7)",
+          "oklch(0.836 0.007 115.7)",
+          "oklch(0.950 0.007 115.7)"
+        ]
+      },
+      "paper-white": {
+        "role": "neutral",
+        "displayName": "Paper White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(0.150 0.000 89.9)",
+          "oklch(0.264 0.000 89.9)",
+          "oklch(0.379 0.000 89.9)",
+          "oklch(0.493 0.000 89.9)",
+          "oklch(0.607 0.000 89.9)",
+          "oklch(0.721 0.000 89.9)",
+          "oklch(0.836 0.000 89.9)",
+          "oklch(0.950 0.000 89.9)"
+        ]
+      },
+      "hairline-sage": {
+        "role": "neutral",
+        "displayName": "Hairline Sage",
+        "canonical": "#aab8b1",
+        "tonalRamp": [
+          "oklch(0.150 0.018 164.5)",
+          "oklch(0.264 0.018 164.5)",
+          "oklch(0.379 0.018 164.5)",
+          "oklch(0.493 0.018 164.5)",
+          "oklch(0.607 0.018 164.5)",
+          "oklch(0.721 0.018 164.5)",
+          "oklch(0.836 0.018 164.5)",
+          "oklch(0.950 0.018 164.5)"
+        ]
+      },
+      "ink": {
+        "role": "text",
+        "displayName": "Ink",
+        "canonical": "#1c2422",
+        "tonalRamp": [
+          "oklch(0.150 0.012 178.4)",
+          "oklch(0.264 0.012 178.4)",
+          "oklch(0.379 0.012 178.4)",
+          "oklch(0.493 0.012 178.4)",
+          "oklch(0.607 0.012 178.4)",
+          "oklch(0.721 0.012 178.4)",
+          "oklch(0.836 0.012 178.4)",
+          "oklch(0.950 0.012 178.4)"
+        ]
+      },
+      "ink-2": {
+        "role": "text",
+        "displayName": "Ink 2 (secondary prose)",
+        "canonical": "#39443f",
+        "tonalRamp": [
+          "oklch(0.150 0.017 166.3)",
+          "oklch(0.264 0.017 166.3)",
+          "oklch(0.379 0.017 166.3)",
+          "oklch(0.493 0.017 166.3)",
+          "oklch(0.607 0.017 166.3)",
+          "oklch(0.721 0.017 166.3)",
+          "oklch(0.836 0.017 166.3)",
+          "oklch(0.950 0.017 166.3)"
+        ]
+      },
+      "ink-3": {
+        "role": "text",
+        "displayName": "Ink 3 (descriptions)",
+        "canonical": "#4e5a56",
+        "tonalRamp": [
+          "oklch(0.150 0.016 173.5)",
+          "oklch(0.264 0.016 173.5)",
+          "oklch(0.379 0.016 173.5)",
+          "oklch(0.493 0.016 173.5)",
+          "oklch(0.607 0.016 173.5)",
+          "oklch(0.721 0.016 173.5)",
+          "oklch(0.836 0.016 173.5)",
+          "oklch(0.950 0.016 173.5)"
+        ]
+      },
+      "ink-4": {
+        "role": "text",
+        "displayName": "Ink 4 (labels/meta)",
+        "canonical": "#66716d",
+        "tonalRamp": [
+          "oklch(0.150 0.015 171.9)",
+          "oklch(0.264 0.015 171.9)",
+          "oklch(0.379 0.015 171.9)",
+          "oklch(0.493 0.015 171.9)",
+          "oklch(0.607 0.015 171.9)",
+          "oklch(0.721 0.015 171.9)",
+          "oklch(0.836 0.015 171.9)",
+          "oklch(0.950 0.015 171.9)"
+        ]
+      },
+      "burnt-terracotta": {
+        "role": "primary",
+        "displayName": "Burnt Terracotta",
+        "canonical": "#b8442a",
+        "tonalRamp": [
+          "oklch(0.150 0.054 34.1)",
+          "oklch(0.264 0.092 34.1)",
+          "oklch(0.379 0.132 34.1)",
+          "oklch(0.493 0.156 34.1)",
+          "oklch(0.607 0.156 34.1)",
+          "oklch(0.721 0.156 34.1)",
+          "oklch(0.836 0.092 34.1)",
+          "oklch(0.950 0.025 34.1)"
+        ]
+      },
+      "voltage": {
+        "role": "accent",
+        "displayName": "Voltage Mark",
+        "canonical": "#d65a3a",
+        "tonalRamp": [
+          "oklch(0.150 0.050 35.5)",
+          "oklch(0.264 0.089 35.5)",
+          "oklch(0.379 0.128 35.5)",
+          "oklch(0.493 0.164 35.5)",
+          "oklch(0.607 0.164 35.5)",
+          "oklch(0.721 0.164 35.5)",
+          "oklch(0.836 0.092 35.5)",
+          "oklch(0.950 0.025 35.5)"
+        ]
+      },
+      "surface-green": {
+        "role": "neutral",
+        "displayName": "Surface Green",
+        "canonical": "#e2e8e2",
+        "note": "Same value as .hairline-light by design — light rule AND hover fill.",
+        "tonalRamp": [
+          "oklch(0.150 0.010 145.5)",
+          "oklch(0.264 0.010 145.5)",
+          "oklch(0.379 0.010 145.5)",
+          "oklch(0.493 0.010 145.5)",
+          "oklch(0.607 0.010 145.5)",
+          "oklch(0.721 0.010 145.5)",
+          "oklch(0.836 0.010 145.5)",
+          "oklch(0.950 0.010 145.5)"
+        ]
+      },
+      "colophon-green-black": {
+        "role": "neutral",
+        "displayName": "Colophon Green-Black",
+        "canonical": "#1d2826",
+        "tonalRamp": [
+          "oklch(0.150 0.016 182.7)",
+          "oklch(0.264 0.016 182.7)",
+          "oklch(0.379 0.016 182.7)",
+          "oklch(0.493 0.016 182.7)",
+          "oklch(0.607 0.016 182.7)",
+          "oklch(0.721 0.016 182.7)",
+          "oklch(0.836 0.016 182.7)",
+          "oklch(0.950 0.016 182.7)"
+        ]
+      },
+      "info-slate-teal": {
+        "role": "info",
+        "displayName": "Slate Teal",
+        "canonical": "#416b63",
+        "tonalRamp": [
+          "oklch(0.150 0.027 180.8)",
+          "oklch(0.264 0.047 180.8)",
+          "oklch(0.379 0.049 180.8)",
+          "oklch(0.493 0.049 180.8)",
+          "oklch(0.607 0.049 180.8)",
+          "oklch(0.721 0.049 180.8)",
+          "oklch(0.836 0.049 180.8)",
+          "oklch(0.950 0.049 180.8)"
+        ]
+      },
+      "success-pine": {
+        "role": "success",
+        "displayName": "Pine",
+        "canonical": "#157a5f",
+        "tonalRamp": [
+          "oklch(0.150 0.030 169.4)",
+          "oklch(0.264 0.051 169.4)",
+          "oklch(0.379 0.073 169.4)",
+          "oklch(0.493 0.097 169.4)",
+          "oklch(0.607 0.097 169.4)",
+          "oklch(0.721 0.097 169.4)",
+          "oklch(0.836 0.097 169.4)",
+          "oklch(0.950 0.070 169.4)"
+        ]
+      },
+      "error-rust": {
+        "role": "error",
+        "displayName": "Rust (light)",
+        "canonical": "#a33b26",
+        "tonalRamp": [
+          "oklch(0.150 0.053 33.3)",
+          "oklch(0.264 0.094 33.3)",
+          "oklch(0.379 0.136 33.3)",
+          "oklch(0.493 0.142 33.3)",
+          "oklch(0.607 0.142 33.3)",
+          "oklch(0.721 0.142 33.3)",
+          "oklch(0.836 0.091 33.3)",
+          "oklch(0.950 0.025 33.3)"
+        ]
+      },
+      "newsprint-charcoal": {
+        "role": "neutral",
+        "displayName": "Newsprint Charcoal (dark canvas)",
+        "canonical": "#14161a",
+        "tonalRamp": [
+          "oklch(0.150 0.009 264.4)",
+          "oklch(0.264 0.009 264.4)",
+          "oklch(0.379 0.009 264.4)",
+          "oklch(0.493 0.009 264.4)",
+          "oklch(0.607 0.009 264.4)",
+          "oklch(0.721 0.009 264.4)",
+          "oklch(0.836 0.009 264.4)",
+          "oklch(0.950 0.009 264.4)"
+        ]
+      },
+      "charcoal-paper": {
+        "role": "neutral",
+        "displayName": "Charcoal Paper (dark surface)",
+        "canonical": "#1b1f1d",
+        "tonalRamp": [
+          "oklch(0.150 0.007 164.3)",
+          "oklch(0.264 0.007 164.3)",
+          "oklch(0.379 0.007 164.3)",
+          "oklch(0.493 0.007 164.3)",
+          "oklch(0.607 0.007 164.3)",
+          "oklch(0.721 0.007 164.3)",
+          "oklch(0.836 0.007 164.3)",
+          "oklch(0.950 0.007 164.3)"
+        ]
+      },
+      "charcoal-rule": {
+        "role": "neutral",
+        "displayName": "Charcoal Rule (dark border)",
+        "canonical": "#2c322e",
+        "tonalRamp": [
+          "oklch(0.150 0.011 156.5)",
+          "oklch(0.264 0.011 156.5)",
+          "oklch(0.379 0.011 156.5)",
+          "oklch(0.493 0.011 156.5)",
+          "oklch(0.607 0.011 156.5)",
+          "oklch(0.721 0.011 156.5)",
+          "oklch(0.836 0.011 156.5)",
+          "oklch(0.950 0.011 156.5)"
+        ]
+      },
+      "ink-on-dark": {
+        "role": "text",
+        "displayName": "Ink on Dark",
+        "canonical": "#f0f2f4",
+        "tonalRamp": [
+          "oklch(0.150 0.003 247.9)",
+          "oklch(0.264 0.003 247.9)",
+          "oklch(0.379 0.003 247.9)",
+          "oklch(0.493 0.003 247.9)",
+          "oklch(0.607 0.003 247.9)",
+          "oklch(0.721 0.003 247.9)",
+          "oklch(0.836 0.003 247.9)",
+          "oklch(0.950 0.003 247.9)"
+        ]
+      },
+      "ink-2-on-dark": {
+        "role": "text",
+        "displayName": "Ink 2 on Dark",
+        "canonical": "#c9cfcc",
+        "tonalRamp": [
+          "oklch(0.150 0.008 164.9)",
+          "oklch(0.264 0.008 164.9)",
+          "oklch(0.379 0.008 164.9)",
+          "oklch(0.493 0.008 164.9)",
+          "oklch(0.607 0.008 164.9)",
+          "oklch(0.721 0.008 164.9)",
+          "oklch(0.836 0.008 164.9)",
+          "oklch(0.950 0.008 164.9)"
+        ]
+      },
+      "ink-3-on-dark": {
+        "role": "text",
+        "displayName": "Ink 3 on Dark",
+        "canonical": "#a4aba8",
+        "tonalRamp": [
+          "oklch(0.150 0.009 168.7)",
+          "oklch(0.264 0.009 168.7)",
+          "oklch(0.379 0.009 168.7)",
+          "oklch(0.493 0.009 168.7)",
+          "oklch(0.607 0.009 168.7)",
+          "oklch(0.721 0.009 168.7)",
+          "oklch(0.836 0.009 168.7)",
+          "oklch(0.950 0.009 168.7)"
+        ]
+      },
+      "ink-4-on-dark": {
+        "role": "text",
+        "displayName": "Ink 4 on Dark",
+        "canonical": "#8b928e",
+        "tonalRamp": [
+          "oklch(0.150 0.010 161.2)",
+          "oklch(0.264 0.010 161.2)",
+          "oklch(0.379 0.010 161.2)",
+          "oklch(0.493 0.010 161.2)",
+          "oklch(0.607 0.010 161.2)",
+          "oklch(0.721 0.010 161.2)",
+          "oklch(0.836 0.010 161.2)",
+          "oklch(0.950 0.010 161.2)"
+        ]
+      },
+      "ember": {
+        "role": "accent",
+        "displayName": "Ember (dark text accent)",
+        "canonical": "#e27a5f",
+        "tonalRamp": [
+          "oklch(0.150 0.051 35.5)",
+          "oklch(0.264 0.090 35.5)",
+          "oklch(0.379 0.130 35.5)",
+          "oklch(0.493 0.135 35.5)",
+          "oklch(0.607 0.135 35.5)",
+          "oklch(0.721 0.135 35.5)",
+          "oklch(0.836 0.090 35.5)",
+          "oklch(0.950 0.025 35.5)"
+        ]
+      },
+      "hairline-dark": {
+        "role": "neutral",
+        "displayName": "Hairline Dark",
+        "canonical": "#262c28",
+        "tonalRamp": [
+          "oklch(0.150 0.011 156.4)",
+          "oklch(0.264 0.011 156.4)",
+          "oklch(0.379 0.011 156.4)",
+          "oklch(0.493 0.011 156.4)",
+          "oklch(0.607 0.011 156.4)",
+          "oklch(0.721 0.011 156.4)",
+          "oklch(0.836 0.011 156.4)",
+          "oklch(0.950 0.011 156.4)"
+        ]
+      },
+      "surface-green-dark": {
+        "role": "neutral",
+        "displayName": "Surface Green Dark",
+        "canonical": "#1f2421",
+        "tonalRamp": [
+          "oklch(0.150 0.009 159.4)",
+          "oklch(0.264 0.009 159.4)",
+          "oklch(0.379 0.009 159.4)",
+          "oklch(0.493 0.009 159.4)",
+          "oklch(0.607 0.009 159.4)",
+          "oklch(0.721 0.009 159.4)",
+          "oklch(0.836 0.009 159.4)",
+          "oklch(0.950 0.009 159.4)"
+        ]
+      },
+      "error-ember": {
+        "role": "error",
+        "displayName": "Error Ember (dark)",
+        "canonical": "#d9634a",
+        "tonalRamp": [
+          "oklch(0.150 0.053 33.5)",
+          "oklch(0.264 0.094 33.5)",
+          "oklch(0.379 0.136 33.5)",
+          "oklch(0.493 0.154 33.5)",
+          "oklch(0.607 0.154 33.5)",
+          "oklch(0.721 0.154 33.5)",
+          "oklch(0.836 0.091 33.5)",
+          "oklch(0.950 0.025 33.5)"
+        ]
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Hero-scale statements only (.display-hero, hero greeting)." },
-      "headline": { "displayName": "Headline", "purpose": "Pull statements and outlined monogram (.display-1, .figure-monogram)." },
-      "title": { "displayName": "Title", "purpose": "Page and section titles (.display-2, .heading-sm)." },
-      "body": { "displayName": "Body", "purpose": "Default serif prose; .lead variant capped at 54ch, blog prose 68ch." },
-      "label": { "displayName": "Label", "purpose": "Uppercase kickers, section heads, metric names (.label)." },
-      "button": { "displayName": "Button", "purpose": "Uppercase tracked button text (.btn)." },
-      "caption": { "displayName": "Caption", "purpose": "Mono chips, row places, tags (.chip, .row-place)." },
-      "data": { "displayName": "Data", "purpose": "Dates, counts, values, meta (.data, .metric-value)." }
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero-scale statements only (.display-hero, hero greeting)."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Pull statements and outlined monogram (.display-1, .figure-monogram)."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Page and section titles (.display-2, .heading-sm)."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Default serif prose; .lead variant capped at 54ch, blog prose 68ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase kickers, section heads, metric names (.label)."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Uppercase tracked button text (.btn)."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Mono chips, row places, tags (.chip, .row-place)."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Dates, counts, values, meta (.data, .metric-value)."
+      }
     },
     "shadows": [
-      { "name": "quote-card-rest", "value": "2px 3px 8px rgb(0 0 0 / 0.15)", "purpose": "QuoteCard at rest — the sticky-note motif; the only content card with depth." },
-      { "name": "quote-card-hover", "value": "4px 6px 16px rgb(0 0 0 / 0.25)", "purpose": "QuoteCard on hover; paired with its ±3° rotation." },
-      { "name": "overlay-lg", "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)", "purpose": "Toast, dropdown and modal — depth that means 'above the page' (Tailwind shadow-lg)." }
+      {
+        "name": "quote-card-rest",
+        "value": "2px 3px 8px rgb(0 0 0 / 0.15)",
+        "purpose": "QuoteCard at rest — the sticky-note motif; the only content card with depth."
+      },
+      {
+        "name": "quote-card-hover",
+        "value": "4px 6px 16px rgb(0 0 0 / 0.25)",
+        "purpose": "QuoteCard on hover; paired with its ±3° rotation."
+      },
+      {
+        "name": "overlay-lg",
+        "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+        "purpose": "Toast, dropdown and modal — depth that means 'above the page' (Tailwind shadow-lg)."
+      }
     ],
     "motion": [
-      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Entrance and lift easing: .rv reveal, .rise, .lift (700ms / 300ms)." },
-      { "name": "duration-ui", "value": "150ms ease-out", "purpose": "Color/border state changes (buttons, nav, action links)." },
-      { "name": "duration-row", "value": "180ms ease-out", "purpose": "Ledger row background + lift transition." },
-      { "name": "stagger-reveal", "value": "calc(var(--rv-i, 0) * 70ms)", "purpose": "Reveal stagger (.rv); .rise uses 90ms per index." },
-      { "name": "pulse-cycle", "value": "2.4s cubic-bezier(0, 0, 0.2, 1) infinite", "purpose": "Hero availability pulse-dot ring (.pulse-dot::after)." },
-      { "name": "reduced-motion", "value": "0.01ms !important / transform: none", "purpose": "Global prefers-reduced-motion kill switch for all of the above." }
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Entrance and lift easing: .rv reveal, .rise, .lift (700ms / 300ms)."
+      },
+      {
+        "name": "duration-ui",
+        "value": "150ms ease-out",
+        "purpose": "Color/border state changes (buttons, nav, action links)."
+      },
+      {
+        "name": "duration-row",
+        "value": "180ms ease-out",
+        "purpose": "Ledger row background + lift transition."
+      },
+      {
+        "name": "stagger-reveal",
+        "value": "calc(var(--rv-i, 0) * 70ms)",
+        "purpose": "Reveal stagger (.rv); .rise uses 90ms per index."
+      },
+      {
+        "name": "pulse-cycle",
+        "value": "2.4s cubic-bezier(0, 0, 0.2, 1) infinite",
+        "purpose": "Hero availability pulse-dot ring (.pulse-dot::after)."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0.01ms !important / transform: none",
+        "purpose": "Global prefers-reduced-motion kill switch for all of the above."
+      }
     ],
     "breakpoints": [
-      { "name": "sm", "value": "640px", "purpose": "Quotes masonry columns 1→2, toolbar stacking." },
-      { "name": "md", "value": "768px", "purpose": "Page gutter 1.25rem→2rem; hero stack spacing." },
-      { "name": "rail", "value": "1100px", "purpose": "Fixed spine rail appears, .wrap indents past rail, numbered strip hides." },
-      { "name": "desktop", "value": "1200px", "purpose": "Masthead inline nav appears; MobileMenu hides." }
+      {
+        "name": "sm",
+        "value": "640px",
+        "purpose": "Quotes masonry columns 1→2, toolbar stacking."
+      },
+      {
+        "name": "md",
+        "value": "768px",
+        "purpose": "Page gutter 1.25rem→2rem; hero stack spacing."
+      },
+      {
+        "name": "rail",
+        "value": "1100px",
+        "purpose": "Fixed spine rail appears, .wrap indents past rail, numbered strip hides."
+      },
+      {
+        "name": "desktop",
+        "value": "1200px",
+        "purpose": "Masthead inline nav appears; MobileMenu hides."
+      }
     ],
     "themes": {
       "portfolio": {
@@ -172,37 +599,58 @@
   ],
   "narrative": {
     "northStar": "The Editorial Dossier",
-    "overview": "The site reads like a curated case file: every section numbered 01–07, each number paired with an uppercase kicker and a hairline rule, a fixed vertical spine rail annotating the left margin on desktop, and a dark colophon footer closing the file. The voice is calm and scientific — Source Serif 4 prose carries the argument with capped measures, IBM Plex Mono delivers the evidence as data ladders, and Newsreader display type makes the hero-scale statements. One accent, Burnt Terracotta, signals action and current state; its scarcity is the point. Depth is tonal, never a resting shadow: a white card on cream, framed by hairlines. Rounded corners, gradients, gloss and any second accent color are rejected outright.",
+    "overview": "The site reads like a curated case file: every section is numbered (`01`–`07`), each number paired with an uppercase kicker and a hairline rule that runs to the edge. A fixed vertical spine rail annotates the left margin on desktop; a dark colophon footer closes the file. Nothing floats without a rule, nothing is rounded, nothing decorates for its own sake.\n\nThe voice is calm and scientific. Serif prose carries the argument (`Source Serif 4` at 1.125rem/1.6, measures capped at 54–68ch), evidence arrives as mono data ladders, and `Newsreader` display type does the hero-scale statements. Chrome — nav, labels, buttons — is small, uppercase, tracked `IBM Plex Sans`. One accent, Burnt Terracotta, signals action and current state; its scarcity is the point.\n\nDensity is editorial, not airy-for-its-own-sake: sections divide with a single 1px rule and `clamp(3.5rem, 6vw, 5rem)` of breathing room; components pack tight inside (chips at 4px/8px, metric rows at 18px block). Depth is tonal — a white card on cream, framed by hairlines — never a resting shadow. Rejected outright: rounded corners, gradients, gloss, and any second accent color.",
     "keyCharacteristics": [
-      "Numbered sections (01 / KICKER ——— title) with a desktop spine rail",
-      "Sharp geometry everywhere: border-radius 0 is absolute",
-      "Single terracotta accent; voltage marks vs text accent are different values",
-      "Flat and tonal: 1px hairlines plus tonal steps; shadows only for overlays and quote cards",
-      "Four-family type system: Newsreader display, Source Serif 4 prose, IBM Plex Sans chrome, IBM Plex Mono data",
-      "Archive Cream light default with a full Newsprint Charcoal dark twin via html[data-theme]"
+      "Numbered sections (`01 / KICKER ——— title`) with a desktop spine rail",
+      "Sharp geometry everywhere: `border-radius: 0` is absolute",
+      "Single terracotta accent; voltage marks vs. text accent are different values",
+      "Flat & tonal: 1px hairlines + tonal steps, shadows only for overlays and the quote cards",
+      "Four-family type system: Newsreader display · Source Serif 4 prose · IBM Plex Sans chrome · IBM Plex Mono data",
+      "Light `Archive Cream` default with a full `Newsprint Charcoal` dark twin (`html[data-theme]`)"
     ],
     "rules": [
-      { "name": "The Voltage Rule", "body": "#D65A3A marks (dots, markers, rules, spine progress); #B8442A speaks on light; #E27A5F speaks on dark. Voltage never appears as small text on cream — it is a 3.5:1 mark by law.", "section": "colors" },
-      { "name": "The Same-Value Rule", "body": "Light .hairline-light and .surface-green are both #E2E8E2 on purpose: the line you rest on is the line you hover onto. Do not split them into two tokens.", "section": "colors" },
-      { "name": "The Role Rule", "body": "Prose = serif, chrome = sans, data = mono, statements = Newsreader. Never cross a role; never set prose in mono or labels in serif.", "section": "typography" },
-      { "name": "The Flat-by-Default Rule", "body": "Cards, panels and figure blocks never carry a shadow. Lift (-2px) and tonal fill communicate hover; shadow is reserved for overlays and the quote cards.", "section": "elevation" }
+      {
+        "name": "The Voltage Rule",
+        "section": "colors",
+        "body": "#D65A3A marks; #B8442A speaks (light); #E27A5F speaks (dark). Never put voltage on cream as text — it is a 3.5:1 mark by law."
+      },
+      {
+        "name": "The Same-Value Rule",
+        "section": "colors",
+        "body": "Light `.hairline-light` and `.surface-green` are both #E2E8E2 on purpose: the line you rest on is the line you hover onto. Don't split them."
+      },
+      {
+        "name": "The Role Rule",
+        "section": "typography",
+        "body": "Prose = serif, chrome = sans, data = mono, statements = Newsreader. Never cross a role; never set prose in mono or labels in serif."
+      },
+      {
+        "name": "The Track-and-Cap Rule",
+        "section": "typography",
+        "body": "Every sans label and button is uppercase with positive tracking (≥0.08em). Serif never goes uppercase."
+      },
+      {
+        "name": "The Flat-by-Default Rule",
+        "section": "elevation",
+        "body": "Cards, panels and figure blocks never carry a shadow. Lift (−2px) and tonal fill communicate hover; shadow is reserved for overlays and the quote cards."
+      }
     ],
     "dos": [
-      "Do divide content with 1px hairlines (sage for structure, hairline-light for internals) and clamp(3.5rem, 6vw, 5rem) section rhythm",
-      "Do number every page/section head NN / KICKER + marker + rule via SectionHeader; one h1 per page",
-      "Do assign type by role: serif prose capped at 54–68ch, mono for data/dates/counts, uppercase tracked sans for labels/nav/buttons",
-      "Do use #B8442A for text/interactive, #D65A3A only for marks, #E27A5F for text in dark",
-      "Do build depth tonally: Paper White on Archive Cream inside a 1px frame; reserve shadow-lg for overlays",
-      "Do keep targets at least 44px (min-h-11) and honor prefers-reduced-motion"
+      "Do divide content with 1px hairlines (sage for structure, `hairline-light` for internals) and `clamp(3.5rem, 6vw, 5rem)` section rhythm.",
+      "Do number every page/section head `NN / KICKER` + marker + rule via `SectionHeader`; keep one `h1` per page.",
+      "Do assign type by role: serif prose (≤54–68ch), mono for all data/dates/counts, uppercase tracked sans for labels/nav/buttons, Newsreader for hero-scale statements.",
+      "Do use Burnt Terracotta #B8442A for text/interactive and #D65A3A only for marks; switch text accent to #E27A5F in dark.",
+      "Do build depth tonally: Paper White on Archive Cream inside a 1px frame; reserve `shadow-lg` for overlays.",
+      "Do keep targets ≥44px (buttons `min-h-11`/2.75rem) and honor `prefers-reduced-motion` (reveal/rise/lift already neutralized globally)."
     ],
     "donts": [
-      "Don't round anything — no radius on buttons, cards, inputs, images, avatars or badges",
-      "Don't use gradients, glassmorphism, blur or decorative gloss",
-      "Don't add a second accent color; terracotta is the only signal (info/success/error are semantic states only)",
-      "Don't put #D65A3A on cream as text, or any accent text below WCAG AA contrast",
-      "Don't shadow content cards at rest, or lift them more than -2px on hover",
-      "Don't set prose in sans/mono, labels in serif, or uppercase the serif",
-      "Don't leave uncapped measures — leads 54ch, blog prose 68ch, pull quotes 36ch"
+      "Don't round anything — no radius on buttons, cards, inputs, images, avatars or badges (`rounded-full`, `rounded-lg` are banned).",
+      "Don't use gradients, glassmorphism, blur or decorative gloss.",
+      "Don't add a second accent color; terracotta is the only signal (info/success/error appear strictly as semantic states).",
+      "Don't put #D65A3A voltage on cream as text, or any accent text below AA contrast.",
+      "Don't shadow content cards at rest, or lift them more than −2px on hover.",
+      "Don't set prose in sans/mono, labels in serif, or uppercase the serif.",
+      "Don't leave uncapped measures — leads 54ch, blog prose 68ch, pull quotes 36ch."
     ]
   }
 }
