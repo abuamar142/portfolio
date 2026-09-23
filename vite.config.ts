@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => {
     },
     ssgOptions: {
       script: 'async',
-      // Keep static routes ('/' and '/blogs'), swap '/blogs/:slug' for one
+      // Keep static routes ('/', '/blogs', '/explore'), swap '/blogs/:slug' for one
       // concrete path per post slug, and drop the ':pathMatch' catch-all.
       async includedRoutes(paths: string[]) {
         const staticPaths = paths.filter((p) => !p.includes(':') && !p.includes('*'))

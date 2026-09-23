@@ -7,6 +7,8 @@ export default {
     education: 'Education',
     achievements: 'Achievements',
     blog: 'Blog',
+    quotes: 'Quotes',
+    explore: 'Explore',
     contact: 'Contact',
   },
   headings: {
@@ -125,6 +127,10 @@ export default {
       },
     },
     social: 'Connect with me',
+  },
+  quotes: {
+    title: 'Quotes',
+    dek: 'Words worth sharing',
   },
   footer: {
     built: 'Built with Vue 3 & Vite',

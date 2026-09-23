@@ -2,7 +2,7 @@
   <section id="quotes" class="page-top">
     <div class="wrap pb-20 md:pb-28">
       <!-- Page head -->
-      <SectionHeader level="h1" title="Quotes" lead="Words worth sharing" />
+      <SectionHeader level="h1" :title="$t('quotes.title')" :lead="$t('quotes.dek')" />
 
       <!-- Search + actions -->
       <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center">

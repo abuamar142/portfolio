@@ -33,8 +33,8 @@
         >
           {{ $t(item.label) }}
         </router-link>
-        <router-link to="/blogs" :aria-current="isBlogRoute ? 'page' : undefined">
-          {{ $t('navigation.blog') }}
+        <router-link to="/explore" :aria-current="isExploreRoute ? 'page' : undefined">
+          {{ $t('navigation.explore') }}
         </router-link>
       </nav>
 
@@ -112,10 +112,15 @@ const fullNav = [
     label: item.label,
     route: false,
   })),
-  { href: '/blogs', no: '', label: 'navigation.blog', route: true },
+  { href: '/explore', no: '', label: 'navigation.explore', route: true },
 ]
 
-const isBlogRoute = computed(() => route.path.startsWith('/blogs'))
+const isExploreRoute = computed(
+  () =>
+    route.path === '/explore' ||
+    route.path.startsWith('/blogs') ||
+    route.path === '/quotes',
+)
 
 /* ── Scrollspy ───────────────────────────────────────────────────────────────
    Lives and dies with the landing route. Sections only mount after the

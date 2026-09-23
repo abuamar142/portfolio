@@ -34,10 +34,10 @@
             </li>
             <li>
               <router-link
-                to="/blogs"
+                to="/explore"
                 class="inline-flex min-h-8 items-center font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
               >
-                {{ $t('navigation.blog') }}
+                {{ $t('navigation.explore') }}
               </router-link>
             </li>
           </ul>

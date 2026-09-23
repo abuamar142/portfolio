@@ -7,6 +7,8 @@ export default {
     education: 'Pendidikan',
     achievements: 'Pencapaian',
     blog: 'Blog',
+    quotes: 'Kutipan',
+    explore: 'Jelajahi',
     contact: 'Kontak',
   },
   headings: {
@@ -129,6 +131,10 @@ export default {
       },
     },
     social: 'Terhubung dengan saya',
+  },
+  quotes: {
+    title: 'Kutipan',
+    dek: 'Kata-kata yang layak dibagikan',
   },
   footer: {
     built: 'Dibangun dengan Vue 3 & Vite',
