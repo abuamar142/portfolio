@@ -9,14 +9,14 @@
         <div class="min-w-0 flex-1">
           <SearchInput
             v-model="search"
-            placeholder="Search quotes..."
+            :placeholder="$t('quotes.searchPlaceholder')"
             @update:model-value="debouncedFetch"
           />
         </div>
         <div class="flex shrink-0 items-center gap-3">
           <template v-if="isAuthenticated">
             <button @click="showCreate = true" class="btn btn-primary">
-              <Plus :size="16" /> Add Quote
+              <Plus :size="16" /> {{ $t('quotes.addQuote') }}
             </button>
             <div class="dropdown dropdown-end">
               <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
@@ -26,12 +26,12 @@
               </div>
               <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-200 border border-base-300 z-10 w-52 p-2 shadow-lg mt-2">
                 <li class="menu-title">{{ user?.display_name || user?.username }}</li>
-                <li><a @click="handleLogout"><LogOut :size="14" /> Logout</a></li>
+                <li><a @click="handleLogout"><LogOut :size="14" /> {{ $t('quotes.logout') }}</a></li>
               </ul>
             </div>
           </template>
           <button v-else @click="showAuth = true" class="btn btn-primary">
-            Sign In
+            {{ $t('quotes.signIn') }}
           </button>
         </div>
       </div>
@@ -42,7 +42,7 @@
           <button
             @click="selectedTag = ''; reloadQuotes()"
             :class="['chip', !selectedTag ? 'chip-accent' : '']"
-          >All</button>
+          >{{ $t('quotes.all') }}</button>
           <button
             v-for="tag in tags"
             :key="tag.tag"
@@ -53,9 +53,9 @@
           </button>
         </div>
         <div class="ml-auto flex items-center gap-2">
-          <span class="label">Sort:</span>
-          <button @click="sortRandom" :class="['btn btn-sm', sort === 'random' ? 'btn-primary' : 'btn-ghost']">Random</button>
-          <button @click="sortLatest" :class="['btn btn-sm', sort === 'latest' ? 'btn-primary' : 'btn-ghost']">Latest</button>
+          <span class="label">{{ $t('quotes.sort') }}</span>
+          <button @click="sortRandom" :class="['btn btn-sm', sort === 'random' ? 'btn-primary' : 'btn-ghost']">{{ $t('quotes.random') }}</button>
+          <button @click="sortLatest" :class="['btn btn-sm', sort === 'latest' ? 'btn-primary' : 'btn-ghost']">{{ $t('quotes.latest') }}</button>
         </div>
       </div>
 
@@ -67,10 +67,10 @@
       <!-- Empty -->
       <div v-else-if="quotes.length === 0" class="text-center py-20">
         <FileEdit :size="64" class="mx-auto mb-4 text-ink-4" />
-        <p class="display-2 mb-2">No quotes yet</p>
-        <p class="text-ink-3 mb-4">Be the first to share a quote!</p>
+        <p class="display-2 mb-2">{{ $t('quotes.emptyTitle') }}</p>
+        <p class="text-ink-3 mb-4">{{ $t('quotes.emptyDek') }}</p>
         <button @click="isAuthenticated ? (showCreate = true) : (showAuth = true)" class="btn btn-primary">
-          Add Quote
+          {{ $t('quotes.addQuote') }}
         </button>
       </div>
 
@@ -88,9 +88,9 @@
 
       <!-- Pagination -->
       <div v-if="totalPages > 1" class="flex justify-center gap-2 mt-8">
-        <button @click="prevPage" :disabled="page <= 1" class="btn btn-sm btn-ghost">Prev</button>
+        <button @click="prevPage" :disabled="page <= 1" class="btn btn-sm btn-ghost">{{ $t('quotes.prev') }}</button>
         <span class="btn btn-sm btn-ghost no-animation">{{ page }} / {{ totalPages }}</span>
-        <button @click="nextPage" :disabled="page >= totalPages" class="btn btn-sm btn-ghost">Next</button>
+        <button @click="nextPage" :disabled="page >= totalPages" class="btn btn-sm btn-ghost">{{ $t('quotes.next') }}</button>
       </div>
     </div>
 
@@ -104,6 +104,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { FileEdit, Plus, LogOut } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
@@ -117,6 +118,7 @@ import AuthModal from '@/components/AuthModal.vue'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 
+const { t } = useI18n()
 const { user, isAuthenticated, logout } = useAuth()
 const toast = useToast()
 
@@ -178,7 +180,7 @@ async function fetchQuotesData() {
     total.value = result.total || 0
   } catch (e: unknown) {
     console.error('Failed to fetch quotes:', e)
-    toast.error('Failed to load quotes')
+    toast.error(t('quotes.loadFailed'))
   } finally {
     loading.value = false
   }
@@ -202,17 +204,17 @@ function startEdit(quote: Quote) {
 
 function handleLogout() {
   logout()
-  toast.info('Logged out')
+  toast.info(t('quotes.loggedOutToast'))
 }
 
 async function confirmDelete(quote: Quote) {
-  if (!confirm('Delete this quote?')) return
+  if (!confirm(t('quotes.deleteConfirm'))) return
   try {
     await deleteQuote(quote.id)
-    toast.success('Quote deleted')
+    toast.success(t('quotes.deletedToast'))
     await reloadQuotes()
   } catch {
-    toast.error('Failed to delete quote')
+    toast.error(t('quotes.deleteFailed'))
   }
 }
 

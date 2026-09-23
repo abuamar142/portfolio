@@ -280,6 +280,8 @@
     font-weight: 500;
     line-height: 1.2;
     color: var(--color-voltage-ink);
+    padding-top: 4px;
+    margin-top: -4px;
     padding-bottom: 4px;
     border-bottom: 1px solid transparent;
     transition: border-color 180ms ease-out, color 150ms ease-out;
@@ -436,6 +438,7 @@
     align-items: center;
     gap: 8px;
     padding: 12px 18px;
+    min-height: 2.75rem;
     font-family: var(--font-sans);
     font-size: 0.625rem;
     font-weight: 600;

@@ -16,7 +16,7 @@
             <button
               v-if="shouldShowSeeMore || showAll"
               type="button"
-              class="inline-flex items-center gap-1 font-sans text-sm font-medium text-ink-3 transition-colors hover:text-primary"
+              class="inline-flex min-h-11 items-center gap-1 font-sans text-sm font-medium text-ink-3 transition-colors hover:text-primary"
               @click="toggleShowAll"
             >
               {{ showAll ? $t('projects.buttons.seeLess') : $t('projects.buttons.viewAll') }}

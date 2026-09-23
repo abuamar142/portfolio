@@ -49,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { ArrowUpRight } from 'lucide-vue-next'
 import type { Achievement } from '@/types/portfolio'
 import BaseButton from '@/components/ui/BaseButton.vue'
@@ -59,10 +60,13 @@ interface Props {
 
 const props = defineProps<Props>()
 
+const { locale } = useI18n()
+
 const formatDate = (dateString: string) => {
   try {
     const date = new Date(dateString)
-    return date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long' })
+    const dateLocale = locale.value === 'en' ? 'en-US' : 'id-ID'
+    return date.toLocaleDateString(dateLocale, { year: 'numeric', month: 'long' })
   } catch {
     return dateString
   }

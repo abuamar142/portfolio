@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="label flex min-h-8 min-w-8 items-center justify-center text-ink-4 transition-colors hover:text-voltage-ink"
+    class="label flex min-h-11 min-w-11 items-center justify-center text-ink-4 transition-colors hover:text-voltage-ink"
     :aria-label="label"
     :title="label"
     @click="cycle"

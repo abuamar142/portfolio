@@ -4,7 +4,7 @@
     target="_blank"
     rel="noopener noreferrer"
     :aria-label="label"
-    class="inline-flex size-10 items-center justify-center border border-base-300 text-ink-3 transition-colors hover:border-voltage-ink hover:text-voltage-ink focus-visible:border-voltage-ink focus-visible:text-voltage-ink"
+    class="inline-flex size-11 items-center justify-center border border-base-300 text-ink-3 transition-colors hover:border-voltage-ink hover:text-voltage-ink focus-visible:border-voltage-ink focus-visible:text-voltage-ink"
   >
     <component
       :is="iconComponent"

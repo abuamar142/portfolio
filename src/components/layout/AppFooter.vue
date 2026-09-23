@@ -27,7 +27,7 @@
             <li v-for="item in sectionLinks" :key="item.hash">
               <router-link
                 :to="{ path: '/', hash: item.hash }"
-                class="inline-flex min-h-8 items-center font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
+                class="inline-flex min-h-11 items-center font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
               >
                 {{ $t(item.label) }}
               </router-link>
@@ -35,7 +35,7 @@
             <li>
               <router-link
                 to="/explore"
-                class="inline-flex min-h-8 items-center font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
+                class="inline-flex min-h-11 items-center font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
               >
                 {{ $t('navigation.explore') }}
               </router-link>
@@ -52,7 +52,7 @@
                 :href="link.url"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="inline-flex min-h-8 items-center gap-1.5 font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
+                class="inline-flex min-h-11 items-center gap-1.5 font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
               >
                 {{ link.label }}
                 <ArrowUpRight class="size-3.5" aria-hidden="true" />
@@ -68,7 +68,7 @@
             <li>
               <a
                 :href="`mailto:${identity.email}`"
-                class="inline-flex min-h-8 items-center font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
+                class="inline-flex min-h-11 items-center font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
               >
                 {{ identity.email }}
               </a>
@@ -76,14 +76,14 @@
             <li v-if="identity.phone">
               <a
                 :href="phoneHref"
-                class="inline-flex min-h-8 items-center font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
+                class="inline-flex min-h-11 items-center font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
               >
                 {{ identity.phone }}
               </a>
             </li>
             <li
               v-if="identity.location"
-              class="flex min-h-8 items-center font-mono text-[13px] text-neutral-content/60"
+              class="flex min-h-11 items-center font-mono text-[13px] text-neutral-content/60"
             >
               {{ identity.location }}
             </li>
@@ -99,7 +99,7 @@
         </p>
         <router-link
           :to="{ path: '/', hash: '#hero' }"
-          class="inline-flex items-center gap-2 font-sans text-[13px] font-medium text-neutral-content/70 transition-colors hover:text-voltage-light"
+          class="inline-flex min-h-11 items-center gap-2 font-sans text-[13px] font-medium text-neutral-content/70 transition-colors hover:text-voltage-light"
         >
           {{ $t('footer.backToTop') }}
           <ArrowUp class="size-3.5" aria-hidden="true" />

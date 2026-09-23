@@ -13,10 +13,10 @@
         — {{ displayAuthor }}
       </p>
       <div v-if="isOwner" class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button @click.stop="$emit('edit', quote)" class="btn btn-ghost btn-xs" title="Edit">
+        <button @click.stop="$emit('edit', quote)" class="btn btn-ghost btn-xs" :title="$t('quotes.editAria')">
           <Pencil :size="14" />
         </button>
-        <button @click.stop="$emit('delete', quote)" class="btn btn-ghost btn-xs text-error" title="Delete">
+        <button @click.stop="$emit('delete', quote)" class="btn btn-ghost btn-xs text-error" :title="$t('quotes.deleteAria')">
           <Trash2 :size="14" />
         </button>
       </div>
@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Pencil, Trash2 } from 'lucide-vue-next'
 import type { Quote } from '@/types/quote'
 import { useAuth } from '@/composables/useAuth'
@@ -38,12 +39,13 @@ import { useAuth } from '@/composables/useAuth'
 const props = defineProps<{ quote: Quote }>()
 defineEmits<{ open: [quote: Quote]; edit: [quote: Quote]; delete: [quote: Quote] }>()
 
+const { t } = useI18n()
 const { user } = useAuth()
 const isOwner = computed(() => user.value?.id === props.quote.user_id)
 
 const displayAuthor = computed(() => {
-  if (props.quote.is_anonymous) return 'Anonymous'
-  return props.quote.author_name || 'Unknown'
+  if (props.quote.is_anonymous) return t('quotes.anonymous')
+  return props.quote.author_name || t('quotes.unknown')
 })
 
 const truncatedContent = computed(() => {

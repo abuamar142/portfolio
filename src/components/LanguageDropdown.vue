@@ -5,7 +5,7 @@
       v-for="lang in languages"
       :key="lang.code"
       type="button"
-      class="label transition-colors"
+      class="label flex min-h-11 items-center px-1.5 transition-colors"
       :class="locale === lang.code ? 'text-base-content underline underline-offset-4 decoration-1' : 'text-ink-4 hover:text-voltage-ink'"
       :aria-current="locale === lang.code ? 'true' : undefined"
       @click="switchLang(lang.code)"

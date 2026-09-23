@@ -9,7 +9,7 @@
             "{{ quote.content }}"
           </p>
           <p class="text-ink-3 text-sm">
-            — {{ quote.is_anonymous ? 'Anonymous' : quote.author_name || 'Unknown' }}
+            — {{ quote.is_anonymous ? $t('quotes.anonymous') : quote.author_name || $t('quotes.unknown') }}
           </p>
           <p v-if="quote.source" class="text-ink-4 text-xs mt-1">
             {{ quote.source }}
@@ -23,7 +23,7 @@
         </div>
 
         <div class="flex items-center justify-center gap-3">
-          <ShareButton :id="quote.id" :content="quote.content" :author="quote.is_anonymous ? 'Anonymous' : quote.author_name || 'Unknown'" />
+          <ShareButton :id="quote.id" :content="quote.content" :author="quote.is_anonymous ? $t('quotes.anonymous') : quote.author_name || $t('quotes.unknown')" />
         </div>
 
         <p class="text-center text-xs text-ink-4 mt-4">
@@ -35,14 +35,18 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { X } from 'lucide-vue-next'
 import type { Quote } from '@/types/quote'
 import ShareButton from './ShareButton.vue'
+
+const { locale } = useI18n()
 
 defineProps<{ show: boolean; quote: Quote | null }>()
 defineEmits<{ close: [] }>()
 
 function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  const dateLocale = locale.value === 'en' ? 'en-US' : 'id-ID'
+  return new Date(dateStr).toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })
 }
 </script>

@@ -4,41 +4,41 @@
       <div class="modal-box">
         <button @click="$emit('close')" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"><X :size="16" /></button>
         <h2 class="font-bold text-lg mb-4">
-          {{ mode === 'login' ? 'Sign In' : 'Create Account' }}
+          {{ mode === 'login' ? $t('auth.signIn') : $t('auth.createAccount') }}
         </h2>
 
         <form @submit.prevent="handleSubmit" class="space-y-3">
           <div v-if="mode === 'register'">
-            <label class="label"><span class="label-text">Display Name</span></label>
-            <input v-model="form.display_name" type="text" class="input input-bordered w-full" placeholder="Your name" />
+            <label class="label"><span class="label-text">{{ $t('auth.displayName') }}</span></label>
+            <input v-model="form.display_name" type="text" class="input input-bordered w-full" :placeholder="$t('auth.namePlaceholder')" />
           </div>
 
           <div>
-            <label class="label"><span class="label-text">{{ mode === 'login' ? 'Email or Username' : 'Email' }}</span></label>
-            <input v-model="form.identifier" type="text" required class="input input-bordered w-full" :placeholder="mode === 'login' ? 'email or username' : 'email@example.com'" />
+            <label class="label"><span class="label-text">{{ mode === 'login' ? $t('auth.emailOrUsername') : $t('auth.email') }}</span></label>
+            <input v-model="form.identifier" type="text" required class="input input-bordered w-full" :placeholder="mode === 'login' ? $t('auth.identifierPlaceholderLogin') : $t('auth.identifierPlaceholderRegister')" />
           </div>
 
           <div v-if="mode === 'register'">
-            <label class="label"><span class="label-text">Username</span></label>
-            <input v-model="form.username" type="text" class="input input-bordered w-full" placeholder="username" />
+            <label class="label"><span class="label-text">{{ $t('auth.usernameLabel') }}</span></label>
+            <input v-model="form.username" type="text" class="input input-bordered w-full" :placeholder="$t('auth.usernamePlaceholder')" />
           </div>
 
           <div>
-            <label class="label"><span class="label-text">Password</span></label>
+            <label class="label"><span class="label-text">{{ $t('auth.password') }}</span></label>
             <input v-model="form.password" type="password" required minlength="8" class="input input-bordered w-full" placeholder="••••••••" />
           </div>
 
           <p v-if="error" class="text-sm text-error">{{ error }}</p>
 
           <button type="submit" :disabled="loading" class="btn btn-primary w-full">
-            {{ loading ? 'Loading...' : mode === 'login' ? 'Sign In' : 'Create Account' }}
+            {{ loading ? $t('auth.loading') : mode === 'login' ? $t('auth.signIn') : $t('auth.createAccount') }}
           </button>
         </form>
 
         <p class="mt-3 text-center text-sm">
-          {{ mode === 'login' ? "Don't have an account?" : "Already have an account?" }}
+          {{ mode === 'login' ? $t('auth.noAccount') : $t('auth.haveAccount') }}
           <button @click="toggleMode" class="link link-primary">
-            {{ mode === 'login' ? 'Sign Up' : 'Sign In' }}
+            {{ mode === 'login' ? $t('auth.signUp') : $t('auth.signIn') }}
           </button>
         </p>
       </div>
@@ -48,6 +48,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { X } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
@@ -56,6 +57,7 @@ import axios from 'axios'
 defineProps<{ show: boolean }>()
 const emit = defineEmits<{ close: [] }>()
 
+const { t } = useI18n()
 const { setToken, storeUser } = useAuth()
 const toast = useToast()
 const mode = ref<'login' | 'register'>('login')
@@ -87,7 +89,7 @@ async function handleLogin(identifier: string, password: string) {
     if (meData.data) {
       storeUser(meData.data)
     }
-    toast.success(mode.value === 'register' ? 'Account created!' : 'Welcome back!')
+    toast.success(mode.value === 'register' ? t('auth.createdToast') : t('auth.welcomeToast'))
     emit('close')
   }
 }
@@ -113,7 +115,7 @@ async function handleSubmit() {
   } catch (e: unknown) {
     type AxiosLike = { response?: { data?: { error?: { details?: string }; message?: string } } }
     const err = (e && typeof e === 'object' && 'response' in e) ? (e as AxiosLike) : null
-    const msg = err?.response?.data?.error?.details || err?.response?.data?.message || 'Something went wrong'
+    const msg = err?.response?.data?.error?.details || err?.response?.data?.message || t('auth.somethingWrong')
     error.value = msg
     toast.error(msg)
   } finally {

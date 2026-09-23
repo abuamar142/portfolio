@@ -20,8 +20,12 @@
   <!-- Masthead -->
   <header class="sticky top-0 z-50 border-b border-base-300 bg-base-100">
     <div class="wrap flex min-h-14 items-center justify-between gap-3 md:gap-6">
-      <router-link to="/" class="masthead-name min-w-0 truncate" @click="isMenuOpen = false">
-        {{ identity?.fullname ?? '' }}
+      <router-link
+        to="/"
+        class="masthead-name flex min-h-11 min-w-0 items-center"
+        @click="isMenuOpen = false"
+      >
+        <span class="truncate">{{ identity?.fullname ?? '' }}</span>
       </router-link>
 
       <nav class="masthead-nav hidden min-[1200px]:flex" aria-label="Primary">
@@ -39,8 +43,11 @@
       </nav>
 
       <div class="flex shrink-0 items-center gap-3">
-        <LanguageDropdown />
-        <ThemeToggle />
+        <!-- Utilities move into the open menu below, so the row keeps only the close button. -->
+        <template v-if="!isMenuOpen">
+          <LanguageDropdown />
+          <ThemeToggle />
+        </template>
         <button
           type="button"
           class="btn btn-ghost btn-square size-11 min-[1200px]:hidden"
@@ -53,14 +60,15 @@
           <Menu v-else class="size-5" aria-hidden="true" />
         </button>
       </div>
-
-      <MobileMenu
-        :open="isMenuOpen"
-        :full-nav="fullNav"
-        :resume-href="SITE_RESUME_PATH"
-        @close="isMenuOpen = false"
-      />
     </div>
+
+    <!-- Dropdown below the masthead row, full width under its top hairline. -->
+    <MobileMenu
+      :open="isMenuOpen"
+      :full-nav="fullNav"
+      :resume-href="SITE_RESUME_PATH"
+      @close="isMenuOpen = false"
+    />
   </header>
 
   <!-- Numbered section strip: small screens + tablets. Global: links route-aware. -->
@@ -80,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { Menu, X } from 'lucide-vue-next'
 import LanguageDropdown from '@/components/LanguageDropdown.vue'
@@ -106,13 +114,14 @@ const sectionNav = [
   { id: 'contact', no: '07', label: 'navigation.contact' },
 ]
 
-/** Mobile menu: numbered sections plus the explore route. */
+/** Mobile menu: numbered sections plus the explore route. Always route links so
+ *  they navigate home from /quotes, /blogs and /explore (bare #hash would not). */
 const fullNav = [
   ...sectionNav.map((item) => ({
-    href: `#${item.id}`,
+    href: `/#${item.id}`,
     no: item.no,
     label: item.label,
-    route: false,
+    route: true,
   })),
   { href: '/explore', no: '', label: 'navigation.explore', route: true },
 ]
@@ -184,6 +193,18 @@ watch(
   },
   { immediate: true },
 )
+
+// Keep the active strip cell visible on small screens (the mobile twin of the
+// desktop spine). `block: 'nearest'` avoids vertical movement; horizontal
+// scrolling only happens inside the strip's own overflow.
+watch(activeSection, async (id) => {
+  if (!id || typeof document === 'undefined') return
+  // Pre-flush watcher: wait for the class to land on the cell before centering.
+  await nextTick()
+  document
+    .querySelector('.spine-mobile a.is-active')
+    ?.scrollIntoView({ block: 'nearest', inline: 'center' })
+})
 
 const onKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Escape') isMenuOpen.value = false

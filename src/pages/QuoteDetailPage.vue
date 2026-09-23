@@ -1,6 +1,8 @@
 <template>
   <section id="quote-detail" class="page-top">
     <div class="wrap pb-20 md:pb-28">
+      <h1 class="sr-only">{{ $t('quotes.title') }}</h1>
+
       <!-- Back link -->
       <router-link
         to="/quotes"
@@ -12,10 +14,10 @@
 
       <!-- Loading -->
       <div v-if="loading" class="mt-12 max-w-xl animate-pulse" role="status">
-        <div class="h-4 w-1/3 bg-hairline-light rounded"></div>
-        <div class="mt-6 h-12 w-3/4 bg-hairline-light rounded"></div>
-        <div class="mt-4 h-12 w-1/2 bg-hairline-light rounded"></div>
-        <div class="mt-8 h-4 w-1/4 bg-hairline-light rounded"></div>
+        <div class="h-4 w-1/3 bg-hairline-light"></div>
+        <div class="mt-6 h-12 w-3/4 bg-hairline-light"></div>
+        <div class="mt-4 h-12 w-1/2 bg-hairline-light"></div>
+        <div class="mt-8 h-4 w-1/4 bg-hairline-light"></div>
       </div>
 
       <!-- Error -->
@@ -38,7 +40,7 @@
         </blockquote>
 
         <p class="mt-6 font-mono text-sm text-ink-3">
-          — {{ quote.is_anonymous ? 'Anonymous' : quote.author_name || 'Unknown' }}
+          — {{ quote.is_anonymous ? $t('quotes.anonymous') : quote.author_name || $t('quotes.unknown') }}
         </p>
 
         <p v-if="quote.source" class="mt-2 font-mono text-xs text-ink-4">
@@ -60,7 +62,7 @@
           <ShareButton
             :id="quote.id"
             :content="quote.content"
-            :author="quote.is_anonymous ? 'Anonymous' : quote.author_name || 'Unknown'"
+            :author="quote.is_anonymous ? $t('quotes.anonymous') : quote.author_name || $t('quotes.unknown')"
           />
         </div>
       </article>
@@ -69,8 +71,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
 import { ArrowLeft } from 'lucide-vue-next'
 import { fetchQuoteById } from '@/services/quote'
 import type { Quote } from '@/types/quote'
@@ -78,12 +82,23 @@ import ShareButton from '@/components/ShareButton.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
 const route = useRoute()
+const { t, locale } = useI18n()
 const quote = ref<Quote | null>(null)
 const loading = ref(true)
 const error = ref('')
 
+useHead({
+  title: computed(() => {
+    if (!quote.value) return t('quotes.title')
+    const content = quote.value.content
+    const head = content.length > 60 ? `${content.slice(0, 60)}…` : content
+    return `${head} — ${t('quotes.title')}`
+  }),
+})
+
 function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('en-US', {
+  const dateLocale = locale.value === 'en' ? 'en-US' : 'id-ID'
+  return new Date(dateStr).toLocaleDateString(dateLocale, {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -93,7 +108,7 @@ function formatDate(dateStr: string) {
 onMounted(async () => {
   const id = route.params.id as string
   if (!id) {
-    error.value = 'No quote ID provided'
+    error.value = t('quotes.noId')
     loading.value = false
     return
   }
@@ -103,9 +118,9 @@ onMounted(async () => {
   } catch (e: unknown) {
     const err = e as { response?: { status?: number }; message?: string }
     if (err.response?.status === 404) {
-      error.value = 'Quote not found'
+      error.value = t('quotes.notFound')
     } else {
-      error.value = err.message || 'Failed to load quote'
+      error.value = err.message || t('quotes.loadFailed')
     }
   } finally {
     loading.value = false

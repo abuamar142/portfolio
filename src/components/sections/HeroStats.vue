@@ -35,7 +35,7 @@
       <span class="label">{{ $t('hero.labels.email') }}</span>
       <a
         :href="`mailto:${identity.email}`"
-        class="data transition-colors hover:text-voltage-ink"
+        class="data inline-flex min-h-11 items-center transition-colors hover:text-voltage-ink"
       >
         {{ identity.email }}
       </a>
