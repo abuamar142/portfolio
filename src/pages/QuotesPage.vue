@@ -1,63 +1,62 @@
 <template>
-  <div class="page-top section">
-    <div class="wrap">
-      <!-- Header -->
-      <div class="mb-10 text-center">
-        <h1 class="display-2 flex items-center justify-center gap-3">
-          <MessageSquare :size="32" class="text-primary" />
-          Quotes
-        </h1>
-        <p class="lead mt-2 mx-auto">Words worth sharing</p>
-      </div>
+  <section id="quotes" class="page-top">
+    <div class="wrap pb-20 md:pb-28">
+      <!-- Page head -->
+      <SectionHeader level="h1" title="Quotes" lead="Words worth sharing" />
 
-      <!-- Search + Actions -->
-      <div class="flex flex-col sm:flex-row items-center gap-4 mb-8">
-        <div class="relative flex-1 w-full">
-          <Search :size="18" class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-4" />
-          <input v-model="search" @input="debouncedFetch" type="text" placeholder="Search quotes..." class="input input-bordered w-full pl-10" />
+      <!-- Search + actions -->
+      <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+        <div class="min-w-0 flex-1">
+          <SearchInput
+            v-model="search"
+            placeholder="Search quotes..."
+            @update:model-value="debouncedFetch"
+          />
         </div>
-        <template v-if="isAuthenticated">
-          <button @click="showCreate = true" class="btn btn-primary">
-            <Plus :size="16" /> Add Quote
-          </button>
-          <div class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
-              <div class="bg-neutral text-neutral-content w-10 h-10 flex items-center justify-center">
-                <span class="text-sm leading-none">{{ userInitials }}</span>
+        <div class="flex shrink-0 items-center gap-3">
+          <template v-if="isAuthenticated">
+            <button @click="showCreate = true" class="btn btn-primary">
+              <Plus :size="16" /> Add Quote
+            </button>
+            <div class="dropdown dropdown-end">
+              <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
+                <div class="bg-neutral text-neutral-content w-10 h-10 flex items-center justify-center">
+                  <span class="text-sm leading-none">{{ userInitials }}</span>
+                </div>
               </div>
+              <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-200 border border-base-300 z-10 w-52 p-2 shadow-lg mt-2">
+                <li class="menu-title">{{ user?.display_name || user?.username }}</li>
+                <li><a @click="handleLogout"><LogOut :size="14" /> Logout</a></li>
+              </ul>
             </div>
-            <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-200 border border-base-300 z-10 w-52 p-2 shadow-lg mt-2">
-              <li class="menu-title">{{ user?.display_name || user?.username }}</li>
-              <li><a @click="handleLogout"><LogOut :size="14" /> Logout</a></li>
-            </ul>
-          </div>
-        </template>
-        <button v-else @click="showAuth = true" class="btn btn-primary">
-          Sign In
-        </button>
+          </template>
+          <button v-else @click="showAuth = true" class="btn btn-primary">
+            Sign In
+          </button>
+        </div>
       </div>
 
-      <!-- Tags -->
-      <div v-if="tags.length" class="flex flex-wrap gap-2 mb-8 justify-center">
-        <button
-          @click="selectedTag = ''; reloadQuotes()"
-          :class="['btn btn-sm', !selectedTag ? 'btn-primary' : 'btn-ghost']"
-        >All</button>
-        <button
-          v-for="tag in tags"
-          :key="tag.tag"
-          @click="selectedTag = tag.tag; reloadQuotes()"
-          :class="['btn btn-sm', selectedTag === tag.tag ? 'btn-primary' : 'btn-ghost']"
-        >
-          #{{ tag.tag }} <span class="opacity-60">({{ tag.count }})</span>
-        </button>
-      </div>
-
-      <!-- Sort -->
-      <div class="flex items-center gap-2 mb-6 justify-end">
-        <span class="label">Sort:</span>
-        <button @click="sortRandom" :class="['btn btn-sm', sort === 'random' ? 'btn-primary' : 'btn-ghost']">Random</button>
-        <button @click="sortLatest" :class="['btn btn-sm', sort === 'latest' ? 'btn-primary' : 'btn-ghost']">Latest</button>
+      <!-- Tags + sort -->
+      <div class="mb-8 flex flex-wrap items-center justify-between gap-3 border-t border-hairline-light pt-4">
+        <div v-if="tags.length" class="flex flex-wrap items-center gap-2">
+          <button
+            @click="selectedTag = ''; reloadQuotes()"
+            :class="['chip', !selectedTag ? 'chip-accent' : '']"
+          >All</button>
+          <button
+            v-for="tag in tags"
+            :key="tag.tag"
+            @click="selectedTag = tag.tag; reloadQuotes()"
+            :class="['chip', selectedTag === tag.tag ? 'chip-accent' : '']"
+          >
+            #{{ tag.tag }} <span class="text-ink-4">({{ tag.count }})</span>
+          </button>
+        </div>
+        <div class="ml-auto flex items-center gap-2">
+          <span class="label">Sort:</span>
+          <button @click="sortRandom" :class="['btn btn-sm', sort === 'random' ? 'btn-primary' : 'btn-ghost']">Random</button>
+          <button @click="sortLatest" :class="['btn btn-sm', sort === 'latest' ? 'btn-primary' : 'btn-ghost']">Latest</button>
+        </div>
       </div>
 
       <!-- Loading -->
@@ -68,7 +67,7 @@
       <!-- Empty -->
       <div v-else-if="quotes.length === 0" class="text-center py-20">
         <FileEdit :size="64" class="mx-auto mb-4 text-ink-4" />
-        <p class="display-2 text-2xl mb-2">No quotes yet</p>
+        <p class="display-2 mb-2">No quotes yet</p>
         <p class="text-ink-3 mb-4">Be the first to share a quote!</p>
         <button @click="isAuthenticated ? (showCreate = true) : (showAuth = true)" class="btn btn-primary">
           Add Quote
@@ -100,12 +99,12 @@
     <CreateQuoteModal :show="showCreate" @close="showCreate = false" @created="reloadQuotes" />
     <EditQuoteModal :show="showEdit" :quote="editingQuote" @close="showEdit = false" @updated="reloadQuotes" />
     <QuoteModal :show="showModal" :quote="selectedQuote" @close="showModal = false" />
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { MessageSquare, FileEdit, Search, Plus, LogOut } from 'lucide-vue-next'
+import { FileEdit, Plus, LogOut } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import { fetchQuotes, fetchTags, deleteQuote } from '@/services/quote'
@@ -115,6 +114,8 @@ import QuoteModal from '@/components/QuoteModal.vue'
 import CreateQuoteModal from '@/components/CreateQuoteModal.vue'
 import EditQuoteModal from '@/components/EditQuoteModal.vue'
 import AuthModal from '@/components/AuthModal.vue'
+import SectionHeader from '@/components/ui/SectionHeader.vue'
+import SearchInput from '@/components/ui/SearchInput.vue'
 
 const { user, isAuthenticated, logout } = useAuth()
 const toast = useToast()

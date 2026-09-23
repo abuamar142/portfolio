@@ -17,15 +17,19 @@ export const createApp = ViteSSG(
   {
     routes,
     base: import.meta.env.BASE_URL,
-    scrollBehavior(to, from, savedPosition) {
+    async scrollBehavior(to, from, savedPosition) {
       if (savedPosition) {
         return savedPosition
       }
-      if (to.hash) {
-        return {
-          el: to.hash,
-          behavior: 'smooth',
-          top: 72, // Clear the sticky masthead (56px) plus breathing room
+      if (to.hash && typeof document !== 'undefined') {
+        // Section targets mount only after portfolio data loads (skeleton
+        // first, then async chunks) — wait for the element before scrolling.
+        const deadline = Date.now() + 8000
+        while (!document.querySelector(to.hash) && Date.now() < deadline) {
+          await new Promise((resolve) => setTimeout(resolve, 100))
+        }
+        if (document.querySelector(to.hash)) {
+          return { el: to.hash, behavior: 'smooth', top: 72 } // Clear the sticky masthead
         }
       }
       return { top: 0 }

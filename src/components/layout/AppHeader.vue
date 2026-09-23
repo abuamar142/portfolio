@@ -1,5 +1,5 @@
 <template>
-  <!-- Dossier spine: fixed numbered rail (≥1100px) -->
+  <!-- Dossier spine: fixed numbered rail (≥1100px). Global: links route-aware. -->
   <nav class="spine" aria-label="Sections">
     <span class="spine-track" aria-hidden="true"></span>
     <span class="spine-progress" aria-hidden="true"></span>
@@ -10,7 +10,9 @@
         class="spine-item"
         :class="{ 'is-active': activeSection === item.id }"
       >
-        <a :href="`#${item.id}`">{{ item.no }} / {{ $t(item.label) }}</a>
+        <router-link :to="{ path: '/', hash: '#' + item.id }">
+          {{ item.no }} / {{ $t(item.label) }}
+        </router-link>
       </div>
     </div>
   </nav>
@@ -23,14 +25,14 @@
       </router-link>
 
       <nav class="masthead-nav hidden min-[1200px]:flex" aria-label="Primary">
-        <a
+        <router-link
           v-for="item in sectionNav"
           :key="item.id"
-          :href="`#${item.id}`"
-          :aria-current="activeSection === item.id ? 'true' : undefined"
+          :to="{ path: '/', hash: '#' + item.id }"
+          :class="{ 'is-active': activeSection === item.id }"
         >
           {{ $t(item.label) }}
-        </a>
+        </router-link>
         <router-link to="/blogs" :aria-current="isBlogRoute ? 'page' : undefined">
           {{ $t('navigation.blog') }}
         </router-link>
@@ -60,31 +62,33 @@
     </div>
   </header>
 
-  <!-- Numbered section strip: small screens + tablets -->
+  <!-- Numbered section strip: small screens + tablets. Global: links route-aware. -->
   <nav class="spine-mobile" aria-label="Sections">
     <div class="spine-mobile-inner">
-      <a
+      <router-link
         v-for="item in sectionNav"
         :key="item.id"
-        :href="`#${item.id}`"
+        :to="{ path: '/', hash: '#' + item.id }"
         :class="{ 'is-active': activeSection === item.id }"
       >
         <span class="marker-sm" aria-hidden="true"></span>
         {{ item.no }} / {{ $t(item.label) }}
-      </a>
+      </router-link>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { Menu, X } from 'lucide-vue-next'
 import LanguageDropdown from '@/components/LanguageDropdown.vue'
 import MobileMenu from '@/components/layout/MobileMenu.vue'
 import { SITE_RESUME_PATH, useIdentity } from '@/composables/useIdentity'
+import { usePortfolio } from '@/composables/usePortfolio'
 
 const { identity } = useIdentity()
+const { loading } = usePortfolio()
 const route = useRoute()
 const isMenuOpen = ref(false)
 const activeSection = ref('')
@@ -113,39 +117,80 @@ const fullNav = [
 
 const isBlogRoute = computed(() => route.path.startsWith('/blogs'))
 
+/* ── Scrollspy ───────────────────────────────────────────────────────────────
+   Lives and dies with the landing route. Sections only mount after the
+   portfolio data loads (skeleton first) and some render as async chunks, so
+   connecting waits for `loading` to flip and then polls briefly until every
+   section id exists. Rebuilt on every entry to '/' — an observer created once
+   at app mount goes stale after a route round-trip (its elements unmount). */
 let observer: IntersectionObserver | null = null
+let retryTimer: ReturnType<typeof setTimeout> | null = null
+let retryCount = 0
+
+const stopScrollspy = () => {
+  observer?.disconnect()
+  observer = null
+  if (retryTimer) {
+    clearTimeout(retryTimer)
+    retryTimer = null
+  }
+  retryCount = 0
+  activeSection.value = ''
+}
+
+const startScrollspy = () => {
+  stopScrollspy()
+  if (!('IntersectionObserver' in window)) return
+
+  const connect = () => {
+    if (route.path !== '/') return
+    const sections = sectionNav
+      .map((item) => document.getElementById(item.id))
+      .filter((el): el is HTMLElement => Boolean(el))
+
+    if (sections.length < sectionNav.length && retryCount < 30) {
+      retryCount += 1
+      retryTimer = setTimeout(connect, 400)
+      return
+    }
+    if (!sections.length) return
+
+    observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) activeSection.value = entry.target.id
+        }
+      },
+      { rootMargin: '-40% 0px -55% 0px', threshold: 0 },
+    )
+    sections.forEach((section) => observer?.observe(section))
+  }
+
+  connect()
+}
+
+watch(
+  [() => route.path, loading],
+  ([path, isLoading]) => {
+    if (path === '/' && !isLoading) startScrollspy()
+    else if (path !== '/') stopScrollspy()
+  },
+  { immediate: true },
+)
 
 const onKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Escape') isMenuOpen.value = false
 }
 
-onMounted(() => {
+// Client-only lifecycle: document access stays out of SSR.
+if (typeof document !== 'undefined') {
   document.addEventListener('keydown', onKeydown)
-
-  if (!('IntersectionObserver' in window)) return
-
-  const sections = sectionNav
-    .map((item) => document.getElementById(item.id))
-    .filter((el): el is HTMLElement => Boolean(el))
-
-  if (!sections.length) return
-
-  // A section is "current" while its top passes through the upper-middle band
-  // of the viewport.
-  observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) activeSection.value = entry.target.id
-      }
-    },
-    { rootMargin: '-40% 0px -55% 0px', threshold: 0 },
-  )
-
-  sections.forEach((section) => observer?.observe(section))
-})
+}
 
 onBeforeUnmount(() => {
-  document.removeEventListener('keydown', onKeydown)
-  observer?.disconnect()
+  if (typeof document !== 'undefined') {
+    document.removeEventListener('keydown', onKeydown)
+  }
+  stopScrollspy()
 })
 </script>

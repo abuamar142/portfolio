@@ -337,10 +337,10 @@
   .masthead-nav a:focus-visible {
     color: var(--color-voltage-ink);
   }
-  .masthead-nav a[aria-current] {
+  .masthead-nav a.is-active {
     color: var(--color-base-content);
   }
-  .masthead-nav a[aria-current]::before {
+  .masthead-nav a.is-active::before {
     content: '';
     position: absolute;
     left: -12px;

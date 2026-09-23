@@ -3,7 +3,7 @@
     <div class="wrap pb-20 md:pb-28">
       <SectionHeader level="h1" :title="$t('headings.blog')">
         <template #meta>
-          <p class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
+          <p class="data">
             {{ totalPosts }} {{ $t('blog.posts') }}
           </p>
         </template>
