@@ -24,6 +24,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../pages/ExplorePage.vue'),
   },
   {
+    path: '/quotes/:id',
+    name: 'quote-detail',
+    component: () => import('../pages/QuoteDetailPage.vue'),
+  },
+  {
     path: '/quotes',
     name: 'quotes',
     component: () => import('../pages/QuotesPage.vue'),

@@ -120,6 +120,8 @@ export default {
   quotes: {
     title: 'Kutipan',
     dek: 'Kata-kata yang layak dibagikan',
+    backToList: 'Kembali ke kutipan',
+    notFound: 'Kutipan tidak ditemukan',
   },
   theme: {
     label: 'Tema',

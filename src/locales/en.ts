@@ -120,6 +120,8 @@ export default {
   quotes: {
     title: 'Quotes',
     dek: 'Words worth sharing',
+    backToList: 'Back to quotes',
+    notFound: 'Quote not found',
   },
   theme: {
     label: 'Theme',
