@@ -25,7 +25,7 @@ export const createApp = ViteSSG(
         return {
           el: to.hash,
           behavior: 'smooth',
-          top: 80, // Account for fixed header
+          top: 72, // Clear the sticky masthead (56px) plus breathing room
         }
       }
       return { top: 0 }

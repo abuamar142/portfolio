@@ -58,10 +58,10 @@ const rotation = computed(() => {
 
 const colorClass = computed(() => {
   const map: Record<string, string> = {
-    yellow: 'bg-amber-100/80 border border-amber-300',
-    pink: 'bg-pink-100/80 border border-pink-300',
-    blue: 'bg-blue-100/80 border border-blue-300',
-    green: 'bg-emerald-100/80 border border-emerald-300',
+    yellow: 'bg-base-200 border border-base-300',
+    pink: 'bg-surface-green border border-hairline-light',
+    blue: 'bg-base-200 border border-base-300',
+    green: 'bg-surface-green border border-hairline-light',
     white: 'bg-base-200 border border-base-300',
   }
   return map[props.quote.color] || map.white
@@ -69,10 +69,10 @@ const colorClass = computed(() => {
 
 const textClass = computed(() => {
   const map: Record<string, string> = {
-    yellow: 'text-amber-900',
-    pink: 'text-pink-900',
-    blue: 'text-blue-900',
-    green: 'text-emerald-900',
+    yellow: 'text-base-content',
+    pink: 'text-base-content',
+    blue: 'text-base-content',
+    green: 'text-base-content',
     white: 'text-base-content',
   }
   return map[props.quote.color] || map.white
@@ -82,7 +82,6 @@ const textClass = computed(() => {
 <style scoped>
 .quote-card {
   padding: 1.25rem;
-  border-radius: 0.5rem;
   box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }

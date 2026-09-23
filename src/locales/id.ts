@@ -133,6 +133,11 @@ export default {
   footer: {
     built: 'Dibangun dengan Vue 3 & Vite',
     backToTop: 'Kembali ke atas',
+    labels: {
+      sections: 'Bagian',
+      elsewhere: 'Tautan',
+      contact: 'Kontak',
+    },
   },
   blog: {
     posts: 'tulisan',

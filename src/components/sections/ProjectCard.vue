@@ -1,39 +1,47 @@
 <template>
-  <div class="group relative">
-    <Sparkle
-      class="pointer-events-none absolute -top-6 right-3 size-6 scale-50 fill-primary/50 text-primary/50 opacity-0 transition-all duration-500 group-hover:rotate-12 group-hover:scale-100 group-hover:opacity-100"
-      aria-hidden="true"
+  <div class="flex flex-col">
+    <img
+      v-if="project.imageUrl"
+      :src="project.imageUrl"
+      :alt="project.title"
+      class="aspect-[16/10] w-full object-cover border-b border-hairline-light"
     />
-    <p class="font-mono text-[11px] tracking-wider text-primary">
-      {{ primaryTech }}
-    </p>
 
-    <h3 class="mt-2 text-lg font-semibold leading-snug tracking-tight text-base-content">
-      {{ project.title }}
-    </h3>
+    <div v-if="primaryTech" class="figure-block-head">
+      <span class="label label-voltage">{{ primaryTech }}</span>
+    </div>
 
-    <p v-if="project.description" class="mt-2 line-clamp-3 text-sm leading-relaxed text-ink-2">
-      {{ project.description }}
-    </p>
+    <div class="figure-block-body flex flex-col flex-1">
+      <h3 class="row-title">
+        {{ project.title }}
+      </h3>
 
-    <div
-      v-if="project.technologies.length"
-      class="mt-4 mb-5 flex flex-wrap items-center gap-1.5"
-    >
-      <span v-for="tech in project.technologies.slice(0, 5)" :key="tech" class="chip">
-        {{ tech }}
-      </span>
-      <span
-        v-if="project.technologies.length > 5"
-        class="font-mono text-[11px] leading-none text-ink-4"
+      <p
+        v-if="project.description"
+        class="mt-1.5 text-base leading-relaxed text-ink-3"
       >
-        +{{ project.technologies.length - 5 }}
-      </span>
+        {{ project.description }}
+      </p>
+
+      <div
+        v-if="project.technologies.length"
+        class="mt-4 flex flex-wrap items-center gap-1.5"
+      >
+        <span v-for="tech in project.technologies.slice(0, 5)" :key="tech" class="chip">
+          {{ tech }}
+        </span>
+        <span
+          v-if="project.technologies.length > 5"
+          class="data"
+        >
+          +{{ project.technologies.length - 5 }}
+        </span>
+      </div>
     </div>
 
     <div
       v-if="project.githubUrl || project.liveUrl"
-      class="mt-auto flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-base-300 pt-3"
+      class="figure-block-foot mt-auto flex-row items-center gap-x-5"
     >
       <a
         v-if="project.githubUrl"
@@ -64,7 +72,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { ArrowUpRight, Github, Sparkle } from 'lucide-vue-next'
+import { ArrowUpRight, Github } from 'lucide-vue-next'
 import type { Project } from '@/types/portfolio'
 
 const props = defineProps<{

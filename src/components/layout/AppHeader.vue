@@ -1,30 +1,46 @@
 <template>
-  <header class="fixed inset-x-0 top-5 z-50 hidden justify-center px-6 md:flex">
-    <nav
-      class="flex items-center gap-1 rounded-full border border-base-300/60 bg-base-200/80 p-1.5 shadow-md shadow-black/5 backdrop-blur-md"
-      aria-label="Primary"
-    >
-      <PillNav :section-nav="sectionNav" :active-id="activeSection" :is-blog-route="isBlogRoute" />
-    </nav>
-  </header>
-  <!-- Compact bar: mobile + blog context (pill hides on small screens, like reference). -->
-  <header
-    class="fixed inset-x-0 top-0 z-50 border-b border-base-300 bg-base-100/85 backdrop-blur-md md:hidden"
-  >
-    <nav class="wrap" aria-label="Primary">
-      <div class="flex h-16 items-center justify-between gap-4">
-        <router-link to="/" class="flex items-center gap-2.5" @click="isMenuOpen = false">
-          <span
-            class="flex size-8 items-center justify-center rounded-md border border-base-300 bg-base-200 font-mono text-[11px] font-semibold tracking-wider text-base-content"
-            aria-hidden="true"
-          >
-            {{ initials }}
-          </span>
-          <span class="font-display text-[17px] tracking-tight text-base-content">{{ identity?.nickname ?? '' }}</span>
+  <!-- Dossier spine: fixed numbered rail (≥1100px) -->
+  <nav class="spine" aria-label="Sections">
+    <span class="spine-track" aria-hidden="true"></span>
+    <span class="spine-progress" aria-hidden="true"></span>
+    <div class="spine-labels">
+      <div
+        v-for="item in sectionNav"
+        :key="item.id"
+        class="spine-item"
+        :class="{ 'is-active': activeSection === item.id }"
+      >
+        <a :href="`#${item.id}`">{{ item.no }} / {{ $t(item.label) }}</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Masthead -->
+  <header class="sticky top-0 z-50 border-b border-base-300 bg-base-100">
+    <div class="wrap flex min-h-14 items-center justify-between gap-3 md:gap-6">
+      <router-link to="/" class="masthead-name min-w-0 truncate" @click="isMenuOpen = false">
+        {{ identity?.fullname ?? '' }}
+      </router-link>
+
+      <nav class="masthead-nav hidden min-[1200px]:flex" aria-label="Primary">
+        <a
+          v-for="item in sectionNav"
+          :key="item.id"
+          :href="`#${item.id}`"
+          :aria-current="activeSection === item.id ? 'true' : undefined"
+        >
+          {{ $t(item.label) }}
+        </a>
+        <router-link to="/blogs" :aria-current="isBlogRoute ? 'page' : undefined">
+          {{ $t('navigation.blog') }}
         </router-link>
+      </nav>
+
+      <div class="flex shrink-0 items-center gap-3">
+        <LanguageDropdown />
         <button
           type="button"
-          class="btn btn-ghost btn-square size-11"
+          class="btn btn-ghost btn-square size-11 min-[1200px]:hidden"
           :aria-expanded="isMenuOpen"
           aria-controls="mobile-menu"
           :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'"
@@ -34,43 +50,65 @@
           <Menu v-else class="size-5" aria-hidden="true" />
         </button>
       </div>
+
       <MobileMenu
         :open="isMenuOpen"
         :full-nav="fullNav"
         :resume-href="SITE_RESUME_PATH"
         @close="isMenuOpen = false"
       />
-    </nav>
+    </div>
   </header>
+
+  <!-- Numbered section strip: small screens + tablets -->
+  <nav class="spine-mobile" aria-label="Sections">
+    <div class="spine-mobile-inner">
+      <a
+        v-for="item in sectionNav"
+        :key="item.id"
+        :href="`#${item.id}`"
+        :class="{ 'is-active': activeSection === item.id }"
+      >
+        <span class="marker-sm" aria-hidden="true"></span>
+        {{ item.no }} / {{ $t(item.label) }}
+      </a>
+    </div>
+  </nav>
 </template>
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { Menu, X } from 'lucide-vue-next'
-import PillNav from '@/components/layout/PillNav.vue'
+import LanguageDropdown from '@/components/LanguageDropdown.vue'
 import MobileMenu from '@/components/layout/MobileMenu.vue'
 import { SITE_RESUME_PATH, useIdentity } from '@/composables/useIdentity'
 
-const { identity, initials } = useIdentity()
+const { identity } = useIdentity()
 const route = useRoute()
 const isMenuOpen = ref(false)
 const activeSection = ref('')
 
-/** In-page sections, in document order. */
+/** In-page sections, in document order. `no` drives spine, strip and section heads. */
 const sectionNav = [
-  { id: 'about', label: 'navigation.about' },
-  { id: 'experiences', label: 'navigation.experience' },
-  { id: 'projects', label: 'navigation.projects' },
-  { id: 'education', label: 'navigation.education' },
-  { id: 'achievements', label: 'navigation.achievements' },
-  { id: 'contact', label: 'navigation.contact' },
+  { id: 'about', no: '01', label: 'navigation.about' },
+  { id: 'experiences', no: '02', label: 'navigation.experience' },
+  { id: 'projects', no: '03', label: 'navigation.projects' },
+  { id: 'skills', no: '04', label: 'navigation.skills' },
+  { id: 'education', no: '05', label: 'navigation.education' },
+  { id: 'achievements', no: '06', label: 'navigation.achievements' },
+  { id: 'contact', no: '07', label: 'navigation.contact' },
 ]
 
-/** Mobile menu: in-page sections plus the blog route. */
+/** Mobile menu: numbered sections plus the blog route. */
 const fullNav = [
-  ...sectionNav.map((item) => ({ href: `#${item.id}`, label: item.label, route: false })),
-  { href: '/blogs', label: 'navigation.blog', route: true },
+  ...sectionNav.map((item) => ({
+    href: `#${item.id}`,
+    no: item.no,
+    label: item.label,
+    route: false,
+  })),
+  { href: '/blogs', no: '', label: 'navigation.blog', route: true },
 ]
 
 const isBlogRoute = computed(() => route.path.startsWith('/blogs'))

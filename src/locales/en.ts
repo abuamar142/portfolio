@@ -129,6 +129,11 @@ export default {
   footer: {
     built: 'Built with Vue 3 & Vite',
     backToTop: 'Back to top',
+    labels: {
+      sections: 'Sections',
+      elsewhere: 'Elsewhere',
+      contact: 'Contact',
+    },
   },
   blog: {
     posts: 'posts',

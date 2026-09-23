@@ -1,11 +1,14 @@
 <template>
   <section id="achievements" class="section">
     <div v-reveal class="wrap">
-      <SectionHeader :title="$t('headings.achievements')" :lead="$t('achievements.subtitle')">
+      <SectionHeader
+        :title="$t('headings.achievements')"
+        :lead="$t('achievements.subtitle')"
+        :index="'06'"
+        :kicker="$t('navigation.achievements')"
+      >
         <template #meta>
-          <p class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
-            {{ achievements.length }} {{ $t('meta.items') }}
-          </p>
+          <p class="data">{{ achievements.length }} {{ $t('meta.items') }}</p>
         </template>
       </SectionHeader>
 
@@ -14,32 +17,24 @@
           <button
             type="button"
             class="chip min-h-11 transition-colors"
-            :class="
-              activeFilter === 'all'
-                ? 'border-primary bg-primary text-primary-content'
-                : 'hover:border-ink-4 hover:text-base-content'
-            "
+            :class="activeFilter === 'all' ? 'chip-accent' : 'hover:border-ink-4 hover:text-base-content'"
             :aria-pressed="activeFilter === 'all'"
             @click="activeFilter = 'all'"
           >
             {{ $t('achievements.filters.all') }}
-            <span class="font-mono text-[11px] opacity-70">{{ achievements.length }}</span>
+            <span class="data">{{ achievements.length }}</span>
           </button>
           <button
             v-for="category in categories"
             :key="category.key"
             type="button"
             class="chip min-h-11 transition-colors"
-            :class="
-              activeFilter === category.key
-                ? 'border-primary bg-primary text-primary-content'
-                : 'hover:border-ink-4 hover:text-base-content'
-            "
+            :class="activeFilter === category.key ? 'chip-accent' : 'hover:border-ink-4 hover:text-base-content'"
             :aria-pressed="activeFilter === category.key"
             @click="activeFilter = category.key"
           >
             {{ $t('achievements.filters.' + category.key) }}
-            <span class="font-mono text-[11px] opacity-70">
+            <span class="data">
               {{ getCountByCategory(category.key) }}
             </span>
           </button>

@@ -13,14 +13,14 @@
         :value="modelValue"
         type="search"
         :placeholder="placeholder"
-        class="input input-sm min-h-11 w-full border-base-300 bg-base-200 pl-9 pr-12 text-sm text-base-content placeholder:text-ink-4 focus:border-primary/40 [&::-webkit-search-cancel-button]:hidden"
+        class="input input-sm min-h-11 w-full border-base-300 bg-base-200 pl-9 pr-12 text-sm text-base-content placeholder:text-ink-4 focus:border-primary/50 [&::-webkit-search-cancel-button]:hidden"
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       />
 
       <button
         v-if="modelValue"
         type="button"
-        class="absolute inset-y-0 right-0 inline-flex w-12 items-center justify-center rounded-r-lg text-ink-3 transition-colors hover:text-base-content"
+        class="absolute inset-y-0 right-0 inline-flex w-12 items-center justify-center text-ink-3 transition-colors hover:text-base-content"
         :aria-label="$t('search.clearSearch')"
         @click="$emit('update:modelValue', '')"
       >

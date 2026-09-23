@@ -1,17 +1,22 @@
 <template>
   <section id="projects" class="section">
     <div class="wrap">
-      <SectionHeader :title="$t('headings.projects')" :lead="$t('projects.subtitle')" align="center">
+      <SectionHeader
+        :title="$t('headings.projects')"
+        :lead="$t('projects.subtitle')"
+        index="03"
+        :kicker="$t('navigation.projects')"
+      >
         <template #meta>
-          <p class="flex min-h-11 flex-wrap items-center justify-center gap-x-3 gap-y-1">
-            <span class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
+          <p class="data flex min-h-11 flex-wrap items-center gap-x-3 gap-y-1">
+            <span>
               {{ projectCount }} {{ $t('meta.projects') }}
             </span>
-            <span class="text-ink-4" aria-hidden="true">·</span>
+            <span class="text-ink-4" aria-hidden="true">&middot;</span>
             <button
               v-if="shouldShowSeeMore || showAll"
               type="button"
-              class="inline-flex items-center gap-1 text-sm font-medium text-ink-3 transition-colors hover:text-primary"
+              class="inline-flex items-center gap-1 font-sans text-sm font-medium text-ink-3 transition-colors hover:text-primary"
               @click="toggleShowAll"
             >
               {{ showAll ? $t('projects.buttons.seeLess') : $t('projects.buttons.viewAll') }}
@@ -21,13 +26,13 @@
         </template>
       </SectionHeader>
 
-      <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
         <article
           v-for="(project, index) in displayedProjects"
           v-reveal
           :key="project.title"
-          :style="{ '--rv-i': index % 3 }"
-          class="panel lift flex flex-col p-5"
+          :style="{ '--rv-i': index % 2 }"
+          class="figure-block lift flex flex-col"
         >
           <ProjectCard :project="project" />
         </article>

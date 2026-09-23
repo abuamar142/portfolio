@@ -58,7 +58,7 @@ const sizeClass: Record<NonNullable<Props['size']>, string> = {
 }
 
 const buttonClasses = computed(() => [
-  'btn gap-2 font-medium tracking-tight',
+  'btn gap-2',
   variantClass[props.variant],
   sizeClass[props.size],
   props.fullWidth ? 'btn-block' : '',

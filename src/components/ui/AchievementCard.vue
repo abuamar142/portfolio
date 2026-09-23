@@ -1,33 +1,39 @@
 <template>
-  <article class="panel flex flex-col p-5 transition-colors hover:border-primary/40">
-    <div class="flex items-start justify-between gap-3">
-      <span class="chip">{{ $t('achievements.categories.' + achievement.type) }}</span>
-      <p class="shrink-0 font-mono text-[11px] leading-none text-ink-4">
-        {{ formatDate(achievement.date) }}
+  <article class="figure-block flex flex-col">
+    <div class="figure-block-head">
+      <span class="label">{{ $t('achievements.categories.' + achievement.type) }}</span>
+      <p class="data">{{ formatDate(achievement.date) }}</p>
+    </div>
+
+    <div class="figure-block-body flex flex-1 flex-col">
+      <h3 class="heading-sm">{{ achievement.title }}</h3>
+
+      <p class="mt-2 font-serif text-[0.9375rem] leading-snug text-ink-3">
+        {{ achievement.organizer }}
       </p>
+
+      <p v-if="achievement.description" class="mt-3 line-clamp-3 text-sm text-ink-2">
+        {{ achievement.description }}
+      </p>
+
+      <div
+        v-if="achievement.certificate_number || achievement.participant_as || achievement.valid_until"
+        class="mt-4 space-y-1.5"
+      >
+        <p v-if="achievement.certificate_number" class="data">
+          {{ achievement.certificate_number }}
+        </p>
+        <p v-if="achievement.participant_as" class="label">
+          {{ achievement.participant_as }}
+        </p>
+        <p v-if="achievement.valid_until" class="data">
+          {{ formatDate(achievement.valid_until) }}
+        </p>
+      </div>
     </div>
 
-    <h3 class="mt-4 text-[15px] font-medium leading-snug text-base-content">
-      {{ achievement.title }}
-    </h3>
-
-    <p class="mt-1 text-sm text-ink-3">{{ achievement.organizer }}</p>
-
-    <p v-if="achievement.description" class="mt-3 line-clamp-3 text-sm text-ink-2">
-      {{ achievement.description }}
-    </p>
-
-    <div
-      v-if="achievement.certificate_number || achievement.participant_as || achievement.valid_until"
-      class="mt-3 space-y-1 font-mono text-[11px] leading-relaxed text-ink-4"
-    >
-      <p v-if="achievement.certificate_number">{{ achievement.certificate_number }}</p>
-      <p v-if="achievement.participant_as">{{ achievement.participant_as }}</p>
-      <p v-if="achievement.valid_until">{{ formatDate(achievement.valid_until) }}</p>
-    </div>
-
-    <div v-if="achievement.drive_file_id" class="mt-auto pt-4">
-      <div class="flex justify-end border-t border-base-300 pt-3">
+    <div v-if="achievement.drive_file_id" class="figure-block-foot">
+      <div class="flex justify-end">
         <BaseButton
           variant="ghost"
           size="sm"

@@ -22,11 +22,11 @@
           </button>
           <div class="dropdown dropdown-end">
             <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
-              <div class="bg-neutral text-neutral-content rounded-full w-10 h-10 flex items-center justify-center">
+              <div class="bg-neutral text-neutral-content w-10 h-10 flex items-center justify-center">
                 <span class="text-sm leading-none">{{ userInitials }}</span>
               </div>
             </div>
-            <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-200 border border-base-300 rounded-box z-10 w-52 p-2 shadow-lg mt-2">
+            <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-200 border border-base-300 z-10 w-52 p-2 shadow-lg mt-2">
               <li class="menu-title">{{ user?.display_name || user?.username }}</li>
               <li><a @click="handleLogout"><LogOut :size="14" /> Logout</a></li>
             </ul>
@@ -55,7 +55,7 @@
 
       <!-- Sort -->
       <div class="flex items-center gap-2 mb-6 justify-end">
-        <span class="eyebrow">Sort:</span>
+        <span class="label">Sort:</span>
         <button @click="sortRandom" :class="['btn btn-sm', sort === 'random' ? 'btn-primary' : 'btn-ghost']">Random</button>
         <button @click="sortLatest" :class="['btn btn-sm', sort === 'latest' ? 'btn-primary' : 'btn-ghost']">Latest</button>
       </div>

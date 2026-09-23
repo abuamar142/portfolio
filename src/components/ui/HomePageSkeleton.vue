@@ -7,16 +7,16 @@
     <div v-for="section in 4" :key="section" class="section" aria-hidden="true">
       <div class="wrap">
         <header class="mb-10 md:mb-14">
-          <div class="skeleton h-3 w-28 rounded-sm bg-base-200"></div>
-          <div class="skeleton mt-4 h-7 w-56 rounded-md bg-base-300 md:h-9"></div>
+          <div class="skeleton h-3 w-28 bg-hairline-light"></div>
+          <div class="skeleton mt-4 h-7 w-56 bg-hairline-light md:h-9"></div>
         </header>
 
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <div v-for="card in 3" :key="card" class="panel p-6">
-            <div class="skeleton h-3 w-16 rounded-sm bg-base-300"></div>
-            <div class="skeleton mt-4 h-5 w-2/3 rounded-sm bg-base-300"></div>
-            <div class="skeleton mt-3 h-4 w-full rounded-sm bg-base-200"></div>
-            <div class="skeleton mt-2 h-4 w-4/5 rounded-sm bg-base-200"></div>
+            <div class="skeleton h-3 w-16 bg-hairline-light"></div>
+            <div class="skeleton mt-4 h-5 w-2/3 bg-hairline-light"></div>
+            <div class="skeleton mt-3 h-4 w-full bg-hairline-light"></div>
+            <div class="skeleton mt-2 h-4 w-4/5 bg-hairline-light"></div>
           </div>
         </div>
       </div>

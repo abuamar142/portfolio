@@ -11,9 +11,9 @@
 
       <!-- Loading -->
       <div v-if="loading" class="mt-8 max-w-[45rem] animate-pulse" role="status">
-        <div class="h-3 w-1/4 rounded bg-base-300"></div>
-        <div class="mt-4 h-8 w-3/4 rounded bg-base-300"></div>
-        <div class="mt-4 h-64 rounded bg-base-200"></div>
+        <div class="h-3 w-1/4 bg-hairline-light"></div>
+        <div class="mt-4 h-8 w-3/4 bg-hairline-light"></div>
+        <div class="mt-4 h-64 bg-hairline-light"></div>
       </div>
 
       <!-- Error -->
@@ -234,10 +234,10 @@ useHead({
   // Override App.vue's `| Abu Amar` titleTemplate so the title is exactly
   // "<post title> — Abu Amar" without doubling the site name.
   title: computed(() => (post.value ? post.value.title : 'Blog Post')),
-  titleTemplate: '%s — Abu Amar',
+  titleTemplate: '%s - Abu Amar',
   meta: computed(() => [
     { name: 'description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
-    { property: 'og:title', content: post.value ? `${post.value.title} — Abu Amar` : 'Blog Post — Abu Amar' },
+    { property: 'og:title', content: post.value ? `${post.value.title} - Abu Amar` : 'Blog Post - Abu Amar' },
     { property: 'og:description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
     { property: 'og:type', content: 'article' },
     { property: 'og:url', content: canonical.value },

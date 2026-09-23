@@ -1,9 +1,14 @@
 <template>
   <section id="experiences" class="section">
     <div v-reveal class="wrap">
-      <SectionHeader :title="$t('headings.experience')" :lead="$t('experience.subtitle')">
+      <SectionHeader
+        :title="$t('headings.experience')"
+        :lead="$t('experience.subtitle')"
+        :index="'02'"
+        :kicker="$t('navigation.experience')"
+      >
         <template #meta>
-          <p v-if="roleCount" class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
+          <p v-if="roleCount" class="data">
             {{ roleCount }} {{ $t('meta.roles') }}
           </p>
         </template>
@@ -18,7 +23,7 @@
 
         <p
           v-if="!portfolio?.experiences?.length"
-          class="border-b border-base-300 py-12 text-center text-sm text-ink-3"
+          class="border-b border-base-300 py-12 text-center data"
         >
           No experience data yet.
         </p>

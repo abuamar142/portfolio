@@ -1,19 +1,17 @@
 <template>
   <article
-    class="grid gap-4 border-b border-base-300 py-7 md:grid-cols-[minmax(0,180px)_minmax(0,1fr)] md:gap-8 md:py-8"
+    class="row grid gap-4 py-7 md:grid-cols-[minmax(0,180px)_minmax(0,1fr)] md:gap-8 md:py-8"
   >
-    <!-- Left: period and employer -->
-    <div class="font-mono text-xs leading-relaxed text-ink-3">
+    <!-- Left: duration and company -->
+    <div class="row-place">
       <p>{{ experience.duration }}</p>
       <p class="mt-1">{{ experience.company }}</p>
     </div>
 
-    <!-- Right: role, scope, stack -->
+    <!-- Right: position, description, stack -->
     <div class="min-w-0">
       <div class="flex flex-wrap items-center gap-2">
-        <h3 class="text-[15px] font-medium tracking-tight text-base-content md:text-base">
-          {{ experience.position }}
-        </h3>
+        <h3 class="row-title">{{ experience.position }}</h3>
         <span v-if="employmentType" class="chip chip-accent">
           {{ employmentType }}
         </span>
@@ -25,7 +23,10 @@
           :key="desc"
           class="flex gap-2.5 text-sm leading-relaxed text-ink-2"
         >
-          <span class="mt-2 size-1 shrink-0 rounded-full bg-ink-4" aria-hidden="true"></span>
+          <span
+            class="mt-2 size-[3px] shrink-0 bg-voltage"
+            aria-hidden="true"
+          ></span>
           <span>{{ desc }}</span>
         </li>
       </ul>

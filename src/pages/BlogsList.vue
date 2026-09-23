@@ -54,9 +54,9 @@
       <!-- Loading -->
       <div v-if="loading" class="mt-12 border-t border-base-300" role="status">
         <div v-for="i in 3" :key="i" class="row animate-pulse py-6">
-          <div class="h-3 w-24 rounded-full bg-base-300"></div>
-          <div class="mt-4 h-5 w-3/4 rounded bg-base-300"></div>
-          <div class="mt-3 h-3 w-full rounded bg-base-200"></div>
+          <div class="h-3 w-24 bg-hairline-light"></div>
+          <div class="mt-4 h-5 w-3/4 bg-hairline-light"></div>
+          <div class="mt-3 h-3 w-full bg-hairline-light"></div>
         </div>
       </div>
 
@@ -155,11 +155,11 @@ import SearchInput from '@/components/ui/SearchInput.vue'
 // Overrides App.vue's `| Abu Amar` titleTemplate so the title is exactly
 // "Blog — Abu Amar" without doubling the site name.
 useHead({
-  title: 'Blog — Abu Amar',
+  title: 'Blog - Abu Amar',
   titleTemplate: '%s',
   meta: [
-    { name: 'description', content: 'Blog by Abu Amar — tutorials, notes, and updates on mobile & full-stack development.' },
-    { property: 'og:title', content: 'Blog — Abu Amar' },
+    { name: 'description', content: 'Blog by Abu Amar - tutorials, notes, and updates on mobile & full-stack development.' },
+    { property: 'og:title', content: 'Blog - Abu Amar' },
     { property: 'og:description', content: 'Tutorials, notes, and updates on mobile & full-stack development.' },
     { property: 'og:type', content: 'website' },
     { property: 'og:url', content: 'https://abuamar.online/blogs' },

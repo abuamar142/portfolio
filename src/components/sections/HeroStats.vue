@@ -1,34 +1,52 @@
 <template>
-  <dl
-    v-if="projectCount"
-    class="rise mx-auto mt-14 grid max-w-2xl grid-cols-3 gap-4"
-    style="--rv-i: 6"
-  >
-    <div class="panel flex flex-col items-center gap-1.5 p-5 text-center">
-      <FolderGit2 class="size-4 text-ink-4" aria-hidden="true" />
-      <dd class="font-mono text-2xl tracking-tight text-base-content">
-        {{ projectCount }}
-      </dd>
-      <dt class="text-xs text-ink-3">{{ $t('hero.stats.projects') }}</dt>
+  <figure v-if="identity" class="rise figure-block self-start" style="--rv-i: 3">
+    <figcaption class="figure-block-head">
+      <span class="label label-ink">Fig. 01 / Profile record</span>
+    </figcaption>
+
+    <div class="figure-block-body">
+      <p class="figure-monogram" aria-hidden="true">{{ initials }}</p>
+
+      <dl class="metric-ladder mt-5 border-t border-hairline-light">
+        <div v-if="yearsBuilding" class="metric-row">
+          <div class="metric-label">
+            <dt class="metric-name">{{ $t('hero.stats.experience') }}</dt>
+          </div>
+          <dd class="metric-value">{{ yearsBuilding }}<em>+</em></dd>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-label">
+            <dt class="metric-name">{{ $t('hero.stats.projects') }}</dt>
+          </div>
+          <dd class="metric-value">{{ projectCount }}</dd>
+        </div>
+
+        <div class="metric-row">
+          <div class="metric-label">
+            <dt class="metric-name">{{ $t('hero.stats.technologies') }}</dt>
+          </div>
+          <dd class="metric-value">{{ technologyCount }}</dd>
+        </div>
+      </dl>
     </div>
-    <div class="panel flex flex-col items-center gap-1.5 p-5 text-center">
-      <Layers class="size-4 text-ink-4" aria-hidden="true" />
-      <dd class="font-mono text-2xl tracking-tight text-base-content">
-        {{ technologyCount }}
-      </dd>
-      <dt class="text-xs text-ink-3">{{ $t('hero.stats.technologies') }}</dt>
+
+    <div class="figure-block-foot">
+      <span class="label">{{ $t('hero.labels.email') }}</span>
+      <a
+        :href="`mailto:${identity.email}`"
+        class="data transition-colors hover:text-voltage-ink"
+      >
+        {{ identity.email }}
+      </a>
     </div>
-    <div v-if="yearsBuilding" class="panel flex flex-col items-center gap-1.5 p-5 text-center">
-      <Sparkles class="size-4 text-ink-4" aria-hidden="true" />
-      <dd class="font-mono text-2xl tracking-tight text-base-content">{{ yearsBuilding }}+</dd>
-      <dt class="text-xs text-ink-3">{{ $t('hero.stats.experience') }}</dt>
-    </div>
-  </dl>
+  </figure>
 </template>
 
 <script setup lang="ts">
-import { FolderGit2, Layers, Sparkles } from 'lucide-vue-next'
 import { useStats } from '@/composables/useStats'
+import { useIdentity } from '@/composables/useIdentity'
 
 const { yearsBuilding, projectCount, technologyCount } = useStats()
+const { identity, initials } = useIdentity()
 </script>

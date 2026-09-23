@@ -1,30 +1,35 @@
 <template>
   <section id="skills" class="section">
     <div class="wrap">
-      <SectionHeader :title="$t('headings.skills')" :lead="$t('skills.subtitle')" align="center">
+      <SectionHeader
+        :title="$t('headings.skills')"
+        :lead="$t('skills.subtitle')"
+        index="04"
+        :kicker="$t('navigation.skills')"
+      >
         <template #meta>
-          <p class="font-mono text-[11px] uppercase tracking-wider text-ink-4">
-            {{ technologyCount }} {{ $t('meta.technologies') }}
-          </p>
+          <p class="data">{{ technologyCount }} {{ $t('meta.technologies') }}</p>
         </template>
       </SectionHeader>
 
-      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="mt-8 grid grid-cols-1 gap-0 sm:grid-cols-2 sm:gap-x-12 sm:gap-y-0">
         <div
           v-for="(category, index) in skillCategories"
           :key="category.key"
           v-reveal
           :style="{ '--rv-i': index }"
-          class="panel p-5"
+          class="py-6 sm:py-8 border-t border-hairline-light"
         >
-          <h3 class="text-sm font-medium text-base-content">
-            {{ $t('skills.categories.' + category.key) }}
-          </h3>
-          <SkillChips
-            :skills="category.skills"
-            :label="$t('skills.categories.' + category.key)"
-            class="mt-4"
-          />
+          <div class="flex items-baseline justify-between gap-4">
+            <span class="label">{{ $t('skills.categories.' + category.key) }}</span>
+            <span class="data">{{ category.skills.length }}</span>
+          </div>
+          <div class="mt-4">
+            <SkillChips
+              :skills="category.skills"
+              :label="$t('skills.categories.' + category.key)"
+            />
+          </div>
         </div>
       </div>
     </div>

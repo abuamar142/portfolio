@@ -6,13 +6,13 @@
     <div class="panel w-full max-w-md p-6 text-center md:p-8">
       <h2 class="display-2 text-base-content">Something went wrong</h2>
 
-      <p class="mt-4 break-words text-sm text-ink-2">{{ message }}</p>
+      <p class="data mt-4 break-words">{{ message }}</p>
 
       <BaseButton variant="primary" full-width class="mt-6" @click="$emit('retry')">
         Try again
       </BaseButton>
 
-      <p class="mt-4 font-mono text-[11px] uppercase tracking-wider text-ink-4">
+      <p class="label mt-4">
         Check your connection or try again later
       </p>
     </div>

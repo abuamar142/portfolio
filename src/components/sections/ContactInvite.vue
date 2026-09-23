@@ -1,46 +1,90 @@
 <template>
-  <div v-if="identity" class="mx-auto max-w-2xl text-center">
-    <SectionHeader :title="$t('headings.contact')" :lead="$t('contact.subtitle')" align="center" />
+  <div v-if="identity" class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+    <div class="flex flex-col gap-6">
+      <p class="flex items-center gap-2.5 text-sm text-ink-3">
+        <span class="size-1.5 bg-voltage" aria-hidden="true"></span>
+        {{ $t('contact.badge') }}
+        <span class="data">{{ SITE_TIME_ZONE_LABEL }}</span>
+      </p>
 
-    <div class="mt-8">
-      <a
-        :href="`mailto:${identity.email}`"
-        class="link-sweep text-lg font-medium tracking-tight text-base-content md:text-xl"
-      >
-        {{ identity.email }}
-      </a>
-      <p class="mt-3 flex items-center justify-center gap-2 text-sm text-ink-3">
-        <span class="size-1.5 rounded-full bg-primary" aria-hidden="true"></span>
-        {{ $t('contact.badge') }} {{ SITE_TIME_ZONE_LABEL }}
+      <p class="font-display text-2xl leading-snug text-base-content lg:text-3xl">
+        {{ $t('contact.subtitle') }}
       </p>
     </div>
 
-    <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-      <BaseButton class="min-h-11" :href="`mailto:${identity.email}`" :icon-left="Mail">
-        {{ $t('contact.cards.email.title') }}
-      </BaseButton>
+    <div>
+      <div class="mb-4">
+        <span class="label label-ink">{{ $t('contact.cards.email.title') }}</span>
+      </div>
 
-      <BaseButton
-        v-if="identity.whatsApp"
-        class="min-h-11"
-        variant="secondary"
-        :href="identity.whatsApp"
-        target="_blank"
-        rel="noopener noreferrer"
-        :icon-left="MessageCircle"
-      >
-        WhatsApp
-      </BaseButton>
+      <div class="space-y-0">
+        <a
+          :href="`mailto:${identity.email}`"
+          class="row flex items-center justify-between gap-4 px-0 py-4"
+        >
+          <span class="action">
+            {{ identity.email }}
+            <span class="arrow">&rarr;</span>
+          </span>
+        </a>
+
+        <a
+          v-if="identity.phone"
+          :href="phoneHref"
+          class="row flex items-center justify-between gap-4 px-0 py-4"
+        >
+          <span class="action">
+            {{ identity.phone }}
+            <span class="arrow">&rarr;</span>
+          </span>
+        </a>
+
+        <div v-if="identity.location" class="row flex items-center justify-between gap-4 px-0 py-4">
+          <span class="data">{{ identity.location }}</span>
+        </div>
+      </div>
+
+      <div v-if="socialLinks.length" class="mt-8">
+        <span class="label mb-3 block">{{ $t('contact.social') }}</span>
+        <div class="flex flex-wrap gap-3">
+          <a
+            v-for="link in socialLinks"
+            :key="link.label"
+            :href="link.href"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="action"
+          >
+            {{ link.label }}
+            <span class="arrow">&rarr;</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Mail, MessageCircle } from 'lucide-vue-next'
-import BaseButton from '@/components/ui/BaseButton.vue'
-import SectionHeader from '@/components/ui/SectionHeader.vue'
-import { SITE_TIME_ZONE_LABEL, useIdentity } from '@/composables/useIdentity'
+import { computed } from 'vue'
+import { useIdentity, SITE_TIME_ZONE_LABEL } from '@/composables/useIdentity'
 
-const { identity } = useIdentity()
+const { identity, phoneHref } = useIdentity()
+
+const socialLinks = computed(() => {
+  if (!identity.value) return []
+  const links: { label: string; href: string }[] = []
+  if (identity.value.github) {
+    links.push({ label: 'GitHub', href: identity.value.github })
+  }
+  if (identity.value.linkedin) {
+    links.push({ label: 'LinkedIn', href: identity.value.linkedin })
+  }
+  if (identity.value.instagram) {
+    links.push({ label: 'Instagram', href: identity.value.instagram })
+  }
+  if (identity.value.website) {
+    links.push({ label: 'Website', href: identity.value.website })
+  }
+  return links
+})
 </script>
-

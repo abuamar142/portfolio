@@ -1,28 +1,32 @@
 <template>
   <section id="education" class="section">
     <div v-reveal class="wrap">
-      <SectionHeader :title="$t('headings.education')" :lead="$t('education.subtitle')" />
+      <SectionHeader
+        :title="$t('headings.education')"
+        :lead="$t('education.subtitle')"
+        index="05"
+        :kicker="$t('navigation.education')"
+      />
 
-      <div class="grid gap-5 sm:grid-cols-2 md:gap-6">
-        <article
+      <div class="border-t border-base-300 mt-10">
+        <div
           v-for="edu in education"
           :key="`${edu.institution}-${edu.degree}`"
-          class="panel flex flex-col p-6"
+          class="row grid md:grid-cols-[minmax(0,180px)_minmax(0,1fr)] gap-y-1 md:gap-x-8 py-5"
         >
-          <h3 class="font-medium tracking-tight text-base-content">{{ edu.institution }}</h3>
+          <div class="row-place">{{ edu.duration }}</div>
+          <div>
+            <div class="row-title">{{ edu.institution }}</div>
+            <p class="row-dek mt-0.5">{{ edu.degree }} &middot; {{ edu.field }}</p>
+            <p v-if="edu.gpa" class="mt-3">
+              <span class="chip">{{ $t('education.labels.gpa') }} {{ edu.gpa }}</span>
+            </p>
+          </div>
+        </div>
 
-          <p class="mt-3 text-sm text-ink-2">
-            {{ edu.degree }}
-            <span aria-hidden="true" class="mx-1.5 text-ink-4">·</span>
-            <span class="text-ink-3">{{ edu.field }}</span>
-          </p>
-
-          <p class="mt-2 font-mono text-xs text-ink-3">{{ edu.duration }}</p>
-
-          <p v-if="edu.gpa" class="mt-6 border-t border-base-300 pt-4">
-            <span class="chip">{{ $t('education.labels.gpa') }} {{ edu.gpa }}</span>
-          </p>
-        </article>
+        <p v-if="education.length === 0" class="data py-8 text-center">
+          {{ $t('education.empty') }}
+        </p>
       </div>
     </div>
   </section>

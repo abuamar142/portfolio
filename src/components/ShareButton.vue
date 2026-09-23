@@ -4,7 +4,7 @@
       <Share2 :size="16" />
     </button>
 
-    <div v-if="open" class="absolute bottom-full right-0 mb-2 bg-base-200 border border-base-300 rounded-lg shadow-lg p-2 min-w-[160px] z-20">
+    <div v-if="open" class="absolute bottom-full right-0 mb-2 bg-base-200 border border-base-300 shadow-lg p-2 min-w-[160px] z-20">
       <button @click="copyLink" class="btn btn-ghost btn-sm w-full justify-start gap-2">
         <Link :size="14" />
         {{ copied ? 'Copied!' : 'Copy Link' }}
