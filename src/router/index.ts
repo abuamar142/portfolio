@@ -39,6 +39,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../pages/RemoveBgPage.vue'),
   },
   {
+    path: '/qr',
+    name: 'qr',
+    component: () => import('../pages/QrMakerPage.vue'),
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('../pages/NotFound.vue'),

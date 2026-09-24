@@ -11,7 +11,8 @@ export default {
     contact: 'Kontak',
   },
   head: {
-    explore: 'Katalog tools, kutipan, dan blog Abu Amar — coba mini app-nya dan telusuri tulisannya.',
+    explore:
+      'Katalog tools, kutipan, dan blog Abu Amar — coba mini app-nya dan telusuri tulisannya.',
   },
   headings: {
     about: 'Membangun untuk mobile dan web, end to end.',
@@ -220,6 +221,18 @@ export default {
     errorFailed: 'Gagal memproses foto. Coba lagi atau gunakan foto lain.',
     credit: 'Diproses lokal dengan',
     modelLicenses: 'lisensi model',
+  },
+  qr: {
+    title: 'QR Maker',
+    dek: 'Ubah teks atau tautan apa pun menjadi QR code yang bisa discan — dibuat di perangkatmu, tidak ada yang dikirim ke server.',
+    inputLabel: 'Teks atau tautan',
+    placeholder: 'https://abuamar.online',
+    fg: 'Warna depan',
+    bg: 'Warna latar',
+    formats: 'PNG · SVG — level koreksi kesalahan M',
+    downloadPng: 'Unduh PNG',
+    downloadSvg: 'Unduh SVG',
+    error: 'Data terlalu besar untuk satu QR code — persingkat teks.',
   },
   theme: {
     label: 'Tema',

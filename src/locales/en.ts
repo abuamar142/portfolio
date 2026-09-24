@@ -222,6 +222,18 @@ export default {
     credit: 'Processed locally with',
     modelLicenses: 'model licenses',
   },
+  qr: {
+    title: 'QR Maker',
+    dek: 'Turn any text or link into a scannable QR code — made on your device, nothing is sent to a server.',
+    inputLabel: 'Text or link',
+    placeholder: 'https://abuamar.online',
+    fg: 'Foreground',
+    bg: 'Background',
+    formats: 'PNG · SVG — error correction level M',
+    downloadPng: 'Download PNG',
+    downloadSvg: 'Download SVG',
+    error: 'Data too large for one QR code — shorten the text.',
+  },
   theme: {
     label: 'Theme',
     system: 'System',
