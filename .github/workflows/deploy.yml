@@ -14,6 +14,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - uses: actions/checkout@v4
+
+      # Quality gates: never ship without lint + design-system detection.
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.0
+      - name: Install dependencies
+        run: bun install
+      - name: Lint check (no autofix)
+        run: bun run lint:check
+      - name: Impeccable design-system detect
+        run: npx -y impeccable@4.1.0 detect src
+
       # The VPS login shell is fish, which rejects POSIX `VAR="..."` syntax;
       # hand the whole script to bash explicitly (pipefail logic unchanged).
       - name: Deploy via SSH

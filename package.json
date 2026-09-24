@@ -13,6 +13,7 @@
     "generate-cv": "bun scripts/cv/generate.ts",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
+    "lint:check": "eslint . --max-warnings=0",
     "format": "prettier --write src/"
   },
   "dependencies": {
