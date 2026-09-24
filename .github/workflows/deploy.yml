@@ -10,7 +10,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bunx eslint .
+      - run: bun run type-check
+
   deploy:
+    needs: check
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
