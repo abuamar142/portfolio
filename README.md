@@ -60,7 +60,7 @@ VITE_BACKEND_URL=https://backend.abuamar.online
 
 - Light / dark / system theme with an icon toggle in the masthead and mobile menu
 - Editorial dossier layout: fixed numbered spine on desktop, numbered section strip on small screens, mobile menu
-- Blog list with search and category filters, per-post detail pages, quotes with auth-gated CRUD
+- Blog list with search and category filters, per-post detail pages, quotes with auth-gated CRUD, link archive with tag filter and search
 - Reveal and rise motion that fully yields to `prefers-reduced-motion`
 - Every text token measured against its canvas (contrast budgets documented in `src/assets/main.css`)
 - Toast notifications, loading skeletons, and retryable error states

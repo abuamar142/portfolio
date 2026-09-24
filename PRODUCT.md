@@ -38,6 +38,7 @@ Full Stack + Mobile Expertise — one person who can handle the entire stack fro
 - Bilingual: Indonesian default locale, English fallback (vue-i18n); every user-facing string lives in `src/locales/`
 - Prerendered SSG build (vite-ssg) with build-time `sitemap.xml`; static routes plus every blog slug
 - Quotes surface: community quote board with auth-gated CRUD and anonymous option, normalized tag filter, search and sort, and shareable `/quotes/:id` links whose OG preview is rendered server-side for WhatsApp/social crawlers
+- Links archive: curated link directory with tag filter and search, owner-only CRUD, accessible at `/links`
 - `/explore` acts as the ledger directory of non-landing surfaces; each new surface ships as one more entry
 - Auth is a separate service (auth.abuamar.online, JWT, login/register modal)
 - Editorial dossier design system: Tailwind CSS v4 + daisyUI v5 custom themes (`portfolio` light default, `portfolio-dark` via `html[data-theme]`) — cream canvas (#F3F4EF) / charcoal dark canvas (#14161A), light·dark·system toggle (localStorage `portfolio-theme`, prepaint anti-FOUC), Source Serif 4 body, Newsreader display, IBM Plex Sans/Mono labels and data, single terracotta accent, numbered sections with a desktop spine rail, sharp (radius 0) shapes, dark colophon footer — normatively documented in `DESIGN.md` (+ `.impeccable/design.json` sidecar), which future pages and tools must follow

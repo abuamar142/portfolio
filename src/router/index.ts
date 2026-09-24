@@ -44,6 +44,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../pages/QrMakerPage.vue'),
   },
   {
+    path: '/links',
+    name: 'links',
+    component: () => import('../pages/LinksPage.vue'),
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('../pages/NotFound.vue'),
