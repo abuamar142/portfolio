@@ -34,6 +34,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../pages/QuotesPage.vue'),
   },
   {
+    path: '/remove-bg',
+    name: 'remove-bg',
+    component: () => import('../pages/RemoveBgPage.vue'),
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('../pages/NotFound.vue'),

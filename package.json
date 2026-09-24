@@ -16,6 +16,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@bg0/browser": "^0.1.1",
     "@unhead/vue": "^2.1.2",
     "axios": "^1.11.0",
     "lucide-vue-next": "^0.536.0",
