@@ -827,6 +827,16 @@
   .spine-progress { animation: none !important; display: none; }
 }
 
+/* ── Type-role label override ───────────────────────────────────────────────
+   Deliberately UNLAYERED (same reasoning as the dark block below): daisyUI's
+   .label component ships display:inline-flex + white-space:nowrap in
+   @layer utilities, which beats this file's @layer components type-role.
+   Type-role labels carry prose (credit lines, hints) and must wrap on narrow
+   screens; nowrap is never part of the type-role intent. */
+.label {
+  white-space: normal;
+}
+
 /* ───────────────────────────────────────────────────────────────────────────
    Dark canvas — "portfolio-dark". Deliberately UNLAYERED: unlayered CSS wins
    over @layer output (Tailwind @theme + daisyUI plugin) regardless of source
