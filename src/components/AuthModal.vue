@@ -2,7 +2,7 @@
   <Teleport to="body">
     <dialog :class="['modal', show ? 'modal-open' : '']" @click.self="$emit('close')">
       <div class="modal-box">
-        <button @click="$emit('close')" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"><X :size="16" /></button>
+        <button @click="$emit('close')" :aria-label="$t('common.close')" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"><X :size="16" /></button>
         <h2 class="font-bold text-lg mb-4">
           {{ mode === 'login' ? $t('auth.signIn') : $t('auth.createAccount') }}
         </h2>
@@ -47,15 +47,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { computed, ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { X } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import axios from 'axios'
+import { useEscapeToClose } from '@/composables/useEscapeToClose'
 
-defineProps<{ show: boolean }>()
+const props = defineProps<{ show: boolean }>()
 const emit = defineEmits<{ close: [] }>()
+useEscapeToClose(computed(() => props.show), () => emit('close'))
 
 const { t } = useI18n()
 const { setToken, storeUser } = useAuth()
@@ -115,7 +117,10 @@ async function handleSubmit() {
   } catch (e: unknown) {
     type AxiosLike = { response?: { data?: { error?: { details?: string }; message?: string } } }
     const err = (e && typeof e === 'object' && 'response' in e) ? (e as AxiosLike) : null
-    const msg = err?.response?.data?.error?.details || err?.response?.data?.message || t('auth.somethingWrong')
+    const raw = err?.response?.data?.error?.details || err?.response?.data?.message || ''
+    const msg = /invalid email\/username or password/i.test(raw)
+      ? t('auth.errorCredentials')
+      : raw || t('auth.somethingWrong')
     error.value = msg
     toast.error(msg)
   } finally {

@@ -169,6 +169,9 @@ export default {
     editAria: 'Edit',
     deleteAria: 'Delete',
   },
+  common: {
+    close: 'Close',
+  },
   auth: {
     signIn: 'Sign In',
     createAccount: 'Create Account',
@@ -188,6 +191,7 @@ export default {
     createdToast: 'Account created!',
     welcomeToast: 'Welcome back!',
     somethingWrong: 'Something went wrong',
+    errorCredentials: 'Incorrect email/username or password',
   },
   errors: {
     title: 'Something went wrong',

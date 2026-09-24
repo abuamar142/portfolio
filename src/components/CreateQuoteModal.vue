@@ -2,7 +2,7 @@
   <Teleport to="body">
     <dialog :class="['modal', show ? 'modal-open' : '']" @click.self="$emit('close')">
       <div class="modal-box">
-        <button @click="$emit('close')" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"><X :size="16" /></button>
+        <button @click="$emit('close')" :aria-label="$t('common.close')" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"><X :size="16" /></button>
         <h2 class="font-bold text-lg mb-4">{{ $t('quotes.createTitle') }}</h2>
 
         <form @submit.prevent="handleSubmit" class="space-y-3">
@@ -53,15 +53,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from 'vue'
+import { computed, ref, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { X } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import { createQuote } from '@/services/quote'
+import { useEscapeToClose } from '@/composables/useEscapeToClose'
 
 const props = defineProps<{ show: boolean }>()
 const emit = defineEmits<{ close: []; created: [] }>()
+useEscapeToClose(computed(() => props.show), () => emit('close'))
 
 const { t } = useI18n()
 const { user } = useAuth()

@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, defineAsyncComponent } from 'vue'
+import { defineAsyncComponent } from 'vue'
 import { useHead } from '@unhead/vue'
 import { usePortfolio } from '@/composables/usePortfolio'
 import { SITE_URL } from '@/site'
@@ -68,7 +68,4 @@ useHead({
 
 const { loading, error, refresh } = usePortfolio()
 
-onMounted(async () => {
-  await refresh()
-})
 </script>

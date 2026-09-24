@@ -169,6 +169,9 @@ export default {
     editAria: 'Ubah',
     deleteAria: 'Hapus',
   },
+  common: {
+    close: 'Tutup',
+  },
   auth: {
     signIn: 'Masuk',
     createAccount: 'Buat Akun',
@@ -188,6 +191,7 @@ export default {
     createdToast: 'Akun berhasil dibuat!',
     welcomeToast: 'Selamat datang kembali!',
     somethingWrong: 'Terjadi kesalahan',
+    errorCredentials: 'Email/username atau kata sandi salah',
   },
   errors: {
     title: 'Terjadi kesalahan',

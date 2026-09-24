@@ -47,7 +47,6 @@
         <SearchInput
           v-model="searchQuery"
           :placeholder="$t('blog.searchPlaceholder')"
-          @update:model-value="onSearch"
         />
       </div>
 
@@ -178,11 +177,20 @@ const categories = ['Mobile', 'Web', 'Backend', 'DevOps', 'Tools']
 
 const totalPages = computed(() => Math.max(1, Math.ceil(totalPosts.value / postsPerPage)))
 const filteredPosts = computed(() => {
-  if (!selectedCategory.value) return posts.value
   const cat = selectedCategory.value.toLowerCase()
+  const query = searchQuery.value.trim().toLowerCase()
   return posts.value.filter((p) => {
     const tags = (p.tags || []).map((t) => (typeof t === 'string' ? t : (t.tag ?? '')).toLowerCase())
-    return tags.some((t: string) => t.includes(cat)) || (p.title || '').toLowerCase().includes(cat)
+    if (cat && !tags.some((t: string) => t.includes(cat)) && !(p.title || '').toLowerCase().includes(cat)) {
+      return false
+    }
+    // The backend ignores the `search` param (it returns every post for any
+    // query), so the visible filtering happens here on the loaded page.
+    if (query) {
+      const haystack = `${p.title || ''} ${p.excerpt || ''} ${tags.join(' ')}`.toLowerCase()
+      if (!haystack.includes(query)) return false
+    }
+    return true
   })
 })
 async function loadPosts() {
@@ -217,10 +225,13 @@ onServerPrefetch(async () => {
     // loadPosts already captured the error state; never fail the prerender.
   }
 })
-function onSearch() {
+// Debounce server refetch: SearchInput emits on every keystroke.
+let searchTimer: ReturnType<typeof setTimeout> | undefined
+watch(searchQuery, () => {
   currentPage.value = 1
-  loadPosts()
-}
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(loadPosts, 300)
+})
 function goToPage(p: number) {
   if (p < 1 || p > totalPages.value) return
   currentPage.value = p
