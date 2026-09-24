@@ -12,6 +12,9 @@
     </main>
     <AppFooter />
 
+    <!-- Global auth modal — pages trigger it via useAuth().openAuth() -->
+    <AuthModal :show="showAuth" @close="closeAuth" />
+
     <!-- Toast notifications -->
     <div class="toast toast-end toast-bottom z-[200]">
       <div
@@ -33,11 +36,14 @@ import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
+import AuthModal from '@/components/AuthModal.vue'
+import { useAuth } from '@/composables/useAuth'
 import { useToast, type ToastType } from '@/composables/useToast'
 import { usePortfolio } from '@/composables/usePortfolio'
 import { SITE_URL } from '@/site'
 
 const { toasts, dismiss } = useToast()
+const { showAuth, closeAuth } = useAuth()
 
 // Identity powers the masthead and the whole colophon footer on EVERY route.
 // Loading it from the app shell (not HomePage) keeps direct visits to

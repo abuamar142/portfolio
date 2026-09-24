@@ -14,25 +14,10 @@
           />
         </div>
         <div class="flex shrink-0 items-center gap-3">
-          <template v-if="isAuthenticated">
-            <button @click="showCreate = true" class="btn btn-primary">
-              <Plus :size="16" /> {{ $t('quotes.addQuote') }}
-            </button>
-            <div class="dropdown dropdown-end">
-              <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
-                <div class="bg-neutral text-neutral-content w-10 h-10 flex items-center justify-center">
-                  <span class="text-sm leading-none">{{ userInitials }}</span>
-                </div>
-              </div>
-              <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-200 border border-base-300 z-10 w-52 p-2 shadow-lg mt-2">
-                <li class="menu-title">{{ user?.display_name || user?.username }}</li>
-                <li><a @click="handleLogout"><LogOut :size="14" /> {{ $t('quotes.logout') }}</a></li>
-              </ul>
-            </div>
-          </template>
-          <button v-else @click="showAuth = true" class="btn btn-primary">
-            {{ $t('quotes.signIn') }}
+          <button v-if="isAuthenticated" @click="showCreate = true" class="btn btn-primary">
+            <Plus :size="16" /> {{ $t('quotes.addQuote') }}
           </button>
+          <AuthControls />
         </div>
       </div>
 
@@ -69,7 +54,7 @@
         <FileEdit :size="64" class="mx-auto mb-4 text-ink-4" />
         <p class="display-2 mb-2">{{ $t('quotes.emptyTitle') }}</p>
         <p class="text-ink-3 mb-4">{{ $t('quotes.emptyDek') }}</p>
-        <button @click="isAuthenticated ? (showCreate = true) : (showAuth = true)" class="btn btn-primary">
+        <button @click="isAuthenticated ? (showCreate = true) : openAuth()" class="btn btn-primary">
           {{ $t('quotes.addQuote') }}
         </button>
       </div>
@@ -95,7 +80,6 @@
     </div>
 
     <!-- Modals -->
-    <AuthModal :show="showAuth" @close="showAuth = false" />
     <CreateQuoteModal :show="showCreate" @close="showCreate = false" @created="reloadQuotes" />
     <EditQuoteModal :show="showEdit" :quote="editingQuote" @close="showEdit = false" @updated="reloadQuotes" />
     <QuoteModal :show="showModal" :quote="selectedQuote" @close="showModal = false" />
@@ -106,7 +90,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
-import { FileEdit, Plus, LogOut } from 'lucide-vue-next'
+import { FileEdit, Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import { fetchQuotes, fetchTags, deleteQuote } from '@/services/quote'
@@ -115,7 +99,7 @@ import QuoteCard from '@/components/QuoteCard.vue'
 import QuoteModal from '@/components/QuoteModal.vue'
 import CreateQuoteModal from '@/components/CreateQuoteModal.vue'
 import EditQuoteModal from '@/components/EditQuoteModal.vue'
-import AuthModal from '@/components/AuthModal.vue'
+import AuthControls from '@/components/AuthControls.vue'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 
@@ -130,7 +114,7 @@ useHead({
   ],
 })
 
-const { user, isAuthenticated, logout } = useAuth()
+const { isAuthenticated, openAuth } = useAuth()
 const toast = useToast()
 
 const quotes = ref<Quote[]>([])
@@ -144,13 +128,8 @@ const total = ref(0)
 const limit = 30
 
 const totalPages = computed(() => Math.ceil(total.value / limit))
-const userInitials = computed(() => {
-  const name = user.value?.display_name || user.value?.username || ''
-  return name.charAt(0).toUpperCase() || '?'
-})
 
 // Modals
-const showAuth = ref(false)
 const showCreate = ref(false)
 const showEdit = ref(false)
 const showModal = ref(false)
@@ -211,11 +190,6 @@ function openQuote(quote: Quote) {
 function startEdit(quote: Quote) {
   editingQuote.value = quote
   showEdit.value = true
-}
-
-function handleLogout() {
-  logout()
-  toast.info(t('quotes.loggedOutToast'))
 }
 
 async function confirmDelete(quote: Quote) {

@@ -1,20 +1,4 @@
-import axios from 'axios'
-
-const API_BASE = import.meta.env.VITE_PORTFOLIO_API_URL || 'https://portfolio.abuamar.online'
-
-const client = axios.create({
-  baseURL: `${API_BASE}/api/v1`,
-  headers: { 'Content-Type': 'application/json' },
-  timeout: 15000,
-})
-
-client.interceptors.request.use((config) => {
-  const token = localStorage.getItem('quote_access_token')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
+import client from '@/services/client'
 
 export interface Link {
   id: string

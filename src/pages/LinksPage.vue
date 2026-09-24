@@ -14,11 +14,10 @@
           />
         </div>
         <div class="flex shrink-0 items-center gap-3">
-          <template v-if="isAuthenticated">
-            <button @click="openCreate" class="btn btn-primary">
-              <Plus :size="16" /> {{ $t('links.addLink') }}
-            </button>
-          </template>
+          <button v-if="isAuthenticated" @click="openCreate" class="btn btn-primary">
+            <Plus :size="16" /> {{ $t('links.addLink') }}
+          </button>
+          <AuthControls />
         </div>
       </div>
 
@@ -50,8 +49,7 @@
         <p class="display-2 mb-2">{{ $t('links.emptyTitle') }}</p>
         <p class="text-ink-3 mb-4">{{ $t('links.emptyDek') }}</p>
         <button
-          v-if="isAuthenticated"
-          @click="openCreate"
+          @click="isAuthenticated ? openCreate() : openAuth()"
           class="btn btn-primary"
         >{{ $t('links.addLink') }}</button>
       </div>
@@ -195,6 +193,7 @@ import {
   deleteLink,
 } from '@/services/link'
 import type { Link, LinkTagResponse } from '@/services/link'
+import AuthControls from '@/components/AuthControls.vue'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 
@@ -209,7 +208,7 @@ useHead({
   ],
 })
 
-const { isAuthenticated } = useAuth()
+const { isAuthenticated, openAuth } = useAuth()
 const toast = useToast()
 
 const links = ref<Link[]>([])

@@ -1,22 +1,5 @@
-import axios from 'axios'
+import client from '@/services/client'
 import type { Quote, CreateQuoteRequest, QuoteListResponse, TagResponse } from '@/types/quote'
-
-const API_BASE = import.meta.env.VITE_PORTFOLIO_API_URL || 'https://portfolio.abuamar.online'
-
-const client = axios.create({
-  baseURL: `${API_BASE}/api/v1`,
-  headers: { 'Content-Type': 'application/json' },
-  timeout: 15000,
-})
-
-// Inject JWT token if available
-client.interceptors.request.use((config) => {
-  const token = localStorage.getItem('quote_access_token')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
 
 export async function fetchQuotes(params: {
   search?: string
