@@ -20,6 +20,7 @@
 import { onMounted, defineAsyncComponent } from 'vue'
 import { useHead } from '@unhead/vue'
 import { usePortfolio } from '@/composables/usePortfolio'
+import { SITE_URL } from '@/site'
 
 import HomePageSkeleton from '@/components/ui/HomePageSkeleton.vue'
 import ErrorState from '@/components/ui/ErrorState.vue'
@@ -57,7 +58,7 @@ useHead({
         '@context': 'https://schema.org',
         '@type': 'Person',
         name: 'M. Abu Amar Al Badawi, S.Kom',
-        url: 'https://abuamar.online',
+        url: SITE_URL,
         jobTitle: 'Software Engineer',
         sameAs: ['https://github.com/abuamar142', 'https://linkedin.com/in/abu-amar'],
       }),

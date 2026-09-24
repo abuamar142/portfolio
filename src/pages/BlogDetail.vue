@@ -187,6 +187,7 @@ import { onMounted, onServerPrefetch, ref, computed, nextTick, watch, onBeforeUn
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
+import { SITE_URL } from '@/site'
 import { ArrowLeft, Languages, Share2, X } from 'lucide-vue-next'
 import { usePosts, type Post } from '@/composables/usePosts'
 import BaseButton from '@/components/ui/BaseButton.vue'
@@ -226,7 +227,8 @@ onServerPrefetch(async () => {
 })
 
 // — Per-page SEO head (baked into the prerendered HTML + SPA client) —
-const SITE_URL = 'https://abuamar.online'
+// canonical + og:url come from App.vue's route-aware head; the computed below
+// feeds the JSON-LD `@id` and the share URL only.
 const canonical = computed(() => `${SITE_URL}/blogs/${encodeURIComponent(slug.value)}`)
 
 useHead({
@@ -239,9 +241,7 @@ useHead({
     { property: 'og:title', content: post.value ? `${post.value.title} - Abu Amar` : 'Blog Post - Abu Amar' },
     { property: 'og:description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
     { property: 'og:type', content: 'article' },
-    { property: 'og:url', content: canonical.value },
   ]),
-  link: computed(() => [{ rel: 'canonical', href: canonical.value }]),
   // JSON-LD BlogPosting — emitted once real data exists, so the prerendered
   // HTML always carries the structured data.
   script: computed(() => {
@@ -321,7 +321,7 @@ const shareBtnRef = ref<HTMLButtonElement | null>(null)
 const shareUrl = computed(() => {
   if (typeof window !== 'undefined' && window.location?.href) return window.location.href
   const s = (post.value?.slug as string) || slug.value
-  return s ? `https://abuamar.online/blogs/${encodeURIComponent(s)}` : 'https://abuamar.online/blogs'
+  return s ? `${SITE_URL}/blogs/${encodeURIComponent(s)}` : `${SITE_URL}/blogs`
 })
 const shareTitle = computed(() => post.value?.title || (typeof document !== 'undefined' ? document.title : '') || 'Blog post')
 const shareText = computed(() => {

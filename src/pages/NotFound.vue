@@ -23,5 +23,11 @@ import { useHead } from '@unhead/vue'
 import { ArrowLeft } from 'lucide-vue-next'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
-useHead({ title: '404', titleTemplate: '%s | Abu Amar' })
+useHead({
+  title: '404',
+  titleTemplate: '%s | Abu Amar',
+  // Soft-404 hygiene: unknown paths fall through the SPA router and render
+  // this page with HTTP 200, so keep it out of the index.
+  meta: [{ name: 'robots', content: 'noindex,nofollow' }],
+})
 </script>

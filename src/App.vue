@@ -27,10 +27,14 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
 import { useToast, type ToastType } from '@/composables/useToast'
+import { SITE_URL } from '@/site'
 
 const { toasts, dismiss } = useToast()
 
@@ -43,9 +47,15 @@ function alertClass(type: ToastType) {
   return map[type]
 }
 
-const siteUrl = 'https://abuamar.online'
+const route = useRoute()
+const { locale } = useI18n()
+
+// One canonical per route: path only (query/hash excluded), root keeps the
+// trailing slash to match the sitemap's `https://abuamar.online/` entry.
+const canonicalUrl = computed(() => new URL(route.path, SITE_URL).href)
 
 useHead({
+  htmlAttrs: { lang: computed(() => locale.value) },
   titleTemplate: (title) => (title ? `${title} | Abu Amar` : 'Abu Amar - Portfolio'),
   meta: [
     {
@@ -53,17 +63,17 @@ useHead({
       content: 'Personal portfolio of Abu Amar - Software Engineer',
     },
     { property: 'og:site_name', content: 'Abu Amar' },
-    { property: 'og:url', content: siteUrl },
+    { property: 'og:url', content: computed(() => canonicalUrl.value) },
     { property: 'og:type', content: 'website' },
-    { property: 'og:image', content: 'https://abuamar.online/og-default.png' },
+    { property: 'og:image', content: `${SITE_URL}/og-default.png` },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:title', content: 'Abu Amar - Portfolio' },
     {
       name: 'twitter:description',
       content: 'Personal portfolio of Abu Amar - Software Engineer',
     },
-    { name: 'twitter:image', content: 'https://abuamar.online/og-default.png' },
+    { name: 'twitter:image', content: `${SITE_URL}/og-default.png` },
   ],
-  link: [{ rel: 'canonical', href: siteUrl }],
+  link: [{ rel: 'canonical', href: computed(() => canonicalUrl.value) }],
 })
 </script>

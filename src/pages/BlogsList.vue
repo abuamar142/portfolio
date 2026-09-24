@@ -161,7 +161,6 @@ useHead({
     { property: 'og:title', content: 'Blog - Abu Amar' },
     { property: 'og:description', content: 'Tutorials, notes, and updates on mobile & full-stack development.' },
     { property: 'og:type', content: 'website' },
-    { property: 'og:url', content: 'https://abuamar.online/blogs' },
   ],
 })
 
