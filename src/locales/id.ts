@@ -10,6 +10,9 @@ export default {
     explore: 'Jelajahi',
     contact: 'Kontak',
   },
+  head: {
+    explore: 'Katalog tools, kutipan, dan blog Abu Amar — coba mini app-nya dan telusuri tulisannya.',
+  },
   headings: {
     about: 'Membangun untuk mobile dan web, end to end.',
     experience: 'Tempat saya berkarya',

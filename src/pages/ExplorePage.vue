@@ -47,5 +47,12 @@ const entries = computed(() => [
   { to: '/remove-bg', path: '/remove-bg', title: t('removeBg.title'), dek: t('removeBg.dek') },
 ])
 
-useHead({ title: computed(() => t('navigation.explore')) })
+useHead({
+  title: computed(() => t('navigation.explore')),
+  meta: [
+    { name: 'description', content: computed(() => t('head.explore')) },
+    { property: 'og:title', content: computed(() => `${t('navigation.explore')} - Abu Amar`) },
+    { property: 'og:description', content: computed(() => t('head.explore')) },
+  ],
+})
 </script>

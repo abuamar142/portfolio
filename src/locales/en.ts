@@ -10,6 +10,10 @@ export default {
     explore: 'Explore',
     contact: 'Contact',
   },
+  head: {
+    explore:
+      "Directory of Abu Amar's tools, quotes and blog posts — try the mini apps and browse the writing.",
+  },
   headings: {
     about: 'Building for mobile and web, end to end.',
     experience: 'Where I have worked',

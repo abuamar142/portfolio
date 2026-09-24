@@ -105,6 +105,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
 import { FileEdit, Plus, LogOut } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
@@ -119,6 +120,16 @@ import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 
 const { t } = useI18n()
+
+useHead({
+  title: computed(() => t('quotes.title')),
+  meta: [
+    { name: 'description', content: computed(() => t('quotes.dek')) },
+    { property: 'og:title', content: computed(() => `${t('quotes.title')} - Abu Amar`) },
+    { property: 'og:description', content: computed(() => t('quotes.dek')) },
+  ],
+})
+
 const { user, isAuthenticated, logout } = useAuth()
 const toast = useToast()
 

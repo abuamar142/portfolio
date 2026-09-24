@@ -54,24 +54,23 @@ const { locale } = useI18n()
 // trailing slash to match the sitemap's `https://abuamar.online/` entry.
 const canonicalUrl = computed(() => new URL(route.path, SITE_URL).href)
 
+// Site-wide meta description — also the og:description fallback; individual
+// pages override both with their own copy.
+const SITE_DESCRIPTION =
+  'M. Abu Amar Al Badawi - Mobile & Full Stack Developer. Portofolio proyek mobile, web, dan backend yang berjalan di produksi.'
+
 useHead({
   htmlAttrs: { lang: computed(() => locale.value) },
   titleTemplate: (title) => (title ? `${title} | Abu Amar` : 'Abu Amar - Portfolio'),
   meta: [
-    {
-      name: 'description',
-      content: 'Personal portfolio of Abu Amar - Software Engineer',
-    },
+    { name: 'description', content: SITE_DESCRIPTION },
     { property: 'og:site_name', content: 'Abu Amar' },
     { property: 'og:url', content: computed(() => canonicalUrl.value) },
     { property: 'og:type', content: 'website' },
+    { property: 'og:title', content: 'Abu Amar - Portfolio' },
+    { property: 'og:description', content: SITE_DESCRIPTION },
     { property: 'og:image', content: `${SITE_URL}/og-default.png` },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: 'Abu Amar - Portfolio' },
-    {
-      name: 'twitter:description',
-      content: 'Personal portfolio of Abu Amar - Software Engineer',
-    },
     { name: 'twitter:image', content: `${SITE_URL}/og-default.png` },
   ],
   link: [{ rel: 'canonical', href: computed(() => canonicalUrl.value) }],

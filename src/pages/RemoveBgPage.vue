@@ -178,7 +178,11 @@ const progressPct = computed(() => Math.round(progress.value * 100))
 
 useHead({
   title: computed(() => t('removeBg.title')),
-  meta: [{ name: 'description', content: computed(() => t('removeBg.dek')) }],
+  meta: [
+    { name: 'description', content: computed(() => t('removeBg.dek')) },
+    { property: 'og:title', content: computed(() => `${t('removeBg.title')} - Abu Amar`) },
+    { property: 'og:description', content: computed(() => t('removeBg.dek')) },
+  ],
 })
 
 function pickFile() {
