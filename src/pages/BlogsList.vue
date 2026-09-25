@@ -145,6 +145,7 @@ import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft, ArrowRight } from 'lucide-vue-next'
 import { usePosts, type Post } from '@/composables/usePosts'
+import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
 import { formatDateShort } from '@/lib/formatDate'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
@@ -166,12 +167,13 @@ useHead({
 
 const { locale } = useI18n()
 const { listPublished } = usePosts()
+// URL state: /blogs?q=&category=&page= — deep-linkable and shareable.
 const posts = ref<Post[]>([])
 const loading = ref(false)
 const error = ref('')
-const searchQuery = ref('')
-const selectedCategory = ref('')
-const currentPage = ref(1)
+const searchQuery = useQueryStringRef<string>('q', '')
+const selectedCategory = useQueryStringRef<string>('category', '')
+const currentPage = useQueryNumberRef('page', 1)
 const totalPosts = ref(0)
 const postsPerPage = 6
 const categories = ['Mobile', 'Web', 'Backend', 'DevOps', 'Tools']

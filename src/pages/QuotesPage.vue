@@ -92,6 +92,7 @@ import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 import { FileEdit, Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
+import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
 import { useToast } from '@/composables/useToast'
 import { fetchQuotes, fetchTags, deleteQuote } from '@/services/quote'
 import type { Quote, TagResponse } from '@/types/quote'
@@ -120,10 +121,10 @@ const toast = useToast()
 const quotes = ref<Quote[]>([])
 const tags = ref<TagResponse[]>([])
 const loading = ref(true)
-const search = ref('')
-const selectedTag = ref('')
-const sort = ref<'random' | 'latest'>('random')
-const page = ref(1)
+const search = useQueryStringRef<string>('q', '')
+const selectedTag = useQueryStringRef<string>('tag', '')
+const sort = useQueryStringRef<'random' | 'latest'>('sort', 'random')
+const page = useQueryNumberRef('page', 1)
 const total = ref(0)
 const limit = 30
 

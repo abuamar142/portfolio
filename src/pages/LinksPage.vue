@@ -194,6 +194,7 @@ import BaseModal from '@/components/ui/BaseModal.vue'
 import { useHead } from '@unhead/vue'
 import { Link2, ExternalLink, Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
+import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
 import { useToast } from '@/composables/useToast'
 import {
   fetchLinks,
@@ -224,9 +225,9 @@ const toast = useToast()
 const links = ref<Link[]>([])
 const tags = ref<LinkTagResponse[]>([])
 const loading = ref(true)
-const search = ref('')
-const selectedTag = ref('')
-const page = ref(1)
+const search = useQueryStringRef<string>('q', '')
+const selectedTag = useQueryStringRef<string>('tag', '')
+const page = useQueryNumberRef('page', 1)
 const total = ref(0)
 const limit = 30
 

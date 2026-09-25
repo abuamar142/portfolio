@@ -118,6 +118,7 @@ import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 import { FileCode, Plus, LogOut } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
+import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
 import { useToast } from '@/composables/useToast'
 import {
   fetchSnippets,
@@ -138,10 +139,10 @@ const snippets = ref<Snippet[]>([])
 const tags = ref<TagResponse[]>([])
 const languages = ref<LanguageResponse[]>([])
 const loading = ref(true)
-const search = ref('')
-const selectedTag = ref('')
-const selectedLanguage = ref('')
-const page = ref(1)
+const search = useQueryStringRef<string>('q', '')
+const selectedTag = useQueryStringRef<string>('tag', '')
+const selectedLanguage = useQueryStringRef<string>('language', '')
+const page = useQueryNumberRef('page', 1)
 const total = ref(0)
 const limit = 18
 
