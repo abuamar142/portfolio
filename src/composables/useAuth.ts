@@ -65,12 +65,28 @@ const isAuthenticated = computed(() => !!token.value && !!user.value)
 // openAuth() (see AuthControls / empty-state CTAs).
 const showAuth = ref(false)
 
+/**
+ * A gated action the user asked for before they were signed in (e.g. tapping
+ * "Tulis Kutipan" while logged out). It runs once authentication succeeds so
+ * the user does not have to find the button again.
+ */
+let pendingIntent: (() => void) | null = null
+
+export function runAuthIntent(): void {
+  const intent = pendingIntent
+  pendingIntent = null
+  intent?.()
+}
+
 export function useAuth() {
-  function openAuth() {
+  function openAuth(intent?: () => void) {
+    pendingIntent = typeof intent === 'function' ? intent : null
     showAuth.value = true
   }
 
   function closeAuth() {
+    // A dismissed dialog must not leave a stale action queued.
+    pendingIntent = null
     showAuth.value = false
   }
 

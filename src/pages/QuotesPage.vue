@@ -54,7 +54,7 @@
         <FileEdit :size="64" class="mx-auto mb-4 text-ink-4" />
         <p class="display-2 mb-2">{{ $t('quotes.emptyTitle') }}</p>
         <p class="text-ink-3 mb-4">{{ $t('quotes.emptyDek') }}</p>
-        <button @click="isAuthenticated ? (showCreate = true) : openAuth()" class="btn btn-primary">
+        <button @click="isAuthenticated ? (showCreate = true) : openAuth(() => (showCreate = true))" class="btn btn-primary">
           {{ $t('quotes.addQuote') }}
         </button>
       </div>

@@ -1,9 +1,11 @@
 <template>
-  <Teleport to="body">
-    <dialog :class="['modal', show ? 'modal-open' : '']" @click.self="$emit('close')">
-      <div class="modal-box">
-        <button @click="$emit('close')" :aria-label="$t('common.close')" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"><X :size="16" /></button>
-        <h2 class="font-bold text-lg mb-4">{{ $t('quotes.createTitle') }}</h2>
+  <BaseModal
+    :open="show"
+    :close-label="$t('common.close')"
+    labelled-by="create-quote-title"
+    @close="$emit('close')"
+  >
+    <h2 id="create-quote-title" class="font-bold text-lg mb-4">{{ $t('quotes.createTitle') }}</h2>
 
         <form @submit.prevent="handleSubmit" class="space-y-3">
           <div>
@@ -47,23 +49,19 @@
             {{ loading ? $t('quotes.posting') : $t('quotes.submit') }}
           </button>
         </form>
-      </div>
-    </dialog>
-  </Teleport>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, reactive, watch } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { X } from 'lucide-vue-next'
+import BaseModal from '@/components/ui/BaseModal.vue'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import { createQuote } from '@/services/quote'
-import { useEscapeToClose } from '@/composables/useEscapeToClose'
 
 const props = defineProps<{ show: boolean }>()
 const emit = defineEmits<{ close: []; created: [] }>()
-useEscapeToClose(computed(() => props.show), () => emit('close'))
 
 const { t } = useI18n()
 const { user } = useAuth()

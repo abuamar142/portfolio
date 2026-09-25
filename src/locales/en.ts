@@ -158,6 +158,7 @@ export default {
     noId: 'No quote ID provided',
     createTitle: 'New Quote',
     editTitle: 'Edit Quote',
+    detailTitle: 'Quote detail',
     contentLabel: 'Quote',
     contentPlaceholder: 'Your quote…',
     authorLabel: 'Author Name',

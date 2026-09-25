@@ -49,7 +49,7 @@
         <p class="display-2 mb-2">{{ $t('links.emptyTitle') }}</p>
         <p class="text-ink-3 mb-4">{{ $t('links.emptyDek') }}</p>
         <button
-          @click="isAuthenticated ? openCreate() : openAuth()"
+          @click="isAuthenticated ? openCreate() : openAuth(openCreate)"
           class="btn btn-primary"
         >{{ $t('links.addLink') }}</button>
       </div>
@@ -109,9 +109,14 @@
     </div>
 
     <!-- Link Modal -->
-    <dialog :class="['modal', showModal ? 'modal-open' : '']" @close="closeModal">
-      <div class="modal-box rounded-none">
-        <h3 class="font-bold text-lg mb-4">{{ editingLink ? $t('links.editTitle') : $t('links.createTitle') }}</h3>
+    <BaseModal
+      :open="showModal"
+      :close-label="$t('common.close')"
+      labelled-by="link-modal-title"
+      box-class="rounded-none"
+      @close="closeModal"
+    >
+        <h3 id="link-modal-title" class="font-bold text-lg mb-4">{{ editingLink ? $t('links.editTitle') : $t('links.createTitle') }}</h3>
         <form @submit.prevent="handleSubmit" class="flex flex-col gap-4">
           <div>
             <label for="link-url" class="label"><span class="label-text">{{ $t('links.urlLabel') }}</span></label>
@@ -178,17 +183,14 @@
             </button>
           </div>
         </form>
-      </div>
-      <form method="dialog" class="modal-backdrop" @click="closeModal">
-        <button>close</button>
-      </form>
-    </dialog>
+    </BaseModal>
   </section>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import BaseModal from '@/components/ui/BaseModal.vue'
 import { useHead } from '@unhead/vue'
 import { Link2, ExternalLink, Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'

@@ -12,7 +12,7 @@
       </ul>
     </div>
   </template>
-  <button v-else @click="openAuth" class="btn btn-primary">
+  <button v-else @click="() => openAuth()" class="btn btn-primary">
     {{ $t('auth.signIn') }}
   </button>
 </template>

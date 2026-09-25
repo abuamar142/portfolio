@@ -1,9 +1,11 @@
 <template>
-  <Teleport to="body">
-    <dialog :class="['modal', show ? 'modal-open' : '']" @click.self="$emit('close')">
-      <div class="modal-box">
-        <button @click="$emit('close')" :aria-label="$t('common.close')" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"><X :size="16" /></button>
-        <h2 class="font-bold text-lg mb-4">
+  <BaseModal
+    :open="show"
+    :close-label="$t('common.close')"
+    labelled-by="auth-modal-title"
+    @close="$emit('close')"
+  >
+    <h2 id="auth-modal-title" class="font-bold text-lg mb-4">
           {{ mode === 'login' ? $t('auth.signIn') : $t('auth.createAccount') }}
         </h2>
 
@@ -41,23 +43,19 @@
             {{ mode === 'login' ? $t('auth.signUp') : $t('auth.signIn') }}
           </button>
         </p>
-      </div>
-    </dialog>
-  </Teleport>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, reactive } from 'vue'
+import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { X } from 'lucide-vue-next'
+import BaseModal from '@/components/ui/BaseModal.vue'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import axios from 'axios'
-import { useEscapeToClose } from '@/composables/useEscapeToClose'
 
-const props = defineProps<{ show: boolean }>()
-const emit = defineEmits<{ close: [] }>()
-useEscapeToClose(computed(() => props.show), () => emit('close'))
+defineProps<{ show: boolean }>()
+const emit = defineEmits<{ close: []; authenticated: [] }>()
 
 const { t } = useI18n()
 const { setTokens, storeUser } = useAuth()
@@ -92,6 +90,7 @@ async function handleLogin(identifier: string, password: string) {
       storeUser(meData.data)
     }
     toast.success(mode.value === 'register' ? t('auth.createdToast') : t('auth.welcomeToast'))
+    emit('authenticated')
     emit('close')
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="flex min-h-screen flex-col bg-base-100">
+  <div class="flex min-h-screen flex-col bg-base-100">
     <a
       href="#main-content"
       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-primary focus:px-4 focus:py-2 focus:font-sans focus:text-sm focus:font-semibold focus:text-primary-content"
@@ -13,7 +13,7 @@
     <AppFooter />
 
     <!-- Global auth modal — pages trigger it via useAuth().openAuth() -->
-    <AuthModal :show="showAuth" @close="closeAuth" />
+    <AuthModal :show="showAuth" @close="closeAuth" @authenticated="handleAuthenticated" />
 
     <!-- Toast notifications -->
     <div class="toast toast-end toast-bottom z-[200]">
@@ -37,7 +37,7 @@ import { useI18n } from 'vue-i18n'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
 import AuthModal from '@/components/AuthModal.vue'
-import { useAuth, onAuthFailed } from '@/composables/useAuth'
+import { useAuth, onAuthFailed, runAuthIntent } from '@/composables/useAuth'
 import { useToast, type ToastType } from '@/composables/useToast'
 import { usePortfolio } from '@/composables/usePortfolio'
 import { SITE_URL } from '@/site'
@@ -45,6 +45,12 @@ import { SITE_URL } from '@/site'
 const { toasts, dismiss } = useToast()
 const { showAuth, closeAuth, logout, openAuth } = useAuth()
 const toast = useToast()
+
+// The user signed in while a gated action was queued (e.g. clicked "New quote"
+// while logged out) — run it now so they don't have to repeat the click.
+function handleAuthenticated() {
+  runAuthIntent()
+}
 
 // When a token refresh fails (refresh past its 7d TTL or revoked), client.ts
 // emits this: end the stale session and surface a clear prompt rather than

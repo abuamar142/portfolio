@@ -158,6 +158,7 @@ export default {
     noId: 'Tidak ada ID kutipan',
     createTitle: 'Kutipan Baru',
     editTitle: 'Ubah Kutipan',
+    detailTitle: 'Detail kutipan',
     contentLabel: 'Kutipan',
     contentPlaceholder: 'Tulis kutipanmu…',
     authorLabel: 'Nama Penulis',

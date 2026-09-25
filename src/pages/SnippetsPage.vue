@@ -30,8 +30,8 @@
               </ul>
             </div>
           </template>
-          <button v-else @click="showAuth = true" class="btn btn-primary">
-            Sign In
+          <button v-else @click="() => openAuth()" class="btn btn-primary">
+            {{ t('auth.signIn') }}
           </button>
         </div>
       </div>
@@ -109,8 +109,6 @@
       </div>
     </div>
 
-    <!-- Modals -->
-    <AuthModal :show="showAuth" @close="showAuth = false" />
   </section>
 </template>
 
@@ -129,10 +127,9 @@ import {
 import type { Snippet, TagResponse, LanguageResponse } from '@/types/snippet'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
-import AuthModal from '@/components/AuthModal.vue'
 
 const { t } = useI18n()
-const { user, isAuthenticated, logout } = useAuth()
+const { user, isAuthenticated, logout, openAuth } = useAuth()
 const toast = useToast()
 
 useHead({ title: computed(() => t('snippets.title')) })
@@ -154,7 +151,6 @@ const userInitials = computed(() => {
   return name.charAt(0).toUpperCase() || '?'
 })
 
-const showAuth = ref(false)
 const showCreate = ref(false)
 
 let debounceTimer: ReturnType<typeof setTimeout>
