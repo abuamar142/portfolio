@@ -1,18 +1,8 @@
 import axios from 'axios'
 import type { Portfolio } from '@/types/portfolio'
+import { backendClient } from '@/services/client'
 
-// Use external backend API
-const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || 'https://backend.abuamar.online'
-const API_ENDPOINT = '/api/v1/personal/data'
-
-const client = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
-  },
-  timeout: 30000, // 30 seconds timeout (increased from 10s)
-})
+const API_ENDPOINT = '/personal/data'
 
 export async function fetchPortfolioData(): Promise<Portfolio> {
   // Minimum loading time untuk UX yang lebih baik (bisa dikonfigurasi)
@@ -20,7 +10,7 @@ export async function fetchPortfolioData(): Promise<Portfolio> {
   const startTime = Date.now()
 
   try {
-    const response = await client.get(API_ENDPOINT)
+    const response = await backendClient.get(API_ENDPOINT)
 
     // Log data structure for debugging
     const body = response.data
@@ -77,7 +67,7 @@ export async function fetchPortfolioData(): Promise<Portfolio> {
     // Provide specific error messages based on error type
     if (axiosError?.code === 'ENOTFOUND' || axiosError?.code === 'ECONNREFUSED') {
       throw new Error(
-        `Cannot connect to backend server at ${API_BASE_URL}. Please check if the backend is running.`,
+        `Cannot connect to backend server at ${backendClient.defaults.baseURL}. Please check if the backend is running.`,
       )
     }
 

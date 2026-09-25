@@ -185,6 +185,10 @@ export default {
     close: 'Tutup',
     prev: 'Sebelumnya',
     next: 'Berikutnya',
+    share: 'Bagikan',
+    copied: 'Tersalin!',
+    copyLink: 'Salin tautan',
+    shareMenu: 'Pilihan berbagi',
   },
   auth: {
     signIn: 'Masuk',

@@ -59,7 +59,7 @@
           </p>
 
           <div v-if="coverUrl" class="panel mt-8 overflow-hidden">
-            <img :src="coverUrl" :alt="post?.title || ''" loading="lazy" class="w-full object-cover" />
+            <img :src="coverUrl" :alt="post?.title || ''" loading="lazy" decoding="async" width="800" height="450" class="w-full object-cover" />
           </div>
 
           <div class="blog-content mt-8" v-html="contentHtml"></div>

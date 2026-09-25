@@ -45,9 +45,16 @@
 
           <p v-if="error" class="text-sm text-error">{{ error }}</p>
 
-          <button type="submit" :disabled="loading || !form.content.trim()" class="btn btn-primary w-full">
-            {{ loading ? $t('quotes.posting') : $t('quotes.submit') }}
-          </button>
+          <BaseButton
+            type="submit"
+            variant="primary"
+            full-width
+            :loading="loading"
+            :loading-label="$t('quotes.posting')"
+            :disabled="loading || !form.content.trim()"
+          >
+            {{ $t('quotes.submit') }}
+          </BaseButton>
         </form>
   </BaseModal>
 </template>
@@ -56,6 +63,7 @@
 import { ref, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseModal from '@/components/ui/BaseModal.vue'
+import BaseButton from '@/components/ui/BaseButton.vue'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import { createQuote } from '@/services/quote'

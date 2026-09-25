@@ -46,10 +46,16 @@
           <p v-if="error" class="text-sm text-error">{{ error }}</p>
 
           <div class="modal-action">
-            <button type="button" @click="$emit('close')" class="btn btn-ghost">{{ $t('quotes.cancel') }}</button>
-            <button type="submit" :disabled="loading || !form.content.trim()" class="btn btn-primary">
-              {{ loading ? $t('quotes.saving') : $t('quotes.save') }}
-            </button>
+            <BaseButton type="button" variant="ghost" @click="$emit('close')">{{ $t('quotes.cancel') }}</BaseButton>
+            <BaseButton
+              type="submit"
+              variant="primary"
+              :loading="loading"
+              :loading-label="$t('quotes.saving')"
+              :disabled="loading || !form.content.trim()"
+            >
+              {{ $t('quotes.save') }}
+            </BaseButton>
           </div>
         </form>
   </BaseModal>
@@ -59,6 +65,7 @@
 import { ref, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseModal from '@/components/ui/BaseModal.vue'
+import BaseButton from '@/components/ui/BaseButton.vue'
 import { useToast } from '@/composables/useToast'
 import { updateQuote } from '@/services/quote'
 import type { Quote } from '@/types/quote'

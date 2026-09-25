@@ -185,6 +185,10 @@ export default {
     close: 'Close',
     prev: 'Previous',
     next: 'Next',
+    share: 'Share',
+    copied: 'Copied!',
+    copyLink: 'Copy link',
+    shareMenu: 'Sharing options',
   },
   auth: {
     signIn: 'Sign In',

@@ -4,11 +4,35 @@ import { getStoredToken, getStoredRefreshToken, setTokens, emitAuthFailed } from
 
 const API_BASE = import.meta.env.VITE_PORTFOLIO_API_URL || 'https://portfolio.abuamar.online'
 const AUTH_URL = import.meta.env.VITE_AUTH_URL || 'https://auth.abuamar.online'
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://backend.abuamar.online'
+export const AUTH_BASE_URL = AUTH_URL
 
 // Shared axios client for portfolio-service endpoints (quotes, links, ...):
 // one base URL + one Authorization interceptor for every tool.
 const client = axios.create({
   baseURL: `${API_BASE}/api/v1`,
+  headers: { 'Content-Type': 'application/json' },
+  timeout: 15000,
+})
+
+/**
+ * Public read-only backend (posts, portfolio data). No Authorization header:
+ * these endpoints are unauthenticated, and sending a personal token to a
+ * different origin than it was issued for is unnecessary exposure.
+ */
+export const backendClient = axios.create({
+  baseURL: `${BACKEND_URL}/api/v1`,
+  headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+  timeout: 30000,
+})
+
+/**
+ * Auth-service client. Deliberately bare: login/register/refresh must not run
+ * through the interceptor that attaches the access token or that tries to
+ * refresh on 401 (that would recurse on the refresh call itself).
+ */
+export const authClient = axios.create({
+  baseURL: `${AUTH_URL}/api/v1`,
   headers: { 'Content-Type': 'application/json' },
   timeout: 15000,
 })
@@ -35,10 +59,10 @@ async function refreshAccessToken(): Promise<string> {
   const refreshToken = getStoredRefreshToken()
   if (!refreshToken) throw new Error('no refresh token')
 
-  const { data } = await axios.post(
-    `${AUTH_URL}/api/v1/auth/refresh`,
+  const { data } = await authClient.post(
+    '/auth/refresh',
     { refresh_token: refreshToken },
-    { headers: { 'Content-Type': 'application/json' }, timeout: 15000 },
+    { timeout: 15000 },
   )
   const access = data?.data?.access_token
   const refresh = data?.data?.refresh_token

@@ -32,9 +32,16 @@
 
           <p v-if="error" class="text-sm text-error">{{ error }}</p>
 
-          <button type="submit" :disabled="loading" class="btn btn-primary w-full">
-            {{ loading ? $t('auth.loading') : mode === 'login' ? $t('auth.signIn') : $t('auth.createAccount') }}
-          </button>
+          <BaseButton
+            type="submit"
+            variant="primary"
+            full-width
+            :loading="loading"
+            :loading-label="$t('auth.loading')"
+            :disabled="loading"
+          >
+            {{ mode === 'login' ? $t('auth.signIn') : $t('auth.createAccount') }}
+          </BaseButton>
         </form>
 
         <p class="mt-3 text-center text-sm">
@@ -50,9 +57,10 @@
 import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseModal from '@/components/ui/BaseModal.vue'
+import BaseButton from '@/components/ui/BaseButton.vue'
 import { useAuth } from '@/composables/useAuth'
+import { authClient } from '@/services/client'
 import { useToast } from '@/composables/useToast'
-import axios from 'axios'
 
 defineProps<{ show: boolean }>()
 const emit = defineEmits<{ close: []; authenticated: [] }>()
@@ -71,19 +79,17 @@ const form = reactive({
   display_name: '',
 })
 
-const AUTH_URL = import.meta.env.VITE_AUTH_URL || 'https://auth.abuamar.online'
-
 function toggleMode() {
   mode.value = mode.value === 'login' ? 'register' : 'login'
   error.value = ''
 }
 
 async function handleLogin(identifier: string, password: string) {
-  const { data } = await axios.post(`${AUTH_URL}/api/v1/auth/login`, { identifier, password })
+  const { data } = await authClient.post('/auth/login', { identifier, password })
   if (data.data?.access_token) {
     setTokens(data.data.access_token, data.data.refresh_token || '')
     // Login doesn't return user — fetch it from /me
-    const { data: meData } = await axios.get(`${AUTH_URL}/api/v1/auth/me`, {
+    const { data: meData } = await authClient.get('/auth/me', {
       headers: { Authorization: `Bearer ${data.data.access_token}` },
     })
     if (meData.data) {
@@ -102,7 +108,7 @@ async function handleSubmit() {
   try {
     if (mode.value === 'register') {
       // Register first
-      await axios.post(`${AUTH_URL}/api/v1/auth/register`, {
+      await authClient.post('/auth/register', {
         email: form.identifier,
         username: form.username,
         password: form.password,

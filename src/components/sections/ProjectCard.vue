@@ -4,6 +4,10 @@
       v-if="project.imageUrl"
       :src="project.imageUrl"
       :alt="project.title"
+      width="640"
+      height="400"
+      loading="lazy"
+      decoding="async"
       class="aspect-[16/10] w-full object-cover border-b border-hairline-light"
     />
 
@@ -61,7 +65,7 @@
         class="group/link inline-flex min-h-11 items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-primary transition-opacity hover:opacity-80"
       >
         <ArrowUpRight
-          class="size-3.5 transition-all duration-300 group-hover/link:-translate-y-1 group-hover/link:translate-x-1"
+          class="size-3.5 transition-transform duration-300 group-hover/link:-translate-y-1 group-hover/link:translate-x-1"
           aria-hidden="true"
         />
         {{ $t('projects.buttons.demo') }}
