@@ -183,13 +183,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onServerPrefetch, ref, computed, nextTick, watch, onBeforeUnmount } from 'vue'
+import { ref, computed, nextTick, watch, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { SITE_URL } from '@/site'
 import { ArrowLeft, Languages, Share2, X } from 'lucide-vue-next'
-import { usePosts, type Post } from '@/composables/usePosts'
+import { useBlogPost } from '@/composables/useBlogPost'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
 const route = useRoute()
@@ -202,38 +202,13 @@ const slug = computed(() => {
     return String(raw || '').trim()
   }
 })
-const { getBySlug } = usePosts()
-const post = ref<Post | null>(null)
-const loading = ref(true)
-const error = ref('')
 
-// — Prerender-time data fetch —
-// onServerPrefetch runs only during SSG/SSR: the post is fetched at build time
-// so the static HTML carries the real article content, head tags and JSON-LD.
-// The try/catch keeps a bad slug or API hiccup from failing the build (the
-// error state renders instead). On the client this hook never fires — the
-// existing onMounted flow below keeps the loading/empty states working.
-onServerPrefetch(async () => {
-  try {
-    const fetched = await getBySlug(slug.value, locale.value)
-    if (!fetched || fetched.status === 'draft') throw new Error('Not found')
-    post.value = fetched
-  } catch (e) {
-    console.warn('[BlogDetail] prerender fetch failed', slug.value, locale.value, e)
-    error.value = 'Post not found'
-  } finally {
-    loading.value = false
-  }
-})
+const { post, loading, error, contentHtml, coverUrl, readingTime, formatDate, toggleLocale } = useBlogPost(slug)
 
-// — Per-page SEO head (baked into the prerendered HTML + SPA client) —
-// canonical + og:url come from App.vue's route-aware head; the computed below
-// feeds the JSON-LD `@id` and the share URL only.
+// — Per-page SEO head —
 const canonical = computed(() => `${SITE_URL}/blogs/${encodeURIComponent(slug.value)}`)
 
 useHead({
-  // Override App.vue's `| Abu Amar` titleTemplate so the title is exactly
-  // "<post title> — Abu Amar" without doubling the site name.
   title: computed(() => (post.value ? post.value.title : 'Blog Post')),
   titleTemplate: '%s - Abu Amar',
   meta: computed(() => [
@@ -242,8 +217,6 @@ useHead({
     { property: 'og:description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
     { property: 'og:type', content: 'article' },
   ]),
-  // JSON-LD BlogPosting — emitted once real data exists, so the prerendered
-  // HTML always carries the structured data.
   script: computed(() => {
     if (!post.value) return []
     return [
@@ -263,56 +236,7 @@ useHead({
   }),
 })
 
-const contentHtml = computed(() => post.value?.contentHtml || post.value?.content?.html || post.value?.excerpt || '')
-const coverUrl = computed(() => post.value?.coverImage?.url || post.value?.cover?.url || '')
-const readingTime = computed(() => {
-  if (!post.value) return 0
-  const words = (post.value.contentHtml || post.value.content?.html || post.value.excerpt || '').replace(/<[^>]*>/g, '').split(/\s+/).length
-  return Math.max(1, Math.ceil(words / 200))
-})
-
-function formatDate(iso?: string | null) {
-  if (!iso) return ''
-  try {
-    const dateLocale = locale.value === 'en' ? 'en-US' : 'id-ID'
-    return new Date(iso).toLocaleDateString(dateLocale, { day: 'numeric', month: 'long', year: 'numeric' })
-  } catch {
-    return String(iso)
-  }
-}
-
-// — Locale switcher (bilingual 1-doc-2-locale: slug localized per locale, same document ID)
-// Clicking toggles vue-i18n locale (persisted like LanguageDropdown) and watcher refetches same slug with new locale.
-// If translation missing, Payload fallback:true returns defaultLocale (id) content.
-function toggleLocale() {
-  const next = locale.value === 'en' ? 'id' : 'en'
-  locale.value = next as never
-  try {
-    localStorage.setItem('portfolio-language', next)
-  } catch {}
-}
-
-async function fetchPost() {
-  loading.value = true
-  error.value = ''
-  try {
-    const fetched = await getBySlug(slug.value, locale.value)
-    if (import.meta.env.DEV) {
-      console.debug('[BlogDetail] slug=', slug.value, 'locale=', locale.value, 'fetched=', fetched)
-    }
-    post.value = fetched
-    if (!post.value) throw new Error('Not found')
-    if (post.value.status === 'draft') throw new Error('Not found')
-  } catch (e) {
-    console.warn('[BlogDetail] failed to load', slug.value, 'locale', locale.value, e)
-    // Keep existing post if refetch fails due to localized slug mismatch, but show error only on initial load
-    if (!post.value) error.value = 'Post not found'
-  } finally {
-    loading.value = false
-  }
-}
-
-// — Share state & helpers
+// — Share state & helpers —
 const showShareModal = ref(false)
 const copied = ref(false)
 const shareInputRef = ref<HTMLInputElement | null>(null)
@@ -425,7 +349,6 @@ watch(showShareModal, (open) => {
   if (typeof window === 'undefined') return
   if (open) {
     window.addEventListener('keydown', onEsc)
-    // prevent background scroll
     document.documentElement.style.overflow = 'hidden'
   } else {
     window.removeEventListener('keydown', onEsc)
@@ -437,15 +360,4 @@ onBeforeUnmount(() => {
   if (typeof window !== 'undefined') window.removeEventListener('keydown', onEsc)
   if (typeof document !== 'undefined') document.documentElement.style.overflow = ''
 })
-
-watch(locale, () => {
-  // Refetch same slug with new locale when user switches language via dropdown or switcher button
-  fetchPost()
-})
-
-watch(slug, () => {
-  fetchPost()
-})
-
-onMounted(fetchPost)
 </script>
