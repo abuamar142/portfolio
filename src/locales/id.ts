@@ -13,6 +13,19 @@ export default {
   head: {
     explore:
       'Katalog tools, kutipan, dan blog Abu Amar — coba mini app-nya dan telusuri tulisannya.',
+    quotes: { title: 'Kutipan', dek: 'Kata-kata yang layak dibagikan' },
+    links: {
+      title: 'Arsip Tautan',
+      dek: 'Koleksi tautan, tools, dan referensi yang berguna — diorganisir per topik untuk akses cepat.',
+    },
+    qr: {
+      title: 'QR Maker',
+      dek: 'Ubah teks atau tautan apa pun menjadi QR code yang bisa discan — dibuat di perangkatmu, tidak ada yang dikirim ke server.',
+    },
+    removeBg: {
+      title: 'Background Remover',
+      dek: 'Foto diproses 100% di perangkatmu — WebGPU atau WASM. Tidak ada satu piksel pun yang dikirim ke server.',
+    },
   },
   headings: {
     about: 'Membangun untuk mobile dan web, end to end.',

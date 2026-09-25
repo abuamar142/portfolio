@@ -160,11 +160,11 @@ const downloadSvg = async () => {
 }
 
 useHead({
-  title: computed(() => t('qr.title')),
+  title: computed(() => t('head.qr.title')),
   meta: [
-    { name: 'description', content: computed(() => t('qr.dek')) },
-    { property: 'og:title', content: computed(() => `${t('qr.title')} - Abu Amar`) },
-    { property: 'og:description', content: computed(() => t('qr.dek')) },
+    { name: 'description', content: computed(() => t('head.qr.dek')) },
+    { property: 'og:title', content: computed(() => `${t('head.qr.title')} - Abu Amar`) },
+    { property: 'og:description', content: computed(() => t('head.qr.dek')) },
   ],
 })
 </script>

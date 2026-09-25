@@ -13,6 +13,19 @@ export default {
   head: {
     explore:
       "Directory of Abu Amar's tools, quotes and blog posts — try the mini apps and browse the writing.",
+    quotes: { title: 'Quotes', dek: 'Words worth sharing' },
+    links: {
+      title: 'Link Archive',
+      dek: 'Curated collection of useful links, tools, and references — organized by topic for quick access.',
+    },
+    qr: {
+      title: 'QR Maker',
+      dek: 'Turn any text or link into a scannable QR code — made on your device, nothing is sent to a server.',
+    },
+    removeBg: {
+      title: 'Background Remover',
+      dek: 'Images are processed 100% on your device — WebGPU or WASM. Not a single pixel is sent to a server.',
+    },
   },
   headings: {
     about: 'Building for mobile and web, end to end.',

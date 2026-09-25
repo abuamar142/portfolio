@@ -200,11 +200,11 @@ import SearchInput from '@/components/ui/SearchInput.vue'
 const { t } = useI18n()
 
 useHead({
-  title: computed(() => t('links.title')),
+  title: computed(() => t('head.links.title')),
   meta: [
-    { name: 'description', content: computed(() => t('links.dek')) },
-    { property: 'og:title', content: computed(() => `${t('links.title')} - Abu Amar`) },
-    { property: 'og:description', content: computed(() => t('links.dek')) },
+    { name: 'description', content: computed(() => t('head.links.dek')) },
+    { property: 'og:title', content: computed(() => `${t('head.links.title')} - Abu Amar`) },
+    { property: 'og:description', content: computed(() => t('head.links.dek')) },
   ],
 })
 

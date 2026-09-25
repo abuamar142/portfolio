@@ -177,11 +177,11 @@ const stageLabel = computed(() => t(`removeBg.stage.${stage.value}`))
 const progressPct = computed(() => Math.round(progress.value * 100))
 
 useHead({
-  title: computed(() => t('removeBg.title')),
+  title: computed(() => t('head.removeBg.title')),
   meta: [
-    { name: 'description', content: computed(() => t('removeBg.dek')) },
-    { property: 'og:title', content: computed(() => `${t('removeBg.title')} - Abu Amar`) },
-    { property: 'og:description', content: computed(() => t('removeBg.dek')) },
+    { name: 'description', content: computed(() => t('head.removeBg.dek')) },
+    { property: 'og:title', content: computed(() => `${t('head.removeBg.title')} - Abu Amar`) },
+    { property: 'og:description', content: computed(() => t('head.removeBg.dek')) },
   ],
 })
 
