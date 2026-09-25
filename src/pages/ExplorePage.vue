@@ -44,6 +44,7 @@ const { t } = useI18n()
 const entries = computed(() => [
   { to: '/blogs', path: '/blogs', title: t('navigation.blog'), dek: t('headings.blog') },
   { to: '/quotes', path: '/quotes', title: t('quotes.title'), dek: t('quotes.dek') },
+  { to: '/snippets', path: '/snippets', title: t('snippets.title'), dek: t('snippets.dek') },
 ])
 
 useHead({ title: computed(() => t('navigation.explore')) })
