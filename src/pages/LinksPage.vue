@@ -23,19 +23,12 @@
 
       <!-- Tags -->
       <div class="mb-8 flex flex-wrap items-center gap-2 border-t border-hairline-light pt-4">
-        <button
-          v-if="tags.length"
-          @click="selectedTag = ''; reloadLinks()"
-          :class="['chip', !selectedTag ? 'chip-accent' : '']"
-        >{{ $t('links.all') }}</button>
-        <button
-          v-for="tag in tags"
-          :key="tag.tag"
-          @click="selectedTag = tag.tag; reloadLinks()"
-          :class="['chip', selectedTag === tag.tag ? 'chip-accent' : '']"
-        >
-          #{{ tag.tag }} <span class="text-ink-4">({{ tag.count }})</span>
-        </button>
+        <TagFilter
+          v-model="selectedTag"
+          :tags="tags"
+          :all-label="$t('links.all')"
+          @update:model-value="onTagChange"
+        />
       </div>
 
       <!-- Loading -->
@@ -194,6 +187,7 @@ import BaseModal from '@/components/ui/BaseModal.vue'
 import { useHead } from '@unhead/vue'
 import { Link2, ExternalLink, Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
+import TagFilter from '@/components/TagFilter.vue'
 import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
 import { useToast } from '@/composables/useToast'
 import {
@@ -314,6 +308,12 @@ function closeModal() {
   showModal.value = false
   editingLink.value = null
   formErrors.value = {}
+}
+
+// Tag change: same contract as search — start from page 1.
+function onTagChange() {
+  page.value = 1
+  reloadLinks()
 }
 
 function addTag() {

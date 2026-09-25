@@ -38,20 +38,12 @@
 
       <!-- Tags + language filter -->
       <div class="mb-8 flex flex-wrap items-center justify-between gap-3 border-t border-hairline-light pt-4">
-        <div class="flex flex-wrap items-center gap-2">
-          <button
-            @click="selectedTag = ''; reloadSnippets()"
-            :class="['chip', !selectedTag ? 'chip-accent' : '']"
-          >{{ $t('snippets.allTags') }}</button>
-          <button
-            v-for="tag in tags"
-            :key="tag.tag"
-            @click="selectedTag = tag.tag; reloadSnippets()"
-            :class="['chip', selectedTag === tag.tag ? 'chip-accent' : '']"
-          >
-            #{{ tag.tag }} <span class="text-ink-4">({{ tag.count }})</span>
-          </button>
-        </div>
+        <TagFilter
+          v-model="selectedTag"
+          :tags="tags"
+          :all-label="$t('snippets.allTags')"
+          @update:model-value="onTagChange"
+        />
         <div v-if="languages.length" class="ml-auto flex flex-wrap items-center gap-2">
           <button
             @click="selectedLanguage = ''; reloadSnippets()"
@@ -118,6 +110,7 @@ import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 import { FileCode, Plus, LogOut } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
+import TagFilter from '@/components/TagFilter.vue'
 import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
 import { useToast } from '@/composables/useToast'
 import {
@@ -169,6 +162,12 @@ function prevPage() {
 
 function nextPage() {
   if (page.value < totalPages.value) { page.value++; reloadSnippets() }
+}
+
+// Tag change: same contract as search — start from page 1.
+function onTagChange() {
+  page.value = 1
+  reloadSnippets()
 }
 
 async function reloadSnippets() {

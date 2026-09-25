@@ -23,20 +23,12 @@
 
       <!-- Tags + sort -->
       <div class="mb-8 flex flex-wrap items-center justify-between gap-3 border-t border-hairline-light pt-4">
-        <div v-if="tags.length" class="flex flex-wrap items-center gap-2">
-          <button
-            @click="selectedTag = ''; reloadQuotes()"
-            :class="['chip', !selectedTag ? 'chip-accent' : '']"
-          >{{ $t('quotes.all') }}</button>
-          <button
-            v-for="tag in tags"
-            :key="tag.tag"
-            @click="selectedTag = tag.tag; reloadQuotes()"
-            :class="['chip', selectedTag === tag.tag ? 'chip-accent' : '']"
-          >
-            #{{ tag.tag }} <span class="text-ink-4">({{ tag.count }})</span>
-          </button>
-        </div>
+        <TagFilter
+          v-model="selectedTag"
+          :tags="tags"
+          :all-label="$t('quotes.all')"
+          @update:model-value="onTagChange"
+        />
         <div class="ml-auto flex items-center gap-2">
           <span class="label">{{ $t('quotes.sort') }}</span>
           <button @click="sortRandom" :class="['btn btn-sm', sort === 'random' ? 'btn-primary' : 'btn-ghost']">{{ $t('quotes.random') }}</button>
@@ -97,6 +89,7 @@ import { useToast } from '@/composables/useToast'
 import { fetchQuotes, fetchTags, deleteQuote } from '@/services/quote'
 import type { Quote, TagResponse } from '@/types/quote'
 import QuoteCard from '@/components/QuoteCard.vue'
+import TagFilter from '@/components/TagFilter.vue'
 import QuoteModal from '@/components/QuoteModal.vue'
 import CreateQuoteModal from '@/components/CreateQuoteModal.vue'
 import EditQuoteModal from '@/components/EditQuoteModal.vue'
@@ -141,6 +134,12 @@ let debounceTimer: ReturnType<typeof setTimeout>
 function debouncedFetch() {
   clearTimeout(debounceTimer)
   debounceTimer = setTimeout(() => { page.value = 1; fetchQuotesData() }, 300)
+}
+
+// Tag change: same contract as search — start from page 1.
+function onTagChange() {
+  page.value = 1
+  reloadQuotes()
 }
 
 function sortRandom() { sort.value = 'random'; reloadQuotes() }
