@@ -186,14 +186,12 @@
 import { ref, computed, nextTick, watch, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
-import { useI18n } from 'vue-i18n'
 import { SITE_URL } from '@/site'
 import { ArrowLeft, Languages, Share2, X } from 'lucide-vue-next'
 import { useBlogPost } from '@/composables/useBlogPost'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
 const route = useRoute()
-const { locale } = useI18n()
 const slug = computed(() => {
   const raw = route.params.slug as string
   try {
