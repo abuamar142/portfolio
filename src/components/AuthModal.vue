@@ -60,7 +60,7 @@ const emit = defineEmits<{ close: [] }>()
 useEscapeToClose(computed(() => props.show), () => emit('close'))
 
 const { t } = useI18n()
-const { setToken, storeUser } = useAuth()
+const { setTokens, storeUser } = useAuth()
 const toast = useToast()
 const mode = ref<'login' | 'register'>('login')
 const loading = ref(false)
@@ -83,7 +83,7 @@ function toggleMode() {
 async function handleLogin(identifier: string, password: string) {
   const { data } = await axios.post(`${AUTH_URL}/api/v1/auth/login`, { identifier, password })
   if (data.data?.access_token) {
-    setToken(data.data.access_token)
+    setTokens(data.data.access_token, data.data.refresh_token || '')
     // Login doesn't return user — fetch it from /me
     const { data: meData } = await axios.get(`${AUTH_URL}/api/v1/auth/me`, {
       headers: { Authorization: `Bearer ${data.data.access_token}` },

@@ -204,6 +204,7 @@ export default {
     welcomeToast: 'Welcome back!',
     somethingWrong: 'Something went wrong',
     errorCredentials: 'Incorrect email/username or password',
+    sessionExpired: 'Your session expired. Please sign in again.',
   },
   errors: {
     title: 'Something went wrong',

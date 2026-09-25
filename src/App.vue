@@ -30,20 +30,26 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
 import AuthModal from '@/components/AuthModal.vue'
-import { useAuth } from '@/composables/useAuth'
+import { useAuth, onAuthFailed } from '@/composables/useAuth'
 import { useToast, type ToastType } from '@/composables/useToast'
 import { usePortfolio } from '@/composables/usePortfolio'
 import { SITE_URL } from '@/site'
 
 const { toasts, dismiss } = useToast()
-const { showAuth, closeAuth } = useAuth()
+const { showAuth, closeAuth, logout, openAuth } = useAuth()
+const toast = useToast()
+
+// When a token refresh fails (refresh past its 7d TTL or revoked), client.ts
+// emits this: end the stale session and surface a clear prompt rather than
+// letting a tool write fail with no explanation.
+let offAuthFailed: (() => void) | null = null
 
 // Identity powers the masthead and the whole colophon footer on EVERY route.
 // Loading it from the app shell (not HomePage) keeps direct visits to
@@ -64,7 +70,20 @@ function alertClass(type: ToastType) {
 }
 
 const route = useRoute()
-const { locale } = useI18n()
+const { locale, t } = useI18n()
+
+// Session-expiry prompt: end the stale session and open the login modal with
+// an explanatory toast instead of letting a tool write fail silently.
+onMounted(() => {
+  offAuthFailed = onAuthFailed(() => {
+    logout()
+    toast.info(t('auth.sessionExpired'))
+    openAuth()
+  })
+})
+onUnmounted(() => {
+  offAuthFailed?.()
+})
 
 // One canonical per route: path only (query/hash excluded), root keeps the
 // trailing slash to match the sitemap's `https://abuamar.online/` entry.

@@ -204,6 +204,7 @@ export default {
     welcomeToast: 'Selamat datang kembali!',
     somethingWrong: 'Terjadi kesalahan',
     errorCredentials: 'Email/username atau kata sandi salah',
+    sessionExpired: 'Sesi Anda berakhir. Silakan masuk lagi.',
   },
   errors: {
     title: 'Terjadi kesalahan',
