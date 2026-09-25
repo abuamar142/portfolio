@@ -9,23 +9,23 @@
 
         <form @submit.prevent="handleSubmit" class="space-y-3">
           <div v-if="mode === 'register'">
-            <label class="label"><span class="label-text">{{ $t('auth.displayName') }}</span></label>
-            <input v-model="form.display_name" type="text" class="input input-bordered w-full" :placeholder="$t('auth.namePlaceholder')" />
+            <label for="auth-display-name" class="label"><span class="label-text">{{ $t('auth.displayName') }}</span></label>
+            <input id="auth-display-name" v-model="form.display_name" type="text" autocomplete="name" class="input input-bordered w-full" :placeholder="$t('auth.namePlaceholder')" />
           </div>
 
           <div>
-            <label class="label"><span class="label-text">{{ mode === 'login' ? $t('auth.emailOrUsername') : $t('auth.email') }}</span></label>
-            <input v-model="form.identifier" type="text" required class="input input-bordered w-full" :placeholder="mode === 'login' ? $t('auth.identifierPlaceholderLogin') : $t('auth.identifierPlaceholderRegister')" />
+            <label for="auth-identifier" class="label"><span class="label-text">{{ mode === 'login' ? $t('auth.emailOrUsername') : $t('auth.email') }}</span></label>
+            <input id="auth-identifier" v-model="form.identifier" :type="mode === 'register' ? 'email' : 'text'" autocomplete="username" autocapitalize="none" spellcheck="false" required class="input input-bordered w-full" :placeholder="mode === 'login' ? $t('auth.identifierPlaceholderLogin') : $t('auth.identifierPlaceholderRegister')" />
           </div>
 
           <div v-if="mode === 'register'">
-            <label class="label"><span class="label-text">{{ $t('auth.usernameLabel') }}</span></label>
-            <input v-model="form.username" type="text" class="input input-bordered w-full" :placeholder="$t('auth.usernamePlaceholder')" />
+            <label for="auth-username" class="label"><span class="label-text">{{ $t('auth.usernameLabel') }}</span></label>
+            <input id="auth-username" v-model="form.username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" class="input input-bordered w-full" :placeholder="$t('auth.usernamePlaceholder')" />
           </div>
 
           <div>
-            <label class="label"><span class="label-text">{{ $t('auth.password') }}</span></label>
-            <input v-model="form.password" type="password" required minlength="8" class="input input-bordered w-full" placeholder="••••••••" />
+            <label for="auth-password" class="label"><span class="label-text">{{ $t('auth.password') }}</span></label>
+            <input id="auth-password" v-model="form.password" type="password" :autocomplete="mode === 'login' ? 'current-password' : 'new-password'" required minlength="8" class="input input-bordered w-full" placeholder="••••••••" />
           </div>
 
           <p v-if="error" class="text-sm text-error">{{ error }}</p>

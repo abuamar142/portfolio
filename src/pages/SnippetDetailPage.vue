@@ -40,31 +40,47 @@
       <!-- Editing mode -->
       <template v-if="editing">
         <div class="max-w-3xl">
+          <label for="snippet-edit-title" class="label"><span class="label-text">{{ $t('snippets.titleLabel') }}</span></label>
           <input
+            id="snippet-edit-title"
             v-model="editForm.title"
             class="input input-bordered w-full mb-4"
             :placeholder="$t('snippets.title')"
           />
+          <label for="snippet-edit-language" class="label"><span class="label-text">{{ $t('snippets.language') }}</span></label>
           <input
+            id="snippet-edit-language"
             v-model="editForm.language"
             class="input input-bordered w-full mb-4"
+            autocomplete="off"
+            spellcheck="false"
             :placeholder="$t('snippets.language')"
           />
+          <label for="snippet-edit-description" class="label"><span class="label-text">{{ $t('snippets.description') }}</span></label>
           <textarea
+            id="snippet-edit-description"
             v-model="editForm.description"
             class="textarea textarea-bordered w-full mb-4"
             rows="2"
             :placeholder="$t('snippets.description')"
           />
+          <label for="snippet-edit-code" class="label"><span class="label-text">{{ $t('snippets.code') }}</span></label>
           <textarea
+            id="snippet-edit-code"
             v-model="editForm.code"
             class="textarea textarea-bordered w-full font-mono text-sm mb-4"
             rows="12"
+            autocomplete="off"
+            autocapitalize="none"
+            spellcheck="false"
             :placeholder="$t('snippets.code')"
           />
+          <label for="snippet-edit-tags" class="label"><span class="label-text">{{ $t('snippets.tags') }}</span></label>
           <input
+            id="snippet-edit-tags"
             v-model="editForm.tagsInput"
             class="input input-bordered w-full mb-4"
+            autocomplete="off"
             :placeholder="$t('snippets.tags')"
           />
           <div class="flex items-center gap-3">

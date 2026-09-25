@@ -114,35 +114,41 @@
         <h3 class="font-bold text-lg mb-4">{{ editingLink ? $t('links.editTitle') : $t('links.createTitle') }}</h3>
         <form @submit.prevent="handleSubmit" class="flex flex-col gap-4">
           <div>
-            <label class="label"><span class="label-text">{{ $t('links.urlLabel') }}</span></label>
+            <label for="link-url" class="label"><span class="label-text">{{ $t('links.urlLabel') }}</span></label>
             <input
+              id="link-url"
               v-model="form.url"
               type="url"
               required
+              autocomplete="off"
+              spellcheck="false"
               placeholder="https://"
               class="input input-bordered w-full rounded-none"
             />
             <p v-if="formErrors.url" class="text-error text-xs mt-1">{{ formErrors.url }}</p>
           </div>
           <div>
-            <label class="label"><span class="label-text">{{ $t('links.titleLabel') }}</span></label>
+            <label for="link-title" class="label"><span class="label-text">{{ $t('links.titleLabel') }}</span></label>
             <input
+              id="link-title"
               v-model="form.title"
               type="text"
               required
+              autocomplete="off"
               class="input input-bordered w-full rounded-none"
             />
           </div>
           <div>
-            <label class="label"><span class="label-text">{{ $t('links.descriptionLabel') }}</span></label>
+            <label for="link-description" class="label"><span class="label-text">{{ $t('links.descriptionLabel') }}</span></label>
             <textarea
+              id="link-description"
               v-model="form.description"
               rows="3"
               class="textarea textarea-bordered w-full rounded-none"
             />
           </div>
           <div>
-            <label class="label"><span class="label-text">{{ $t('links.tagsLabel') }}</span></label>
+            <label for="link-tags" class="label"><span class="label-text">{{ $t('links.tagsLabel') }}</span></label>
             <div class="flex flex-wrap gap-2 mb-2">
               <span
                 v-for="(tag, i) in form.tags"
@@ -150,12 +156,14 @@
                 class="chip chip-accent chip-sm"
               >
                 #{{ tag }}
-                <button type="button" @click="removeTag(i)" class="ml-1 text-xs">&times;</button>
+                <button type="button" :aria-label="$t('links.removeTag', { tag })" @click="removeTag(i)" class="ml-1 text-xs">×</button>
               </span>
             </div>
             <input
+              id="link-tags"
               v-model="tagInput"
               type="text"
+              autocomplete="off"
               :placeholder="$t('links.tagsPlaceholder')"
               class="input input-bordered w-full rounded-none"
               @keydown.enter.prevent="addTag"

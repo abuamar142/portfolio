@@ -167,6 +167,7 @@ export default {
     anonymousLabel: 'Post anonymously',
     tagsLabel: 'Tags',
     tagsPlaceholder: 'Add tag (Enter to confirm)',
+    removeTag: 'Remove tag {tag}',
     posting: 'Posting…',
     submit: 'Post Quote',
     postedToast: 'Quote posted!',
@@ -275,6 +276,7 @@ export default {
     descriptionLabel: 'Description',
     tagsLabel: 'Tags',
     tagsPlaceholder: 'Add tag (Enter to confirm)',
+    removeTag: 'Remove tag {tag}',
     tagsMax: 'Maximum 5 tags allowed',
     cancel: 'Cancel',
     saving: 'Saving…',
@@ -288,6 +290,7 @@ export default {
   },
   snippets: {
     title: 'Snippets',
+    titleLabel: 'Title',
     dek: 'Code worth sharing',
     searchPlaceholder: 'Search snippets…',
     empty: 'No snippets yet.',

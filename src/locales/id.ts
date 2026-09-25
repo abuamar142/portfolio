@@ -167,6 +167,7 @@ export default {
     anonymousLabel: 'Posting anonim',
     tagsLabel: 'Tag',
     tagsPlaceholder: 'Tambah tag (Enter untuk konfirmasi)',
+    removeTag: 'Hapus tag {tag}',
     posting: 'Mengirim…',
     submit: 'Kirim Kutipan',
     postedToast: 'Kutipan terkirim!',
@@ -275,6 +276,7 @@ export default {
     descriptionLabel: 'Deskripsi',
     tagsLabel: 'Tag',
     tagsPlaceholder: 'Tambah tag (Enter untuk konfirmasi)',
+    removeTag: 'Hapus tag {tag}',
     tagsMax: 'Maksimum 5 tag',
     cancel: 'Batal',
     saving: 'Menyimpan…',
@@ -288,6 +290,7 @@ export default {
   },
   snippets: {
     title: 'Cuplikan',
+    titleLabel: 'Judul',
     dek: 'Kode yang layak dibagikan',
     searchPlaceholder: 'Cari cuplikan…',
     empty: 'Belum ada cuplikan.',
