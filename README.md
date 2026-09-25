@@ -48,7 +48,7 @@ bun run dev
 
 ## Deployment
 
-Every push to `main` or `development` triggers the **Deploy Portfolio to VPS** workflow: it opens an SSH session with the repository's VPS secrets and runs `/opt/ops/bin/deploy-portfolio.sh <branch>`. Concurrent runs for the same ref cancel each other.
+Every push to `main` or `development` triggers the **Deploy Portfolio to VPS** workflow: a `check` job runs `eslint` and `type-check` first; only on success does the SSH deploy job pull and rebuild on the VPS via `/opt/ops/bin/deploy-portfolio.sh <branch>`. Concurrent runs for the same ref cancel each other.
 
 Environment variable for production:
 
@@ -60,7 +60,11 @@ VITE_BACKEND_URL=https://backend.abuamar.online
 
 - Light / dark / system theme with an icon toggle in the masthead and mobile menu
 - Editorial dossier layout: fixed numbered spine on desktop, numbered section strip on small screens, mobile menu
-- Blog list with search and category filters, per-post detail pages, quotes with auth-gated CRUD, link archive with tag filter and search
+- Blog list with search and category filters, per-post detail pages
+- Quotes with auth-gated CRUD and share links (OG preview for WhatsApp/Telegram)
+- Link archive with tag filter, search, and owner-gated CRUD
+- QR Maker (text/URL → PNG/SVG with brand colors, fully local-first)
+- Background Remover (WebGPU, zero-pixels-to-server)
 - Reveal and rise motion that fully yields to `prefers-reduced-motion`
 - Every text token measured against its canvas (contrast budgets documented in `src/assets/main.css`)
 - Toast notifications, loading skeletons, and retryable error states
@@ -75,10 +79,12 @@ src/
 │   ├── sections/    # Hero, About, Experience, Projects, Skills, Contact
 │   └── ui/          # SectionHeader, BaseButton, SearchInput, cards, states
 ├── composables/     # useAuth, usePortfolio, usePosts, useTheme, useToast, ...
-├── locales/         # en.ts, id.ts
-├── pages/           # HomePage, BlogsList, BlogDetail, ExplorePage, QuotesPage, NotFound
+├── components/      # AuthControls, AuthModal, modals, cards, layout, sections, ui
+├── locales/         # en.ts, id.ts (243 keys each, parity-checked)
+├── pages/           # HomePage, BlogsList, BlogDetail, ExplorePage, QuotesPage,
+│                    # LinksPage, QrMakerPage, RemoveBgPage, QuoteDetailPage, NotFound
 ├── router/          # routes + SSG registration
-├── services/        # backend API client, MongoDB helper
+├── services/        # client.ts (shared axios), portfolio.ts, quote.ts, link.ts
 └── types/           # shared TypeScript contracts
 scripts/cv/          # CV generator (PDF)
 public/              # cv.pdf, og image, robots.txt
