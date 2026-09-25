@@ -47,6 +47,7 @@ const entries = computed(() => [
   { to: '/remove-bg', path: '/remove-bg', title: t('removeBg.title'), dek: t('removeBg.dek') },
   { to: '/qr', path: '/qr', title: t('qr.title'), dek: t('qr.dek') },
   { to: '/links', path: '/links', title: t('links.title'), dek: t('links.dek') },
+  { to: '/snippets', path: '/snippets', title: t('snippets.title'), dek: t('snippets.dek') },
 ])
 
 useHead({

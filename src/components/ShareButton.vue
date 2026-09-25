@@ -25,7 +25,10 @@
 import { ref } from 'vue'
 import { Share2, Link, ExternalLink } from 'lucide-vue-next'
 
-const props = defineProps<{ id: string; content: string; author: string }>()
+const props = withDefaults(
+  defineProps<{ id: string; content: string; author: string; path?: string }>(),
+  { path: '/quotes' },
+)
 
 const open = ref(false)
 const copied = ref(false)
@@ -36,7 +39,7 @@ function toggle() {
 }
 
 function getShareUrl() {
-  return `${window.location.origin}/quotes/${props.id}`
+  return `${window.location.origin}${props.path}/${props.id}`
 }
 
 function getShareText() {
