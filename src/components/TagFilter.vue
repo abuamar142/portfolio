@@ -1,41 +1,45 @@
 <template>
-  <!-- Few tags: every tag visible at a glance, exactly the original chip row. -->
+  <!--
+    Few tags: every tag visible at a glance — the original chip row, now with
+    multi-select toggles. Many tags: one trigger keeps the row short.
+
+    The model is the comma-joined string that goes straight into ?tag=a,b —
+    parsing lives here, so pages, useQueryRef and the services stay string.
+  -->
   <div v-if="tags.length" ref="rootEl" :class="dense ? 'relative' : 'flex flex-wrap items-center gap-2'">
     <template v-if="!dense">
       <button
         type="button"
-        :class="['chip', !model ? 'chip-accent' : '']"
-        @click="pick('')"
+        :class="['chip', selected.length === 0 ? 'chip-accent' : '']"
+        :aria-pressed="selected.length === 0 ? 'true' : undefined"
+        @click="clear()"
       >{{ allLabel }}</button>
       <button
         v-for="t in tags"
         :key="t.tag"
         type="button"
-        :class="['chip', model === t.tag ? 'chip-accent' : '']"
-        @click="pick(t.tag)"
+        class="chip"
+        :class="isSelected(t.tag) ? 'chip-accent' : ''"
+        :aria-pressed="isSelected(t.tag) ? 'true' : 'false'"
+        @click="toggle(t.tag)"
       >
         #{{ t.tag }} <span class="text-ink-4">({{ t.count }})</span>
       </button>
     </template>
 
-    <!--
-      Many tags: one trigger keeps the row short instead of wrapping 16+ chips.
-      The menu follows the ShareButton pattern: role/menuitemradio, Escape in
-      the capture phase (so a dialog behind it stays open), outside click.
-    -->
     <template v-else>
       <button
         ref="triggerEl"
         type="button"
         class="chip"
-        :class="model ? 'chip-accent' : ''"
+        :class="selected.length ? 'chip-accent' : ''"
         aria-haspopup="menu"
         :aria-expanded="open"
-        :aria-label="model ? `Tag: #${model}` : 'Tag'"
-        @click="toggle"
+        :aria-label="triggerLabel"
+        @click="toggleOpen"
       >
         <Funnel :size="14" aria-hidden="true" />
-        {{ model ? `#${model}` : 'Tag' }}
+        {{ selected.length ? `${'Tag'} (${selected.length})` : 'Tag' }}
         <ChevronDown :size="14" aria-hidden="true" />
       </button>
 
@@ -48,12 +52,12 @@
       >
         <button
           type="button"
-          role="menuitemradio"
-          :aria-checked="!model"
+          role="menuitem"
           class="btn btn-ghost btn-sm w-full justify-start gap-2"
-          @click="pick('')"
+          :disabled="selected.length === 0"
+          @click="clearAndClose()"
         >
-          <Check v-if="!model" :size="14" aria-hidden="true" />
+          <Check v-if="selected.length === 0" :size="14" aria-hidden="true" />
           <span v-else class="w-3.5" aria-hidden="true" />
           {{ allLabel }}
         </button>
@@ -61,12 +65,12 @@
           v-for="t in tags"
           :key="t.tag"
           type="button"
-          role="menuitemradio"
-          :aria-checked="model === t.tag"
+          role="menuitemcheckbox"
+          :aria-checked="isSelected(t.tag)"
           class="btn btn-ghost btn-sm w-full justify-start gap-2"
-          @click="pick(t.tag)"
+          @click="toggle(t.tag)"
         >
-          <Check v-if="model === t.tag" :size="14" aria-hidden="true" />
+          <Check v-if="isSelected(t.tag)" :size="14" aria-hidden="true" />
           <span v-else class="w-3.5" aria-hidden="true" />
           #{{ t.tag }} <span class="text-ink-4">({{ t.count }})</span>
         </button>
@@ -78,6 +82,8 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { ChevronDown, Check, Funnel } from 'lucide-vue-next'
+import { useToast } from '@/composables/useToast'
+import { useI18n } from 'vue-i18n'
 
 export interface TagCount {
   tag: string
@@ -90,18 +96,58 @@ const props = defineProps<{
   allLabel: string
 }>()
 
+/** Comma-joined selection: what ends up in ?tag=a,b. */
 const model = defineModel<string>({ default: '' })
 
+const toast = useToast()
+const { t } = useI18n()
+
+/** Same cap as tag creation per item — keeps the URL short. */
+const MAX_SELECTED = 5
 /** Above this many tags the row collapses into the popover. */
 const DENSE_LIMIT = 8
+
 const dense = computed(() => props.tags.length > DENSE_LIMIT)
+
+const selected = computed(() => (model.value ? model.value.split(',').filter(Boolean) : []))
+
+const triggerLabel = computed(() => {
+  if (selected.value.length === 0) return 'Tag'
+  return `Tag: ${selected.value.map((t) => `#${t}`).join(', ')}`
+})
+
+function isSelected(tag: string): boolean {
+  return selected.value.includes(tag)
+}
+
+function toggle(tag: string) {
+  const cur = selected.value
+  if (cur.includes(tag)) {
+    model.value = cur.filter((t) => t !== tag).join(',')
+    return
+  }
+  if (cur.length >= MAX_SELECTED) {
+    toast.error(t('common.tagMax'))
+    return
+  }
+  model.value = [...cur, tag].join(',')
+}
+
+function clear() {
+  model.value = ''
+}
+
+function clearAndClose() {
+  model.value = ''
+  close(true)
+}
 
 const open = ref(false)
 const rootEl = ref<HTMLElement | null>(null)
 const triggerEl = ref<HTMLElement | null>(null)
 const menuEl = ref<HTMLElement | null>(null)
 
-function toggle() {
+function toggleOpen() {
   if (open.value) close()
   else void openMenu()
 }
@@ -115,11 +161,6 @@ async function openMenu() {
 function close(restoreFocus = false) {
   open.value = false
   if (restoreFocus) triggerEl.value?.focus()
-}
-
-function pick(value: string) {
-  if (model.value !== value) model.value = value
-  if (dense.value) close(true)
 }
 
 // Capture phase: a dialog underneath (BaseModal) also listens for Escape on

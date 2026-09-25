@@ -319,6 +319,11 @@ function onTagChange() {
 function addTag() {
   const val = tagInput.value.trim()
   if (!val) return
+  // Comma separates tags in ?tag=a,b filters — a tag name must not contain one.
+  if (val.includes(',')) {
+    toast.error(t('common.tagNoComma'))
+    return
+  }
   if (form.value.tags.length >= 5) {
     toast.error(t('links.tagsMax'))
     return

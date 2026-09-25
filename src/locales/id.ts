@@ -183,6 +183,8 @@ export default {
   },
   common: {
     close: 'Tutup',
+    tagNoComma: 'Tag tidak boleh mengandung koma',
+    tagMax: 'Maksimal 5 tag per pilihan',
     prev: 'Sebelumnya',
     next: 'Berikutnya',
     share: 'Bagikan',

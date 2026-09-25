@@ -95,6 +95,11 @@ watch(() => props.show, (isOpen) => {
 
 function addTag() {
   const tag = tagInput.value.trim().toLowerCase()
+  // Comma separates tags in ?tag=a,b filters — a tag name must not contain one.
+  if (tag.includes(',')) {
+    toast.error(t('common.tagNoComma'))
+    return
+  }
   if (tag && !form.tags.includes(tag) && form.tags.length < 5) {
     form.tags.push(tag)
     tagInput.value = ''

@@ -183,6 +183,8 @@ export default {
   },
   common: {
     close: 'Close',
+    tagNoComma: 'Tags cannot contain a comma',
+    tagMax: 'Maximum 5 tags per selection',
     prev: 'Previous',
     next: 'Next',
     share: 'Share',
