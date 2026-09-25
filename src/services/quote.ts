@@ -1,7 +1,7 @@
 import axios from 'axios'
 import type { Quote, CreateQuoteRequest, QuoteListResponse, TagResponse } from '@/types/quote'
 
-const API_BASE = import.meta.env.VITE_QUOTE_API_URL || 'https://quote.abuamar.online'
+const API_BASE = import.meta.env.VITE_QUOTE_API_URL || 'https://portfolio-service.abuamar.online'
 
 const client = axios.create({
   baseURL: `${API_BASE}/api/v1`,
