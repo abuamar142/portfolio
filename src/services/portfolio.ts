@@ -14,28 +14,6 @@ const client = axios.create({
   timeout: 30000, // 30 seconds timeout (increased from 10s)
 })
 
-// Add request interceptor for logging
-client.interceptors.request.use(
-  (config) => {
-    return config
-  },
-  (error) => {
-    console.error('❌ Request interceptor error:', error)
-    return Promise.reject(error)
-  },
-)
-
-// Add response interceptor for logging
-client.interceptors.response.use(
-  (response) => {
-    return response
-  },
-  (error) => {
-    console.error('❌ Response interceptor error:', error.response?.status, error.message)
-    return Promise.reject(error)
-  },
-)
-
 export async function fetchPortfolioData(): Promise<Portfolio> {
   // Minimum loading time untuk UX yang lebih baik (bisa dikonfigurasi)
   const MIN_LOADING_TIME = 500 // ms (reduced from 800ms)
@@ -85,28 +63,13 @@ export async function fetchPortfolioData(): Promise<Portfolio> {
 
     return portfolioData
   } catch (error: unknown) {
-    console.error('❌ Failed to fetch portfolio data from backend API')
-
-    // Type-safe error handling
-    const isAxiosError = (
-      err: unknown,
-    ): err is {
-      response?: { status: number; statusText: string }
-      config?: { url: string; baseURL: string }
-      code?: string
-      message: string
-    } => {
-      return typeof err === 'object' && err !== null && 'message' in err
-    }
-
-    const axiosError = isAxiosError(error) ? error : null
+    const axiosError = axios.isAxiosError(error) ? error : null
     const errorMessage = error instanceof Error ? error.message : 'Unknown error'
 
-    console.error('Error details:', {
+    console.error('portfolio fetch failed:', {
       message: errorMessage,
       code: axiosError?.code,
       status: axiosError?.response?.status,
-      statusText: axiosError?.response?.statusText,
       url: axiosError?.config?.url,
       baseURL: axiosError?.config?.baseURL,
     })
