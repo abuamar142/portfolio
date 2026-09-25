@@ -1,6 +1,5 @@
 <template>
   <div class="flex items-center gap-3.5">
-    <span class="label" aria-hidden="true">Lang</span>
     <button
       v-for="lang in languages"
       :key="lang.code"
