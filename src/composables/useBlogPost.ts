@@ -1,6 +1,7 @@
 import { ref, computed, onServerPrefetch, watch, onMounted, type Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { usePosts, type Post } from '@/composables/usePosts'
+import { formatDateLong } from '@/lib/formatDate'
 
 export function useBlogPost(slugRef: Ref<string>) {
   const { locale } = useI18n()
@@ -52,13 +53,7 @@ export function useBlogPost(slugRef: Ref<string>) {
   })
 
   function formatDate(iso?: string | null) {
-    if (!iso) return ''
-    try {
-      const dateLocale = locale.value === 'en' ? 'en-US' : 'id-ID'
-      return new Date(iso).toLocaleDateString(dateLocale, { day: 'numeric', month: 'long', year: 'numeric' })
-    } catch {
-      return String(iso)
-    }
+    return formatDateLong(iso, locale.value)
   }
 
   function toggleLocale() {

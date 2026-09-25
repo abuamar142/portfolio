@@ -145,6 +145,7 @@ import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowLeft, ArrowRight } from 'lucide-vue-next'
 import { usePosts, type Post } from '@/composables/usePosts'
+import { formatDateShort } from '@/lib/formatDate'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
@@ -242,13 +243,7 @@ function estimateReadingTime(post: Post) {
   return Math.max(1, Math.ceil((post.excerpt || post.contentHtml || '').split(/\s+/).length / 200))
 }
 function formatDate(iso?: string | null) {
-  if (!iso) return ''
-  try {
-    const dateLocale = locale.value === 'en' ? 'en-US' : 'id-ID'
-    return new Date(iso).toLocaleDateString(dateLocale, { day: 'numeric', month: 'short', year: 'numeric' })
-  } catch {
-    return String(iso)
-  }
+  return formatDateShort(iso, locale.value)
 }
 watch(locale, () => {
   currentPage.value = 1

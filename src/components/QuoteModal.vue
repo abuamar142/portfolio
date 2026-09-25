@@ -40,6 +40,7 @@ import { computed } from 'vue'
 import { useEscapeToClose } from '@/composables/useEscapeToClose'
 import { X } from 'lucide-vue-next'
 import type { Quote } from '@/types/quote'
+import { formatDateLong } from '@/lib/formatDate'
 import ShareButton from './ShareButton.vue'
 
 const { locale } = useI18n()
@@ -49,7 +50,6 @@ const emit = defineEmits<{ close: [] }>()
 useEscapeToClose(computed(() => props.show), () => emit('close'))
 
 function formatDate(dateStr: string) {
-  const dateLocale = locale.value === 'en' ? 'en-US' : 'id-ID'
-  return new Date(dateStr).toLocaleDateString(dateLocale, { year: 'numeric', month: 'long', day: 'numeric' })
+  return formatDateLong(dateStr, locale.value)
 }
 </script>

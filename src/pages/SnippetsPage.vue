@@ -103,9 +103,9 @@
 
       <!-- Pagination -->
       <div v-if="totalPages > 1" class="flex justify-center gap-2 mt-8">
-        <button @click="prevPage" :disabled="page <= 1" class="btn btn-sm btn-ghost">Prev</button>
+        <button @click="prevPage" :disabled="page <= 1" class="btn btn-sm btn-ghost">{{ t("common.prev") }}</button>
         <span class="btn btn-sm btn-ghost no-animation">{{ page }} / {{ totalPages }}</span>
-        <button @click="nextPage" :disabled="page >= totalPages" class="btn btn-sm btn-ghost">Next</button>
+        <button @click="nextPage" :disabled="page >= totalPages" class="btn btn-sm btn-ghost">{{ t("common.next") }}</button>
       </div>
     </div>
 

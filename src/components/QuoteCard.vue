@@ -50,7 +50,7 @@ const displayAuthor = computed(() => {
 
 const truncatedContent = computed(() => {
   if (props.quote.content.length <= 200) return props.quote.content
-  return props.quote.content.substring(0, 197) + '...'
+  return props.quote.content.substring(0, 197) + '…'
 })
 
 const rotation = computed(() => {

@@ -149,13 +149,14 @@ import {
   deleteSnippet,
 } from '@/services/snippet'
 import { highlight } from '@/lib/shiki'
+import { formatDateShort } from '@/lib/formatDate'
 import type { Snippet } from '@/types/snippet'
 import ShareButton from '@/components/ShareButton.vue'
 import ErrorState from '@/components/ui/ErrorState.vue'
 
 const route = useRoute()
 const router = useRouter()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { isAuthenticated } = useAuth()
 const { mode } = useTheme()
 const toast = useToast()
@@ -239,11 +240,10 @@ async function copyCode() {
 }
 
 function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
+  // Was `toLocaleDateString(undefined, …)` — that follows the OS locale, so an
+  // English user on an Indonesian machine saw Indonesian dates (and vice
+  // versa). Use the active site locale instead.
+  return formatDateShort(dateStr, locale.value)
 }
 
 function startEdit() {
@@ -280,9 +280,9 @@ async function saveEdit() {
     snippet.value = updated
     editing.value = false
     await renderCode(updated.code, updated.language)
-    toast.success('Snippet updated')
+    toast.success(t('snippets.updatedToast'))
   } catch {
-    toast.error('Failed to update snippet')
+    toast.error(t('snippets.updateFailed'))
   } finally {
     saving.value = false
   }
@@ -293,10 +293,10 @@ async function handleDelete() {
   if (!confirm(t('snippets.confirmDelete'))) return
   try {
     await deleteSnippet(snippet.value.id)
-    toast.success('Snippet deleted')
+    toast.success(t('snippets.deletedToast'))
     router.push('/snippets')
   } catch {
-    toast.error('Failed to delete snippet')
+    toast.error(t('snippets.deleteFailed'))
   }
 }
 

@@ -77,6 +77,7 @@ import { useHead } from '@unhead/vue'
 import { ArrowLeft } from 'lucide-vue-next'
 import { fetchQuoteById } from '@/services/quote'
 import type { Quote } from '@/types/quote'
+import { formatDateLong } from '@/lib/formatDate'
 import ShareButton from '@/components/ShareButton.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
@@ -96,12 +97,7 @@ useHead({
 })
 
 function formatDate(dateStr: string) {
-  const dateLocale = locale.value === 'en' ? 'en-US' : 'id-ID'
-  return new Date(dateStr).toLocaleDateString(dateLocale, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
+  return formatDateLong(dateStr, locale.value)
 }
 
 onMounted(async () => {
