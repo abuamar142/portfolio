@@ -2,10 +2,12 @@
   <BaseModal
     :open="show"
     :close-label="$t('common.close')"
-    labelled-by="create-snippet-title"
+    labelled-by="snippet-form-title"
     @close="$emit('close')"
   >
-    <h2 id="create-snippet-title" class="font-bold text-lg mb-4">{{ $t('snippets.createTitle') }}</h2>
+    <h2 id="snippet-form-title" class="font-bold text-lg mb-4">
+      {{ snippet ? $t('snippets.editTitle') : $t('snippets.createTitle') }}
+    </h2>
 
     <form @submit.prevent="handleSubmit" class="space-y-3">
       <div class="grid grid-cols-2 gap-3">
@@ -81,26 +83,27 @@
         variant="primary"
         full-width
         :loading="loading"
-        :loading-label="$t('snippets.posting')"
+        :loading-label="snippet ? $t('snippets.saving') : $t('snippets.posting')"
         :disabled="loading || !form.title.trim() || !form.language.trim() || !form.code.trim()"
       >
-        {{ $t('snippets.submit') }}
+        {{ snippet ? $t('snippets.save') : $t('snippets.submit') }}
       </BaseButton>
     </form>
   </BaseModal>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseModal from '@/components/ui/BaseModal.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import { useToast } from '@/composables/useToast'
-import { createSnippet } from '@/services/snippet'
+import { createSnippet, updateSnippet } from '@/services/snippet'
+import type { Snippet } from '@/types/snippet'
 import TagInput from '@/components/ui/TagInput.vue'
 
-defineProps<{ show: boolean }>()
-const emit = defineEmits<{ close: []; created: [] }>()
+const props = defineProps<{ show: boolean; snippet?: Snippet | null }>()
+const emit = defineEmits<{ close: []; saved: [] }>()
 
 const { t } = useI18n()
 const toast = useToast()
@@ -123,26 +126,52 @@ function resetForm() {
   form.tags = []
 }
 
+// Edit mode prefills from the snippet; create mode starts blank.
+watch(
+  () => props.show,
+  (isOpen) => {
+    if (!isOpen) return
+    error.value = ''
+    if (props.snippet) {
+      form.title = props.snippet.title
+      form.language = props.snippet.language
+      form.description = props.snippet.description || ''
+      form.code = props.snippet.code
+      form.tags = [...(props.snippet.tags || [])]
+    } else {
+      resetForm()
+    }
+  },
+)
+
 async function handleSubmit() {
   loading.value = true
   error.value = ''
 
+  const payload = {
+    title: form.title.trim(),
+    language: form.language.trim(),
+    code: form.code,
+    description: form.description.trim(),
+    tags: form.tags,
+  }
+
   try {
-    await createSnippet({
-      title: form.title.trim(),
-      language: form.language.trim(),
-      code: form.code,
-      description: form.description.trim(),
-      tags: form.tags,
-    })
-    resetForm()
-    toast.success(t('snippets.postedToast'))
-    emit('created')
+    if (props.snippet) {
+      await updateSnippet(props.snippet.id, payload)
+      toast.success(t('snippets.updatedToast'))
+    } else {
+      await createSnippet(payload)
+      resetForm()
+      toast.success(t('snippets.postedToast'))
+    }
+    emit('saved')
     emit('close')
   } catch (e: unknown) {
     type AxiosLike = { response?: { data?: { error?: { details?: string }; message?: string } } }
     const err = (e && typeof e === 'object' && 'response' in e) ? (e as AxiosLike) : null
-    const msg = err?.response?.data?.error?.details || err?.response?.data?.message || t('snippets.createFailed')
+    const fallback = props.snippet ? t('snippets.updateFailed') : t('snippets.createFailed')
+    const msg = err?.response?.data?.error?.details || err?.response?.data?.message || fallback
     error.value = msg
     toast.error(msg)
   } finally {

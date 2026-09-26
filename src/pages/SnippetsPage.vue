@@ -85,7 +85,7 @@
       </div>
     </div>
 
-    <CreateSnippetModal :show="showCreate" @close="showCreate = false" @created="handleCreated" />
+    <SnippetFormModal :show="showCreate" @close="showCreate = false" @saved="handleCreated" />
   </section>
 </template>
 
@@ -106,7 +106,7 @@ import {
 import type { Snippet, TagResponse, LanguageResponse } from '@/types/snippet'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
-import CreateSnippetModal from '@/components/CreateSnippetModal.vue'
+import SnippetFormModal from '@/components/SnippetFormModal.vue'
 import AuthControls from '@/components/AuthControls.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
