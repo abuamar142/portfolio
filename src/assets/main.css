@@ -422,6 +422,7 @@
     position: sticky;
     top: var(--header-h);
     z-index: 45;
+    isolation: isolate;
     background: var(--color-base-100);
     border-bottom: 1px solid var(--color-base-300);
     overflow-x: auto;
@@ -825,6 +826,24 @@
   .row:hover, .row:focus-within, .lift:hover { transform: none !important; }
   .action .arrow, .row-arrow { transition: none !important; transform: none !important; }
   .spine-progress { animation: none !important; display: none; }
+}
+
+/* Touch/small screens: scroll-reveal off. .rv targets include full-section
+   wrappers up to ~3000px tall; transitioning them promotes multi-megabyte
+   composited layers and stalls the mobile GPU at every section boundary
+   (scroll visibly "catches" then resumes). Phones get instant, steady
+   scrolling; desktop keeps the reveal. Mirrors the reduced-motion block. */
+@media (pointer: coarse), (max-width: 768px) {
+  .rv { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
+
+/* Landing sections: skip layout/paint/style while far off-screen — the
+   biggest steady-scroll win on a long page (web.dev: content-visibility).
+   `auto <estimate>` holds the scrollbar until each section's real height is
+   remembered on first render. Hero excluded: it must paint immediately. */
+#about, #experiences, #projects, #skills, #education, #achievements, #contact {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
 }
 
 /* ── Type-role label override ───────────────────────────────────────────────

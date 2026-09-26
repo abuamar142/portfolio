@@ -17,7 +17,7 @@
     </div>
   </nav>
 
-  <header class="sticky top-0 z-50 border-b border-base-300 bg-base-100">
+  <header class="sticky top-0 z-50 isolate border-b border-base-300 bg-base-100">
     <div class="wrap flex min-h-14 items-center justify-between gap-3 md:gap-6">
       <router-link
         to="/"
@@ -201,7 +201,7 @@ watch(activeSection, async (id) => {
   await nextTick()
   document
     .querySelector('.spine-mobile a.is-active')
-    ?.scrollIntoView({ block: 'nearest', inline: 'center' })
+    ?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'instant' })
 })
 
 const onKeydown = (event: KeyboardEvent) => {
