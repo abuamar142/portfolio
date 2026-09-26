@@ -2,7 +2,7 @@
   <footer v-if="identity" class="bg-neutral text-neutral-content">
     <div class="wrap">
       <div
-        class="grid gap-10 py-14 md:grid-cols-2 md:gap-y-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-y-0 lg:py-20"
+        class="grid gap-8 py-10 md:grid-cols-2 md:gap-y-8 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-y-0 lg:py-12"
       >
         <!-- Brand -->
         <div class="lg:pr-8">
@@ -23,7 +23,9 @@
         <!-- Sections -->
         <div class="lg:border-l lg:border-neutral-content/15 lg:pl-8">
           <p class="label text-neutral-content/50">{{ $t('footer.labels.sections') }}</p>
-          <ul class="mt-4 flex flex-col gap-2.5">
+          <!-- Two columns at every width: nine single-column rows at44px tap
+               targets made this the tallest block in the footer by far. -->
+          <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-1">
             <li v-for="item in sectionLinks" :key="item.hash">
               <router-link
                 :to="{ path: '/', hash: item.hash }"
@@ -100,7 +102,7 @@
       </div>
 
       <div
-        class="flex flex-wrap items-center justify-between gap-4 border-t border-neutral-content/15 py-5"
+        class="flex flex-wrap items-center justify-between gap-4 border-t border-neutral-content/15 py-4"
       >
         <p class="font-mono text-xs text-neutral-content/60">
           © {{ year }} {{ identity.fullname }} · {{ $t('footer.built') }}
