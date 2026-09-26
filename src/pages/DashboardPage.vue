@@ -37,7 +37,12 @@
           </div>
 
           <!-- Quotes -->
-          <h2 class="display-2 mt-10 mb-4">{{ $t('quotes.title') }}</h2>
+          <div class="mt-10 mb-4 flex items-center justify-between">
+            <h2 class="display-2">{{ $t('quotes.title') }}</h2>
+            <button class="btn btn-primary btn-sm" @click="addQuote">
+              <Plus :size="16" /> {{ $t('quotes.addQuote') }}
+            </button>
+          </div>
           <div class="panel">
             <div
               v-for="q in recentQuotes"
@@ -59,7 +64,12 @@
           </div>
 
           <!-- Links -->
-          <h2 class="display-2 mt-10 mb-4">{{ $t('links.title') }}</h2>
+          <div class="mt-10 mb-4 flex items-center justify-between">
+            <h2 class="display-2">{{ $t('links.title') }}</h2>
+            <button class="btn btn-primary btn-sm" @click="addLink">
+              <Plus :size="16" /> {{ $t('links.addLink') }}
+            </button>
+          </div>
           <div class="panel">
             <div
               v-for="l in recentLinks"
@@ -79,7 +89,12 @@
           </div>
 
           <!-- Snippets -->
-          <h2 class="display-2 mt-10 mb-4">{{ $t('snippets.title') }}</h2>
+          <div class="mt-10 mb-4 flex items-center justify-between">
+            <h2 class="display-2">{{ $t('snippets.title') }}</h2>
+            <button class="btn btn-primary btn-sm" @click="addSnippet">
+              <Plus :size="16" /> {{ $t('snippets.addSnippet') }}
+            </button>
+          </div>
           <div class="panel">
             <div
               v-for="s in recentSnippets"
@@ -117,6 +132,11 @@
             @close="showSnippetEdit = false"
             @saved="loadAll"
           />
+          <CreateQuoteModal
+            :show="showQuoteCreate"
+            @close="showQuoteCreate = false"
+            @created="loadAll"
+          />
         </template>
       </template>
     </div>
@@ -127,6 +147,7 @@
 import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
+import { Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
@@ -134,6 +155,7 @@ import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EditQuoteModal from '@/components/EditQuoteModal.vue'
 import LinkModal from '@/components/LinkModal.vue'
 import SnippetFormModal from '@/components/SnippetFormModal.vue'
+import CreateQuoteModal from '@/components/CreateQuoteModal.vue'
 import { fetchQuotes, deleteQuote } from '@/services/quote'
 import { fetchLinks, deleteLink } from '@/services/link'
 import { fetchSnippets, deleteSnippet } from '@/services/snippet'
@@ -219,6 +241,25 @@ const showSnippetEdit = ref(false)
 const editingSnippet = ref<Snippet | null>(null)
 function editSnippet(s: Snippet) {
   editingSnippet.value = s
+  showSnippetEdit.value = true
+}
+
+// ── Create (per-section "Tambah" buttons) ──
+// Link and snippet modals double as their editors: a null target means
+// create mode (their watch resets the form on open).
+const showQuoteCreate = ref(false)
+
+function addQuote() {
+  showQuoteCreate.value = true
+}
+
+function addLink() {
+  editingLink.value = null
+  showLinkEdit.value = true
+}
+
+function addSnippet() {
+  editingSnippet.value = null
   showSnippetEdit.value = true
 }
 
