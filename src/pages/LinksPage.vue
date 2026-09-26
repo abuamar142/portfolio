@@ -35,15 +35,17 @@
       <LoadingBlock v-if="loading" />
 
       <!-- Empty -->
-      <div v-else-if="links.length === 0" class="text-center py-20">
-        <Link2 :size="64" class="mx-auto mb-4 text-ink-4" />
-        <p class="display-2 mb-2">{{ $t('links.emptyTitle') }}</p>
-        <p class="text-ink-3 mb-4">{{ $t('links.emptyDek') }}</p>
+      <EmptyState
+        v-else-if="links.length === 0"
+        :icon="Link2"
+        :title="$t('links.emptyTitle')"
+        :dek="$t('links.emptyDek')"
+      >
         <button
           @click="isAuthenticated ? openCreate() : openAuth(openCreate)"
           class="btn btn-primary"
         >{{ $t('links.addLink') }}</button>
-      </div>
+      </EmptyState>
 
       <!-- Grid -->
       <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -189,6 +191,7 @@ import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 import TagInput from '@/components/ui/TagInput.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
+import EmptyState from '@/components/ui/EmptyState.vue'
 
 const { t } = useI18n()
 

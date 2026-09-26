@@ -49,10 +49,11 @@
       <LoadingBlock v-if="loading" />
 
       <!-- Empty -->
-      <div v-else-if="snippets.length === 0" class="text-center py-20">
-        <FileCode :size="64" class="mx-auto mb-4 text-ink-4" />
-        <p class="display-2 mb-2">{{ $t('snippets.empty') }}</p>
-      </div>
+      <EmptyState
+        v-else-if="snippets.length === 0"
+        :icon="FileCode"
+        :title="$t('snippets.empty')"
+      />
 
       <!-- Snippet cards -->
       <div v-else class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -108,6 +109,7 @@ import SearchInput from '@/components/ui/SearchInput.vue'
 import CreateSnippetModal from '@/components/CreateSnippetModal.vue'
 import AuthControls from '@/components/AuthControls.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
+import EmptyState from '@/components/ui/EmptyState.vue'
 
 const { t } = useI18n()
 const { isAuthenticated } = useAuth()

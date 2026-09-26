@@ -40,14 +40,16 @@
       <LoadingBlock v-if="loading" />
 
       <!-- Empty -->
-      <div v-else-if="quotes.length === 0" class="text-center py-20">
-        <FileEdit :size="64" class="mx-auto mb-4 text-ink-4" />
-        <p class="display-2 mb-2">{{ $t('quotes.emptyTitle') }}</p>
-        <p class="text-ink-3 mb-4">{{ $t('quotes.emptyDek') }}</p>
+      <EmptyState
+        v-else-if="quotes.length === 0"
+        :icon="FileEdit"
+        :title="$t('quotes.emptyTitle')"
+        :dek="$t('quotes.emptyDek')"
+      >
         <button @click="isAuthenticated ? (showCreate = true) : openAuth(() => (showCreate = true))" class="btn btn-primary">
           {{ $t('quotes.addQuote') }}
         </button>
-      </div>
+      </EmptyState>
 
       <!-- Masonry Grid -->
       <div v-else class="columns-1 sm:columns-2 lg:columns-3 gap-4">
@@ -95,6 +97,7 @@ import AuthControls from '@/components/AuthControls.vue'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
+import EmptyState from '@/components/ui/EmptyState.vue'
 
 const { t } = useI18n()
 
