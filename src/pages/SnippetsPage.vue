@@ -15,6 +15,9 @@
         </div>
         <div class="flex shrink-0 items-center gap-3">
           <template v-if="isAuthenticated">
+            <button @click="showCreate = true" class="btn btn-primary">
+              <Plus :size="16" /> {{ $t('snippets.addSnippet') }}
+            </button>
             <div class="dropdown dropdown-end">
               <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
                 <div class="bg-neutral text-neutral-content w-10 h-10 flex items-center justify-center">
@@ -98,6 +101,7 @@
       </div>
     </div>
 
+    <CreateSnippetModal :show="showCreate" @close="showCreate = false" @created="handleCreated" />
   </section>
 </template>
 
@@ -105,7 +109,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
-import { FileCode, LogOut } from 'lucide-vue-next'
+import { FileCode, Plus, LogOut } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import TagFilter from '@/components/TagFilter.vue'
 import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
@@ -118,6 +122,7 @@ import {
 import type { Snippet, TagResponse, LanguageResponse } from '@/types/snippet'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
+import CreateSnippetModal from '@/components/CreateSnippetModal.vue'
 
 const { t } = useI18n()
 const { user, isAuthenticated, logout, openAuth } = useAuth()
@@ -141,6 +146,16 @@ const userInitials = computed(() => {
   const name = user.value?.display_name || user.value?.username || ''
   return name.charAt(0).toUpperCase() || '?'
 })
+
+const showCreate = ref(false)
+
+// After creating: jump back to page 1 (new snippet sorts first) and refresh
+// the tag filter in case the snippet introduced a new tag.
+function handleCreated() {
+  page.value = 1
+  fetchSnippetsData()
+  loadTags()
+}
 
 let debounceTimer: ReturnType<typeof setTimeout>
 function debouncedFetch() {

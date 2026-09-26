@@ -321,6 +321,12 @@ export default {
     updateFailed: 'Could not update the snippet',
     deletedToast: 'Snippet deleted',
     deleteFailed: 'Could not delete the snippet',
+    addSnippet: 'New Snippet',
+    createTitle: 'New Snippet',
+    posting: 'Creating…',
+    submit: 'Create Snippet',
+    postedToast: 'Snippet created!',
+    createFailed: 'Failed to create the snippet',
   },
   theme: {
     label: 'Theme',

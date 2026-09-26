@@ -321,6 +321,12 @@ export default {
     updateFailed: 'Gagal memperbarui cuplikan',
     deletedToast: 'Cuplikan dihapus',
     deleteFailed: 'Gagal menghapus cuplikan',
+    addSnippet: 'Cuplikan Baru',
+    createTitle: 'Cuplikan Baru',
+    posting: 'Membuat…',
+    submit: 'Buat Cuplikan',
+    postedToast: 'Cuplikan dibuat!',
+    createFailed: 'Gagal membuat cuplikan',
   },
   theme: {
     label: 'Tema',
