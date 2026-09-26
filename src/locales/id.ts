@@ -14,6 +14,7 @@ export default {
     explore:
       'Katalog tools, kutipan, dan blog Abu Amar — coba mini app-nya dan telusuri tulisannya.',
     quotes: { title: 'Kutipan', dek: 'Kata-kata yang layak dibagikan' },
+    dashboard: { title: 'Studio', dek: 'Kelola kutipan, tautan, dan cuplikan dari satu halaman.' },
     links: {
       title: 'Arsip Tautan',
       dek: 'Koleksi tautan, tools, dan referensi yang berguna — diorganisir per topik untuk akses cepat.',
@@ -329,6 +330,18 @@ export default {
     submit: 'Buat Cuplikan',
     postedToast: 'Cuplikan dibuat!',
     createFailed: 'Gagal membuat cuplikan',
+  },
+  dashboard: {
+    title: 'Studio',
+    dek: 'Kelola kutipan, tautan, dan cuplikan dari satu halaman.',
+    gateLogin: 'Masuk untuk membuka studio',
+    gateLoginDek: 'Halaman ini khusus akun pemilik situs.',
+    denied: 'Akses terbatas',
+    deniedDek: 'Akun ini tidak memiliki akses ke studio.',
+    edit: 'Ubah',
+    delete: 'Hapus',
+    empty: 'Belum ada isi.',
+    loadFailed: 'Gagal memuat data studio',
   },
   theme: {
     label: 'Tema',

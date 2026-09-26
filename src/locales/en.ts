@@ -14,6 +14,7 @@ export default {
     explore:
       "Directory of Abu Amar's tools, quotes and blog posts — try the mini apps and browse the writing.",
     quotes: { title: 'Quotes', dek: 'Words worth sharing' },
+    dashboard: { title: 'Studio', dek: 'Manage quotes, links and snippets from one page.' },
     links: {
       title: 'Link Archive',
       dek: 'Curated collection of useful links, tools, and references — organized by topic for quick access.',
@@ -329,6 +330,18 @@ export default {
     submit: 'Create Snippet',
     postedToast: 'Snippet created!',
     createFailed: 'Failed to create the snippet',
+  },
+  dashboard: {
+    title: 'Studio',
+    dek: 'Manage quotes, links and snippets from one page.',
+    gateLogin: 'Sign in to open the studio',
+    gateLoginDek: 'This page is for the site owner account.',
+    denied: 'Access limited',
+    deniedDek: 'This account has no access to the studio.',
+    edit: 'Edit',
+    delete: 'Delete',
+    empty: 'Nothing here yet.',
+    loadFailed: 'Failed to load studio data',
   },
   theme: {
     label: 'Theme',

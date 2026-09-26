@@ -59,6 +59,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../pages/SnippetDetailPage.vue')
   },
   {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: () => import('../pages/DashboardPage.vue'),
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
     component: () => import('../pages/NotFound.vue'),
