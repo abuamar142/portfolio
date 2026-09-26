@@ -76,12 +76,12 @@
             :placeholder="$t('snippets.code')"
           />
           <label for="snippet-edit-tags" class="label"><span class="label-text">{{ $t('snippets.tags') }}</span></label>
-          <input
+          <TagInput
             id="snippet-edit-tags"
-            v-model="editForm.tagsInput"
-            class="input input-bordered w-full mb-4"
-            autocomplete="off"
-            :placeholder="$t('snippets.tags')"
+            v-model="editForm.tags"
+            :max="20"
+            class="mb-4"
+            :placeholder="$t('snippets.tagsPlaceholder')"
           />
           <div class="flex items-center gap-3">
             <button @click="saveEdit" class="btn btn-primary btn-sm" :disabled="saving">
@@ -166,6 +166,7 @@ import {
 } from '@/services/snippet'
 import { highlight } from '@/lib/shiki'
 import { formatDateShort } from '@/lib/formatDate'
+import TagInput from '@/components/ui/TagInput.vue'
 import type { Snippet } from '@/types/snippet'
 import ShareButton from '@/components/ShareButton.vue'
 import ErrorState from '@/components/ui/ErrorState.vue'
@@ -192,7 +193,7 @@ const editForm = ref({
   language: '',
   code: '',
   description: '',
-  tagsInput: '',
+  tags: [] as string[],
 })
 
 const isDark = computed(() => {
@@ -269,7 +270,7 @@ function startEdit() {
     language: snippet.value.language,
     code: snippet.value.code,
     description: snippet.value.description || '',
-    tagsInput: snippet.value.tags.join(', '),
+    tags: [...(snippet.value.tags || [])],
   }
   editing.value = true
 }
@@ -282,16 +283,12 @@ async function saveEdit() {
   if (!snippet.value) return
   saving.value = true
   try {
-    const tags = editForm.value.tagsInput
-      .split(',')
-      .map((t) => t.trim())
-      .filter(Boolean)
     const updated = await updateSnippet(snippet.value.id, {
       title: editForm.value.title,
       language: editForm.value.language,
       code: editForm.value.code,
       description: editForm.value.description,
-      tags,
+      tags: editForm.value.tags,
     })
     snippet.value = updated
     editing.value = false

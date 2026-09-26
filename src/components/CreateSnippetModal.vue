@@ -66,13 +66,11 @@
 
       <div>
         <label for="snippet-tags" class="label"><span class="label-text">{{ $t('snippets.tags') }}</span></label>
-        <input
+        <TagInput
           id="snippet-tags"
-          v-model="form.tagsInput"
-          type="text"
-          autocomplete="off"
-          class="input input-bordered w-full"
-          :placeholder="$t('snippets.tags')"
+          v-model="form.tags"
+          :max="20"
+          :placeholder="$t('snippets.tagsPlaceholder')"
         />
       </div>
 
@@ -99,6 +97,7 @@ import BaseModal from '@/components/ui/BaseModal.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import { useToast } from '@/composables/useToast'
 import { createSnippet } from '@/services/snippet'
+import TagInput from '@/components/ui/TagInput.vue'
 
 defineProps<{ show: boolean }>()
 const emit = defineEmits<{ close: []; created: [] }>()
@@ -113,7 +112,7 @@ const form = reactive({
   language: '',
   description: '',
   code: '',
-  tagsInput: '',
+  tags: [] as string[],
 })
 
 function resetForm() {
@@ -121,7 +120,7 @@ function resetForm() {
   form.language = ''
   form.description = ''
   form.code = ''
-  form.tagsInput = ''
+  form.tags = []
 }
 
 async function handleSubmit() {
@@ -134,10 +133,7 @@ async function handleSubmit() {
       language: form.language.trim(),
       code: form.code,
       description: form.description.trim(),
-      tags: form.tagsInput
-        .split(',')
-        .map((tag) => tag.trim())
-        .filter(Boolean),
+      tags: form.tags,
     })
     resetForm()
     toast.success(t('snippets.postedToast'))

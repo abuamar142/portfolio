@@ -34,13 +34,7 @@
 
           <div>
             <label for="quote-tags" class="label"><span class="label-text">{{ $t('quotes.tagsLabel') }}</span></label>
-            <div class="flex flex-wrap gap-2 mb-2">
-              <span v-for="tag in form.tags" :key="tag" class="chip chip-primary flex items-center gap-1">
-                {{ tag }}
-                <button type="button" :aria-label="$t('quotes.removeTag', { tag })" @click="removeTag(tag)" class="text-xs hover:text-error">×</button>
-              </span>
-            </div>
-            <input id="quote-tags" v-model="tagInput" @keydown.enter.prevent="addTag" type="text" autocomplete="off" class="input input-bordered w-full" :placeholder="$t('quotes.tagsPlaceholder')" :disabled="form.tags.length >= 5" />
+            <TagInput id="quote-tags" v-model="form.tags" :max="5" lowercase :placeholder="$t('quotes.tagsPlaceholder')" />
           </div>
 
           <p v-if="error" class="text-sm text-error">{{ error }}</p>
@@ -64,6 +58,7 @@ import { ref, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseModal from '@/components/ui/BaseModal.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import TagInput from '@/components/ui/TagInput.vue'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import { createQuote } from '@/services/quote'
@@ -76,7 +71,6 @@ const { user } = useAuth()
 const toast = useToast()
 const loading = ref(false)
 const error = ref('')
-const tagInput = ref('')
 
 const form = reactive({
   content: '',
@@ -92,23 +86,6 @@ watch(() => props.show, (isOpen) => {
     form.author_name = user.value.display_name || user.value.username || ''
   }
 })
-
-function addTag() {
-  const tag = tagInput.value.trim().toLowerCase()
-  // Comma separates tags in ?tag=a,b filters — a tag name must not contain one.
-  if (tag.includes(',')) {
-    toast.error(t('common.tagNoComma'))
-    return
-  }
-  if (tag && !form.tags.includes(tag) && form.tags.length < 5) {
-    form.tags.push(tag)
-    tagInput.value = ''
-  }
-}
-
-function removeTag(tag: string) {
-  form.tags = form.tags.filter(t => t !== tag)
-}
 
 async function handleSubmit() {
   loading.value = true

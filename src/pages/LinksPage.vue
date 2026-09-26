@@ -147,24 +147,12 @@
           </div>
           <div>
             <label for="link-tags" class="label"><span class="label-text">{{ $t('links.tagsLabel') }}</span></label>
-            <div class="flex flex-wrap gap-2 mb-2">
-              <span
-                v-for="(tag, i) in form.tags"
-                :key="i"
-                class="chip chip-accent chip-sm"
-              >
-                #{{ tag }}
-                <button type="button" :aria-label="$t('links.removeTag', { tag })" @click="removeTag(i)" class="ml-1 text-xs">×</button>
-              </span>
-            </div>
-            <input
+            <TagInput
               id="link-tags"
-              v-model="tagInput"
-              type="text"
-              autocomplete="off"
+              v-model="form.tags"
+              :max="5"
               :placeholder="$t('links.tagsPlaceholder')"
-              class="input input-bordered w-full rounded-none"
-              @keydown.enter.prevent="addTag"
+              input-class="rounded-none"
             />
           </div>
           <div class="modal-action">
@@ -201,6 +189,7 @@ import type { Link, LinkTagResponse } from '@/services/link'
 import AuthControls from '@/components/AuthControls.vue'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
+import TagInput from '@/components/ui/TagInput.vue'
 
 const { t } = useI18n()
 
@@ -232,7 +221,6 @@ const showModal = ref(false)
 const editingLink = ref<Link | null>(null)
 const submitting = ref(false)
 const form = ref({ url: '', title: '', description: '', tags: [] as string[] })
-const tagInput = ref('')
 const formErrors = ref<{ url?: string }>({})
 
 function displayUrl(url: string) {
@@ -314,28 +302,6 @@ function closeModal() {
 function onTagChange() {
   page.value = 1
   reloadLinks()
-}
-
-function addTag() {
-  const val = tagInput.value.trim()
-  if (!val) return
-  // Comma separates tags in ?tag=a,b filters — a tag name must not contain one.
-  if (val.includes(',')) {
-    toast.error(t('common.tagNoComma'))
-    return
-  }
-  if (form.value.tags.length >= 5) {
-    toast.error(t('links.tagsMax'))
-    return
-  }
-  if (!form.value.tags.includes(val)) {
-    form.value.tags.push(val)
-  }
-  tagInput.value = ''
-}
-
-function removeTag(index: number) {
-  form.value.tags.splice(index, 1)
 }
 
 function validate(): boolean {
