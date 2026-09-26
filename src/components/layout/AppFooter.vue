@@ -40,6 +40,14 @@
                 {{ $t('navigation.explore') }}
               </router-link>
             </li>
+            <li>
+              <router-link
+                to="/feedback"
+                class="inline-flex min-h-11 items-center font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
+              >
+                {{ $t('footer.feedback') }}
+              </router-link>
+            </li>
           </ul>
         </div>
 

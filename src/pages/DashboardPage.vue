@@ -113,6 +113,64 @@
             <p v-if="!recentSnippets.length" class="p-4 text-ink-4 text-sm">{{ $t('dashboard.empty') }}</p>
           </div>
 
+          <!-- Feedback -->
+          <div class="mt-10 mb-4 flex items-center justify-between">
+            <h2 class="display-2">{{ $t('feedback.title') }}</h2>
+          </div>
+          <div class="panel">
+            <div v-if="feedbackLoading" class="p-4 text-ink-4 text-sm">
+              <span class="loading loading-spinner loading-sm"></span>
+            </div>
+            <template v-else>
+              <div
+                v-for="fb in feedbackItems"
+                :key="fb.id"
+                class="flex flex-col gap-2 border-t border-base-300 p-4 first:border-t-0"
+              >
+                <div class="flex items-center gap-2">
+                  <span
+                    class="badge badge-sm"
+                    :class="fb.status === 'new' ? 'badge-primary' : 'badge-ghost'"
+                  >
+                    {{ fb.status === 'new' ? $t('feedback.statusNew') : $t('feedback.statusRead') }}
+                  </span>
+                  <span class="text-ink-4 text-xs">{{ formatDateShort(fb.created_at, locale) }}</span>
+                </div>
+                <p class="whitespace-pre-wrap break-words font-medium">{{ fb.message }}</p>
+                <div v-if="fb.contact" class="text-ink-3 text-sm">
+                  <a
+                    v-if="looksLikeEmail(fb.contact)"
+                    :href="`mailto:${fb.contact}`"
+                    class="link link-hover"
+                  >{{ fb.contact }}</a>
+                  <span v-else>{{ fb.contact }}</span>
+                </div>
+                <a
+                  v-if="fb.page_url"
+                  :href="fb.page_url"
+                  target="_blank"
+                  rel="noopener"
+                  class="text-ink-4 text-xs break-all hover:underline"
+                >{{ fb.page_url }}</a>
+                <div class="flex shrink-0 gap-1">
+                  <button
+                    class="btn btn-ghost btn-sm"
+                    @click="toggleFeedbackStatus(fb)"
+                  >
+                    {{ fb.status === 'new' ? $t('feedback.statusRead') : $t('feedback.statusNew') }}
+                  </button>
+                  <button
+                    class="btn btn-ghost btn-sm text-error"
+                    @click="removeFeedback(fb)"
+                  >
+                    {{ $t('dashboard.delete') }}
+                  </button>
+                </div>
+              </div>
+              <p v-if="!feedbackItems.length" class="p-4 text-ink-4 text-sm">{{ $t('feedback.empty') }}</p>
+            </template>
+          </div>
+
           <!-- Editors -->
           <EditQuoteModal
             :show="showQuoteEdit"
@@ -159,9 +217,11 @@ import CreateQuoteModal from '@/components/CreateQuoteModal.vue'
 import { fetchQuotes, deleteQuote } from '@/services/quote'
 import { fetchLinks, deleteLink } from '@/services/link'
 import { fetchSnippets, deleteSnippet } from '@/services/snippet'
+import { fetchFeedback, updateFeedbackStatus, deleteFeedback } from '@/services/feedback'
 import type { Quote } from '@/types/quote'
 import type { Link } from '@/services/link'
 import type { Snippet } from '@/types/snippet'
+import type { Feedback } from '@/types/feedback'
 import { formatDateShort } from '@/lib/formatDate'
 
 // Owner-only studio. The write APIs already enforce OWNER_USER_ID server-side;
@@ -191,10 +251,13 @@ const snippetTotal = ref(0)
 const recentQuotes = ref<Quote[]>([])
 const recentLinks = ref<Link[]>([])
 const recentSnippets = ref<Snippet[]>([])
+const feedbackItems = ref<Feedback[]>([])
+const feedbackLoading = ref(false)
 
 async function loadAll() {
   if (!isOwner.value) return
   loading.value = true
+  feedbackLoading.value = true
   try {
     const [q, l, s] = await Promise.all([
       fetchQuotes({ limit: 100 }),
@@ -217,6 +280,16 @@ async function loadAll() {
     toast.error(t('dashboard.loadFailed'))
   } finally {
     loading.value = false
+  }
+  // Fetch feedback separately — it's read-only, failures shouldn't block the
+  // rest of the dashboard.
+  try {
+    const fb = await fetchFeedback()
+    feedbackItems.value = fb.feedback || []
+  } catch {
+    toast.error(t('feedback.loadFailed'))
+  } finally {
+    feedbackLoading.value = false
   }
 }
 
@@ -295,6 +368,33 @@ async function removeSnippet(s: Snippet) {
   } catch {
     toast.error(t('snippets.deleteFailed'))
   }
+}
+
+// ── Feedback ──
+async function toggleFeedbackStatus(fb: Feedback) {
+  const next = fb.status === 'new' ? 'read' : 'new'
+  try {
+    await updateFeedbackStatus(fb.id, next)
+    fb.status = next
+    toast.success(next === 'read' ? t('feedback.toggleReadToast') : t('feedback.toggleNewToast'))
+  } catch {
+    toast.error(t('feedback.toggleFailed'))
+  }
+}
+
+async function removeFeedback(fb: Feedback) {
+  if (!confirm(t('feedback.deleteConfirm'))) return
+  try {
+    await deleteFeedback(fb.id)
+    toast.success(t('feedback.deletedToast'))
+    feedbackItems.value = feedbackItems.value.filter(f => f.id !== fb.id)
+  } catch {
+    toast.error(t('feedback.deleteFailed'))
+  }
+}
+
+function looksLikeEmail(value: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
 }
 
 function hostname(url: string) {
