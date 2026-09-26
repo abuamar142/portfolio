@@ -101,77 +101,13 @@
       </div>
     </div>
 
-    <!-- Link Modal -->
-    <BaseModal
-      :open="showModal"
-      :close-label="$t('common.close')"
-      labelled-by="link-modal-title"
-      box-class="rounded-none"
-      @close="closeModal"
-    >
-        <h3 id="link-modal-title" class="font-bold text-lg mb-4">{{ editingLink ? $t('links.editTitle') : $t('links.createTitle') }}</h3>
-        <form @submit.prevent="handleSubmit" class="flex flex-col gap-4">
-          <div>
-            <label for="link-url" class="label"><span class="label-text">{{ $t('links.urlLabel') }}</span></label>
-            <input
-              id="link-url"
-              v-model="form.url"
-              type="url"
-              required
-              autocomplete="off"
-              spellcheck="false"
-              placeholder="https://"
-              class="input input-bordered w-full rounded-none"
-            />
-            <p v-if="formErrors.url" class="text-error text-xs mt-1">{{ formErrors.url }}</p>
-          </div>
-          <div>
-            <label for="link-title" class="label"><span class="label-text">{{ $t('links.titleLabel') }}</span></label>
-            <input
-              id="link-title"
-              v-model="form.title"
-              type="text"
-              required
-              autocomplete="off"
-              class="input input-bordered w-full rounded-none"
-            />
-          </div>
-          <div>
-            <label for="link-description" class="label"><span class="label-text">{{ $t('links.descriptionLabel') }}</span></label>
-            <textarea
-              id="link-description"
-              v-model="form.description"
-              rows="3"
-              class="textarea textarea-bordered w-full rounded-none"
-            />
-          </div>
-          <div>
-            <label for="link-tags" class="label"><span class="label-text">{{ $t('links.tagsLabel') }}</span></label>
-            <TagInput
-              id="link-tags"
-              v-model="form.tags"
-              :max="5"
-              :placeholder="$t('links.tagsPlaceholder')"
-              input-class="rounded-none"
-            />
-          </div>
-          <div class="modal-action">
-            <button type="button" @click="closeModal" class="btn btn-ghost">
-              {{ $t('links.cancel') }}
-            </button>
-            <button type="submit" class="btn btn-primary" :disabled="submitting">
-              {{ submitting ? $t('links.saving') : $t('links.save') }}
-            </button>
-          </div>
-        </form>
-    </BaseModal>
+    <LinkModal :show="showModal" :link="editingLink" @close="closeModal" @saved="onSaved" />
   </section>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import BaseModal from '@/components/ui/BaseModal.vue'
 import { useHead } from '@unhead/vue'
 import { Link2, ExternalLink, Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
@@ -181,17 +117,15 @@ import { useToast } from '@/composables/useToast'
 import {
   fetchLinks,
   fetchLinkTags,
-  createLink,
-  updateLink,
   deleteLink,
 } from '@/services/link'
 import type { Link, LinkTagResponse } from '@/services/link'
 import AuthControls from '@/components/AuthControls.vue'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
-import TagInput from '@/components/ui/TagInput.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
+import LinkModal from '@/components/LinkModal.vue'
 
 const { t } = useI18n()
 
@@ -218,12 +152,9 @@ const limit = 30
 
 const totalPages = computed(() => Math.ceil(total.value / limit))
 
-// Modal state
+// Modal state — the form itself lives in LinkModal
 const showModal = ref(false)
 const editingLink = ref<Link | null>(null)
-const submitting = ref(false)
-const form = ref({ url: '', title: '', description: '', tags: [] as string[] })
-const formErrors = ref<{ url?: string }>({})
 
 function displayUrl(url: string) {
   try {
@@ -277,27 +208,22 @@ async function loadTags() {
 
 function openCreate() {
   editingLink.value = null
-  form.value = { url: '', title: '', description: '', tags: [] }
-  formErrors.value = {}
   showModal.value = true
 }
 
 function openEdit(link: Link) {
   editingLink.value = link
-  form.value = {
-    url: link.url,
-    title: link.title,
-    description: link.description || '',
-    tags: [...link.tags],
-  }
-  formErrors.value = {}
   showModal.value = true
 }
 
 function closeModal() {
   showModal.value = false
   editingLink.value = null
-  formErrors.value = {}
+}
+
+function onSaved() {
+  reloadLinks()
+  loadTags()
 }
 
 // Tag change: same contract as search — start from page 1.
@@ -306,42 +232,6 @@ function onTagChange() {
   reloadLinks()
 }
 
-function validate(): boolean {
-  formErrors.value = {}
-  if (!form.value.url.startsWith('http://') && !form.value.url.startsWith('https://')) {
-    formErrors.value.url = t('links.urlInvalid')
-    return false
-  }
-  if (!form.value.title.trim()) return false
-  return true
-}
-
-async function handleSubmit() {
-  if (!validate()) return
-  submitting.value = true
-  try {
-    const payload = {
-      url: form.value.url,
-      title: form.value.title.trim(),
-      description: form.value.description.trim(),
-      tags: form.value.tags,
-    }
-    if (editingLink.value) {
-      await updateLink(editingLink.value.id, payload)
-      toast.success(t('links.updatedToast'))
-    } else {
-      await createLink(payload)
-      toast.success(t('links.createdToast'))
-    }
-    closeModal()
-    await reloadLinks()
-    await loadTags()
-  } catch {
-    toast.error(editingLink.value ? t('links.updateFailed') : t('links.createFailed'))
-  } finally {
-    submitting.value = false
-  }
-}
 
 async function confirmDelete(link: Link) {
   if (!confirm(t('links.deleteConfirm'))) return
