@@ -7,37 +7,8 @@
   >
     <h2 id="edit-quote-title" class="font-bold text-lg mb-4">{{ $t('quotes.editTitle') }}</h2>
 
-        <form @submit.prevent="handleSubmit" class="space-y-3">
-          <div>
-            <label for="edit-quote-content" class="label"><span class="label-text">{{ $t('quotes.contentLabel') }}</span></label>
-            <textarea id="edit-quote-content" v-model="form.content" required maxlength="500" rows="4" class="textarea textarea-bordered w-full resize-none" :placeholder="$t('quotes.contentPlaceholder')" />
-            <p class="text-xs text-ink-4 mt-1 text-right">{{ form.content.length }}/500</p>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label for="edit-quote-author" class="label"><span class="label-text">{{ $t('quotes.authorLabel') }}</span></label>
-              <input id="edit-quote-author" v-model="form.author_name" type="text" autocomplete="off" class="input input-bordered w-full" :placeholder="$t('quotes.authorPlaceholder')" />
-            </div>
-            <div>
-              <label for="edit-quote-source" class="label"><span class="label-text">{{ $t('quotes.sourceLabel') }}</span></label>
-              <input id="edit-quote-source" v-model="form.source" type="text" autocomplete="off" class="input input-bordered w-full" :placeholder="$t('quotes.sourcePlaceholder')" />
-            </div>
-          </div>
-
-          <div class="form-control">
-            <label class="label cursor-pointer justify-start gap-2">
-              <input type="checkbox" v-model="form.is_anonymous" class="checkbox checkbox-primary checkbox-sm" />
-              <span class="label-text">{{ $t('quotes.anonymousLabel') }}</span>
-            </label>
-          </div>
-
-          <div>
-            <label for="edit-quote-tags" class="label"><span class="label-text">{{ $t('quotes.tagsLabel') }}</span></label>
-            <TagInput id="edit-quote-tags" v-model="form.tags" :max="5" lowercase :placeholder="$t('quotes.tagsPlaceholder')" />
-          </div>
-
-          <p v-if="error" class="text-sm text-error">{{ error }}</p>
+                <form @submit.prevent="handleSubmit" class="space-y-3">
+          <QuoteForm :form="form" :error="error" id-prefix="edit-quote" />
 
           <div class="modal-action">
             <BaseButton type="button" variant="ghost" @click="$emit('close')">{{ $t('quotes.cancel') }}</BaseButton>
@@ -60,7 +31,7 @@ import { ref, reactive, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseModal from '@/components/ui/BaseModal.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
-import TagInput from '@/components/ui/TagInput.vue'
+import QuoteForm from '@/components/QuoteForm.vue'
 import { useToast } from '@/composables/useToast'
 import { updateQuote } from '@/services/quote'
 import type { Quote } from '@/types/quote'
