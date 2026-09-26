@@ -126,7 +126,6 @@ function resetForm() {
   form.tags = []
 }
 
-// Edit mode prefills from the snippet; create mode starts blank.
 watch(
   () => props.show,
   (isOpen) => {

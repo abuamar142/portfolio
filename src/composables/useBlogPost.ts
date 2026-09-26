@@ -10,7 +10,6 @@ export function useBlogPost(slugRef: Ref<string>) {
   const loading = ref(true)
   const error = ref('')
 
-  // — Prerender-time data fetch —
   onServerPrefetch(async () => {
     try {
       const fetched = await getBySlug(slugRef.value, locale.value)
@@ -43,7 +42,6 @@ export function useBlogPost(slugRef: Ref<string>) {
     }
   }
 
-  // — Content derived —
   const contentHtml = computed(() => post.value?.contentHtml || post.value?.content?.html || post.value?.excerpt || '')
   const coverUrl = computed(() => post.value?.coverImage?.url || post.value?.cover?.url || '')
   const readingTime = computed(() => {
@@ -64,7 +62,6 @@ export function useBlogPost(slugRef: Ref<string>) {
     } catch {}
   }
 
-  // — Auto-refetch on locale/slug change —
   watch(locale, () => fetchPost())
   watch(slugRef, () => fetchPost())
   onMounted(fetchPost)

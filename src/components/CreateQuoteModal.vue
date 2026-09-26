@@ -51,7 +51,6 @@ const form = reactive({
   tags: [] as string[],
 })
 
-// Auto-fill author name when modal opens
 watch(() => props.show, (isOpen) => {
   if (isOpen && user.value) {
     form.author_name = user.value.display_name || user.value.username || ''

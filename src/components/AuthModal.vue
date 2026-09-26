@@ -107,7 +107,6 @@ async function handleSubmit() {
 
   try {
     if (mode.value === 'register') {
-      // Register first
       await authClient.post('/auth/register', {
         email: form.identifier,
         username: form.username,

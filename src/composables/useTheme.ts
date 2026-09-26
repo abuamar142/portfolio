@@ -61,7 +61,6 @@ export function useTheme() {
         .addEventListener('change', () => mode.value === 'system' && apply())
       watching = true
     }
-    // Prepainscript already painted; re-assert and refresh metas.
     apply()
   })
 

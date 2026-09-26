@@ -17,7 +17,6 @@
     </div>
   </nav>
 
-  <!-- Masthead -->
   <header class="sticky top-0 z-50 border-b border-base-300 bg-base-100">
     <div class="wrap flex min-h-14 items-center justify-between gap-3 md:gap-6">
       <router-link
@@ -62,7 +61,6 @@
       </div>
     </div>
 
-    <!-- Dropdown below the masthead row, full width under its top hairline. -->
     <MobileMenu
       :open="isMenuOpen"
       :full-nav="fullNav"

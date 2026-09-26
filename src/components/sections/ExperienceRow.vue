@@ -2,13 +2,11 @@
   <article
     class="row grid gap-4 py-7 md:grid-cols-[minmax(0,180px)_minmax(0,1fr)] md:gap-8 md:py-8"
   >
-    <!-- Left: duration and company -->
     <div class="row-place">
       <p>{{ experience.duration }}</p>
       <p class="mt-1">{{ experience.company }}</p>
     </div>
 
-    <!-- Right: position, description, stack -->
     <div class="min-w-0">
       <div class="flex flex-wrap items-center gap-2">
         <h3 class="row-title">{{ experience.position }}</h3>

@@ -82,7 +82,6 @@ const submitting = ref(false)
 const form = reactive({ url: '', title: '', description: '', tags: [] as string[] })
 const formErrors = ref<{ url?: string }>({})
 
-// Edit mode prefills from the link; create mode starts blank.
 watch(
   () => props.show,
   (isOpen) => {

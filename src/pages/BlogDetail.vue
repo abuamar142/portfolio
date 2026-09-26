@@ -203,7 +203,6 @@ const slug = computed(() => {
 
 const { post, loading, error, contentHtml, coverUrl, readingTime, formatDate, toggleLocale } = useBlogPost(slug)
 
-// — Per-page SEO head —
 const canonical = computed(() => `${SITE_URL}/blogs/${encodeURIComponent(slug.value)}`)
 
 useHead({
@@ -234,7 +233,6 @@ useHead({
   }),
 })
 
-// — Share state & helpers —
 const showShareModal = ref(false)
 const copied = ref(false)
 const shareInputRef = ref<HTMLInputElement | null>(null)

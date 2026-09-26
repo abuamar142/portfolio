@@ -8,7 +8,6 @@
       />
 
       <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16">
-        <!-- Facts ledger (left on desktop) -->
         <dl class="order-2 lg:order-1 metric-ladder">
           <div v-if="yearsBuilding" class="metric-row">
             <dt class="metric-name">{{ $t('about.stats.years') }}</dt>
@@ -26,7 +25,6 @@
           </div>
         </dl>
 
-        <!-- Prose column (right on desktop) -->
         <div class="order-1 min-w-0 lg:order-2">
           <p class="lead max-w-[62ch]">{{ aboutBody }}</p>
 

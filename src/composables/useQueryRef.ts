@@ -58,7 +58,6 @@ function makeQueryRef<V>(
   const model = ref(readFromRoute()) as Ref<V>
   let adopting = false
 
-  // ref -> URL
   watch(model, (value) => {
     if (adopting || typeof window === 'undefined') return
     if (!pending || pending.path !== route.path) {

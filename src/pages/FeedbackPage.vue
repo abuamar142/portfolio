@@ -4,7 +4,6 @@
       <SectionHeader level="h1" :title="$t('feedback.title')" :lead="$t('feedback.dek')" />
 
       <div class="panel p-6 md:p-8">
-        <!-- Success state -->
         <div v-if="submitted" class="py-6 text-center">
           <p class="display-2 mb-2">{{ $t('feedback.successTitle') }}</p>
           <p class="text-ink-3 mb-6">{{ $t('feedback.successBody') }}</p>
@@ -13,7 +12,6 @@
           </button>
         </div>
 
-        <!-- Form -->
         <form v-else class="flex flex-col gap-5" @submit.prevent="handleSubmit">
           <div>
             <label class="label">

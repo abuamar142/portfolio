@@ -27,7 +27,6 @@
     </div>
   </section>
 
-  <!-- Snippet detail -->
   <section v-else-if="snippet" class="page-top">
     <div class="wrap pb-20 md:pb-28">
       <!-- Back link -->
@@ -184,7 +183,6 @@ const error = ref('')
 const highlightedCode = ref('')
 const codeCopied = ref(false)
 
-// Edit state
 const editing = ref(false)
 const saving = ref(false)
 const editForm = ref({
@@ -239,7 +237,6 @@ async function renderCode(code: string, lang: string) {
   }
 }
 
-// Re-highlight when theme changes
 watch(isDark, async () => {
   if (snippet.value) {
     await renderCode(snippet.value.code, snippet.value.language)

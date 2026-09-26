@@ -152,7 +152,6 @@ const limit = 30
 
 const totalPages = computed(() => Math.ceil(total.value / limit))
 
-// Modal state — the form itself lives in LinkModal
 const showModal = ref(false)
 const editingLink = ref<Link | null>(null)
 

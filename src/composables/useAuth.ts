@@ -124,7 +124,6 @@ export function useAuth() {
     if (isClient) localStorage.setItem(USER_KEY, JSON.stringify(u))
   }
 
-  // Load on init
   loadStoredUser()
 
   return {

@@ -2,7 +2,6 @@ import { ref } from 'vue'
 import type { Portfolio } from '@/types/portfolio'
 import { fetchPortfolioData } from '@/services/portfolio'
 
-// Shared state - singleton pattern
 const portfolio = ref<Portfolio | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
@@ -10,7 +9,6 @@ let loadPromise: Promise<void> | null = null
 
 export function usePortfolio() {
   const loadPortfolio = async (retryCount = 0) => {
-    // If already loading or loaded, return existing promise/data
     if (loadPromise && !retryCount) {
       return loadPromise
     }
@@ -25,7 +23,6 @@ export function usePortfolio() {
       } catch (err) {
         console.error(`Error loading portfolio (attempt ${retryCount + 1}/${maxRetries}):`, err)
 
-        // Retry logic for network errors
         if (retryCount < maxRetries - 1) {
           loadPromise = null // Reset promise for retry
           setTimeout(

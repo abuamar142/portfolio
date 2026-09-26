@@ -167,7 +167,6 @@ useHead({
 
 const { locale } = useI18n()
 const { listPublished } = usePosts()
-// URL state: /blogs?q=&category=&page= — deep-linkable and shareable.
 const posts = ref<Post[]>([])
 const loading = ref(false)
 const error = ref('')
@@ -228,7 +227,6 @@ onServerPrefetch(async () => {
     // loadPosts already captured the error state; never fail the prerender.
   }
 })
-// Debounce server refetch: SearchInput emits on every keystroke.
 let searchTimer: ReturnType<typeof setTimeout> | undefined
 watch(searchQuery, () => {
   currentPage.value = 1

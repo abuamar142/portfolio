@@ -125,7 +125,6 @@ const limit = 30
 
 const totalPages = computed(() => Math.ceil(total.value / limit))
 
-// Modals
 const showCreate = ref(false)
 const showEdit = ref(false)
 const showModal = ref(false)

@@ -1,11 +1,4 @@
 <template>
-  <!--
-    Few tags: every tag visible at a glance — the original chip row, now with
-    multi-select toggles. Many tags: one trigger keeps the row short.
-
-    The model is the comma-joined string that goes straight into ?tag=a,b —
-    parsing lives here, so pages, useQueryRef and the services stay string.
-  -->
   <div v-if="tags.length" ref="rootEl" :class="dense ? 'relative' : 'flex flex-wrap items-center gap-2'">
     <template v-if="!dense">
       <button
@@ -102,9 +95,7 @@ const model = defineModel<string>({ default: '' })
 const toast = useToast()
 const { t } = useI18n()
 
-/** Same cap as tag creation per item — keeps the URL short. */
 const MAX_SELECTED = 5
-/** Above this many tags the row collapses into the popover. */
 const DENSE_LIMIT = 8
 
 const dense = computed(() => props.tags.length > DENSE_LIMIT)

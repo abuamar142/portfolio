@@ -295,7 +295,6 @@ async function loadAll() {
 
 watch(isOwner, (v) => { if (v) loadAll() }, { immediate: true })
 
-// ── Editors ──
 const showQuoteEdit = ref(false)
 const editingQuote = ref<Quote | null>(null)
 function editQuote(q: Quote) {
@@ -336,7 +335,6 @@ function addSnippet() {
   showSnippetEdit.value = true
 }
 
-// ── Deletes ──
 async function removeQuote(q: Quote) {
   if (!confirm(t('quotes.deleteConfirm'))) return
   try {
@@ -370,7 +368,6 @@ async function removeSnippet(s: Snippet) {
   }
 }
 
-// ── Feedback ──
 async function toggleFeedbackStatus(fb: Feedback) {
   const next = fb.status === 'new' ? 'read' : 'new'
   try {

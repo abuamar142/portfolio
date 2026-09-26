@@ -52,7 +52,6 @@ const form = reactive({
   tags: [] as string[],
 })
 
-// Populate form when quote changes
 watch(() => props.quote, (q) => {
   if (q) {
     form.content = q.content

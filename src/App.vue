@@ -12,10 +12,8 @@
     </main>
     <AppFooter />
 
-    <!-- Global auth modal — pages trigger it via useAuth().openAuth() -->
     <AuthModal :show="showAuth" @close="closeAuth" @authenticated="handleAuthenticated" />
 
-    <!-- Toast notifications -->
     <div class="toast toast-end toast-bottom z-[200]">
       <div
         v-for="t in toasts"
@@ -78,8 +76,6 @@ function alertClass(type: ToastType) {
 const route = useRoute()
 const { locale, t } = useI18n()
 
-// Session-expiry prompt: end the stale session and open the login modal with
-// an explanatory toast instead of letting a tool write fail silently.
 onMounted(() => {
   offAuthFailed = onAuthFailed(() => {
     logout()
@@ -95,8 +91,6 @@ onUnmounted(() => {
 // trailing slash to match the sitemap's `https://abuamar.online/` entry.
 const canonicalUrl = computed(() => new URL(route.path, SITE_URL).href)
 
-// Site-wide meta description — also the og:description fallback; individual
-// pages override both with their own copy.
 const SITE_DESCRIPTION =
   'M. Abu Amar Al Badawi - Mobile & Full Stack Developer. Portofolio proyek mobile, web, dan backend yang berjalan di produksi.'
 

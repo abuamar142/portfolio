@@ -5,14 +5,12 @@ import { backendClient } from '@/services/client'
 const API_ENDPOINT = '/personal/data'
 
 export async function fetchPortfolioData(): Promise<Portfolio> {
-  // Minimum loading time untuk UX yang lebih baik (bisa dikonfigurasi)
-  const MIN_LOADING_TIME = 500 // ms (reduced from 800ms)
+  const MIN_LOADING_TIME = 500
   const startTime = Date.now()
 
   try {
     const response = await backendClient.get(API_ENDPOINT)
 
-    // Log data structure for debugging
     const body = response.data
 
     // Backend returns { success, message, data } — unwrap the data field
@@ -45,7 +43,6 @@ export async function fetchPortfolioData(): Promise<Portfolio> {
       achievements: Array.isArray(data.achievements) ? data.achievements : [],
     }
 
-    // Pastikan minimum loading time untuk UX yang lebih baik
     const elapsedTime = Date.now() - startTime
     if (elapsedTime < MIN_LOADING_TIME) {
       await new Promise((resolve) => setTimeout(resolve, MIN_LOADING_TIME - elapsedTime))
@@ -64,7 +61,6 @@ export async function fetchPortfolioData(): Promise<Portfolio> {
       baseURL: axiosError?.config?.baseURL,
     })
 
-    // Provide specific error messages based on error type
     if (axiosError?.code === 'ENOTFOUND' || axiosError?.code === 'ECONNREFUSED') {
       throw new Error(
         `Cannot connect to backend server at ${backendClient.defaults.baseURL}. Please check if the backend is running.`,
@@ -95,7 +91,6 @@ export async function fetchPortfolioData(): Promise<Portfolio> {
       )
     }
 
-    // Generic error fallback
     throw new Error(`Failed to fetch portfolio data: ${errorMessage}`)
   }
 }

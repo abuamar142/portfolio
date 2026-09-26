@@ -24,8 +24,6 @@ import { LogOut } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 
-// Shared auth cluster for page headers: avatar dropdown + logout when signed
-// in, Sign In (opens the global AuthModal) otherwise.
 const { t } = useI18n()
 const toast = useToast()
 const { user, isAuthenticated, openAuth, logout } = useAuth()
