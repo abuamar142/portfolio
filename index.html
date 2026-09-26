@@ -22,23 +22,32 @@
     <script>
       // Paint the resolved theme before first paint (anti-FOUC for SSG).
       // Mirrors src/composables/useTheme.ts: 'portfolio-theme' -> data-theme.
+      // The storage read is the ONLY fallible step: Brave throws
+      // SecurityError on localStorage during some back-navigation loads.
+      // Gating the whole apply on storage is what flashed a light canvas on
+      // every back — a storage failure now falls through to the OS
+      // preference and still paints dark before first paint.
       (function () {
+        var mode = 'system'
         try {
-          const mode = localStorage.getItem('portfolio-theme') || 'system'
-          const dark =
-            mode === 'dark' ||
-            (mode === 'system' &&
-              window.matchMedia('(prefers-color-scheme: dark)').matches)
-          const root = document.documentElement
-          if (dark) root.setAttribute('data-theme', 'portfolio-dark')
-          else root.removeAttribute('data-theme')
-          root.style.colorScheme = dark ? 'dark' : 'light'
-          root.style.setProperty('--prep-bg', dark ? '#14161a' : '#f3f4ef')
-          const colorScheme = document.querySelector('meta[name="color-scheme"]')
-          if (colorScheme) colorScheme.setAttribute('content', dark ? 'dark' : 'light')
-          const themeColor = document.querySelector('meta[name="theme-color"]')
-          if (themeColor) themeColor.setAttribute('content', dark ? '#14161a' : '#F3F4EF')
-        } catch {}
+          var stored = localStorage.getItem('portfolio-theme')
+          if (stored === 'light' || stored === 'dark' || stored === 'system') {
+            mode = stored
+          }
+        } catch (e) {}
+        var dark =
+          mode === 'dark' ||
+          (mode === 'system' &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches)
+        var root = document.documentElement
+        if (dark) root.setAttribute('data-theme', 'portfolio-dark')
+        else root.removeAttribute('data-theme')
+        root.style.colorScheme = dark ? 'dark' : 'light'
+        root.style.setProperty('--prep-bg', dark ? '#14161a' : '#f3f4ef')
+        var colorScheme = document.querySelector('meta[name="color-scheme"]')
+        if (colorScheme) colorScheme.setAttribute('content', dark ? 'dark' : 'light')
+        var themeColor = document.querySelector('meta[name="theme-color"]')
+        if (themeColor) themeColor.setAttribute('content', dark ? '#14161a' : '#F3F4EF')
       })()
     </script>
     <style>
