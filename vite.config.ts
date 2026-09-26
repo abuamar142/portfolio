@@ -61,6 +61,9 @@ export default defineConfig(({ mode }) => {
         generateSitemap({
           hostname: 'https://abuamar.online',
           generateRobotsTxt: false,
+          // /dashboard is owner-only and served with robots noindex — a
+          // submitted noindex URL shows up as a Search Console warning.
+          exclude: ['/dashboard'],
         })
       },
     },
