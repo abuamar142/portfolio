@@ -15,9 +15,6 @@
         </div>
         <div class="flex shrink-0 items-center gap-3">
           <template v-if="isAuthenticated">
-            <button @click="showCreate = true" class="btn btn-primary">
-              <Plus :size="16" /> {{ $t('snippets.edit') }}
-            </button>
             <div class="dropdown dropdown-end">
               <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
                 <div class="bg-neutral text-neutral-content w-10 h-10 flex items-center justify-center">
@@ -108,7 +105,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
-import { FileCode, Plus, LogOut } from 'lucide-vue-next'
+import { FileCode, LogOut } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import TagFilter from '@/components/TagFilter.vue'
 import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
@@ -144,8 +141,6 @@ const userInitials = computed(() => {
   const name = user.value?.display_name || user.value?.username || ''
   return name.charAt(0).toUpperCase() || '?'
 })
-
-const showCreate = ref(false)
 
 let debounceTimer: ReturnType<typeof setTimeout>
 function debouncedFetch() {

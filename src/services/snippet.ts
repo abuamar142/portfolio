@@ -1,7 +1,7 @@
 import client from '@/services/client'
 import type {
   Snippet,
-  CreateSnippetRequest,
+  UpdateSnippetRequest,
   SnippetListResponse,
   TagResponse,
   LanguageResponse,
@@ -23,14 +23,9 @@ export async function fetchSnippetById(id: string): Promise<Snippet> {
   return data.data
 }
 
-export async function createSnippet(req: CreateSnippetRequest): Promise<Snippet> {
-  const { data } = await client.post('/snippets', req)
-  return data.data
-}
-
 export async function updateSnippet(
   id: string,
-  req: CreateSnippetRequest,
+  req: UpdateSnippetRequest,
 ): Promise<Snippet> {
   const { data } = await client.put(`/snippets/${id}`, req)
   return data.data

@@ -6,7 +6,6 @@ import { createI18n } from 'vue-i18n'
 import App from './App.vue'
 import { routes } from './router'
 
-// Import translations
 import en from './locales/en'
 import id from './locales/id'
 

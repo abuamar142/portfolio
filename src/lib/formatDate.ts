@@ -8,7 +8,7 @@
  */
 
 /** Map an app locale (`id`/`en`) to a BCP-47 tag. */
-export function dateLocaleFor(locale: string): string {
+function dateLocaleFor(locale: string): string {
   return locale === 'en' ? 'en-US' : 'id-ID'
 }
 

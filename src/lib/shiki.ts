@@ -38,7 +38,7 @@ const LANG_MAP: Record<string, string> = {
 }
 
 /** Map unknown language aliases to known IDs, or 'text' if unrecognised. */
-export function resolveLanguage(lang: string): string {
+function resolveLanguage(lang: string): string {
   return LANG_MAP[lang.toLowerCase()] || 'text'
 }
 

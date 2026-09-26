@@ -4,8 +4,7 @@ import { getStoredToken, getStoredRefreshToken, setTokens, emitAuthFailed } from
 
 const API_BASE = import.meta.env.VITE_PORTFOLIO_API_URL || 'https://portfolio.abuamar.online'
 const AUTH_URL = import.meta.env.VITE_AUTH_URL || 'https://auth.abuamar.online'
-export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://backend.abuamar.online'
-export const AUTH_BASE_URL = AUTH_URL
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'https://backend.abuamar.online'
 
 // Shared axios client for portfolio-service endpoints (quotes, links, ...):
 // one base URL + one Authorization interceptor for every tool.
