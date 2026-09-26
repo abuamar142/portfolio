@@ -60,12 +60,11 @@
       </div>
 
       <!-- Error -->
-      <div v-else-if="error" class="panel mt-12 p-8 text-center" role="alert">
-        <p class="text-base-content">{{ $t('blog.error') }}</p>
+      <ErrorState v-else-if="error" variant="inline" class="mt-12 text-center" :message="$t('blog.error')">
         <BaseButton class="mt-6" variant="outline" size="sm" @click="loadPosts">
           {{ $t('blog.retry') }}
         </BaseButton>
-      </div>
+      </ErrorState>
 
       <!-- Empty -->
       <div v-else-if="filteredPosts.length === 0" class="panel mt-12 p-8 text-center">
@@ -149,6 +148,7 @@ import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
 import { formatDateShort } from '@/lib/formatDate'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import ErrorState from '@/components/ui/ErrorState.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 
 // — Per-page SEO head (baked into the prerendered HTML + SPA client) —

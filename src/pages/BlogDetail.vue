@@ -17,12 +17,11 @@
       </div>
 
       <!-- Error -->
-      <div v-else-if="error" class="panel mt-8 max-w-[45rem] p-8" role="alert">
-        <p class="text-base-content">{{ $t('blog.postNotFound') }}</p>
+      <ErrorState v-else-if="error" variant="inline" class="mt-8 max-w-[45rem]" :message="$t('blog.postNotFound')">
         <BaseButton class="mt-6" variant="outline" size="sm" to="/blogs">
           {{ $t('blog.backToList') }}
         </BaseButton>
-      </div>
+      </ErrorState>
 
       <article
         v-else
@@ -190,6 +189,7 @@ import { SITE_URL } from '@/site'
 import { ArrowLeft, Languages, Share2, X } from 'lucide-vue-next'
 import { useBlogPost } from '@/composables/useBlogPost'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import ErrorState from '@/components/ui/ErrorState.vue'
 
 const route = useRoute()
 const slug = computed(() => {

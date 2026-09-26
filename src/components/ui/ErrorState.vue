@@ -1,5 +1,10 @@
 <template>
+  <div v-if="variant === 'inline'" class="panel p-8" role="alert">
+    <p class="text-base-content">{{ message }}</p>
+    <slot />
+  </div>
   <div
+    v-else
     role="alert"
     class="page-top flex min-h-[70vh] items-center justify-center px-5 pb-20 md:px-8"
   >
@@ -24,6 +29,9 @@ import BaseButton from '@/components/ui/BaseButton.vue'
 
 interface Props {
   message: string
+  /** inline = panel inside the page flow (caller passes action via slot);
+   *  page = full-screen centered state with retry. */
+  variant?: 'page' | 'inline'
 }
 defineProps<Props>()
 defineEmits<{ retry: [] }>()

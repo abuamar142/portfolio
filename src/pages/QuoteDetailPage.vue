@@ -21,12 +21,11 @@
       </div>
 
       <!-- Error -->
-      <div v-else-if="error" class="panel mt-12 max-w-xl p-8" role="alert">
-        <p class="text-base-content text-lg">{{ error }}</p>
+      <ErrorState v-else-if="error" variant="inline" class="mt-12 max-w-xl" :message="error">
         <BaseButton class="mt-6" variant="outline" size="sm" to="/quotes">
           {{ $t('quotes.backToList') }}
         </BaseButton>
-      </div>
+      </ErrorState>
 
       <!-- Quote -->
       <article v-else-if="quote" class="mt-12 max-w-xl">
@@ -80,6 +79,7 @@ import type { Quote } from '@/types/quote'
 import { formatDateLong } from '@/lib/formatDate'
 import ShareButton from '@/components/ShareButton.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import ErrorState from '@/components/ui/ErrorState.vue'
 
 const route = useRoute()
 const { t, locale } = useI18n()
