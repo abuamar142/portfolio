@@ -32,9 +32,7 @@
       </div>
 
       <!-- Loading -->
-      <div v-if="loading" class="text-center py-20">
-        <span class="loading loading-spinner loading-lg text-primary"></span>
-      </div>
+      <LoadingBlock v-if="loading" />
 
       <!-- Empty -->
       <div v-else-if="links.length === 0" class="text-center py-20">
@@ -190,6 +188,7 @@ import AuthControls from '@/components/AuthControls.vue'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 import TagInput from '@/components/ui/TagInput.vue'
+import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 
 const { t } = useI18n()
 

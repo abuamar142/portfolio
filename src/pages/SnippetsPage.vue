@@ -14,25 +14,10 @@
           />
         </div>
         <div class="flex shrink-0 items-center gap-3">
-          <template v-if="isAuthenticated">
-            <button @click="showCreate = true" class="btn btn-primary">
-              <Plus :size="16" /> {{ $t('snippets.addSnippet') }}
-            </button>
-            <div class="dropdown dropdown-end">
-              <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar placeholder">
-                <div class="bg-neutral text-neutral-content w-10 h-10 flex items-center justify-center">
-                  <span class="text-sm leading-none">{{ userInitials }}</span>
-                </div>
-              </div>
-              <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-200 border border-base-300 z-10 w-52 p-2 shadow-lg mt-2">
-                <li class="menu-title">{{ user?.display_name || user?.username }}</li>
-                <li><a @click="handleLogout"><LogOut :size="14" /> Logout</a></li>
-              </ul>
-            </div>
-          </template>
-          <button v-else @click="() => openAuth()" class="btn btn-primary">
-            {{ t('auth.signIn') }}
+          <button v-if="isAuthenticated" @click="showCreate = true" class="btn btn-primary">
+            <Plus :size="16" /> {{ $t('snippets.addSnippet') }}
           </button>
+          <AuthControls />
         </div>
       </div>
 
@@ -61,9 +46,7 @@
       </div>
 
       <!-- Loading -->
-      <div v-if="loading" class="text-center py-20">
-        <span class="loading loading-spinner loading-lg text-primary"></span>
-      </div>
+      <LoadingBlock v-if="loading" />
 
       <!-- Empty -->
       <div v-else-if="snippets.length === 0" class="text-center py-20">
@@ -109,7 +92,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
-import { FileCode, Plus, LogOut } from 'lucide-vue-next'
+import { FileCode, Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import TagFilter from '@/components/TagFilter.vue'
 import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
@@ -123,9 +106,11 @@ import type { Snippet, TagResponse, LanguageResponse } from '@/types/snippet'
 import SectionHeader from '@/components/ui/SectionHeader.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 import CreateSnippetModal from '@/components/CreateSnippetModal.vue'
+import AuthControls from '@/components/AuthControls.vue'
+import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 
 const { t } = useI18n()
-const { user, isAuthenticated, logout, openAuth } = useAuth()
+const { isAuthenticated } = useAuth()
 const toast = useToast()
 
 useHead({ title: computed(() => t('snippets.title')) })
@@ -142,11 +127,6 @@ const total = ref(0)
 const limit = 18
 
 const totalPages = computed(() => Math.ceil(total.value / limit))
-const userInitials = computed(() => {
-  const name = user.value?.display_name || user.value?.username || ''
-  return name.charAt(0).toUpperCase() || '?'
-})
-
 const showCreate = ref(false)
 
 // After creating: jump back to page 1 (new snippet sorts first) and refresh
@@ -214,11 +194,6 @@ async function loadLanguages() {
   try {
     languages.value = await fetchSnippetLanguages()
   } catch { /* ignore */ }
-}
-
-function handleLogout() {
-  logout()
-  toast.info('Logged out')
 }
 
 function relativeDate(dateStr: string): string {

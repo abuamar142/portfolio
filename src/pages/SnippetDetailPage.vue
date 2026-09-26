@@ -2,9 +2,7 @@
   <!-- Loading -->
   <section v-if="loading" class="page-top">
     <div class="wrap pb-20 md:pb-28">
-      <div class="text-center py-20">
-        <span class="loading loading-spinner loading-lg text-primary"></span>
-      </div>
+      <LoadingBlock />
     </div>
   </section>
 
@@ -167,6 +165,7 @@ import {
 import { highlight } from '@/lib/shiki'
 import { formatDateShort } from '@/lib/formatDate'
 import TagInput from '@/components/ui/TagInput.vue'
+import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import type { Snippet } from '@/types/snippet'
 import ShareButton from '@/components/ShareButton.vue'
 import ErrorState from '@/components/ui/ErrorState.vue'
