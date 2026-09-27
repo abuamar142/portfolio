@@ -22,9 +22,7 @@
       </div>
     </div>
     <div v-if="quote.tags?.length" class="flex flex-wrap gap-1 mt-2 justify-center">
-      <span v-for="tag in quote.tags" :key="tag" class="chip text-xs">
-        {{ tag }}
-      </span>
+      <TagChip v-for="tag in quote.tags" :key="tag" :tag="tag" />
     </div>
   </div>
 </template>
@@ -33,6 +31,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Pencil, Trash2 } from 'lucide-vue-next'
+import TagChip from '@/components/ui/TagChip.vue'
 import type { Quote } from '@/types/quote'
 import { useAuth } from '@/composables/useAuth'
 

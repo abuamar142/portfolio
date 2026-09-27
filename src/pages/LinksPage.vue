@@ -1,8 +1,5 @@
 <template>
-  <section id="links" class="page-top">
-    <div class="wrap pb-20 md:pb-28">
-      <!-- Page head -->
-      <SectionHeader level="h1" :title="$t('links.title')" :lead="$t('links.dek')" />
+  <PageShell id="links" :title="$t('links.title')" :lead="$t('links.dek')">
 
       <!-- Search + actions -->
       <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -74,11 +71,7 @@
           </p>
           <p class="mt-2 text-xs text-ink-4 font-mono truncate">{{ displayUrl(link.url) }}</p>
           <div v-if="link.tags.length" class="mt-3 flex flex-wrap gap-1">
-            <span
-              v-for="tag in link.tags"
-              :key="tag"
-              class="text-xs text-ink-4 bg-base-300 px-1.5 py-0.5"
-            >#{{ tag }}</span>
+            <TagChip v-for="tag in link.tags" :key="tag" :tag="tag" />
           </div>
           <div v-if="isAuthenticated" class="mt-3 flex items-center gap-2 border-t border-hairline-light pt-3">
             <button @click="openEdit(link)" class="btn btn-xs btn-ghost">
@@ -101,16 +94,16 @@
           {{ $t('links.next') }}
         </button>
       </div>
-    </div>
 
     <LinkModal :show="showModal" :link="editingLink" @close="closeModal" @saved="onSaved" />
-  </section>
+  </PageShell>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useHead } from '@unhead/vue'
+import { usePageSeo } from '@/composables/usePageSeo'
+import TagChip from '@/components/ui/TagChip.vue'
 import { Link2, ExternalLink, Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import TagFilter from '@/components/TagFilter.vue'
@@ -123,7 +116,7 @@ import {
 } from '@/services/link'
 import type { Link, LinkTagResponse } from '@/services/link'
 import AuthControls from '@/components/AuthControls.vue'
-import SectionHeader from '@/components/ui/SectionHeader.vue'
+import PageShell from '@/components/layout/PageShell.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
@@ -131,13 +124,9 @@ import LinkModal from '@/components/LinkModal.vue'
 
 const { t } = useI18n()
 
-useHead({
+usePageSeo({
   title: computed(() => t('head.links.title')),
-  meta: [
-    { name: 'description', content: computed(() => t('head.links.dek')) },
-    { property: 'og:title', content: computed(() => `${t('head.links.title')} - Abu Amar`) },
-    { property: 'og:description', content: computed(() => t('head.links.dek')) },
-  ],
+  description: computed(() => t('head.links.dek')),
 })
 
 const { isAuthenticated, openAuth } = useAuth()

@@ -1,7 +1,5 @@
 <template>
-  <section id="dashboard" class="page-top">
-    <div class="wrap pb-20 md:pb-28">
-      <SectionHeader level="h1" :title="$t('dashboard.title')" :lead="$t('dashboard.dek')" />
+  <PageShell id="dashboard" :title="$t('dashboard.title')" :lead="$t('dashboard.dek')">
 
       <!-- Gate: belum masuk -->
       <div v-if="!isAuthenticated" class="panel mt-8 p-8 text-center">
@@ -197,18 +195,17 @@
           />
         </template>
       </template>
-    </div>
-  </section>
+  </PageShell>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useHead } from '@unhead/vue'
+import { usePageSeo } from '@/composables/usePageSeo'
 import { Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
-import SectionHeader from '@/components/ui/SectionHeader.vue'
+import PageShell from '@/components/layout/PageShell.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EditQuoteModal from '@/components/EditQuoteModal.vue'
 import LinkModal from '@/components/LinkModal.vue'
@@ -232,14 +229,10 @@ const { t, locale } = useI18n()
 const { user, isAuthenticated, openAuth } = useAuth()
 const toast = useToast()
 
-useHead({
+usePageSeo({
   title: computed(() => t('head.dashboard.title')),
-  meta: [
-    { name: 'robots', content: 'noindex' },
-    { name: 'description', content: computed(() => t('head.dashboard.dek')) },
-    { property: 'og:title', content: computed(() => `${t('head.dashboard.title')} - Abu Amar`) },
-    { property: 'og:description', content: computed(() => t('head.dashboard.dek')) },
-  ],
+  description: computed(() => t('head.dashboard.dek')),
+  meta: [{ name: 'robots', content: 'noindex' }],
 })
 
 const isOwner = computed(() => isAuthenticated.value && user.value?.email === OWNER_EMAIL)

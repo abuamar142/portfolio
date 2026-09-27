@@ -47,9 +47,7 @@
 
         <!-- Tags -->
         <div v-if="quote.tags?.length" class="flex flex-wrap gap-2 mt-6">
-          <span v-for="tag in quote.tags" :key="tag" class="chip text-xs">
-            #{{ tag }}
-          </span>
+          <TagChip v-for="tag in quote.tags" :key="tag" :tag="tag" />
         </div>
 
         <!-- Meta + share -->
@@ -72,6 +70,7 @@
 import { computed, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import TagChip from '@/components/ui/TagChip.vue'
 import { useHead } from '@unhead/vue'
 import { ArrowLeft } from 'lucide-vue-next'
 import { fetchQuoteById } from '@/services/quote'

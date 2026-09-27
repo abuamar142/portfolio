@@ -1,13 +1,10 @@
 <template>
-  <section id="blogs" class="page-top">
-    <div class="wrap pb-20 md:pb-28">
-      <SectionHeader level="h1" :title="$t('headings.blog')">
-        <template #meta>
-          <p class="data">
-            {{ totalPosts }} {{ $t('blog.posts') }}
-          </p>
-        </template>
-      </SectionHeader>
+  <PageShell id="blogs" :title="$t('headings.blog')">
+    <template #meta>
+      <p class="data">
+        {{ totalPosts }} {{ $t('blog.posts') }}
+      </p>
+    </template>
 
       <!-- Category filter -->
       <div class="flex flex-wrap items-center gap-2">
@@ -76,9 +73,11 @@
         <li v-for="post in filteredPosts" :key="post._id" class="row">
           <router-link :to="`/blogs/${post.slug}`" class="group block py-6">
             <div v-if="post.tags && post.tags.length" class="flex flex-wrap gap-2">
-              <span v-for="tag in post.tags.slice(0, 3)" :key="tag.tag || String(tag)" class="chip">
-                {{ tag.tag || tag }}
-              </span>
+              <TagChip
+                v-for="tag in post.tags.slice(0, 3)"
+                :key="tag.tag || String(tag)"
+                :tag="tag.tag || String(tag)"
+              />
             </div>
             <h2
               class="mt-3 font-display text-xl leading-snug tracking-tight text-base-content transition-colors group-hover:text-primary"
@@ -134,19 +133,19 @@
           <ArrowRight class="size-4" aria-hidden="true" />
         </button>
       </nav>
-    </div>
-  </section>
+  </PageShell>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, onServerPrefetch, ref, watch } from 'vue'
 import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
+import TagChip from '@/components/ui/TagChip.vue'
 import { ArrowLeft, ArrowRight } from 'lucide-vue-next'
 import { usePosts, type Post } from '@/composables/usePosts'
 import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
 import { formatDateShort } from '@/lib/formatDate'
-import SectionHeader from '@/components/ui/SectionHeader.vue'
+import PageShell from '@/components/layout/PageShell.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import ErrorState from '@/components/ui/ErrorState.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'

@@ -112,7 +112,7 @@
           <!-- Meta -->
           <div class="flex flex-wrap items-center gap-3 mb-6 text-ink-3 text-sm">
             <span class="badge badge-outline">{{ snippet.language }}</span>
-            <span v-for="tag in snippet.tags" :key="tag" class="badge badge-ghost badge-sm">#{{ tag }}</span>
+            <TagChip v-for="tag in snippet.tags" :key="tag" :tag="tag" />
             <span class="ml-auto text-ink-4 text-xs">{{ $t('snippets.created') }}: {{ formatDate(snippet.created_at) }}</span>
             <span v-if="snippet.updated_at !== snippet.created_at" class="text-ink-4 text-xs">{{ $t('snippets.updated') }}: {{ formatDate(snippet.updated_at) }}</span>
           </div>
@@ -145,7 +145,8 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useHead } from '@unhead/vue'
+import { usePageSeo } from '@/composables/usePageSeo'
+import TagChip from '@/components/ui/TagChip.vue'
 import {
   ArrowLeft,
   Pencil,
@@ -200,7 +201,13 @@ const isDark = computed(() => {
     && window.matchMedia('(prefers-color-scheme: dark)').matches
 })
 
-useHead({ title: computed(() => snippet.value?.title || t('snippets.title')) })
+// No prerendered route and no crawler preview server for snippets, so this
+// head is the only description a crawler ever sees — ship the snippet's own
+// description with a generic fallback.
+usePageSeo({
+  title: computed(() => snippet.value?.title || t('snippets.title')),
+  description: computed(() => snippet.value?.description || t('snippets.dek')),
+})
 
 async function loadSnippet() {
   const id = route.params.id as string

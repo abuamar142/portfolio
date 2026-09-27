@@ -1,7 +1,5 @@
 <template>
-  <section id="qr" class="page-top">
-    <div class="wrap pb-20 md:pb-28">
-      <SectionHeader level="h1" :title="$t('qr.title')" :lead="$t('qr.dek')" />
+  <PageShell id="qr" :title="$t('qr.title')" :lead="$t('qr.dek')">
 
       <div class="panel p-6 md:p-8">
         <!-- Base grid-cols-1 clamps the sub-md track to minmax(0,1fr): the
@@ -72,16 +70,15 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
+  </PageShell>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useHead } from '@unhead/vue'
+import { usePageSeo } from '@/composables/usePageSeo'
 import QRCode from 'qrcode'
-import SectionHeader from '@/components/ui/SectionHeader.vue'
+import PageShell from '@/components/layout/PageShell.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
 const { t } = useI18n()
@@ -163,12 +160,8 @@ const downloadSvg = async () => {
   }
 }
 
-useHead({
+usePageSeo({
   title: computed(() => t('head.qr.title')),
-  meta: [
-    { name: 'description', content: computed(() => t('head.qr.dek')) },
-    { property: 'og:title', content: computed(() => `${t('head.qr.title')} - Abu Amar`) },
-    { property: 'og:description', content: computed(() => t('head.qr.dek')) },
-  ],
+  description: computed(() => t('head.qr.dek')),
 })
 </script>

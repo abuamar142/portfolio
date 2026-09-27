@@ -1,8 +1,5 @@
 <template>
-  <section id="snippets" class="page-top">
-    <div class="wrap pb-20 md:pb-28">
-      <!-- Page head -->
-      <SectionHeader level="h1" :title="$t('snippets.title')" :lead="$t('snippets.dek')" />
+  <PageShell id="snippets" :title="$t('snippets.title')" :lead="$t('snippets.dek')">
 
       <!-- Search -->
       <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -70,7 +67,7 @@
             </div>
             <p v-if="snippet.description" class="text-ink-3 text-xs line-clamp-2 mt-1">{{ snippet.description }}</p>
             <div v-if="snippet.tags.length" class="flex flex-wrap gap-1 mt-2">
-              <span v-for="tag in snippet.tags" :key="tag" class="badge badge-ghost badge-xs">#{{ tag }}</span>
+              <TagChip v-for="tag in snippet.tags" :key="tag" :tag="tag" />
             </div>
             <div class="text-ink-4 text-[11px] mt-auto pt-2">{{ relativeDate(snippet.created_at) }}</div>
           </div>
@@ -83,16 +80,16 @@
         <span class="btn btn-sm btn-ghost no-animation">{{ page }} / {{ totalPages }}</span>
         <button @click="nextPage" :disabled="page >= totalPages" class="btn btn-sm btn-ghost">{{ t("common.next") }}</button>
       </div>
-    </div>
 
     <SnippetFormModal :show="showCreate" @close="showCreate = false" @saved="handleCreated" />
-  </section>
+  </PageShell>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useHead } from '@unhead/vue'
+import { usePageSeo } from '@/composables/usePageSeo'
+import TagChip from '@/components/ui/TagChip.vue'
 import { FileCode, Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import TagFilter from '@/components/TagFilter.vue'
@@ -104,7 +101,7 @@ import {
   fetchSnippetLanguages,
 } from '@/services/snippet'
 import type { Snippet, TagResponse, LanguageResponse } from '@/types/snippet'
-import SectionHeader from '@/components/ui/SectionHeader.vue'
+import PageShell from '@/components/layout/PageShell.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 import SnippetFormModal from '@/components/SnippetFormModal.vue'
 import AuthControls from '@/components/AuthControls.vue'
@@ -115,7 +112,12 @@ const { t } = useI18n()
 const { isAuthenticated } = useAuth()
 const toast = useToast()
 
-useHead({ title: computed(() => t('snippets.title')) })
+// Reuses the visible SectionHeader lead as the meta description — the page
+// previously fell through to the site-wide generic description.
+usePageSeo({
+  title: computed(() => t('snippets.title')),
+  description: computed(() => t('snippets.dek')),
+})
 
 const snippets = ref<Snippet[]>([])
 const tags = ref<TagResponse[]>([])

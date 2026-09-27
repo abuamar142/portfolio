@@ -29,9 +29,11 @@
       >
         <div class="min-w-0">
           <div v-if="post?.tags?.length" class="flex flex-wrap gap-2">
-            <span v-for="tag in post.tags" :key="tag.tag || String(tag)" class="chip">
-              {{ tag.tag || tag }}
-            </span>
+            <TagChip
+              v-for="tag in post.tags"
+              :key="tag.tag || String(tag)"
+              :tag="tag.tag || String(tag)"
+            />
           </div>
 
           <h1 class="display-2 mt-4 text-balance text-base-content">{{ post?.title }}</h1>
@@ -107,9 +109,11 @@
                 {{ $t('blog.tags') }}
               </dt>
               <dd class="mt-2 flex flex-wrap gap-1.5">
-                <span v-for="tag in post.tags" :key="tag.tag || String(tag)" class="chip">
-                  {{ tag.tag || tag }}
-                </span>
+                <TagChip
+                  v-for="tag in post.tags"
+                  :key="tag.tag || String(tag)"
+                  :tag="tag.tag || String(tag)"
+                />
               </dd>
             </div>
           </dl>
@@ -117,67 +121,47 @@
       </article>
     </div>
 
-    <Teleport to="body">
-      <div v-if="showShareModal" class="fixed inset-0 z-[60] flex items-center justify-center p-4">
-        <div
-          class="absolute inset-0 bg-base-100/80 backdrop-blur-sm"
-          aria-hidden="true"
-          @click="closeModal"
-        ></div>
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="share-title"
-          class="panel relative w-full max-w-md p-5 shadow-xl sm:p-6"
-          @click.stop
-          @keydown.esc="closeModal"
+    <BaseModal
+      :open="showShareModal"
+      :close-label="$t('blog.closeAria')"
+      labelled-by="share-title"
+      box-class="max-w-md"
+      @close="closeModal"
+    >
+      <h2 id="share-title" class="font-display text-lg text-base-content">
+        {{ $t('blog.shareTitle') }}
+      </h2>
+
+      <label
+        for="share-url-input"
+        class="mt-5 block font-mono text-[11px] uppercase tracking-wider text-ink-3"
+      >
+        {{ $t('blog.shareLink') }}
+      </label>
+      <input
+        id="share-url-input"
+        ref="shareInputRef"
+        :value="shareUrl"
+        readonly
+        class="input mt-2 h-11 w-full font-mono text-sm"
+        @focus="selectAll"
+        @click="selectAll"
+      />
+
+      <div class="mt-6 flex justify-end gap-2">
+        <button type="button" class="btn btn-ghost btn-sm" @click="closeModal">
+          {{ $t('blog.close') }}
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm"
+          :class="copied ? 'btn-success' : 'btn-primary'"
+          @click="copyText"
         >
-          <div class="flex items-start justify-between gap-4">
-            <h2 id="share-title" class="font-display text-lg text-base-content">
-              {{ $t('blog.shareTitle') }}
-            </h2>
-            <button
-              type="button"
-              class="btn btn-ghost btn-square btn-sm"
-              :aria-label="$t('blog.closeAria')"
-              @click="closeModal"
-            >
-              <X class="size-4" aria-hidden="true" />
-            </button>
-          </div>
-
-          <label
-            for="share-url-input"
-            class="mt-5 block font-mono text-[11px] uppercase tracking-wider text-ink-3"
-          >
-            {{ $t('blog.shareLink') }}
-          </label>
-          <input
-            id="share-url-input"
-            ref="shareInputRef"
-            :value="shareUrl"
-            readonly
-            class="input mt-2 h-11 w-full font-mono text-sm"
-            @focus="selectAll"
-            @click="selectAll"
-          />
-
-          <div class="mt-6 flex justify-end gap-2">
-            <button type="button" class="btn btn-ghost btn-sm" @click="closeModal">
-              {{ $t('blog.close') }}
-            </button>
-            <button
-              type="button"
-              class="btn btn-sm"
-              :class="copied ? 'btn-success' : 'btn-primary'"
-              @click="copyText"
-            >
-              {{ copied ? $t('blog.copied') : $t('blog.copy') }}
-            </button>
-          </div>
-        </div>
+          {{ copied ? $t('blog.copied') : $t('blog.copy') }}
+        </button>
       </div>
-    </Teleport>
+    </BaseModal>
   </section>
 </template>
 
@@ -186,8 +170,10 @@ import { ref, computed, nextTick, watch, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import { SITE_URL } from '@/site'
-import { ArrowLeft, Languages, Share2, X } from 'lucide-vue-next'
+import { ArrowLeft, Languages, Share2 } from 'lucide-vue-next'
 import { useBlogPost } from '@/composables/useBlogPost'
+import TagChip from '@/components/ui/TagChip.vue'
+import BaseModal from '@/components/ui/BaseModal.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import ErrorState from '@/components/ui/ErrorState.vue'
 

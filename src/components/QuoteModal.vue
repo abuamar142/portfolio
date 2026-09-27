@@ -21,9 +21,7 @@
       </div>
 
       <div v-if="quote.tags?.length" class="flex flex-wrap gap-2 justify-center mb-6">
-        <span v-for="tag in quote.tags" :key="tag" class="chip chip-accent text-xs">
-          #{{ tag }}
-        </span>
+        <TagChip v-for="tag in quote.tags" :key="tag" :tag="tag" accent />
       </div>
 
       <div class="flex items-center justify-center gap-3">
@@ -41,6 +39,7 @@
 import { useI18n } from 'vue-i18n'
 import type { Quote } from '@/types/quote'
 import { formatDateLong } from '@/lib/formatDate'
+import TagChip from '@/components/ui/TagChip.vue'
 import BaseModal from '@/components/ui/BaseModal.vue'
 import ShareButton from './ShareButton.vue'
 

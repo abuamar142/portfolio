@@ -1,7 +1,5 @@
 <template>
-  <section id="explore" class="page-top">
-    <div class="wrap pb-20 md:pb-28">
-      <SectionHeader level="h1" :title="$t('navigation.explore')" />
+  <PageShell id="explore" :title="$t('navigation.explore')">
 
       <ul class="border-t border-base-300">
         <li
@@ -24,16 +22,15 @@
           </router-link>
         </li>
       </ul>
-    </div>
-  </section>
+  </PageShell>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useHead } from '@unhead/vue'
+import { usePageSeo } from '@/composables/usePageSeo'
 import { ArrowRight } from 'lucide-vue-next'
-import SectionHeader from '@/components/ui/SectionHeader.vue'
+import PageShell from '@/components/layout/PageShell.vue'
 
 const { t } = useI18n()
 
@@ -50,12 +47,8 @@ const entries = computed(() => [
   { to: '/snippets', path: '/snippets', title: t('snippets.title'), dek: t('snippets.dek') },
 ])
 
-useHead({
+usePageSeo({
   title: computed(() => t('navigation.explore')),
-  meta: [
-    { name: 'description', content: computed(() => t('head.explore')) },
-    { property: 'og:title', content: computed(() => `${t('navigation.explore')} - Abu Amar`) },
-    { property: 'og:description', content: computed(() => t('head.explore')) },
-  ],
+  description: computed(() => t('head.explore')),
 })
 </script>

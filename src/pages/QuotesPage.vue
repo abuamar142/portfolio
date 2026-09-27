@@ -1,8 +1,5 @@
 <template>
-  <section id="quotes" class="page-top">
-    <div class="wrap pb-20 md:pb-28">
-      <!-- Page head -->
-      <SectionHeader level="h1" :title="$t('quotes.title')" :lead="$t('quotes.dek')" />
+  <PageShell id="quotes" :title="$t('quotes.title')" :lead="$t('quotes.dek')">
 
       <!-- Search + actions -->
       <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -69,19 +66,17 @@
         <span class="btn btn-sm btn-ghost no-animation">{{ page }} / {{ totalPages }}</span>
         <button @click="nextPage" :disabled="page >= totalPages" class="btn btn-sm btn-ghost">{{ $t('quotes.next') }}</button>
       </div>
-    </div>
-
     <!-- Modals -->
     <CreateQuoteModal :show="showCreate" @close="showCreate = false" @created="reloadQuotes" />
     <EditQuoteModal :show="showEdit" :quote="editingQuote" @close="showEdit = false" @updated="reloadQuotes" />
     <QuoteModal :show="showModal" :quote="selectedQuote" @close="showModal = false" />
-  </section>
+  </PageShell>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useHead } from '@unhead/vue'
+import { usePageSeo } from '@/composables/usePageSeo'
 import { FileEdit, Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
@@ -94,20 +89,16 @@ import QuoteModal from '@/components/QuoteModal.vue'
 import CreateQuoteModal from '@/components/CreateQuoteModal.vue'
 import EditQuoteModal from '@/components/EditQuoteModal.vue'
 import AuthControls from '@/components/AuthControls.vue'
-import SectionHeader from '@/components/ui/SectionHeader.vue'
+import PageShell from '@/components/layout/PageShell.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 
 const { t } = useI18n()
 
-useHead({
+usePageSeo({
   title: computed(() => t('head.quotes.title')),
-  meta: [
-    { name: 'description', content: computed(() => t('head.quotes.dek')) },
-    { property: 'og:title', content: computed(() => `${t('head.quotes.title')} - Abu Amar`) },
-    { property: 'og:description', content: computed(() => t('head.quotes.dek')) },
-  ],
+  description: computed(() => t('head.quotes.dek')),
 })
 
 const { isAuthenticated, openAuth } = useAuth()

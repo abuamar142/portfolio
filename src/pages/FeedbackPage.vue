@@ -1,7 +1,5 @@
 <template>
-  <section id="feedback" class="page-top">
-    <div class="wrap pb-20 md:pb-28">
-      <SectionHeader level="h1" :title="$t('feedback.title')" :lead="$t('feedback.dek')" />
+  <PageShell id="feedback" :title="$t('feedback.title')" :lead="$t('feedback.dek')">
 
       <div class="panel p-6 md:p-8">
         <div v-if="submitted" class="py-6 text-center">
@@ -66,15 +64,14 @@
           </div>
         </form>
       </div>
-    </div>
-  </section>
+  </PageShell>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useHead } from '@unhead/vue'
-import SectionHeader from '@/components/ui/SectionHeader.vue'
+import { usePageSeo } from '@/composables/usePageSeo'
+import PageShell from '@/components/layout/PageShell.vue'
 import { useToast } from '@/composables/useToast'
 import { submitFeedback } from '@/services/feedback'
 
@@ -88,13 +85,9 @@ const submitting = ref(false)
 const submitted = ref(false)
 const errorMsg = ref('')
 
-useHead({
+usePageSeo({
   title: computed(() => t('head.feedback.title')),
-  meta: [
-    { name: 'description', content: computed(() => t('head.feedback.dek')) },
-    { property: 'og:title', content: computed(() => `${t('head.feedback.title')} - Abu Amar`) },
-    { property: 'og:description', content: computed(() => t('head.feedback.dek')) },
-  ],
+  description: computed(() => t('head.feedback.dek')),
 })
 
 async function handleSubmit() {

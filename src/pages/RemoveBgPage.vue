@@ -1,7 +1,5 @@
 <template>
-  <section id="remove-bg" class="page-top">
-    <div class="wrap pb-20 md:pb-28">
-      <SectionHeader level="h1" :title="$t('removeBg.title')" :lead="$t('removeBg.dek')" />
+  <PageShell id="remove-bg" :title="$t('removeBg.title')" :lead="$t('removeBg.dek')">
 
       <div class="panel p-6 md:p-8">
         <!-- Idle: dropzone -->
@@ -131,15 +129,14 @@
           >{{ $t('removeBg.modelLicenses') }}</a
         >
       </p>
-    </div>
-  </section>
+  </PageShell>
 </template>
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useHead } from '@unhead/vue'
-import SectionHeader from '@/components/ui/SectionHeader.vue'
+import { usePageSeo } from '@/composables/usePageSeo'
+import PageShell from '@/components/layout/PageShell.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
 type Stage = 'preparing' | 'downloading' | 'processing' | 'finishing'
@@ -176,13 +173,9 @@ const phase = computed<Phase>(() => {
 const stageLabel = computed(() => t(`removeBg.stage.${stage.value}`))
 const progressPct = computed(() => Math.round(progress.value * 100))
 
-useHead({
+usePageSeo({
   title: computed(() => t('head.removeBg.title')),
-  meta: [
-    { name: 'description', content: computed(() => t('head.removeBg.dek')) },
-    { property: 'og:title', content: computed(() => `${t('head.removeBg.title')} - Abu Amar`) },
-    { property: 'og:description', content: computed(() => t('head.removeBg.dek')) },
-  ],
+  description: computed(() => t('head.removeBg.dek')),
 })
 
 function pickFile() {
