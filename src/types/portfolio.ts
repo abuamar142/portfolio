@@ -48,6 +48,7 @@ export interface Education {
 }
 
 export interface Achievement {
+  id: string
   title: string
   organizer: string
   date: string
@@ -58,6 +59,8 @@ export interface Achievement {
   participant_as?: string
   description?: string
   valid_until?: string
+  order_index: number
+  created_at: string
 }
 
 export interface Portfolio {

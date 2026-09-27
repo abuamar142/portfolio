@@ -31,6 +31,25 @@ export async function fetchAchievements(): Promise<Achievement[]> {
   return rows
 }
 
+export async function createAchievement(
+  req: Omit<Achievement, 'id' | 'created_at' | 'file_key'>,
+): Promise<Achievement> {
+  const { data } = await client.post('/achievements', req)
+  return data.data
+}
+
+export async function updateAchievement(
+  id: string,
+  req: Partial<Omit<Achievement, 'id' | 'created_at' | 'file_key'>>,
+): Promise<Achievement> {
+  const { data } = await client.put(`/achievements/${id}`, req)
+  return data.data
+}
+
+export async function deleteAchievement(id: string): Promise<void> {
+  await client.delete(`/achievements/${id}`)
+}
+
 export function achievementEvidenceUrl(a: Achievement): string | null {
   if (a.file_key) return `${FILES_URL}/${a.file_key}`
   if (a.drive_file_id) return `https://drive.google.com/file/d/${a.drive_file_id}/view`
