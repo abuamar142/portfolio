@@ -80,39 +80,28 @@ export async function fetchCvData(): Promise<CvData> {
     gpa: str(e.gpa) || undefined,
   }))
 
-  // Achievements now come from the dedicated portfolio-service endpoint
+  // Achievements come from the dedicated portfolio-service endpoint —
+  // { success, data: { achievements: [...], total } }. No silent fallback:
+  // a broken endpoint must fail the CV build loudly, not ship stale data.
   let achievements: CvAchievement[] = []
-  try {
-    const achRes = await fetch(ACHIEVEMENTS_ENDPOINT, {
-      headers: { Accept: 'application/json' },
-    })
-    if (achRes.ok) {
-      const achBody = (await achRes.json()) as RawResponse
-      const achData = achBody.data
-      const rawAch = Array.isArray(achData) ? achData : []
-      achievements = (rawAch as Record<string, unknown>[]).map((a) => ({
-        title: str(a.title),
-        organizer: str(a.organizer),
-        date: str(a.date),
-        type: str(a.type),
-        valid_until: str(a.valid_until) || undefined,
-      }))
-    }
-  } catch {
-    // Non-fatal: CV still renders with achievements from the backend fallback
+  const achRes = await fetch(ACHIEVEMENTS_ENDPOINT, {
+    headers: { Accept: 'application/json' },
+  })
+  if (!achRes.ok) {
+    throw new Error(`Achievements fetch failed: HTTP ${achRes.status} from ${ACHIEVEMENTS_ENDPOINT}`)
   }
-
-  // Fallback: if the achievements endpoint returned nothing, use the backend data
-  if (achievements.length === 0) {
-    const rawAch = Array.isArray(data.achievements) ? data.achievements : []
-    achievements = (rawAch as Record<string, unknown>[]).map((a) => ({
-      title: str(a.title),
-      organizer: str(a.organizer),
-      date: str(a.date),
-      type: str(a.type),
-      valid_until: str(a.valid_until) || undefined,
-    }))
+  const achBody = (await achRes.json()) as RawResponse
+  const achData = (achBody.data && typeof achBody.data === 'object' ? achBody.data : {}) as {
+    achievements?: unknown
   }
+  const rawAch = Array.isArray(achData.achievements) ? achData.achievements : []
+  achievements = (rawAch as Record<string, unknown>[]).map((a) => ({
+    title: str(a.title),
+    organizer: str(a.organizer),
+    date: str(a.date),
+    type: str(a.type),
+    valid_until: str(a.valid_until) || undefined,
+  }))
 
   const rawSkills = Array.isArray(data.skills) ? data.skills : []
   const skills: CvSkill[] = (rawSkills as Record<string, unknown>[]).map((s) => ({

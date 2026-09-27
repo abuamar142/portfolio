@@ -15,13 +15,20 @@ export async function fetchAchievements(): Promise<Achievement[]> {
     throw new Error(body.message || 'Achievements API returned an error')
   }
 
-  const data = body.data
+  const data = body.data as { achievements?: unknown } | null
 
-  if (!Array.isArray(data)) {
-    throw new Error('Expected achievements data to be an array')
+  // Envelope: { success, data: { achievements: [...], total } } — mirroring
+  // the feedback list. Anything else is a broken contract, not a fallback.
+  const rows =
+    data && typeof data === 'object' && Array.isArray((data as { achievements?: unknown }).achievements)
+      ? (data as { achievements: Achievement[] }).achievements
+      : null
+
+  if (!rows) {
+    throw new Error('Expected { achievements: [...] } in Achievements API response')
   }
 
-  return data as Achievement[]
+  return rows
 }
 
 export function achievementEvidenceUrl(a: Achievement): string | null {
