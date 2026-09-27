@@ -4,7 +4,11 @@
       <SectionHeader level="h1" :title="$t('qr.title')" :lead="$t('qr.dek')" />
 
       <div class="panel p-6 md:p-8">
-        <div class="grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-10">
+        <!-- Base grid-cols-1 clamps the sub-md track to minmax(0,1fr): the
+             implicit auto track otherwise sizes to the form's max-content
+             (282px) and overflows the222px panel — horizontal page scroll
+             at320-360px viewports. -->
+        <div class="grid gap-8 grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-10">
           <div class="flex flex-col gap-5">
             <div>
               <label class="label"
