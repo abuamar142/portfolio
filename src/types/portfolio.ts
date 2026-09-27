@@ -53,6 +53,7 @@ export interface Achievement {
   date: string
   type: 'certificate' | 'certification' | 'webinar' | 'seminar'
   drive_file_id: string
+  file_key?: string
   certificate_number?: string
   participant_as?: string
   description?: string

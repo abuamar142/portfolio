@@ -1,6 +1,7 @@
 import axios from 'axios'
 import type { Portfolio } from '@/types/portfolio'
 import { backendClient } from '@/services/client'
+import { fetchAchievements } from '@/services/achievement'
 
 const API_ENDPOINT = '/personal/data'
 
@@ -40,8 +41,10 @@ export async function fetchPortfolioData(): Promise<Portfolio> {
       projects: Array.isArray(data.projects) ? data.projects : [],
       skills: Array.isArray(data.skills) ? data.skills : [],
       education: Array.isArray(data.education) ? data.education : [],
-      achievements: Array.isArray(data.achievements) ? data.achievements : [],
+      achievements: [],
     }
+
+    portfolioData.achievements = await fetchAchievements()
 
     const elapsedTime = Date.now() - startTime
     if (elapsedTime < MIN_LOADING_TIME) {

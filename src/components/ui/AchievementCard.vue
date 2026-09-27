@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div v-if="achievement.drive_file_id" class="figure-block-foot">
+    <div v-if="achievement.drive_file_id || achievement.file_key" class="figure-block-foot">
       <div class="flex justify-end">
         <BaseButton
           variant="ghost"
@@ -52,6 +52,7 @@
 import { useI18n } from 'vue-i18n'
 import { ArrowUpRight } from 'lucide-vue-next'
 import type { Achievement } from '@/types/portfolio'
+import { achievementEvidenceUrl } from '@/services/achievement'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
 interface Props {
@@ -73,9 +74,7 @@ const formatDate = (dateString: string) => {
 }
 
 const openEvidence = () => {
-  if (props.achievement.drive_file_id) {
-    const url = `https://drive.google.com/file/d/${props.achievement.drive_file_id}/view`
-    window.open(url, '_blank')
-  }
+  const url = achievementEvidenceUrl(props.achievement)
+  if (url) window.open(url, '_blank')
 }
 </script>

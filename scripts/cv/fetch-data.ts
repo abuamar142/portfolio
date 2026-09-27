@@ -9,6 +9,8 @@ import type {
 
 const BACKEND_URL = process.env.VITE_BACKEND_URL || 'https://backend.abuamar.online'
 const ENDPOINT = `${BACKEND_URL.replace(/\/$/, '')}/api/v1/personal/data`
+const PORTFOLIO_API_URL = process.env.VITE_PORTFOLIO_API_URL || 'https://portfolio.abuamar.online'
+const ACHIEVEMENTS_ENDPOINT = `${PORTFOLIO_API_URL.replace(/\/$/, '')}/api/v1/achievements`
 
 interface RawResponse {
   success: boolean
@@ -78,14 +80,39 @@ export async function fetchCvData(): Promise<CvData> {
     gpa: str(e.gpa) || undefined,
   }))
 
-  const rawAch = Array.isArray(data.achievements) ? data.achievements : []
-  const achievements: CvAchievement[] = (rawAch as Record<string, unknown>[]).map((a) => ({
-    title: str(a.title),
-    organizer: str(a.organizer),
-    date: str(a.date),
-    type: str(a.type),
-    valid_until: str(a.valid_until) || undefined,
-  }))
+  // Achievements now come from the dedicated portfolio-service endpoint
+  let achievements: CvAchievement[] = []
+  try {
+    const achRes = await fetch(ACHIEVEMENTS_ENDPOINT, {
+      headers: { Accept: 'application/json' },
+    })
+    if (achRes.ok) {
+      const achBody = (await achRes.json()) as RawResponse
+      const achData = achBody.data
+      const rawAch = Array.isArray(achData) ? achData : []
+      achievements = (rawAch as Record<string, unknown>[]).map((a) => ({
+        title: str(a.title),
+        organizer: str(a.organizer),
+        date: str(a.date),
+        type: str(a.type),
+        valid_until: str(a.valid_until) || undefined,
+      }))
+    }
+  } catch {
+    // Non-fatal: CV still renders with achievements from the backend fallback
+  }
+
+  // Fallback: if the achievements endpoint returned nothing, use the backend data
+  if (achievements.length === 0) {
+    const rawAch = Array.isArray(data.achievements) ? data.achievements : []
+    achievements = (rawAch as Record<string, unknown>[]).map((a) => ({
+      title: str(a.title),
+      organizer: str(a.organizer),
+      date: str(a.date),
+      type: str(a.type),
+      valid_until: str(a.valid_until) || undefined,
+    }))
+  }
 
   const rawSkills = Array.isArray(data.skills) ? data.skills : []
   const skills: CvSkill[] = (rawSkills as Record<string, unknown>[]).map((s) => ({
