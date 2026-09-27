@@ -47,8 +47,10 @@
         >{{ $t('links.addLink') }}</button>
       </EmptyState>
 
-      <!-- Grid -->
-      <div v-else class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <!-- Grid: base grid-cols-1 clamps the track to minmax(0,1fr) — without
+           it the sub-sm implicit auto track takes the card's max-content and
+           overflows the page horizontally on phones. -->
+      <div v-else class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         <div
           v-for="link in links"
           :key="link.id"
