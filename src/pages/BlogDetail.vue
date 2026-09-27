@@ -72,7 +72,6 @@
               {{ $t('blog.backToList') }}
             </BaseButton>
             <button
-              ref="shareBtnRef"
               type="button"
               class="btn btn-ghost btn-sm gap-2"
               :aria-label="$t('blog.shareAria')"
@@ -126,6 +125,7 @@
       :close-label="$t('blog.closeAria')"
       labelled-by="share-title"
       box-class="max-w-md"
+      initial-focus="#share-url-input"
       @close="closeModal"
     >
       <h2 id="share-title" class="font-display text-lg text-base-content">
@@ -140,7 +140,6 @@
       </label>
       <input
         id="share-url-input"
-        ref="shareInputRef"
         :value="shareUrl"
         readonly
         class="input mt-2 h-11 w-full font-mono text-sm"
@@ -166,7 +165,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick, watch, onBeforeUnmount } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import { SITE_URL } from '@/site'
@@ -221,8 +220,6 @@ useHead({
 
 const showShareModal = ref(false)
 const copied = ref(false)
-const shareInputRef = ref<HTMLInputElement | null>(null)
-const shareBtnRef = ref<HTMLButtonElement | null>(null)
 
 const shareUrl = computed(() => {
   if (typeof window !== 'undefined' && window.location?.href) return window.location.href
@@ -242,19 +239,15 @@ function isMobileUA(): boolean {
 }
 
 function openModal() {
+  // Focus + select of the URL input is BaseModal's initialFocus job; the
+  // input's @focus handler does the select.
   showShareModal.value = true
-  nextTick(() => {
-    shareInputRef.value?.focus()
-    shareInputRef.value?.select()
-  })
 }
 
 function closeModal() {
+  // Focus return to the share button is BaseModal's deactivate() job.
   showShareModal.value = false
   copied.value = false
-  nextTick(() => {
-    shareBtnRef.value?.focus()
-  })
 }
 
 async function copyText(): Promise<boolean> {
@@ -322,24 +315,4 @@ async function handleShare() {
 function selectAll(e: Event) {
   ;(e.target as HTMLInputElement)?.select()
 }
-
-function onEsc(e: KeyboardEvent) {
-  if (e.key === 'Escape' && showShareModal.value) closeModal()
-}
-
-watch(showShareModal, (open) => {
-  if (typeof window === 'undefined') return
-  if (open) {
-    window.addEventListener('keydown', onEsc)
-    document.documentElement.style.overflow = 'hidden'
-  } else {
-    window.removeEventListener('keydown', onEsc)
-    document.documentElement.style.overflow = ''
-  }
-})
-
-onBeforeUnmount(() => {
-  if (typeof window !== 'undefined') window.removeEventListener('keydown', onEsc)
-  if (typeof document !== 'undefined') document.documentElement.style.overflow = ''
-})
 </script>

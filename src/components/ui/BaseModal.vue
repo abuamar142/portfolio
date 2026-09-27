@@ -48,6 +48,9 @@ const props = defineProps<{
   labelledBy?: string
   /** Accessible name for the close button — pass a translated string. */
   closeLabel: string
+  /** Selector (inside the dialog) for the element to focus on open —
+      defaults to the first focusable, i.e. the close button. */
+  initialFocus?: string
 }>()
 
 const emit = defineEmits<{ close: [] }>()
@@ -158,8 +161,10 @@ function activate() {
   setInert(true)
   document.addEventListener('keydown', handleKeydown)
   nextTick(() => {
-    const items = focusable()
-    ;(items[0] ?? dialogRef.value)?.focus()
+    const custom = props.initialFocus
+      ? dialogRef.value?.querySelector<HTMLElement>(props.initialFocus)
+      : null
+    ;(custom ?? focusable()[0] ?? dialogRef.value)?.focus()
   })
 }
 
