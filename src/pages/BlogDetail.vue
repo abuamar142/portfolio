@@ -165,7 +165,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import { SITE_URL } from '@/site'
@@ -249,6 +249,14 @@ function closeModal() {
   showShareModal.value = false
   copied.value = false
 }
+
+// Select the URL as soon as the dialog opens. The input's @focus handler
+// does this too where focus events dispatch, but a direct select() also
+// covers environments where they don't (background/headless windows).
+watch(showShareModal, (open) => {
+  if (!open) return
+  nextTick(() => document.querySelector<HTMLInputElement>('#share-url-input')?.select())
+})
 
 async function copyText(): Promise<boolean> {
   const text = shareUrl.value
