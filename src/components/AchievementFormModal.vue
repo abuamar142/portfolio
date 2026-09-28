@@ -99,19 +99,6 @@
       </div>
 
       <div>
-        <label for="ach-drive-id" class="label"><span class="label-text">{{ $t('dashboard.achievements.driveFileIdLabel') }}</span></label>
-        <input
-          id="ach-drive-id"
-          v-model="form.drive_file_id"
-          type="text"
-          maxlength="255"
-          autocomplete="off"
-          placeholder="1aBcDeFgHiJkLmNoPqRsTuVwXyZ"
-          class="input input-bordered w-full"
-        />
-      </div>
-
-      <div>
         <label for="ach-description" class="label"><span class="label-text">{{ $t('dashboard.achievements.descriptionLabel') }}</span></label>
         <textarea
           id="ach-description"
@@ -132,32 +119,112 @@
         />
       </div>
 
+      <!-- File card -->
       <div>
-        <label for="ach-file" class="label"><span class="label-text">{{ $t('dashboard.achievements.fileLabel') }}</span></label>
+        <label class="label"><span class="label-text">{{ $t('dashboard.achievements.fileLabel') }}</span></label>
+
+        <!-- Hidden file input for both pick and replace -->
         <input
-          id="ach-file"
+          ref="fileInputRef"
           type="file"
           accept=".pdf,application/pdf,image/png,image/jpeg,image/webp"
-          class="file-input file-input-bordered w-full"
+          class="hidden"
           @change="onFileChange"
         />
-        <p v-if="fileError" class="text-error text-xs mt-1">{{ fileError }}</p>
-        <p v-if="selectedFile" class="text-ink-4 text-xs mt-1">{{ selectedFile.name }} ({{ formatFileSize(selectedFile.size) }})</p>
-      </div>
 
-      <div v-if="achievement" class="rounded border border-base-300 p-3 text-sm">
-        <p class="label-text mb-1">{{ $t('dashboard.achievements.evidenceLabel') }}</p>
-        <p v-if="currentFileKey" class="text-success">
-          <a :href="`${FILES_URL}/${currentFileKey}`" target="_blank" rel="noopener" class="link link-hover">
-            {{ $t('dashboard.achievements.fileInR2') }}
-          </a>
-        </p>
-        <p v-else-if="achievement.drive_file_id" class="text-ink-4">
-          <a :href="`https://drive.google.com/file/d/${achievement.drive_file_id}/view`" target="_blank" rel="noopener" class="link link-hover">
-            {{ $t('dashboard.achievements.legacyDrive') }}
-          </a>
-        </p>
-        <p v-else class="text-ink-4">{{ $t('dashboard.achievements.noFile') }}</p>
+        <!-- EMPTY state: clickable pick area -->
+        <div
+          v-if="!uploading && !attachedFileKey && !selectedFile"
+          class="rounded border border-dashed border-base-300 bg-base-200/50 p-6 text-center cursor-pointer hover:border-primary/40 transition-colors"
+          @click="triggerFilePicker"
+        >
+          <component :is="FilePlusIcon" :size="28" class="mx-auto mb-2 text-ink-3" />
+          <p class="text-sm font-medium">{{ $t('dashboard.achievements.filePick') }}</p>
+          <p class="text-ink-4 text-xs mt-1">{{ $t('dashboard.achievements.fileHint') }}</p>
+        </div>
+
+        <!-- PROGRESS state -->
+        <div v-else-if="uploading" class="rounded border border-base-300 p-3">
+          <div class="flex items-center gap-2 mb-2">
+            <component :is="FileTextIcon" :size="18" class="text-primary shrink-0" />
+            <span class="text-sm truncate">{{ selectedFile?.name || $t('dashboard.achievements.fileLabel') }}</span>
+            <span class="badge badge-primary badge-xs ml-auto">{{ uploadProgress }}%</span>
+          </div>
+          <progress class="progress progress-primary w-full" :value="uploadProgress" max="100" />
+          <p class="text-ink-4 text-xs mt-1">{{ $t('dashboard.achievements.fileUploading') }}</p>
+        </div>
+
+        <!-- ATTACHED state: file card -->
+        <div
+          v-else-if="attachedFileKey"
+          class="rounded border border-base-300 p-3"
+        >
+          <div class="flex items-center gap-3">
+            <component :is="FileTextIcon" :size="18" class="text-primary shrink-0" />
+            <div class="min-w-0 flex-1">
+              <p class="text-sm font-medium truncate">{{ attachedFileName || $t('dashboard.achievements.fileDefaultName') }}</p>
+              <p v-if="attachedFileSize || attachedExt" class="text-ink-4 text-xs">
+                <span v-if="attachedExt" class="badge badge-ghost badge-xs uppercase">{{ attachedExt }}</span>
+                <span v-if="attachedFileSize" class="ml-1">{{ formatBytes(attachedFileSize) }}</span>
+              </p>
+            </div>
+            <div class="flex shrink-0 gap-1">
+              <a
+                :href="`${FILES_URL}/${attachedFileKey}`"
+                target="_blank"
+                rel="noopener"
+                class="btn btn-ghost btn-xs"
+              >{{ $t('dashboard.achievements.fileOpen') }}</a>
+              <button
+                type="button"
+                class="btn btn-ghost btn-xs"
+                @click="triggerFilePicker"
+              >{{ $t('dashboard.achievements.fileReplace') }}</button>
+              <button
+                v-if="!confirmDelete"
+                type="button"
+                class="btn btn-ghost btn-xs text-error"
+                @click="confirmDelete = true"
+              >{{ $t('dashboard.achievements.fileDelete') }}</button>
+              <div v-else class="flex items-center gap-1">
+                <button
+                  type="button"
+                  class="btn btn-error btn-xs"
+                  @click="handleDeleteFile"
+                >{{ $t('dashboard.achievements.fileDeleteConfirm') }}</button>
+                <button
+                  type="button"
+                  class="btn btn-ghost btn-xs"
+                  @click="confirmDelete = false"
+                >{{ $t('dashboard.achievements.fileDeleteCancel') }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selected file preview (before submit) -->
+        <div
+          v-else-if="selectedFile"
+          class="rounded border border-base-300 p-3"
+        >
+          <div class="flex items-center gap-3">
+            <component :is="FileTextIcon" :size="18" class="text-primary shrink-0" />
+            <div class="min-w-0 flex-1">
+              <p class="text-sm font-medium truncate">{{ selectedFile.name }}</p>
+              <p class="text-ink-4 text-xs">
+                <span class="badge badge-ghost badge-xs uppercase">{{ fileExtension }}</span>
+                <span class="ml-1">{{ formatBytes(selectedFile.size) }}</span>
+              </p>
+            </div>
+            <button
+              type="button"
+              class="btn btn-ghost btn-xs text-error"
+              @click="clearSelectedFile"
+            >{{ $t('dashboard.achievements.fileDeleteCancel') }}</button>
+          </div>
+        </div>
+
+        <p v-if="fileError" class="text-error text-xs mt-1">{{ fileError }}</p>
       </div>
 
       <p v-if="error" class="text-sm text-error">{{ error }}</p>
@@ -166,7 +233,7 @@
         <button type="button" @click="$emit('close')" class="btn btn-ghost">
           {{ $t('dashboard.achievements.cancel') }}
         </button>
-        <button type="submit" class="btn btn-primary" :disabled="submitting">
+        <button type="submit" class="btn btn-primary" :disabled="submitting || uploading">
           {{ submitting ? $t('dashboard.achievements.saving') : $t('dashboard.achievements.save') }}
         </button>
       </div>
@@ -175,11 +242,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { FilePlus as FilePlusIcon, FileText as FileTextIcon } from 'lucide-vue-next'
 import BaseModal from '@/components/ui/BaseModal.vue'
 import { useToast } from '@/composables/useToast'
-import { createAchievement, updateAchievement, uploadAchievementFile } from '@/services/achievement'
+import {
+  createAchievement,
+  updateAchievement,
+  uploadAchievementFile,
+  deleteAchievementFile,
+} from '@/services/achievement'
 import { FILES_URL } from '@/site'
 import type { Achievement } from '@/types/portfolio'
 
@@ -194,14 +267,44 @@ const error = ref('')
 const ALLOWED_TYPES = new Set(['application/pdf', 'image/png', 'image/jpeg', 'image/webp'])
 const MAX_SIZE = 10 * 1024 * 1024 // 10 MB
 
+const fileInputRef = ref<HTMLInputElement | null>(null)
 const selectedFile = ref<File | null>(null)
 const fileError = ref('')
-const currentFileKey = ref<string | null>(null)
+const uploading = ref(false)
+const uploadProgress = ref(0)
+const confirmDelete = ref(false)
 
-function formatFileSize(bytes: number): string {
+// Attached file state (from server).
+const attachedFileKey = ref<string | null>(null)
+const attachedFileName = ref<string | null>(null)
+const attachedFileSize = ref<number | null>(null)
+
+const attachedExt = computed(() => {
+  const name = attachedFileName.value || ''
+  const dot = name.lastIndexOf('.')
+  return dot > -1 ? name.slice(dot + 1) : null
+})
+
+const fileExtension = computed(() => {
+  const name = selectedFile.value?.name || ''
+  const dot = name.lastIndexOf('.')
+  return dot > -1 ? name.slice(dot + 1) : ''
+})
+
+function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+}
+
+function triggerFilePicker() {
+  fileInputRef.value?.click()
+}
+
+function clearSelectedFile() {
+  selectedFile.value = null
+  fileError.value = ''
+  if (fileInputRef.value) fileInputRef.value.value = ''
 }
 
 function onFileChange(e: Event) {
@@ -229,6 +332,7 @@ function onFileChange(e: Event) {
   }
 
   selectedFile.value = file
+  confirmDelete.value = false
 }
 
 const form = reactive({
@@ -236,7 +340,6 @@ const form = reactive({
   organizer: '',
   date: '',
   type: 'certificate' as Achievement['type'],
-  drive_file_id: '',
   certificate_number: '',
   participant_as: '',
   description: '',
@@ -249,7 +352,6 @@ function resetForm() {
   form.organizer = ''
   form.date = ''
   form.type = 'certificate'
-  form.drive_file_id = ''
   form.certificate_number = ''
   form.participant_as = ''
   form.description = ''
@@ -264,24 +366,47 @@ watch(
     error.value = ''
     fileError.value = ''
     selectedFile.value = null
+    uploading.value = false
+    uploadProgress.value = 0
+    confirmDelete.value = false
+    if (fileInputRef.value) fileInputRef.value.value = ''
+
     if (props.achievement) {
       form.title = props.achievement.title
       form.organizer = props.achievement.organizer || ''
       form.date = props.achievement.date
       form.type = props.achievement.type
-      form.drive_file_id = props.achievement.drive_file_id || ''
       form.certificate_number = props.achievement.certificate_number || ''
       form.participant_as = props.achievement.participant_as || ''
       form.description = props.achievement.description || ''
       form.valid_until = props.achievement.valid_until || ''
       form.order_index = props.achievement.order_index ?? 0
-      currentFileKey.value = props.achievement.file_key || null
+      attachedFileKey.value = props.achievement.file_key || null
+      attachedFileName.value = props.achievement.file_name || null
+      attachedFileSize.value = props.achievement.file_size ?? null
     } else {
       resetForm()
-      currentFileKey.value = null
+      attachedFileKey.value = null
+      attachedFileName.value = null
+      attachedFileSize.value = null
     }
   },
 )
+
+async function handleDeleteFile() {
+  if (!props.achievement) return
+  try {
+    const updated = await deleteAchievementFile(props.achievement.id)
+    attachedFileKey.value = null
+    attachedFileName.value = null
+    attachedFileSize.value = null
+    confirmDelete.value = false
+    toast.success(t('dashboard.achievements.fileDeleted'))
+    Object.assign(props.achievement, updated)
+  } catch {
+    toast.error(t('dashboard.achievements.fileDeleteFailed'))
+  }
+}
 
 async function handleSubmit() {
   submitting.value = true
@@ -292,7 +417,6 @@ async function handleSubmit() {
     organizer: form.organizer.trim(),
     date: form.date,
     type: form.type,
-    drive_file_id: form.drive_file_id.trim(),
     certificate_number: form.certificate_number.trim() || undefined,
     participant_as: form.participant_as.trim() || undefined,
     description: form.description.trim() || undefined,
@@ -323,16 +447,25 @@ async function handleSubmit() {
 
   // File upload — metadata already saved; file failure is non-fatal.
   if (savedAchievement && selectedFile.value) {
+    uploading.value = true
+    uploadProgress.value = 0
     try {
-      const updated = await uploadAchievementFile(savedAchievement.id, selectedFile.value)
-      currentFileKey.value = updated.file_key || null
+      const updated = await uploadAchievementFile(
+        savedAchievement.id,
+        selectedFile.value,
+        (p) => { uploadProgress.value = p },
+      )
+      attachedFileKey.value = updated.file_key || null
+      attachedFileName.value = updated.file_name || null
+      attachedFileSize.value = updated.file_size ?? null
       toast.success(t('dashboard.achievements.fileUploaded'))
-      // Update local achievement ref so parent refreshes with new file_key.
       if (props.achievement) {
         Object.assign(props.achievement, updated)
       }
     } catch {
       toast.error(t('dashboard.achievements.fileUploadFailed'))
+    } finally {
+      uploading.value = false
     }
   }
 

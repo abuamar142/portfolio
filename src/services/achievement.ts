@@ -32,7 +32,7 @@ export async function fetchAchievements(): Promise<Achievement[]> {
 }
 
 export async function createAchievement(
-  req: Omit<Achievement, 'id' | 'created_at' | 'file_key'>,
+  req: Omit<Achievement, 'id' | 'created_at' | 'file_key' | 'file_name' | 'file_size'>,
 ): Promise<Achievement> {
   const { data } = await client.post('/achievements', req)
   return data.data
@@ -40,7 +40,7 @@ export async function createAchievement(
 
 export async function updateAchievement(
   id: string,
-  req: Partial<Omit<Achievement, 'id' | 'created_at' | 'file_key'>>,
+  req: Partial<Omit<Achievement, 'id' | 'created_at' | 'file_key' | 'file_name' | 'file_size'>>,
 ): Promise<Achievement> {
   const { data } = await client.put(`/achievements/${id}`, req)
   return data.data
@@ -53,17 +53,29 @@ export async function deleteAchievement(id: string): Promise<void> {
 export async function uploadAchievementFile(
   id: string,
   file: File,
+  onProgress?: (percent: number) => void,
 ): Promise<Achievement> {
   const { data } = await client.post(`/achievements/${id}/file`, file, {
-    headers: { 'Content-Type': file.type },
+    headers: {
+      'Content-Type': file.type,
+      'X-File-Name': encodeURIComponent(file.name),
+    },
     maxBodyLength: Infinity,
-    timeout: 60_000,
+    timeout: 120_000,
+    onUploadProgress: (e: { loaded: number; total?: number }) => {
+      if (!onProgress || !e.total) return
+      onProgress(Math.round((e.loaded * 100) / e.total))
+    },
   })
+  return data.data
+}
+
+export async function deleteAchievementFile(id: string): Promise<Achievement> {
+  const { data } = await client.delete(`/achievements/${id}/file`)
   return data.data
 }
 
 export function achievementEvidenceUrl(a: Achievement): string | null {
   if (a.file_key) return `${FILES_URL}/${a.file_key}`
-  if (a.drive_file_id) return `https://drive.google.com/file/d/${a.drive_file_id}/view`
   return null
 }

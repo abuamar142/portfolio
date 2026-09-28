@@ -53,8 +53,9 @@ export interface Achievement {
   organizer: string
   date: string
   type: 'certificate' | 'certification' | 'webinar' | 'seminar'
-  drive_file_id: string
-  file_key?: string
+  file_key?: string | null
+  file_name?: string | null
+  file_size?: number | null
   certificate_number?: string
   participant_as?: string
   description?: string

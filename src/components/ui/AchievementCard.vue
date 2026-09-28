@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div v-if="achievement.drive_file_id || achievement.file_key" class="figure-block-foot">
+    <div v-if="achievement.file_key" class="figure-block-foot">
       <div class="flex justify-end">
         <BaseButton
           variant="ghost"

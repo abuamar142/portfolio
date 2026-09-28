@@ -131,7 +131,10 @@
               <div class="min-w-0 flex-1">
                 <div class="flex items-center gap-2">
                   <p class="truncate font-medium">{{ a.title }}</p>
-                  <span v-if="a.file_key" class="badge badge-success badge-xs">{{ $t('dashboard.achievements.fileBadge') }}</span>
+                  <span v-if="a.file_key" class="badge badge-success badge-xs gap-1">
+                    <FileText :size="10" />
+                    {{ getFileExt(a.file_name) }}
+                  </span>
                 </div>
                 <p class="text-ink-4 text-xs mt-1">
                   {{ $t(`achievements.categories.${a.type}`) }} · {{ a.organizer }} · {{ formatDateShort(a.date, locale) }}
@@ -242,7 +245,7 @@
 import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { usePageSeo } from '@/composables/usePageSeo'
-import { Plus } from 'lucide-vue-next'
+import { Plus, FileText } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import PageShell from '@/components/layout/PageShell.vue'
@@ -468,5 +471,11 @@ function hostname(url: string) {
   } catch {
     return url
   }
+}
+
+function getFileExt(name: string | null | undefined): string {
+  if (!name) return 'file'
+  const dot = name.lastIndexOf('.')
+  return dot > -1 ? name.slice(dot + 1).toUpperCase() : 'FILE'
 }
 </script>
