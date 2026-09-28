@@ -123,6 +123,7 @@ const { t } = useI18n()
 usePageSeo({
   title: computed(() => t('head.quotes.title')),
   description: computed(() => t('head.quotes.dek')),
+  ogLabel: 'Quotes',
   breadcrumbs: [{ name: t('navigation.explore'), path: '/explore' }],
 })
 

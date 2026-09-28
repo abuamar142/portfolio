@@ -78,6 +78,7 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import TagChip from '@/components/ui/TagChip.vue'
 import { useHead } from '@unhead/vue'
+import { SITE_URL } from '@/site'
 import { ArrowLeft } from 'lucide-vue-next'
 import { fetchQuoteById } from '@/services/quote'
 import type { Quote } from '@/types/quote'
@@ -112,6 +113,9 @@ useHead({
       { property: 'og:title', content: `${excerpt.slice(0, 80)} — ${author}` },
       { property: 'og:description', content: excerpt },
       { property: 'og:type', content: 'article' },
+      // The preview server already renders a quote card (colour from the
+      // quote's own palette) — use it instead of the generic site image.
+      { property: 'og:image', content: `${SITE_URL}/api/og/quote/${route.params.id}` },
     ]
   }),
 })

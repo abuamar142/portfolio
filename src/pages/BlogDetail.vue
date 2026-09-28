@@ -198,9 +198,9 @@ useHead({
     { property: 'og:title', content: post.value ? `${post.value.title} - Abu Amar` : 'Blog Post - Abu Amar' },
     { property: 'og:description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
     { property: 'og:type', content: 'article' },
-    // A post with a cover should preview with that cover, not the generic
-    // site card — App.vue only supplies the fallback.
-    ...(coverUrl.value ? [{ property: 'og:image', content: coverUrl.value }] : []),
+    // Cover when the post has one, otherwise the preview server's generated
+    // card for this slug (title + excerpt on the site's paper).
+    { property: 'og:image', content: coverUrl.value || `${SITE_URL}/api/og/blog/${encodeURIComponent(slug.value)}` },
   ]),
   script: computed(() => {
     if (!post.value) return []

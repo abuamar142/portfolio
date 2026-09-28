@@ -90,6 +90,7 @@ const errorMsg = ref('')
 usePageSeo({
   title: computed(() => t('head.feedback.title')),
   description: computed(() => t('head.feedback.dek')),
+  ogLabel: 'Feedback',
   breadcrumbs: [{ name: t('navigation.explore'), path: '/explore' }],
 })
 

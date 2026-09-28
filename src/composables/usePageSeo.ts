@@ -25,9 +25,32 @@ export function usePageSeo(opts: {
    * pages (home, /explore) — a single-item trail is noise.
    */
   breadcrumbs?: { name: string; path: string }[]
+  /**
+   * Social card for this page. Omit to get the generated card: the preview
+   * server renders a 1200x630 SVG from the page's own label/title/description
+   * (so every shared link previews with its real content instead of the
+   * generic site image). Pass a full URL to override — blog posts use their
+   * cover image that way.
+   */
+  ogImage?: MaybeRef<string>
+  /** Card label for the generated image (defaults to the page title). */
+  ogLabel?: string
 }) {
   const title = computed(() => unref(opts.title))
   const description = computed(() => unref(opts.description))
+
+  // Generated card URL: the preview server renders label/title/subtitle into a
+  // 1200x630 SVG. Every list/tool page gets its own card without shipping an
+  // image per route.
+  const generatedCard = computed(() => {
+    const params = new URLSearchParams({
+      label: opts.ogLabel || title.value,
+      title: title.value,
+      subtitle: unref(opts.description),
+    })
+    return `${SITE_URL}/api/og/page?${params.toString()}`
+  })
+  const ogImage = computed(() => unref(opts.ogImage) || generatedCard.value)
 
   useHead({
     title,
@@ -36,6 +59,9 @@ export function usePageSeo(opts: {
       { name: 'description', content: description },
       { property: 'og:title', content: computed(() => `${title.value} - Abu Amar`) },
       { property: 'og:description', content: description },
+      { property: 'og:image', content: ogImage },
+      { property: 'og:image:width', content: '1200' },
+      { property: 'og:image:height', content: '630' },
     ],
     script: computed(() => {
       if (!opts.breadcrumbs?.length) return []

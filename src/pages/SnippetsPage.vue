@@ -131,6 +131,7 @@ const { isAuthenticated } = useAuth()
 usePageSeo({
   title: computed(() => t('snippets.title')),
   description: computed(() => t('snippets.dek')),
+  ogLabel: 'Snippets',
   breadcrumbs: [{ name: t('navigation.explore'), path: '/explore' }],
 })
 

@@ -302,6 +302,7 @@ const toast = useToast()
 usePageSeo({
   title: computed(() => t('head.dashboard.title')),
   description: computed(() => t('head.dashboard.dek')),
+  ogLabel: 'Studio',
   meta: [{ name: 'robots', content: 'noindex' }],
 })
 

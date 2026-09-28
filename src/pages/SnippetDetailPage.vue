@@ -153,6 +153,7 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { usePageSeo } from '@/composables/usePageSeo'
+import { SITE_URL } from '@/site'
 import TagChip from '@/components/ui/TagChip.vue'
 import {
   ArrowLeft,
@@ -215,6 +216,8 @@ const isDark = computed(() => {
 usePageSeo({
   title: computed(() => snippet.value?.title || t('snippets.title')),
   description: computed(() => snippet.value?.description || t('snippets.dek')),
+  // The preview server renders a code-styled card per snippet.
+  ogImage: computed(() => `${SITE_URL}/api/og/snippet/${route.params.id}`),
 })
 
 async function loadSnippet() {

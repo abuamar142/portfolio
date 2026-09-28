@@ -50,5 +50,6 @@ const entries = computed(() => [
 usePageSeo({
   title: computed(() => t('navigation.explore')),
   description: computed(() => t('head.explore')),
+  ogLabel: 'Explore',
 })
 </script>

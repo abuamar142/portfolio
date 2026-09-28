@@ -163,6 +163,7 @@ const downloadSvg = async () => {
 usePageSeo({
   title: computed(() => t('head.qr.title')),
   description: computed(() => t('head.qr.dek')),
+  ogLabel: 'Tools',
   breadcrumbs: [{ name: t('navigation.explore'), path: '/explore' }],
 })
 </script>
