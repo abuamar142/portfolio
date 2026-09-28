@@ -150,6 +150,7 @@ const { t } = useI18n()
 usePageSeo({
   title: computed(() => t('head.links.title')),
   description: computed(() => t('head.links.dek')),
+  breadcrumbs: [{ name: t('navigation.explore'), path: '/explore' }],
 })
 
 const { isAuthenticated, openAuth } = useAuth()

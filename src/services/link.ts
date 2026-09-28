@@ -1,27 +1,7 @@
 import client from '@/services/client'
+import type { Link, LinkListResponse, LinkTagResponse } from '@/types/link'
 
-export interface Link {
-  id: string
-  user_id: string
-  url: string
-  title: string
-  description: string
-  tags: string[]
-  created_at: string
-  updated_at: string
-}
-
-export interface LinkListResponse {
-  links: Link[]
-  total: number
-  page: number
-  limit: number
-}
-
-export interface LinkTagResponse {
-  tag: string
-  count: number
-}
+export type { Link, LinkListResponse, LinkTagResponse }
 
 export async function fetchLinks(params: {
   search?: string

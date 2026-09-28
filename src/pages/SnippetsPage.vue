@@ -131,6 +131,7 @@ const { isAuthenticated } = useAuth()
 usePageSeo({
   title: computed(() => t('snippets.title')),
   description: computed(() => t('snippets.dek')),
+  breadcrumbs: [{ name: t('navigation.explore'), path: '/explore' }],
 })
 
 const tags = ref<TagResponse[]>([])

@@ -176,6 +176,7 @@ const progressPct = computed(() => Math.round(progress.value * 100))
 usePageSeo({
   title: computed(() => t('head.removeBg.title')),
   description: computed(() => t('head.removeBg.dek')),
+  breadcrumbs: [{ name: t('navigation.explore'), path: '/explore' }],
 })
 
 function pickFile() {
