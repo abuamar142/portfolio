@@ -2,6 +2,7 @@ import { ref, computed, onServerPrefetch, watch, onMounted, type Ref } from 'vue
 import { useI18n } from 'vue-i18n'
 import { usePosts, type Post } from '@/composables/usePosts'
 import { formatDateLong } from '@/lib/formatDate'
+import { sanitizeHtml } from '@/lib/sanitizeHtml'
 
 export function useBlogPost(slugRef: Ref<string>) {
   const { locale } = useI18n()
@@ -42,7 +43,17 @@ export function useBlogPost(slugRef: Ref<string>) {
     }
   }
 
-  const contentHtml = computed(() => post.value?.contentHtml || post.value?.content?.html || post.value?.excerpt || '')
+  // Blog bodies arrive as raw HTML from the CMS. Vue's v-html inserts it
+  // verbatim, so a compromised/badly-authored record would be stored XSS on
+  // this origin. Sanitize with a strict allow-list before it reaches the DOM
+  // (SSR-safe: DOMPurify only runs in the browser, the prerendered pass keeps
+  // the raw string and the client re-sanitizes on hydration).
+  const contentHtml = computed(() => {
+    const raw = post.value?.contentHtml || post.value?.content?.html || post.value?.excerpt || ''
+    if (!raw) return ''
+    if (typeof window === 'undefined') return raw
+    return sanitizeHtml(raw)
+  })
   const coverUrl = computed(() => post.value?.coverImage?.url || post.value?.cover?.url || '')
   const readingTime = computed(() => {
     if (!post.value) return 0
