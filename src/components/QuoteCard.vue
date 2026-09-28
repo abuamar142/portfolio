@@ -12,12 +12,22 @@
       <p class="quote-author text-center text-sm opacity-70">
         — {{ displayAuthor }}
       </p>
-      <div v-if="isOwner" class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button @click.stop="$emit('edit', quote)" class="btn btn-ghost btn-xs" :title="$t('quotes.editAria')">
-          <Pencil :size="14" />
+      <div v-if="isOwner" class="flex gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+        <button
+          type="button"
+          class="btn btn-ghost btn-xs"
+          :aria-label="$t('quotes.editAria')"
+          @click.stop="$emit('edit', quote)"
+        >
+          <Pencil :size="14" aria-hidden="true" />
         </button>
-        <button @click.stop="$emit('delete', quote)" class="btn btn-ghost btn-xs text-error" :title="$t('quotes.deleteAria')">
-          <Trash2 :size="14" />
+        <button
+          type="button"
+          class="btn btn-ghost btn-xs text-error"
+          :aria-label="$t('quotes.deleteAria')"
+          @click.stop="$emit('delete', quote)"
+        >
+          <Trash2 :size="14" aria-hidden="true" />
         </button>
       </div>
     </div>

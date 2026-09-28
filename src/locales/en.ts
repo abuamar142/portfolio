@@ -183,6 +183,7 @@ export default {
     deleteAria: 'Delete',
   },
   common: {
+    dismiss: 'Dismiss notification',
     close: 'Close',
     tagNoComma: 'Tags cannot contain a comma',
     removeTag: 'Remove tag {tag}',

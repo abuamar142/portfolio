@@ -12,10 +12,11 @@
 
         <form v-else class="flex flex-col gap-5" @submit.prevent="handleSubmit">
           <div>
-            <label class="label">
+            <label class="label" for="fb-message">
               <span class="label-text">{{ $t('feedback.messageLabel') }} *</span>
             </label>
             <textarea
+              id="fb-message"
               v-model="message"
               rows="4"
               maxlength="500"
@@ -30,10 +31,11 @@
           </div>
 
           <div>
-            <label class="label">
+            <label class="label" for="fb-contact">
               <span class="label-text">{{ $t('feedback.contactLabel') }}</span>
             </label>
             <input
+              id="fb-contact"
               v-model="contact"
               type="text"
               maxlength="120"

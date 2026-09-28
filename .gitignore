@@ -11,6 +11,8 @@ node_modules
 .DS_Store
 dist
 dist-ssr
+# vite-ssg intermediate SSR build output (regenerated on every build)
+.vite-ssg-temp/
 coverage
 *.local
 

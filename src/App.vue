@@ -7,21 +7,37 @@
       Skip to content
     </a>
     <AppHeader />
-    <main id="main-content" class="flex-1" role="main">
+    <main id="main-content" class="flex-1">
       <router-view />
     </main>
     <AppFooter />
 
     <AuthModal :show="showAuth" @close="closeAuth" @authenticated="handleAuthenticated" />
 
-    <div class="toast toast-end toast-bottom z-[200]">
+    <!-- Live region: screen readers announce toasts. Errors are assertive
+         (interrupts), success/info polite (waits for a pause). -->
+    <div
+      class="toast toast-end toast-bottom z-[200]"
+      role="status"
+      aria-live="polite"
+      aria-atomic="false"
+    >
       <div
         v-for="t in toasts"
         :key="t.id"
         :class="['alert shadow-lg', alertClass(t.type)]"
+        :role="t.type === 'error' ? 'alert' : undefined"
+        :aria-live="t.type === 'error' ? 'assertive' : undefined"
       >
         <span>{{ t.message }}</span>
-        <button @click="dismiss(t.id)" class="btn btn-ghost btn-xs">✕</button>
+        <button
+          type="button"
+          class="btn btn-ghost btn-xs"
+          :aria-label="$t('common.dismiss')"
+          @click="dismiss(t.id)"
+        >
+          <span aria-hidden="true">✕</span>
+        </button>
       </div>
     </div>
   </div>

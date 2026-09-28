@@ -183,6 +183,7 @@ export default {
     deleteAria: 'Hapus',
   },
   common: {
+    dismiss: 'Tutup notifikasi',
     close: 'Tutup',
     tagNoComma: 'Tag tidak boleh mengandung koma',
     removeTag: 'Hapus tag {tag}',

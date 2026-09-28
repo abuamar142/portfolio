@@ -14,7 +14,16 @@ export default defineConfigWithVueTs(
     files: ['**/*.{ts,mts,tsx,vue}'],
   },
 
-  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '**/.opencode/**', '**/.omp/**']),
+  globalIgnores([
+    '**/dist/**',
+    '**/dist-ssr/**',
+    '**/coverage/**',
+    '**/.opencode/**',
+    '**/.omp/**',
+    // vite-ssg leaves transpiled SSR bundles here; they are build output,
+    // not source — linting them produced 160+ phantom errors.
+    '**/.vite-ssg-temp/**',
+  ]),
 
   pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
