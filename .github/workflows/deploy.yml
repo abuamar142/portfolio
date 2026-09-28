@@ -9,6 +9,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# Least privilege: the workflow only needs to read the repo. Without this it
+# inherits the repository default, which can include write scopes.
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -32,7 +37,7 @@ jobs:
         with:
           bun-version: 1.4.0
       - name: Install dependencies
-        run: bun install
+        run: bun install --frozen-lockfile
       - name: Lint check (no autofix)
         run: bun run lint:check
       - name: Impeccable design-system detect
@@ -42,10 +47,13 @@ jobs:
       # hand the whole script to bash explicitly (pipefail logic unchanged).
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
+        env:
+          BRANCH: ${{ github.ref_name }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
+          envs: BRANCH
           script: |
-            bash -lc 'set -euo pipefail; BRANCH="${{ github.ref_name }}"; echo "Deploying branch: $BRANCH"; /opt/ops/bin/deploy-portfolio.sh "$BRANCH"'
+            bash -lc 'set -euo pipefail; echo "Deploying branch: $BRANCH"; /opt/ops/bin/deploy-portfolio.sh "$BRANCH"'
