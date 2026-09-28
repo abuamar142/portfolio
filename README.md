@@ -91,6 +91,13 @@ public/              # cv.pdf, og image, robots.txt
 .github/workflows/   # deploy.yml - VPS deployment
 ```
 
+## Documentation
+
+| Document | Contents |
+| --- | --- |
+| `PRODUCT.md` | Product definition and audience |
+| `DESIGN.md` | Design system: color, typography, rules |
+
 ## About
 
 **Software Engineer** | **Mobile Developer** | **Full-Stack Enthusiast**
