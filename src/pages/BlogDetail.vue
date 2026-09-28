@@ -192,7 +192,7 @@ const canonical = computed(() => `${SITE_URL}/blogs/${encodeURIComponent(slug.va
 
 useHead({
   title: computed(() => (post.value ? post.value.title : 'Blog Post')),
-  titleTemplate: '%s - Abu Amar',
+  titleTemplate: '%s | Abu Amar',
   meta: computed(() => [
     { name: 'description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
     { property: 'og:title', content: post.value ? `${post.value.title} - Abu Amar` : 'Blog Post - Abu Amar' },
@@ -210,6 +210,9 @@ useHead({
           headline: post.value.title,
           description: post.value.excerpt || '',
           datePublished: post.value.publishedAt || undefined,
+          // Rich results require an image; omit the key entirely when the
+          // post has no cover rather than emitting `image: undefined`.
+          ...(coverUrl.value ? { image: coverUrl.value } : {}),
           author: { '@type': 'Person', name: 'M. Abu Amar Al Badawi' },
           mainEntityOfPage: { '@type': 'WebPage', '@id': canonical.value },
         }),

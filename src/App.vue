@@ -109,7 +109,6 @@ const canonicalUrl = computed(() => new URL(route.path, SITE_URL).href)
 
 const SITE_DESCRIPTION =
   'M. Abu Amar Al Badawi - Mobile & Full Stack Developer. Portofolio proyek mobile, web, dan backend yang berjalan di produksi.'
-
 useHead({
   htmlAttrs: { lang: computed(() => locale.value) },
   titleTemplate: (title) => (title ? `${title} | Abu Amar` : 'Abu Amar - Portfolio'),
@@ -125,5 +124,34 @@ useHead({
     { name: 'twitter:image', content: `${SITE_URL}/og-default.png` },
   ],
   link: [{ rel: 'canonical', href: computed(() => canonicalUrl.value) }],
+  // Sitewide identity for search engines: the site itself plus the Person
+  // behind it. Per-page markup (BlogPosting, the homepage Person block)
+  // stays on the pages themselves.
+  script: [
+    {
+      type: 'application/ld+json',
+      textContent: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'WebSite',
+            '@id': `${SITE_URL}/#website`,
+            url: `${SITE_URL}/`,
+            name: 'Abu Amar',
+            inLanguage: 'id-ID',
+            publisher: { '@id': `${SITE_URL}/#person` },
+          },
+          {
+            '@type': 'Person',
+            '@id': `${SITE_URL}/#person`,
+            name: 'M. Abu Amar Al Badawi',
+            url: `${SITE_URL}/`,
+            jobTitle: 'Mobile & Full Stack Developer',
+            sameAs: ['https://github.com/abuamar142'],
+          },
+        ],
+      }),
+    },
+  ],
 })
 </script>

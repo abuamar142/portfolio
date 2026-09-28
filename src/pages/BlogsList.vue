@@ -162,6 +162,19 @@ useHead({
     { property: 'og:description', content: 'Tutorials, notes, and updates on mobile & full-stack development.' },
     { property: 'og:type', content: 'website' },
   ],
+  script: [
+    {
+      type: 'application/ld+json',
+      textContent: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Blog',
+        name: 'Blog - Abu Amar',
+        url: 'https://abuamar.online/blogs',
+        inLanguage: 'id-ID',
+        author: { '@id': 'https://abuamar.online/#person' },
+      }),
+    },
+  ],
 })
 
 const { locale } = useI18n()
