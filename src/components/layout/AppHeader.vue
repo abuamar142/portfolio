@@ -112,8 +112,11 @@ const sectionNav = [
   { id: 'contact', no: '07', label: 'navigation.contact' },
 ]
 
-/** Mobile menu: numbered sections plus the explore route. Always route links so
- *  they navigate home from /quotes, /blogs and /explore (bare #hash would not). */
+/** Mobile menu: numbered sections, then the explore hub and its sub-pages.
+ *  Always route links so they navigate home from /quotes, /blogs and
+ *  /explore (bare #hash would not). Sub-pages used to be reachable only via
+ *  /explore, so on a phone the archive, quotes, snippets, feedback and the
+ *  studio had no direct entry point. */
 const fullNav = [
   ...sectionNav.map((item) => ({
     href: `/#${item.id}`,
@@ -122,13 +125,28 @@ const fullNav = [
     route: true,
   })),
   { href: '/explore', no: '', label: 'navigation.explore', route: true },
+  { href: '/blogs', no: '', label: 'navigation.blog', route: true },
+  { href: '/quotes', no: '', label: 'quotes.title', route: true },
+  { href: '/snippets', no: '', label: 'snippets.title', route: true },
+  { href: '/links', no: '', label: 'links.title', route: true },
+  { href: '/feedback', no: '', label: 'feedback.title', route: true },
+  { href: '/dashboard', no: '', label: 'dashboard.title', route: true },
 ]
 
-const isExploreRoute = computed(
-  () =>
-    route.path === '/explore' ||
-    route.path.startsWith('/blogs') ||
-    route.path === '/quotes',
+// "Jelajahi" stays highlighted across the whole tools/blog area, not just
+// the hub itself — /links, /snippets, /qr and friends all live under it.
+const EXPLORE_PATHS = [
+  '/explore',
+  '/blogs',
+  '/quotes',
+  '/snippets',
+  '/links',
+  '/remove-bg',
+  '/qr',
+  '/feedback',
+]
+const isExploreRoute = computed(() =>
+  EXPLORE_PATHS.some((p) => route.path === p || route.path.startsWith(`${p}/`)),
 )
 
 /* ── Scrollspy ───────────────────────────────────────────────────────────────
