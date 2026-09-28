@@ -36,6 +36,12 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
+        // vue-i18n's default build compiles message strings at runtime with
+        // `new Function(...)`, which a strict Content-Security-Policy blocks
+        // (no 'unsafe-eval'). Every message in this app is plain text with
+        // simple {placeholder} interpolation, which the runtime-only build
+        // handles without eval.
+        'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js',
       },
     },
     ssgOptions: {
