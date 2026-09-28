@@ -139,6 +139,13 @@
       </template>
     </div>
   </section>
+  <ConfirmModal
+    :open="showDeleteConfirm"
+    :title="$t('snippets.confirmDelete')"
+    :busy="deleting"
+    @confirm="runDelete"
+    @cancel="showDeleteConfirm = false"
+  />
 </template>
 
 <script setup lang="ts">
@@ -168,6 +175,7 @@ import TagInput from '@/components/ui/TagInput.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import type { Snippet } from '@/types/snippet'
 import ShareButton from '@/components/ShareButton.vue'
+import ConfirmModal from '@/components/ui/ConfirmModal.vue'
 import ErrorState from '@/components/ui/ErrorState.vue'
 
 const route = useRoute()
@@ -304,15 +312,27 @@ async function saveEdit() {
   }
 }
 
-async function handleDelete() {
+// Themed confirmation instead of window.confirm().
+const showDeleteConfirm = ref(false)
+const deleting = ref(false)
+
+function handleDelete() {
   if (!snippet.value) return
-  if (!confirm(t('snippets.confirmDelete'))) return
+  showDeleteConfirm.value = true
+}
+
+async function runDelete() {
+  if (!snippet.value) return
+  deleting.value = true
   try {
     await deleteSnippet(snippet.value.id)
     toast.success(t('snippets.deletedToast'))
+    showDeleteConfirm.value = false
     router.push('/snippets')
   } catch {
     toast.error(t('snippets.deleteFailed'))
+  } finally {
+    deleting.value = false
   }
 }
 

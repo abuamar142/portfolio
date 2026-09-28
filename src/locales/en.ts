@@ -186,6 +186,8 @@ export default {
   common: {
     dismiss: 'Dismiss notification',
     close: 'Close',
+    cancel: 'Cancel',
+    delete: 'Delete',
     tagNoComma: 'Tags cannot contain a comma',
     removeTag: 'Remove tag {tag}',
     tagsMax: 'Maximum {max} tags',

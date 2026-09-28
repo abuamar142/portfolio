@@ -22,7 +22,7 @@
 import { computed, type Component } from 'vue'
 
 interface Props {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
   size?: 'sm' | 'md' | 'lg'
   href?: string
   to?: string
@@ -65,6 +65,9 @@ const variantClass: Record<NonNullable<Props['variant']>, string> = {
   secondary: 'btn-outline',
   outline: 'btn-outline btn-primary',
   ghost: 'btn-ghost',
+  // Destructive confirmations — matches the text-error treatment used by
+  // inline delete controls.
+  danger: 'btn-error',
 }
 
 const sizeClass: Record<NonNullable<Props['size']>, string> = {

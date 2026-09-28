@@ -109,6 +109,13 @@
       </div>
 
     <LinkModal :show="showModal" :link="editingLink" @close="closeModal" @saved="onSaved" />
+    <ConfirmModal
+      :open="!!pendingDelete"
+      :title="$t('links.deleteConfirm')"
+      :busy="deleting"
+      @confirm="runDelete"
+      @cancel="pendingDelete = null"
+    />
   </PageShell>
 </template>
 
@@ -135,6 +142,7 @@ import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import ErrorState from '@/components/ui/ErrorState.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import ConfirmModal from '@/components/ui/ConfirmModal.vue'
 import LinkModal from '@/components/LinkModal.vue'
 
 const { t } = useI18n()
@@ -241,15 +249,28 @@ function onTagChange() {
 }
 
 
-async function confirmDelete(link: Link) {
-  if (!confirm(t('links.deleteConfirm'))) return
+// Themed confirmation instead of window.confirm().
+const pendingDelete = ref<Link | null>(null)
+const deleting = ref(false)
+
+function confirmDelete(link: Link) {
+  pendingDelete.value = link
+}
+
+async function runDelete() {
+  const link = pendingDelete.value
+  if (!link) return
+  deleting.value = true
   try {
     await deleteLink(link.id)
     toast.success(t('links.deletedToast'))
+    pendingDelete.value = null
     await reloadLinks()
     await loadTags()
   } catch {
     toast.error(t('links.deleteFailed'))
+  } finally {
+    deleting.value = false
   }
 }
 

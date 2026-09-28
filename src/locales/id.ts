@@ -186,6 +186,8 @@ export default {
   common: {
     dismiss: 'Tutup notifikasi',
     close: 'Tutup',
+    cancel: 'Batal',
+    delete: 'Hapus',
     tagNoComma: 'Tag tidak boleh mengandung koma',
     removeTag: 'Hapus tag {tag}',
     tagsMax: 'Maksimum {max} tag',

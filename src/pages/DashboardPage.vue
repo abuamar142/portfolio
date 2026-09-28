@@ -251,6 +251,13 @@
           />
         </template>
       </template>
+    <ConfirmModal
+      :open="!!pendingDelete"
+      :title="pendingDelete?.title || ''"
+      :busy="deleting"
+      @confirm="runDelete"
+      @cancel="pendingDelete = null"
+    />
   </PageShell>
 </template>
 
@@ -266,6 +273,7 @@ import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import { safeHref } from '@/lib/safeHref'
 import ErrorState from '@/components/ui/ErrorState.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import ConfirmModal from '@/components/ui/ConfirmModal.vue'
 import EditQuoteModal from '@/components/EditQuoteModal.vue'
 import LinkModal from '@/components/LinkModal.vue'
 import SnippetFormModal from '@/components/SnippetFormModal.vue'
@@ -414,48 +422,79 @@ function addAchievement() {
   showAchievementEdit.value = true
 }
 
-async function removeQuote(q: Quote) {
-  if (!confirm(t('quotes.deleteConfirm'))) return
+// Themed confirmation instead of window.confirm() (blocks the main thread,
+// unstyled, and cannot show the delete in flight). One dialog serves all five
+// resources: the pending item carries its own action.
+type PendingDelete = {
+  title: string
+  run: () => Promise<void>
+}
+
+const pendingDelete = ref<PendingDelete | null>(null)
+const deleting = ref(false)
+
+function askDelete(title: string, run: () => Promise<void>) {
+  pendingDelete.value = { title, run }
+}
+
+async function runDelete() {
+  const pending = pendingDelete.value
+  if (!pending) return
+  deleting.value = true
   try {
-    await deleteQuote(q.id)
-    toast.success(t('quotes.deletedToast'))
-    await loadAll()
-  } catch {
-    toast.error(t('quotes.deleteFailed'))
+    await pending.run()
+    pendingDelete.value = null
+  } finally {
+    deleting.value = false
   }
 }
 
-async function removeLink(l: Link) {
-  if (!confirm(t('links.deleteConfirm'))) return
-  try {
-    await deleteLink(l.id)
-    toast.success(t('links.deletedToast'))
-    await loadAll()
-  } catch {
-    toast.error(t('links.deleteFailed'))
-  }
+function removeQuote(q: Quote) {
+  askDelete(t('quotes.deleteConfirm'), async () => {
+    try {
+      await deleteQuote(q.id)
+      toast.success(t('quotes.deletedToast'))
+      await loadAll()
+    } catch {
+      toast.error(t('quotes.deleteFailed'))
+    }
+  })
 }
 
-async function removeSnippet(s: Snippet) {
-  if (!confirm(t('snippets.confirmDelete'))) return
-  try {
-    await deleteSnippet(s.id)
-    toast.success(t('snippets.deletedToast'))
-    await loadAll()
-  } catch {
-    toast.error(t('snippets.deleteFailed'))
-  }
+function removeLink(l: Link) {
+  askDelete(t('links.deleteConfirm'), async () => {
+    try {
+      await deleteLink(l.id)
+      toast.success(t('links.deletedToast'))
+      await loadAll()
+    } catch {
+      toast.error(t('links.deleteFailed'))
+    }
+  })
 }
 
-async function removeAchievement(a: Achievement) {
-  if (!confirm(t('dashboard.achievements.deleteConfirm'))) return
-  try {
-    await deleteAchievement(a.id)
-    toast.success(t('dashboard.achievements.deletedToast'))
-    await loadAll()
-  } catch {
-    toast.error(t('dashboard.achievements.deleteFailed'))
-  }
+function removeSnippet(s: Snippet) {
+  askDelete(t('snippets.confirmDelete'), async () => {
+    try {
+      await deleteSnippet(s.id)
+      toast.success(t('snippets.deletedToast'))
+      await loadAll()
+    } catch {
+      toast.error(t('snippets.deleteFailed'))
+    }
+  })
+}
+
+function removeAchievement(a: Achievement) {
+  askDelete(t('dashboard.achievements.deleteConfirm'), async () => {
+    try {
+      await deleteAchievement(a.id)
+      toast.success(t('dashboard.achievements.deletedToast'))
+      await loadAll()
+    } catch {
+      toast.error(t('dashboard.achievements.deleteFailed'))
+    }
+  })
 }
 
 async function toggleFeedbackStatus(fb: Feedback) {
@@ -469,15 +508,16 @@ async function toggleFeedbackStatus(fb: Feedback) {
   }
 }
 
-async function removeFeedback(fb: Feedback) {
-  if (!confirm(t('feedback.deleteConfirm'))) return
-  try {
-    await deleteFeedback(fb.id)
-    toast.success(t('feedback.deletedToast'))
-    feedbackItems.value = feedbackItems.value.filter(f => f.id !== fb.id)
-  } catch {
-    toast.error(t('feedback.deleteFailed'))
-  }
+function removeFeedback(fb: Feedback) {
+  askDelete(t('feedback.deleteConfirm'), async () => {
+    try {
+      await deleteFeedback(fb.id)
+      toast.success(t('feedback.deletedToast'))
+      feedbackItems.value = feedbackItems.value.filter(f => f.id !== fb.id)
+    } catch {
+      toast.error(t('feedback.deleteFailed'))
+    }
+  })
 }
 
 function looksLikeEmail(value: string): boolean {

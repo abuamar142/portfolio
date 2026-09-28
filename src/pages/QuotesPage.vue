@@ -83,6 +83,13 @@
     <CreateQuoteModal :show="showCreate" @close="showCreate = false" @created="reloadQuotes" />
     <EditQuoteModal :show="showEdit" :quote="editingQuote" @close="showEdit = false" @updated="reloadQuotes" />
     <QuoteModal :show="showModal" :quote="selectedQuote" @close="showModal = false" />
+    <ConfirmModal
+      :open="!!pendingDelete"
+      :title="$t('quotes.deleteConfirm')"
+      :busy="deleting"
+      @confirm="runDelete"
+      @cancel="pendingDelete = null"
+    />
   </PageShell>
 </template>
 
@@ -108,6 +115,7 @@ import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import ErrorState from '@/components/ui/ErrorState.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import ConfirmModal from '@/components/ui/ConfirmModal.vue'
 
 const { t } = useI18n()
 
@@ -202,14 +210,28 @@ function startEdit(quote: Quote) {
   showEdit.value = true
 }
 
-async function confirmDelete(quote: Quote) {
-  if (!confirm(t('quotes.deleteConfirm'))) return
+// Themed confirmation instead of window.confirm(): native dialogs block the
+// main thread, ignore the design system, and cannot show a busy state.
+const pendingDelete = ref<Quote | null>(null)
+const deleting = ref(false)
+
+function confirmDelete(quote: Quote) {
+  pendingDelete.value = quote
+}
+
+async function runDelete() {
+  const quote = pendingDelete.value
+  if (!quote) return
+  deleting.value = true
   try {
     await deleteQuote(quote.id)
     toast.success(t('quotes.deletedToast'))
+    pendingDelete.value = null
     await reloadQuotes()
   } catch {
     toast.error(t('quotes.deleteFailed'))
+  } finally {
+    deleting.value = false
   }
 }
 
