@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { isAxiosError } from 'axios'
 import type { Portfolio } from '@/types/portfolio'
 import { backendClient } from '@/services/client'
 import { fetchAchievements } from '@/services/achievement'
@@ -53,7 +53,7 @@ export async function fetchPortfolioData(): Promise<Portfolio> {
 
     return portfolioData
   } catch (error: unknown) {
-    const axiosError = axios.isAxiosError(error) ? error : null
+    const axiosError = isAxiosError(error) ? error : null
     const errorMessage = error instanceof Error ? error.message : 'Unknown error'
 
     console.error('portfolio fetch failed:', {

@@ -30,10 +30,3 @@ export interface TagResponse {
   tag: string
   count: number
 }
-
-export interface AuthUser {
-  id: string
-  email: string
-  username: string
-  display_name: string
-}
