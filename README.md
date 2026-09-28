@@ -20,7 +20,7 @@ A prerendered, bilingual portfolio (Indonesian default, English fallback) that p
 - **Internationalization:** vue-i18n - Indonesian default locale, English fallback
 - **Build:** Vite + vite-ssg - seven prerendered pages plus sitemap; `bun scripts/cv/generate.ts` refreshes `public/cv.pdf` before every build
 - **Icons:** lucide-vue-next
-- **Content:** experience / projects / skills / achievements from MongoDB Atlas through a separate Express backend ([backend.abuamar.online](https://backend.abuamar.online)); posts published from Payload CMS
+- **Content:** profile data (identity, experience, projects, skills, education, achievements) from portfolio-service on PostgreSQL; blog posts are Markdown files in `content/blog/`, read at build time
 - **CI/CD:** GitHub Actions over SSH to the VPS - `main` deploys production, `development` deploys dev.abuamar.online
 
 ## Quick start
@@ -50,10 +50,11 @@ bun run dev
 
 Every push to `main` or `development` triggers the **Deploy Portfolio to VPS** workflow: a `check` job runs `eslint` and `type-check` first; only on success does the SSH deploy job pull and rebuild on the VPS via `/opt/ops/bin/deploy-portfolio.sh <branch>`. Concurrent runs for the same ref cancel each other.
 
-Environment variable for production:
+Environment variables for production:
 
 ```bash
-VITE_BACKEND_URL=https://backend.abuamar.online
+VITE_PORTFOLIO_API_URL=https://portfolio.abuamar.online
+VITE_AUTH_URL=https://auth.abuamar.online
 ```
 
 ## Features
@@ -87,6 +88,8 @@ src/
 ├── services/        # client.ts (shared axios), portfolio.ts, quote.ts, link.ts
 └── types/           # shared TypeScript contracts
 scripts/cv/          # CV generator (PDF)
+scripts/blog/        # Markdown loader: frontmatter + marked → HTML (build time)
+content/blog/        # blog posts as Markdown, one file per post
 public/              # cv.pdf, og image, robots.txt
 .github/workflows/   # deploy.yml - VPS deployment
 ```
