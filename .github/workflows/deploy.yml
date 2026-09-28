@@ -24,6 +24,7 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bunx eslint .
       - run: bun run type-check
+      - run: bun run test
 
   deploy:
     needs: check
@@ -40,6 +41,8 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Lint check (no autofix)
         run: bun run lint:check
+      - name: Unit tests
+        run: bun run test
       - name: Impeccable design-system detect
         run: npx -y impeccable@4.1.0 detect src
 
