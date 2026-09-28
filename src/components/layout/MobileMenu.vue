@@ -89,12 +89,20 @@ function focusable(): HTMLElement[] {
 function setBackgroundInert(inert: boolean) {
   if (typeof document === 'undefined') return
   const app = document.getElementById('app')
-  if (!app) return
-  // Never inert the menu itself: it lives inside #app (rendered by the header).
-  const targets = Array.from(app.children).filter((el) => !el.contains(menuRef.value))
-  for (const el of targets) {
-    if (inert) el.setAttribute('inert', '')
-    else el.removeAttribute('inert')
+  if (!app || !menuRef.value) return
+  // Walk from the menu up to #app, marking every sibling subtree inert. The
+  // header containing the menu is never inerted (that would inert the menu
+  // itself), but its other children are.
+  let node: HTMLElement | null = menuRef.value
+  while (node && node !== app) {
+    const parent: HTMLElement | null = node.parentElement
+    if (!parent) break
+    for (const sibling of Array.from(parent.children) as HTMLElement[]) {
+      if (sibling === node) continue
+      if (inert) sibling.setAttribute('inert', '')
+      else sibling.removeAttribute('inert')
+    }
+    node = parent
   }
 }
 
