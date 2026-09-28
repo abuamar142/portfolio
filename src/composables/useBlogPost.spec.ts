@@ -1,107 +1,63 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { defineComponent, h, ref } from 'vue'
-import { flushPromises, mount } from '@vue/test-utils'
+import { describe, expect, it } from 'vitest'
+import { loadPost, loadPosts, loadPostSlugs } from '../../scripts/blog/content'
 
 /**
- * useBlogPost decides what an unknown slug means, and the two failure modes
- * must not collapse into one: a slug the CMS does not have is a soft 404 that
- * BlogDetail marks `noindex` (browsers get HTTP 200 with the SPA shell, since
- * nginx only 404s crawler user-agents), while a network/API failure is a
- * temporary condition that must leave the post indexable. Getting that
- * backwards would deindex a real post on any API hiccup, so both paths get an
- * explicit case here.
+ * Posts come from Markdown files in `content/blog/`. The loader is the only
+ * thing that knows how a file becomes a post, so the cases that matter are the
+ * ones a hand-edited file can actually get wrong: frontmatter that does not
+ * parse, a slug that collides with another file, and the ordering the list page
+ * and sitemap depend on.
+ *
+ * These run against the real content directory — if a post is added with a
+ * broken frontmatter, this suite fails rather than the site rendering blank.
  */
 
-import { useBlogPost } from '@/composables/useBlogPost'
-
-const getBySlug = vi.fn()
-
-vi.mock('@/composables/usePosts', () => ({
-  usePosts: () => ({ getBySlug }),
-}))
-
-vi.mock('vue-i18n', () => ({
-  useI18n: () => ({ locale: ref('id') }),
-}))
-
-const post = (over: Record<string, unknown> = {}) => ({
-  id: '1',
-  title: 'Kenapa AI Pakai Design System',
-  slug: 'kenapa-ai-pakai-design-system',
-  excerpt: 'Ringkasan',
-  status: 'published',
-  ...over,
-})
-
-describe('useBlogPost', () => {
-  beforeEach(() => {
-    getBySlug.mockReset()
+describe('blog content loader', () => {
+  it('loads every post in the directory', () => {
+    const posts = loadPosts()
+    expect(posts.length).toBeGreaterThan(0)
   })
 
-  it('exposes the post and leaves notFound false for a published slug', async () => {
-    getBySlug.mockResolvedValue(post())
-    const api = useBlogPost(ref('kenapa-ai-pakai-design-system'))
-    await api.fetchPost()
-
-    expect(api.post.value?.slug).toBe('kenapa-ai-pakai-design-system')
-    expect(api.notFound.value).toBe(false)
-    expect(api.error.value).toBe('')
-    expect(api.loading.value).toBe(false)
+  it('gives each post the fields the pages render', () => {
+    for (const p of loadPosts()) {
+      expect(p.slug).toBeTruthy()
+      expect(p.title).toBeTruthy()
+      expect(p.date).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+      expect(p.contentHtml.length).toBeGreaterThan(0)
+      expect(p.readingTime).toBeGreaterThanOrEqual(1)
+    }
   })
 
-  it('sets notFound when the slug resolves to nothing', async () => {
-    getBySlug.mockResolvedValue(null)
-    const api = useBlogPost(ref('slug-ngawur'))
-    await api.fetchPost()
-
-    expect(api.notFound.value).toBe(true)
-    expect(api.post.value).toBeNull()
-    expect(api.loading.value).toBe(false)
+  it('orders posts newest first', () => {
+    const dates = loadPosts().map((p) => p.date)
+    const sorted = [...dates].sort((a, b) => (a < b ? 1 : -1))
+    expect(dates).toEqual(sorted)
   })
 
-  it('treats a draft as not found', async () => {
-    getBySlug.mockResolvedValue(post({ status: 'draft' }))
-    const api = useBlogPost(ref('masih-draft'))
-    await api.fetchPost()
-
-    expect(api.notFound.value).toBe(true)
+  it('renders Markdown into HTML', () => {
+    const post = loadPost('kenapa-ai-pakai-design-system')
+    expect(post).not.toBeNull()
+    expect(post!.contentHtml).toContain('<h2')
+    expect(post!.contentHtml).toContain('<p>')
   })
 
-  it('does NOT set notFound when the API throws — a real post must stay indexable', async () => {
-    getBySlug.mockRejectedValue(new Error('Network Error'))
-    const api = useBlogPost(ref('post-yang-ada'))
-    await api.fetchPost()
-
-    expect(api.notFound.value).toBe(false)
-    expect(api.error.value).toBe('Post not found')
+  it('parses the tag list from frontmatter', () => {
+    const post = loadPost('kenapa-ai-pakai-design-system')
+    expect(post!.tags).toEqual(['Web', 'Tools', 'AI'])
   })
 
-  it('clears notFound when a later fetch succeeds', async () => {
-    getBySlug.mockResolvedValueOnce(null)
-    const api = useBlogPost(ref('slug'))
-    await api.fetchPost()
-    expect(api.notFound.value).toBe(true)
-
-    getBySlug.mockResolvedValueOnce(post())
-    await api.fetchPost()
-    expect(api.notFound.value).toBe(false)
-    expect(api.post.value?.title).toBe('Kenapa AI Pakai Design System')
+  it('returns null for a slug that does not exist', () => {
+    expect(loadPost('slug-yang-tidak-ada')).toBeNull()
   })
 
-  it('fetches on mount', async () => {
-    getBySlug.mockResolvedValue(post())
-    // onMounted only fires inside a component instance, so mount a host that
-    // captures the composable's return value.
-    let api!: ReturnType<typeof useBlogPost>
-    mount(
-      defineComponent({
-        setup() {
-          api = useBlogPost(ref('kenapa-ai-pakai-design-system'))
-          return () => h('div')
-        },
-      }),
-    )
-    await flushPromises()
-    expect(api.post.value?.slug).toBe('kenapa-ai-pakai-design-system')
+  it('exposes slugs without bodies', () => {
+    const slugs = loadPostSlugs()
+    expect(slugs).toContain('kenapa-ai-pakai-design-system')
+    expect(slugs.length).toBe(loadPosts().length)
+  })
+
+  it('has no duplicate slugs — two files may not claim the same URL', () => {
+    const slugs = loadPostSlugs()
+    expect(new Set(slugs).size).toBe(slugs.length)
   })
 })

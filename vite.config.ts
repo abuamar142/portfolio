@@ -1,34 +1,22 @@
 import { fileURLToPath, URL } from 'node:url'
 
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import generateSitemap from 'vite-ssg-sitemap'
+import { readPostSlugs } from './scripts/blog/slugs'
 
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
-  const apiBase = env.VITE_BACKEND_URL || 'https://backend.abuamar.online'
-
+export default defineConfig(() => {
   /**
-   * Fetch the published post slugs at build time so every blog detail page is
-   * prerendered as a real HTML file (dist/blogs/<slug>.html). Handles the
-   * backend's `{ success, data: [...] }` wrapper (array or `posts` key) and
-   * never fails the build — an API hiccup just falls back to no slug routes.
+   * Post slugs come from `content/blog/*.md`, so every blog detail page is
+   * prerendered as a real HTML file (dist/blogs/<slug>.html).
+   *
+   * This used to fetch the slug list from the CMS over HTTP. Reading the same
+   * files the pages render from removes that dependency entirely: a slug can no
+   * longer be in the sitemap without a matching page, or the reverse.
    */
-  async function fetchPostSlugs(): Promise<string[]> {
-    try {
-      const res = await fetch(`${apiBase}/api/v1/personal/posts?limit=100`)
-      if (!res.ok) return []
-      type PostSlugItem = { slug?: string }
-      type PostsBody = { data?: unknown; posts?: PostSlugItem[] }
-      const body = await res.json() as PostsBody
-      const raw = body?.data ?? body
-      const posts = Array.isArray(raw) ? raw as PostSlugItem[] : ((raw as PostsBody)?.posts || [])
-      return posts.map((p) => String(p?.slug || '').trim()).filter(Boolean)
-    } catch {
-      // Never fail the build because the API hiccuped.
-      return []
-    }
+  function postSlugs(): string[] {
+    return readPostSlugs()
   }
 
   return {
@@ -48,10 +36,9 @@ export default defineConfig(({ mode }) => {
       script: 'async',
       // Keep static routes ('/', '/blogs', '/explore'), swap '/blogs/:slug' for one
       // concrete path per post slug, and drop the ':pathMatch' catch-all.
-      async includedRoutes(paths: string[]) {
+      includedRoutes(paths: string[]) {
         const staticPaths = paths.filter((p) => !p.includes(':') && !p.includes('*'))
-        const slugs = await fetchPostSlugs()
-        return staticPaths.concat(slugs.map((s) => `/blogs/${s}`))
+        return staticPaths.concat(postSlugs().map((s) => `/blogs/${s}`))
       },
       // Route '/blogs' renders to 'blogs.html' in vite-ssg's default flat
       // dirStyle; remap it to 'blogs/index.html' so the prerendered blog list

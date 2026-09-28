@@ -70,7 +70,7 @@
 
       <!-- Posts -->
       <ul v-else class="mt-12 border-t border-base-300">
-        <li v-for="post in filteredPosts" :key="post._id" class="row">
+        <li v-for="post in filteredPosts" :key="post.slug" class="row">
           <router-link :to="`/blogs/${post.slug}`" class="group block py-6">
             <div v-if="post.tags && post.tags.length" class="flex flex-wrap gap-2">
               <TagChip

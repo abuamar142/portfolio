@@ -29,11 +29,7 @@
       >
         <div class="min-w-0">
           <div v-if="post?.tags?.length" class="flex flex-wrap gap-2">
-            <TagChip
-              v-for="tag in post.tags"
-              :key="tag.tag || String(tag)"
-              :tag="tag.tag || String(tag)"
-            />
+            <TagChip v-for="tag in post.tags" :key="tag" :tag="tag" />
           </div>
 
           <h1 class="display-2 mt-4 text-balance text-base-content">{{ post?.title }}</h1>
@@ -50,20 +46,6 @@
             <time v-if="displayDate" :datetime="displayDate">{{ formatDate(displayDate) }}</time>
             <span v-if="displayDate" aria-hidden="true">·</span>
             <span>{{ readingTime }} {{ $t('blog.readTime') }}</span>
-
-            <button
-              type="button"
-              class="ml-auto inline-flex min-h-9 items-center gap-1.5 rounded-none border border-base-300 px-2.5 transition-colors hover:border-primary/40 hover:text-primary"
-              :aria-label="$t('blog.switchLanguageAria')"
-              @click="toggleLocale"
-            >
-              <Languages class="size-3.5" aria-hidden="true" />
-              {{ $t('blog.switchLanguage') }}
-            </button>
-          </div>
-
-          <div v-if="coverUrl" class="panel mt-8 overflow-hidden">
-            <img :src="coverUrl" :alt="post?.title || ''" loading="lazy" decoding="async" width="800" height="450" class="w-full object-cover" />
           </div>
 
           <!-- On narrow screens the table of contents sits above the body,
@@ -179,7 +161,7 @@ import { ref, computed, nextTick, watch, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import { SITE_URL } from '@/site'
-import { ArrowLeft, Languages, Share2 } from 'lucide-vue-next'
+import { ArrowLeft, Share2 } from 'lucide-vue-next'
 import { useBlogPost } from '@/composables/useBlogPost'
 import TagChip from '@/components/ui/TagChip.vue'
 import BaseModal from '@/components/ui/BaseModal.vue'
@@ -196,7 +178,7 @@ const slug = computed(() => {
   }
 })
 
-const { post, loading, error, notFound, contentHtml, toc, displayDate, coverUrl, readingTime, formatDate, toggleLocale } =
+const { post, loading, error, notFound, contentHtml, toc, displayDate, readingTime, formatDate } =
   useBlogPost(slug)
 
 // ── Table of contents: scroll spy ────────────────────────────────────────────
@@ -257,9 +239,9 @@ useHead({
     { property: 'og:title', content: post.value ? `${post.value.title} - Abu Amar` : 'Blog Post - Abu Amar' },
     { property: 'og:description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
     { property: 'og:type', content: 'article' },
-    // Cover when the post has one, otherwise the preview server's generated
-    // card for this slug (title + excerpt on the site's paper).
-    { property: 'og:image', content: coverUrl.value || `${SITE_URL}/api/og/blog/${encodeURIComponent(slug.value)}` },
+    // Every post gets the preview server's generated card (title + excerpt on
+    // the site's paper). Posts from Markdown have no cover image of their own.
+    { property: 'og:image', content: `${SITE_URL}/api/og/blog/${encodeURIComponent(slug.value)}` },
   ]),
   script: computed(() => {
     if (!post.value) return []
@@ -271,10 +253,9 @@ useHead({
           '@type': 'BlogPosting',
           headline: post.value.title,
           description: post.value.excerpt || '',
-          datePublished: post.value.publishedAt || undefined,
-          // Rich results require an image; omit the key entirely when the
-          // post has no cover rather than emitting `image: undefined`.
-          ...(coverUrl.value ? { image: coverUrl.value } : {}),
+          datePublished: post.value.date || undefined,
+          // Rich results want an image; the generated card always exists.
+          image: `${SITE_URL}/api/og/blog/${encodeURIComponent(slug.value)}`,
           author: { '@type': 'Person', name: 'M. Abu Amar Al Badawi' },
           mainEntityOfPage: { '@type': 'WebPage', '@id': canonical.value },
         }),

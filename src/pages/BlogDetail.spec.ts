@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
 import { createHead } from '@unhead/vue/client'
 import { createI18n } from 'vue-i18n'
@@ -7,29 +7,12 @@ import BlogDetail from '@/pages/BlogDetail.vue'
 import id from '@/locales/id'
 
 /**
- * The soft-404 rule lives at the seam between the composable and the page: an
- * unknown slug must reach <head> as robots=noindex, and a real post must not.
- * Asserting on the composable alone would not catch a page that forgets to
- * wire `notFound` into its useHead call, so this mounts the real page and
- * reads document.head — the same place a JS-rendering crawler looks.
+ * Posts come from Markdown files in the repo, so these cases mount the real
+ * page against the real content directory — no API mock, because there is no
+ * API. The behaviour that still needs pinning is the soft-404 rule: an unknown
+ * slug must reach <head> as robots=noindex, and a real post must not.
  */
 
-const getBySlug = vi.fn()
-
-vi.mock('@/composables/usePosts', () => ({
-  usePosts: () => ({ getBySlug }),
-}))
-
-const publishedPost = {
-  id: '1',
-  title: 'Kenapa AI Pakai Design System',
-  slug: 'kenapa-ai-pakai-design-system',
-  excerpt: 'Ringkasan',
-  status: 'published',
-}
-
-// Disposal is deferred to afterEach: unmounting before the assertion would
-// tear the <head> entries down before the test can read them.
 let cleanup: (() => void) | null = null
 
 async function mountPage(slug: string) {
@@ -40,9 +23,9 @@ async function mountPage(slug: string) {
   await router.push(`/blogs/${slug}`)
   await router.isReady()
 
-  // The DOM renderer is debounced (setTimeout 0), so every case waits a real
-  // macrotask after the fetch settles — asserting straight after
-  // flushPromises() reads a <head> the renderer has not written yet.
+  // The DOM renderer is debounced (setTimeout 0), so each case waits a real
+  // macrotask after the render — asserting straight after flushPromises()
+  // reads a <head> the renderer has not written yet.
   const head = createHead()
   const wrapper = mount(BlogDetail, {
     global: {
@@ -51,8 +34,6 @@ async function mountPage(slug: string) {
   })
   await flushPromises()
   await new Promise((resolve) => setTimeout(resolve, 0))
-  // Entries from an unmounted page would otherwise outlive the test and leak
-  // into the next one's <head>.
   cleanup = () => wrapper.unmount()
   return wrapper
 }
@@ -63,31 +44,41 @@ afterEach(() => {
   cleanup?.()
   cleanup = null
   document.head.innerHTML = ''
-  getBySlug.mockReset()
 })
 
 describe('BlogDetail head', () => {
   it('marks an unknown slug noindex', async () => {
-    getBySlug.mockResolvedValue(null)
-    await mountPage('slug-ngawur')
+    await mountPage('slug-yang-tidak-ada')
     expect(robots()).toBe('noindex,nofollow')
   })
 
-  it('leaves a published post indexable', async () => {
-    getBySlug.mockResolvedValue(publishedPost)
+  it('leaves a real post indexable', async () => {
     await mountPage('kenapa-ai-pakai-design-system')
     expect(robots()).toBeNull()
   })
+})
 
-  it('leaves the post indexable when the API fails — an outage must not deindex it', async () => {
-    getBySlug.mockRejectedValue(new Error('Network Error'))
-    await mountPage('kenapa-ai-pakai-design-system')
-    expect(robots()).toBeNull()
+describe('BlogDetail content', () => {
+  it('renders the post title and body from the Markdown file', async () => {
+    const wrapper = await mountPage('kenapa-ai-pakai-design-system')
+    expect(wrapper.text()).toContain('Kenapa AI Lebih Rapi')
+    expect(wrapper.html()).toContain('Masalah: AI + Custom Styling')
   })
 
-  it('marks a draft noindex', async () => {
-    getBySlug.mockResolvedValue({ ...publishedPost, status: 'draft' })
-    await mountPage('masih-draft')
-    expect(robots()).toBe('noindex,nofollow')
+  it('builds a table of contents from the headings', async () => {
+    const wrapper = await mountPage('kenapa-ai-pakai-design-system')
+    const links = wrapper.findAll('aside nav a')
+    expect(links.length).toBeGreaterThan(0)
+    // Every link must point at an id that exists in the rendered body.
+    for (const link of links) {
+      const target = link.attributes('href')!.replace('#', '')
+      expect(wrapper.html()).toContain(`id="${target}"`)
+    }
+  })
+
+  it('shows the reading time and the post date', async () => {
+    const wrapper = await mountPage('kenapa-ai-pakai-design-system')
+    expect(wrapper.text()).toContain('September 2026')
+    expect(wrapper.text()).toMatch(/menit baca/)
   })
 })

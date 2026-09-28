@@ -1,42 +1,47 @@
 import { isAxiosError } from 'axios'
 import type { Portfolio } from '@/types/portfolio'
-import { backendClient } from '@/services/client'
+import client from '@/services/client'
 import { fetchAchievements } from '@/services/achievement'
 
-const API_ENDPOINT = '/personal/data'
+const API_ENDPOINT = '/profile'
 
+/**
+ * Portfolio data (identity, skills, experiences, projects, education) now
+ * comes from portfolio-service instead of the Payload CMS. The response shape
+ * is deliberately identical — the service returns the same camelCase keys
+ * (personalInfo, githubUrl) the CMS used, so this swap is a URL change rather
+ * than a rewrite of every consuming component.
+ *
+ * Achievements are a separate call: they moved to Postgres earlier (2026-09-27)
+ * and live at /achievements, not inside the profile payload.
+ */
 export async function fetchPortfolioData(): Promise<Portfolio> {
   const MIN_LOADING_TIME = 500
   const startTime = Date.now()
 
   try {
-    const response = await backendClient.get(API_ENDPOINT)
+    const response = await client.get(API_ENDPOINT)
 
     const body = response.data
 
-    // Backend returns { success, message, data } — unwrap the data field
+    // portfolio-service wraps every payload as { success, message, data }.
     if (!body || typeof body !== 'object') {
       throw new Error('Invalid response structure from API')
     }
-
     if (body.success === false) {
       throw new Error(body.message || 'API returned an error')
     }
 
-    // Unwrap: use body.data if it exists (structured response), otherwise body (flat/legacy format)
-    const data = body.data && typeof body.data === 'object' && body.data.personalInfo
-      ? body.data
-      : body
+    const data = body.data && typeof body.data === 'object' ? body.data : body
 
-    // Opsi A (identity-sync 2026-09-16): personalInfo is required. No static
-    // fallback — a missing document is a backend data error, surfaced as one.
     const personalInfo = data.personalInfo
     if (!personalInfo || typeof personalInfo !== 'object' || !personalInfo.fullname) {
-      throw new Error('Personal info is missing from the backend response.')
+      throw new Error('Personal info is missing from the profile response.')
     }
+
     const portfolioData: Portfolio = {
       personalInfo,
-      about: data.about || data.personalInfo?.about || '',
+      about: data.about || personalInfo.about || '',
       experiences: Array.isArray(data.experiences) ? data.experiences : [],
       projects: Array.isArray(data.projects) ? data.projects : [],
       skills: Array.isArray(data.skills) ? data.skills : [],
@@ -66,7 +71,7 @@ export async function fetchPortfolioData(): Promise<Portfolio> {
 
     if (axiosError?.code === 'ENOTFOUND' || axiosError?.code === 'ECONNREFUSED') {
       throw new Error(
-        `Cannot connect to backend server at ${backendClient.defaults.baseURL}. Please check if the backend is running.`,
+        `Cannot connect to backend server at ${client.defaults.baseURL}. Please check if the backend is running.`,
       )
     }
 
