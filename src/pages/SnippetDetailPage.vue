@@ -218,6 +218,14 @@ usePageSeo({
   description: computed(() => snippet.value?.description || t('snippets.dek')),
   // The preview server renders a code-styled card per snippet.
   ogImage: computed(() => `${SITE_URL}/api/og/snippet/${route.params.id}`),
+  // Soft-404 hygiene: an unknown id is served the SPA shell with HTTP 200 for
+  // browsers (nginx only proxies crawler user-agents to the preview server,
+  // which answers a real 404), so the page keeps itself out of the index —
+  // the same rule BlogDetail and NotFound follow. Only a missing snippet sets
+  // notFound; a failed request must leave a real snippet indexable.
+  meta: computed(() =>
+    notFound.value ? [{ name: 'robots', content: 'noindex,nofollow' }] : [],
+  ),
 })
 
 async function loadSnippet() {

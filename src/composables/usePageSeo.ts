@@ -16,8 +16,12 @@ import { SITE_URL } from '@/site'
 export function usePageSeo(opts: {
   title: MaybeRef<string>
   description: MaybeRef<string>
-  /** Extra name/content metas — e.g. robots noindex on the dashboard. */
-  meta?: { name: string; content: string }[]
+  /**
+   * Extra name/content metas — e.g. robots noindex. May be a computed so a
+   * page can add one after its data settles (SnippetDetail marks a missing
+   * snippet noindex once the API answers); a plain array still works.
+   */
+  meta?: MaybeRef<{ name: string; content: string }[]>
   /**
    * Breadcrumb trail for sub-pages, e.g.
    * `[{ name: 'Jelajahi', path: '/explore' }]`. The page itself is appended
@@ -52,17 +56,22 @@ export function usePageSeo(opts: {
   })
   const ogImage = computed(() => unref(opts.ogImage) || generatedCard.value)
 
+  // Built as one computed so `meta` can be reactive: a page that only learns
+  // it is a soft 404 after its fetch resolves must still be able to add
+  // robots=noindex, and spreading the option at setup time would freeze it.
+  const meta = computed(() => [
+    ...(unref(opts.meta) ?? []),
+    { name: 'description', content: description.value },
+    { property: 'og:title', content: `${title.value} - Abu Amar` },
+    { property: 'og:description', content: description.value },
+    { property: 'og:image', content: ogImage.value },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
+  ])
+
   useHead({
     title,
-    meta: [
-      ...(opts.meta ?? []),
-      { name: 'description', content: description },
-      { property: 'og:title', content: computed(() => `${title.value} - Abu Amar`) },
-      { property: 'og:description', content: description },
-      { property: 'og:image', content: ogImage },
-      { property: 'og:image:width', content: '1200' },
-      { property: 'og:image:height', content: '630' },
-    ],
+    meta,
     script: computed(() => {
       if (!opts.breadcrumbs?.length) return []
       const trail = [

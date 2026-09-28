@@ -92,6 +92,13 @@ const { t, locale } = useI18n()
 const quote = ref<Quote | null>(null)
 const loading = ref(true)
 const error = ref('')
+// True when the API says this id has no quote. Drives robots=noindex below:
+// an unknown /quotes/<id> is served the SPA shell with HTTP 200 for browsers
+// (nginx only proxies crawler user-agents to the preview server, which answers
+// a real 404), so the page must exclude itself from the index — the same
+// soft-404 rule BlogDetail and NotFound follow. A plain network failure must
+// NOT set this: a real quote has to stay indexable when the API hiccups.
+const notFound = ref(false)
 
 // Sharing a quote is the whole point of this page: give crawlers the quote
 // itself instead of the site-wide fallback. og:type=article marks it as a
@@ -105,7 +112,9 @@ useHead({
   }),
   meta: computed(() => {
     const q = quote.value
-    if (!q) return []
+    if (!q) {
+      return notFound.value ? [{ name: 'robots', content: 'noindex,nofollow' }] : []
+    }
     const excerpt = q.content.length > 160 ? `${q.content.slice(0, 157)}…` : q.content
     const author = q.is_anonymous ? t('quotes.anonymous') : q.author_name || t('quotes.unknown')
     return [
@@ -127,17 +136,20 @@ function formatDate(dateStr: string) {
 async function loadQuote() {
   const id = route.params.id as string
   if (!id) {
+    notFound.value = true
     error.value = t('quotes.noId')
     loading.value = false
     return
   }
   loading.value = true
   error.value = ''
+  notFound.value = false
   try {
     quote.value = await fetchQuoteById(id)
   } catch (e: unknown) {
     const err = e as { response?: { status?: number }; message?: string }
     if (err.response?.status === 404) {
+      notFound.value = true
       error.value = t('quotes.notFound')
     } else {
       error.value = t('quotes.loadFailed')
