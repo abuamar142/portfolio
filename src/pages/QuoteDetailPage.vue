@@ -21,9 +21,15 @@
       </div>
 
       <!-- Error -->
-      <ErrorState v-else-if="error" variant="inline" class="mt-12 max-w-xl" :message="error">
-        <BaseButton class="mt-6" variant="outline" size="sm" to="/quotes">
-          {{ $t('quotes.backToList') }}
+      <ErrorState
+        v-else-if="error"
+        variant="inline"
+        class="mt-12 max-w-xl"
+        :message="error"
+        @retry="loadQuote"
+      >
+        <BaseButton class="mt-6" variant="outline" size="sm" @click="loadQuote">
+          {{ $t('errors.retry') }}
         </BaseButton>
       </ErrorState>
 
@@ -99,14 +105,15 @@ function formatDate(dateStr: string) {
   return formatDateLong(dateStr, locale.value)
 }
 
-onMounted(async () => {
+async function loadQuote() {
   const id = route.params.id as string
   if (!id) {
     error.value = t('quotes.noId')
     loading.value = false
     return
   }
-
+  loading.value = true
+  error.value = ''
   try {
     quote.value = await fetchQuoteById(id)
   } catch (e: unknown) {
@@ -119,5 +126,7 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
-})
+}
+
+onMounted(loadQuote)
 </script>

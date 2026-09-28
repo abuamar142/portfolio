@@ -31,6 +31,19 @@
       <!-- Loading -->
       <LoadingBlock v-if="loading" />
 
+      <!-- Error: a failed fetch must not masquerade as "no links yet". -->
+      <ErrorState
+        v-else-if="error"
+        variant="inline"
+        class="mt-2"
+        :message="$t('links.loadFailed')"
+        @retry="fetchLinksData"
+      >
+        <BaseButton class="mt-6" variant="outline" size="sm" @click="fetchLinksData">
+          {{ $t('errors.retry') }}
+        </BaseButton>
+      </ErrorState>
+
       <!-- Empty -->
       <EmptyState
         v-else-if="links.length === 0"
@@ -120,6 +133,8 @@ import PageShell from '@/components/layout/PageShell.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
+import ErrorState from '@/components/ui/ErrorState.vue'
+import BaseButton from '@/components/ui/BaseButton.vue'
 import LinkModal from '@/components/LinkModal.vue'
 
 const { t } = useI18n()
@@ -135,6 +150,7 @@ const toast = useToast()
 const links = ref<Link[]>([])
 const tags = ref<LinkTagResponse[]>([])
 const loading = ref(true)
+const error = ref(false)
 const search = useQueryStringRef<string>('q', '')
 const selectedTag = useQueryStringRef<string>('tag', '')
 const page = useQueryNumberRef('page', 1)
@@ -174,6 +190,7 @@ async function reloadLinks() {
 
 async function fetchLinksData() {
   loading.value = true
+  error.value = false
   try {
     const result = await fetchLinks({
       search: search.value || undefined,
@@ -184,6 +201,7 @@ async function fetchLinksData() {
     links.value = result.links || []
     total.value = result.total || 0
   } catch {
+    error.value = true
     toast.error(t('links.loadFailed'))
   } finally {
     loading.value = false

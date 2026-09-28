@@ -17,6 +17,19 @@
       <template v-else>
         <LoadingBlock v-if="loading" />
 
+        <!-- Error: never show zeroed stats as if they were real. -->
+        <ErrorState
+          v-else-if="loadError"
+          variant="inline"
+          class="mt-8"
+          :message="$t('dashboard.loadFailed')"
+          @retry="loadAll"
+        >
+          <BaseButton class="mt-6" variant="outline" size="sm" @click="loadAll">
+            {{ $t('errors.retry') }}
+          </BaseButton>
+        </ErrorState>
+
         <template v-else>
           <!-- Stats -->
           <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -250,6 +263,8 @@ import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import PageShell from '@/components/layout/PageShell.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
+import ErrorState from '@/components/ui/ErrorState.vue'
+import BaseButton from '@/components/ui/BaseButton.vue'
 import EditQuoteModal from '@/components/EditQuoteModal.vue'
 import LinkModal from '@/components/LinkModal.vue'
 import SnippetFormModal from '@/components/SnippetFormModal.vue'
@@ -284,6 +299,7 @@ usePageSeo({
 const isOwner = computed(() => isAuthenticated.value && user.value?.email === OWNER_EMAIL)
 
 const loading = ref(false)
+const loadError = ref(false)
 const quoteTotal = ref(0)
 const linkTotal = ref(0)
 const snippetTotal = ref(0)
@@ -298,6 +314,7 @@ const feedbackLoading = ref(false)
 async function loadAll() {
   if (!isOwner.value) return
   loading.value = true
+  loadError.value = false
   feedbackLoading.value = true
   try {
     const [q, l, s, achs] = await Promise.all([
@@ -325,6 +342,7 @@ async function loadAll() {
       .sort((a, b) => (b.date > a.date ? 1 : b.date < a.date ? -1 : a.order_index - b.order_index))
       .slice(0, 10)
   } catch {
+    loadError.value = true
     toast.error(t('dashboard.loadFailed'))
   } finally {
     loading.value = false

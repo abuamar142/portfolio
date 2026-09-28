@@ -36,6 +36,19 @@
       <!-- Loading -->
       <LoadingBlock v-if="loading" />
 
+      <!-- Error -->
+      <ErrorState
+        v-else-if="error"
+        variant="inline"
+        class="mt-2"
+        :message="$t('quotes.loadFailed')"
+        @retry="fetchQuotesData"
+      >
+        <BaseButton class="mt-6" variant="outline" size="sm" @click="fetchQuotesData">
+          {{ $t('errors.retry') }}
+        </BaseButton>
+      </ErrorState>
+
       <!-- Empty -->
       <EmptyState
         v-else-if="quotes.length === 0"
@@ -93,6 +106,8 @@ import PageShell from '@/components/layout/PageShell.vue'
 import SearchInput from '@/components/ui/SearchInput.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
+import ErrorState from '@/components/ui/ErrorState.vue'
+import BaseButton from '@/components/ui/BaseButton.vue'
 
 const { t } = useI18n()
 
@@ -107,6 +122,7 @@ const toast = useToast()
 const quotes = ref<Quote[]>([])
 const tags = ref<TagResponse[]>([])
 const loading = ref(true)
+const error = ref(false)
 const search = useQueryStringRef<string>('q', '')
 const selectedTag = useQueryStringRef<string>('tag', '')
 const sort = useQueryStringRef<'random' | 'latest'>('sort', 'random')
@@ -151,6 +167,7 @@ async function reloadQuotes() {
 
 async function fetchQuotesData() {
   loading.value = true
+  error.value = false
   try {
     const result = await fetchQuotes({
       search: search.value || undefined,
@@ -162,6 +179,7 @@ async function fetchQuotesData() {
     total.value = result.total || 0
   } catch (e: unknown) {
     console.error('Failed to fetch quotes:', e)
+    error.value = true
     toast.error(t('quotes.loadFailed'))
   } finally {
     loading.value = false

@@ -9,9 +9,9 @@
   <!-- 404 -->
   <section v-else-if="notFound" class="page-top">
     <div class="wrap flex min-h-[60vh] flex-col items-center justify-center pb-20 text-center md:pb-28">
-      <p class="label">{{ $t('snippets.notFound') }}</p>
+      <p class="label">{{ $t('snippets.title') }}</p>
       <h1 class="display-1 mt-6 text-base-content">404</h1>
-      <p class="mt-6 max-w-[46ch] text-ink-2">{{ $t('snippets.notFound') }}</p>
+      <p class="mt-6 max-w-[46ch] text-ink-2">{{ $t('snippets.notFoundBody') }}</p>
       <div class="mt-10">
         <router-link to="/snippets" class="btn btn-primary">
           {{ $t('snippets.title') }}
@@ -97,7 +97,7 @@
           <div class="flex items-start justify-between gap-4 mb-4">
             <h1 class="display-2 text-base-content">{{ snippet.title }}</h1>
             <div class="flex items-center gap-2 shrink-0">
-              <ShareButton :id="snippet.id" :content="snippet.title" author="Snippet" path="/snippets" />
+              <ShareButton :id="snippet.id" :content="snippet.title" :author="$t('snippets.title')" path="/snippets" />
               <template v-if="isAuthenticated">
                 <button @click="startEdit" class="btn btn-ghost btn-sm btn-circle" :title="$t('snippets.edit')">
                   <Pencil :size="16" />
@@ -228,7 +228,7 @@ async function loadSnippet() {
     if (status === 404) {
       notFound.value = true
     } else {
-      error.value = 'Failed to load snippet'
+      error.value = t('snippets.loadFailed')
     }
   } finally {
     loading.value = false

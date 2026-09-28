@@ -45,6 +45,19 @@
       <!-- Loading -->
       <LoadingBlock v-if="loading" />
 
+      <!-- Error -->
+      <ErrorState
+        v-else-if="error"
+        variant="inline"
+        class="mt-2"
+        :message="$t('snippets.loadFailed')"
+        @retry="fetchSnippetsData"
+      >
+        <BaseButton class="mt-6" variant="outline" size="sm" @click="fetchSnippetsData">
+          {{ $t('errors.retry') }}
+        </BaseButton>
+      </ErrorState>
+
       <!-- Empty -->
       <EmptyState
         v-else-if="snippets.length === 0"
@@ -107,6 +120,8 @@ import SnippetFormModal from '@/components/SnippetFormModal.vue'
 import AuthControls from '@/components/AuthControls.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
+import ErrorState from '@/components/ui/ErrorState.vue'
+import BaseButton from '@/components/ui/BaseButton.vue'
 
 const { t } = useI18n()
 const { isAuthenticated } = useAuth()
@@ -123,6 +138,7 @@ const snippets = ref<Snippet[]>([])
 const tags = ref<TagResponse[]>([])
 const languages = ref<LanguageResponse[]>([])
 const loading = ref(true)
+const error = ref(false)
 const search = useQueryStringRef<string>('q', '')
 const selectedTag = useQueryStringRef<string>('tag', '')
 const selectedLanguage = useQueryStringRef<string>('language', '')
@@ -170,10 +186,10 @@ async function reloadSnippets() {
 
 async function fetchSnippetsData() {
   loading.value = true
+  error.value = false
   try {
     const result = await fetchSnippets({
       search: search.value || undefined,
-      tag: selectedTag.value || undefined,
       language: selectedLanguage.value || undefined,
       page: page.value,
       limit,
@@ -182,7 +198,8 @@ async function fetchSnippetsData() {
     total.value = result.total || 0
   } catch (e: unknown) {
     console.error('Failed to fetch snippets:', e)
-    toast.error('Failed to load snippets')
+    error.value = true
+    toast.error(t('snippets.loadFailed'))
   } finally {
     loading.value = false
   }
@@ -200,22 +217,20 @@ async function loadLanguages() {
   } catch { /* ignore */ }
 }
 
+/** Relative time via locale keys — the previous hand-rolled version was
+ *  hardcoded English ('2h ago') on an Indonesian-first site. */
 function relativeDate(dateStr: string): string {
-  const now = Date.now()
-  const then = new Date(dateStr).getTime()
-  const diffMs = now - then
-  const diffSec = Math.floor(diffMs / 1000)
-  if (diffSec < 60) return 'just now'
+  const diffSec = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000)
+  if (diffSec < 60) return t('snippets.justNow')
   const diffMin = Math.floor(diffSec / 60)
-  if (diffMin < 60) return `${diffMin}m ago`
+  if (diffMin < 60) return t('snippets.minutesAgo', { n: diffMin })
   const diffHr = Math.floor(diffMin / 60)
-  if (diffHr < 24) return `${diffHr}h ago`
+  if (diffHr < 24) return t('snippets.hoursAgo', { n: diffHr })
   const diffDay = Math.floor(diffHr / 24)
-  if (diffDay < 30) return `${diffDay}d ago`
+  if (diffDay < 30) return t('snippets.daysAgo', { n: diffDay })
   const diffMonth = Math.floor(diffDay / 30)
-  if (diffMonth < 12) return `${diffMonth}mo ago`
-  const diffYear = Math.floor(diffMonth / 12)
-  return `${diffYear}y ago`
+  if (diffMonth < 12) return t('snippets.monthsAgo', { n: diffMonth })
+  return t('snippets.yearsAgo', { n: Math.floor(diffMonth / 12) })
 }
 
 onMounted(() => {
