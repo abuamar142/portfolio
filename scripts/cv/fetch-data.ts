@@ -104,11 +104,17 @@ export async function fetchCvData(): Promise<CvData> {
   }))
 
   const rawSkills = Array.isArray(data.skills) ? data.skills : []
-  const skills: CvSkill[] = (rawSkills as Record<string, unknown>[]).map((s) => ({
-    name: str(s.name),
-    category: s.category as CvSkill['category'],
-    level: str(s.level),
-  }))
+  // The API is the boundary: a level outside the documented set would print
+  // as-is in the PDF, so narrow it here and let the type enforce the rest.
+  const SKILL_LEVELS: string[] = ['beginner', 'intermediate', 'advanced', 'expert']
+  const skills: CvSkill[] = (rawSkills as Record<string, unknown>[]).map((s) => {
+    const level = str(s.level)
+    return {
+      name: str(s.name),
+      category: s.category as CvSkill['category'],
+      level: (SKILL_LEVELS.includes(level) ? level : 'intermediate') as CvSkill['level'],
+    }
+  })
 
   return { personalInfo, experiences, education, achievements, skills }
 }

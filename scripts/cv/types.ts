@@ -1,35 +1,33 @@
 /**
- * CV data contract — mirrors the CMS `/api/v1/personal/data` payload.
- * The generator fetches this shape, never hand-written values.
+ * CV data contract.
+ *
+ * The generator reads the same CMS payload the site does
+ * (`/api/v1/personal/data`), so these are derived from the site types rather
+ * than re-declared: two parallel copies silently drift whenever the API shape
+ * changes, and the CV is only noticed as broken when someone opens the PDF.
+ *
+ * `Pick` keeps the CV's narrower needs explicit — it renders a subset of the
+ * fields and must not start depending on ones it does not print.
  */
-export interface CvPersonalInfo {
-  fullname: string
-  title: string
-  email: string
-  phone: string
-  location: string
-  github?: string
-  linkedin?: string
-  website?: string
-  bio_en?: string
-}
+import type { PersonalInfo, Experience, Education, Skill } from '../../src/types/portfolio'
 
-export interface CvExperience {
-  company: string
-  position: string
-  duration: string
-  description: string[]
-  technologies?: string[]
-}
+/** Fields the ATS layout prints from the personal-info block. */
+export type CvPersonalInfo = Pick<
+  PersonalInfo,
+  'fullname' | 'title' | 'email' | 'phone' | 'location' | 'github' | 'linkedin' | 'website' | 'bio_en'
+>
 
-export interface CvEducation {
-  institution: string
-  degree: string
-  field: string
-  duration: string
-  gpa?: string
-}
+export type CvExperience = Pick<
+  Experience,
+  'company' | 'position' | 'duration' | 'description' | 'technologies'
+>
 
+export type CvEducation = Pick<Education, 'institution' | 'degree' | 'field' | 'duration' | 'gpa'>
+
+/**
+ * The CV prints achievements without their media/id bookkeeping, so this one
+ * stays a local shape — it is the API row minus the fields the PDF ignores.
+ */
 export interface CvAchievement {
   title: string
   organizer: string
@@ -38,11 +36,7 @@ export interface CvAchievement {
   valid_until?: string
 }
 
-export interface CvSkill {
-  name: string
-  category: 'mobile' | 'web' | 'backend' | 'tools'
-  level: string
-}
+export type CvSkill = Pick<Skill, 'name' | 'category' | 'level'>
 
 export interface CvData {
   personalInfo: CvPersonalInfo
