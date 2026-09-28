@@ -7,9 +7,13 @@ import type {
   CvSkill,
 } from './types'
 
-const BACKEND_URL = process.env.VITE_BACKEND_URL || 'https://backend.abuamar.online'
-const ENDPOINT = `${BACKEND_URL.replace(/\/$/, '')}/api/v1/personal/data`
+// Everything the CV needs now comes from portfolio-service: the profile
+// endpoint carries identity, experiences, education and skills, and
+// achievements moved there on 2026-09-27. This used to read the profile from
+// the Payload CMS — a second source of truth that would have quietly gone stale
+// the moment the site stopped using the CMS.
 const PORTFOLIO_API_URL = process.env.VITE_PORTFOLIO_API_URL || 'https://portfolio.abuamar.online'
+const PROFILE_ENDPOINT = `${PORTFOLIO_API_URL.replace(/\/$/, '')}/api/v1/profile`
 const ACHIEVEMENTS_ENDPOINT = `${PORTFOLIO_API_URL.replace(/\/$/, '')}/api/v1/achievements`
 
 interface RawResponse {
@@ -28,7 +32,7 @@ function strArray(value: unknown): string[] {
 
 function getData(body: RawResponse): Record<string, unknown> {
   const root = body.data as Record<string, unknown> | undefined
-  // Backend returns { success, data: {...} }; tolerate a wrapped variant.
+  // portfolio-service wraps every payload as { success, message, data }.
   const inner = root?.data as Record<string, unknown> | undefined
   const data = inner && typeof inner.personalInfo !== 'undefined' ? inner : root
   if (!data || typeof data !== 'object') throw new Error('CV data response has no data object')
@@ -40,10 +44,10 @@ function getData(body: RawResponse): Record<string, unknown> {
  * unexpected shape — a CV built from half-parsed data is worse than no CV.
  */
 export async function fetchCvData(): Promise<CvData> {
-  const res = await fetch(ENDPOINT, { headers: { Accept: 'application/json' } })
-  if (!res.ok) throw new Error(`CV data fetch failed: HTTP ${res.status} from ${ENDPOINT}`)
+  const res = await fetch(PROFILE_ENDPOINT, { headers: { Accept: 'application/json' } })
+  if (!res.ok) throw new Error(`CV data fetch failed: HTTP ${res.status} from ${PROFILE_ENDPOINT}`)
   const body = (await res.json()) as RawResponse
-  if (body.success === false) throw new Error(body.message || 'CV data API returned an error')
+  if (body.success === false) throw new Error(body.message || 'Profile API returned an error')
   const data = getData(body)
 
   const pi = data.personalInfo as Record<string, unknown> | undefined
