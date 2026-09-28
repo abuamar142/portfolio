@@ -92,12 +92,27 @@ const quote = ref<Quote | null>(null)
 const loading = ref(true)
 const error = ref('')
 
+// Sharing a quote is the whole point of this page: give crawlers the quote
+// itself instead of the site-wide fallback. og:type=article marks it as a
+// piece of content rather than a landing page.
 useHead({
   title: computed(() => {
     if (!quote.value) return t('quotes.title')
     const content = quote.value.content
     const head = content.length > 60 ? `${content.slice(0, 60)}…` : content
     return `${head} — ${t('quotes.title')}`
+  }),
+  meta: computed(() => {
+    const q = quote.value
+    if (!q) return []
+    const excerpt = q.content.length > 160 ? `${q.content.slice(0, 157)}…` : q.content
+    const author = q.is_anonymous ? t('quotes.anonymous') : q.author_name || t('quotes.unknown')
+    return [
+      { name: 'description', content: excerpt },
+      { property: 'og:title', content: `${excerpt.slice(0, 80)} — ${author}` },
+      { property: 'og:description', content: excerpt },
+      { property: 'og:type', content: 'article' },
+    ]
   }),
 })
 

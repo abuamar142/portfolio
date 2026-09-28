@@ -204,6 +204,8 @@ function isImage(f: File) {
 }
 
 async function handleFile(f: File) {
+  // First real use: now it is worth paying for the @bg0/browser download.
+  void ensureCapability()
   error.value = ''
   if (f.size > MAX_BYTES) {
     error.value = t('removeBg.errorTooLarge')
@@ -228,7 +230,8 @@ async function handleFile(f: File) {
   abort = controller
 
   try {
-    bg0 ??= await import('@bg0/browser')
+    await ensureCapability()
+    if (!bg0) throw new Error('@bg0/browser failed to load')
     const result = await bg0.removeBackground(f, {
       quality: 'quality',
       signal: abort.signal,
@@ -280,15 +283,22 @@ function reset() {
   working.value = false
 }
 
-onMounted(async () => {
-  window.addEventListener('paste', onPaste)
+// The capability probe used to run on mount, which pulled the whole
+// @bg0/browser bundle (~870 KB) for every visitor who merely opened the page.
+// The WASM/WebGPU hint is cosmetic, so it now resolves on first real use —
+// picking a file or pasting one — and the removal path reuses the same import.
+async function ensureCapability() {
+  if (bg0) return
   try {
     bg0 = await import('@bg0/browser')
     webgpu.value = bg0.getBrowserCapabilities().webgpu
   } catch (e: unknown) {
-    // Capability hint is cosmetic; removal will surface real failures.
     console.error('[remove-bg] capability check failed', e)
   }
+}
+
+onMounted(() => {
+  window.addEventListener('paste', onPaste)
 })
 
 onBeforeUnmount(() => {

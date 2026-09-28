@@ -8,7 +8,7 @@
       leave-from-class="opacity-100 translate-y-0"
       leave-to-class="opacity-0 -translate-y-1"
     >
-      <div v-if="open" id="mobile-menu" class="wrap pb-4">
+      <div v-if="open" id="mobile-menu" ref="menuRef" class="wrap pb-4">
         <ul class="border-t border-hairline-light pt-2">
           <li v-for="item in fullNav" :key="item.href">
             <component
@@ -41,6 +41,7 @@
 </template>
 
 <script setup lang="ts">
+import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { ArrowUpRight } from 'lucide-vue-next'
 import LanguageDropdown from '@/components/LanguageDropdown.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'
@@ -52,13 +53,94 @@ interface MenuItem {
   route: boolean
 }
 
-defineProps<{
+const props = defineProps<{
   open: boolean
   fullNav: MenuItem[]
   resumeHref: string
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   close: []
 }>()
+
+/**
+ * Keyboard containment for the open menu. It is not a modal dialog, but while
+ * it covers the page, Tab used to walk straight out of it into the content
+ * behind (WCAG 2.4.3): the user could not tell where focus had gone and had to
+ * Tab through the whole page to get back.
+ *
+ * The background is marked `inert` (out of the tab order and off the a11y
+ * tree) and Tab wraps between the first and last control of the menu, the same
+ * contract BaseModal gives every dialog.
+ */
+const menuRef = ref<HTMLElement | null>(null)
+let previouslyFocused: HTMLElement | null = null
+
+const FOCUSABLE = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'
+
+function focusable(): HTMLElement[] {
+  const root = menuRef.value
+  if (!root) return []
+  return Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+    (el) => el.checkVisibility?.({ checkOpacity: false, checkVisibilityCSS: true }) ?? true,
+  )
+}
+
+function setBackgroundInert(inert: boolean) {
+  if (typeof document === 'undefined') return
+  const app = document.getElementById('app')
+  if (!app) return
+  // Never inert the menu itself: it lives inside #app (rendered by the header).
+  const targets = Array.from(app.children).filter((el) => !el.contains(menuRef.value))
+  for (const el of targets) {
+    if (inert) el.setAttribute('inert', '')
+    else el.removeAttribute('inert')
+  }
+}
+
+function handleKeydown(e: KeyboardEvent) {
+  if (e.key === 'Escape') {
+    e.preventDefault()
+    emit('close')
+    return
+  }
+  if (e.key !== 'Tab') return
+  const items = focusable()
+  if (items.length === 0) return
+  const first = items[0]
+  const last = items[items.length - 1]
+  const active = document.activeElement as HTMLElement | null
+  if (e.shiftKey && (active === first || !menuRef.value?.contains(active))) {
+    e.preventDefault()
+    last.focus()
+    return
+  }
+  if (!e.shiftKey && (active === last || !menuRef.value?.contains(active))) {
+    e.preventDefault()
+    first.focus()
+  }
+}
+
+watch(
+  () => props.open,
+  (isOpen) => {
+    if (isOpen) {
+      previouslyFocused = document.activeElement as HTMLElement | null
+      document.addEventListener('keydown', handleKeydown, true)
+      setBackgroundInert(true)
+      nextTick(() => focusable()[0]?.focus())
+    } else {
+      document.removeEventListener('keydown', handleKeydown, true)
+      setBackgroundInert(false)
+      const target = previouslyFocused
+      previouslyFocused = null
+      if (target && document.contains(target)) nextTick(() => target.focus())
+    }
+  },
+)
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', handleKeydown, true)
+  setBackgroundInert(false)
+})
 </script>
