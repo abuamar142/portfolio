@@ -75,6 +75,7 @@ const formatDate = (dateString: string) => {
 
 const openEvidence = () => {
   const url = achievementEvidenceUrl(props.achievement)
-  if (url) window.open(url, '_blank')
+  // noopener: the opened document must not get a handle on this tab.
+  if (url) window.open(url, '_blank', 'noopener,noreferrer')
 }
 </script>

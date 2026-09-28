@@ -59,7 +59,7 @@
           <ul class="mt-4 flex flex-col gap-2.5">
             <li v-for="link in socialLinks" :key="link.label">
               <a
-                :href="link.url"
+                :href="safeHref(link.url)"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="inline-flex min-h-11 items-center gap-1.5 font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
@@ -77,7 +77,7 @@
           <ul class="mt-4 flex flex-col gap-2.5">
             <li>
               <a
-                :href="`mailto:${identity.email}`"
+                :href="safeHref(`mailto:${identity.email}`)"
                 class="inline-flex min-h-11 items-center font-sans text-[13px] font-medium text-neutral-content/75 transition-colors hover:text-voltage-light"
               >
                 {{ identity.email }}
@@ -124,6 +124,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowUp, ArrowUpRight } from 'lucide-vue-next'
 import { useIdentity } from '@/composables/useIdentity'
+import { safeHref } from '@/lib/safeHref'
 
 const { locale } = useI18n()
 const { identity, initials, phoneHref } = useIdentity()

@@ -188,16 +188,16 @@
                 <div v-if="fb.contact" class="text-ink-3 text-sm">
                   <a
                     v-if="looksLikeEmail(fb.contact)"
-                    :href="`mailto:${fb.contact}`"
+                    :href="safeHref(`mailto:${fb.contact}`)"
                     class="link link-hover"
                   >{{ fb.contact }}</a>
                   <span v-else>{{ fb.contact }}</span>
                 </div>
                 <a
                   v-if="fb.page_url"
-                  :href="fb.page_url"
+                  :href="safeHref(fb.page_url)"
                   target="_blank"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   class="text-ink-4 text-xs break-all hover:underline"
                 >{{ fb.page_url }}</a>
                 <div class="flex shrink-0 gap-1">
@@ -263,6 +263,7 @@ import { useAuth } from '@/composables/useAuth'
 import { useToast } from '@/composables/useToast'
 import PageShell from '@/components/layout/PageShell.vue'
 import LoadingBlock from '@/components/ui/LoadingBlock.vue'
+import { safeHref } from '@/lib/safeHref'
 import ErrorState from '@/components/ui/ErrorState.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import EditQuoteModal from '@/components/EditQuoteModal.vue'

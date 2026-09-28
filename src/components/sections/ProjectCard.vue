@@ -49,7 +49,7 @@
     >
       <a
         v-if="project.githubUrl"
-        :href="project.githubUrl"
+        :href="safeHref(project.githubUrl)"
         target="_blank"
         rel="noopener noreferrer"
         class="inline-flex min-h-11 items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-ink-2 transition-colors hover:text-base-content"
@@ -59,7 +59,7 @@
       </a>
       <a
         v-if="project.liveUrl"
-        :href="project.liveUrl"
+        :href="safeHref(project.liveUrl)"
         target="_blank"
         rel="noopener noreferrer"
         class="group/link inline-flex min-h-11 items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-primary transition-opacity hover:opacity-80"
@@ -78,6 +78,7 @@
 import { computed } from 'vue'
 import { ArrowUpRight, Github } from 'lucide-vue-next'
 import type { Project } from '@/types/portfolio'
+import { safeHref } from '@/lib/safeHref'
 
 const props = defineProps<{
   project: Project

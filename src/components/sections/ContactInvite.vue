@@ -50,7 +50,7 @@
           <a
             v-for="link in socialLinks"
             :key="link.label"
-            :href="link.href"
+            :href="safeHref(link.href)"
             target="_blank"
             rel="noopener noreferrer"
             class="action"
@@ -67,6 +67,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useIdentity, SITE_TIME_ZONE_LABEL } from '@/composables/useIdentity'
+import { safeHref } from '@/lib/safeHref'
 
 const { identity, phoneHref } = useIdentity()
 
