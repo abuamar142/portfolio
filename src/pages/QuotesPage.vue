@@ -80,8 +80,8 @@
         <button @click="nextPage" :disabled="page >= totalPages" class="btn btn-sm btn-ghost">{{ $t('quotes.next') }}</button>
       </div>
     <!-- Modals -->
-    <CreateQuoteModal :show="showCreate" @close="showCreate = false" @created="reloadQuotes" />
-    <EditQuoteModal :show="showEdit" :quote="editingQuote" @close="showEdit = false" @updated="reloadQuotes" />
+    <CreateQuoteModal :show="showCreate" @close="showCreate = false" @created="afterCreate" />
+    <EditQuoteModal :show="showEdit" :quote="editingQuote" @close="showEdit = false" @updated="fetchQuotesData" />
     <QuoteModal :show="showModal" :quote="selectedQuote" @close="showModal = false" />
     <ConfirmModal
       :open="!!pendingDelete"
@@ -99,7 +99,7 @@ import { useI18n } from 'vue-i18n'
 import { usePageSeo } from '@/composables/usePageSeo'
 import { FileEdit, Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
-import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
+import { useQueryStringRef } from '@/composables/useQueryRef'
 import { useToast } from '@/composables/useToast'
 import { fetchQuotes, fetchTags, deleteQuote } from '@/services/quote'
 import type { Quote, TagResponse } from '@/types/quote'
@@ -115,6 +115,7 @@ import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import ErrorState from '@/components/ui/ErrorState.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import { useCrudList } from '@/composables/useCrudList'
 import ConfirmModal from '@/components/ui/ConfirmModal.vue'
 
 const { t } = useI18n()
@@ -127,18 +128,36 @@ usePageSeo({
 const { isAuthenticated, openAuth } = useAuth()
 const toast = useToast()
 
-const quotes = ref<Quote[]>([])
 const tags = ref<TagResponse[]>([])
-const loading = ref(true)
-const error = ref(false)
-const search = useQueryStringRef<string>('q', '')
-const selectedTag = useQueryStringRef<string>('tag', '')
 const sort = useQueryStringRef<'random' | 'latest'>('sort', 'random')
-const page = useQueryNumberRef('page', 1)
-const total = ref(0)
-const limit = 30
 
-const totalPages = computed(() => Math.ceil(total.value / limit))
+// Shared list machinery — see useCrudList for the contract every list page uses.
+const {
+  items: quotes,
+  loading,
+  error,
+  totalPages,
+  search,
+  selectedTag,
+  page,
+  fetchItems: fetchQuotesData,
+  debouncedFetch,
+  onTagChange,
+  prevPage,
+  nextPage,
+  afterCreate,
+} = useCrudList<Quote>({
+  limit: 30,
+  fetch: async (params) => {
+    const result = await fetchQuotes({
+      search: params.search,
+      tag: params.tag,
+      page: params.page,
+      limit: params.limit,
+    })
+    return { items: result.quotes || [], total: result.total || 0 }
+  },
+})
 
 const showCreate = ref(false)
 const showEdit = ref(false)
@@ -146,53 +165,9 @@ const showModal = ref(false)
 const selectedQuote = ref<Quote | null>(null)
 const editingQuote = ref<Quote | null>(null)
 
-let debounceTimer: ReturnType<typeof setTimeout>
-function debouncedFetch() {
-  clearTimeout(debounceTimer)
-  debounceTimer = setTimeout(() => { page.value = 1; fetchQuotesData() }, 300)
-}
-
-// Tag change: same contract as search — start from page 1.
-function onTagChange() {
-  page.value = 1
-  reloadQuotes()
-}
-
-function sortRandom() { sort.value = 'random'; reloadQuotes() }
-function sortLatest() { sort.value = 'latest'; reloadQuotes() }
-
-function prevPage() {
-  if (page.value > 1) { page.value--; reloadQuotes() }
-}
-
-function nextPage() {
-  if (page.value < totalPages.value) { page.value++; reloadQuotes() }
-}
-
-async function reloadQuotes() {
-  await fetchQuotesData()
-}
-
-async function fetchQuotesData() {
-  loading.value = true
-  error.value = false
-  try {
-    const result = await fetchQuotes({
-      search: search.value || undefined,
-      tag: selectedTag.value || undefined,
-      page: page.value,
-      limit,
-    })
-    quotes.value = result.quotes || []
-    total.value = result.total || 0
-  } catch (e: unknown) {
-    console.error('Failed to fetch quotes:', e)
-    error.value = true
-    toast.error(t('quotes.loadFailed'))
-  } finally {
-    loading.value = false
-  }
-}
+// Sorting is quotes-only: flip the query param and refetch from the top.
+function sortRandom() { sort.value = 'random'; page.value = 1; void fetchQuotesData() }
+function sortLatest() { sort.value = 'latest'; page.value = 1; void fetchQuotesData() }
 
 async function loadTags() {
   try {
@@ -227,7 +202,7 @@ async function runDelete() {
     await deleteQuote(quote.id)
     toast.success(t('quotes.deletedToast'))
     pendingDelete.value = null
-    await reloadQuotes()
+    await fetchQuotesData()
   } catch {
     toast.error(t('quotes.deleteFailed'))
   } finally {
@@ -236,7 +211,6 @@ async function runDelete() {
 }
 
 onMounted(() => {
-  fetchQuotesData()
   loadTags()
 })
 </script>

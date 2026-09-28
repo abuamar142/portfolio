@@ -28,13 +28,13 @@
         />
         <div v-if="languages.length" class="ml-auto flex flex-wrap items-center gap-2">
           <button
-            @click="selectedLanguage = ''; reloadSnippets()"
+            @click="selectedLanguage = ''; onLanguageChange()"
             :class="['chip', !selectedLanguage ? 'chip-primary' : '']"
           >{{ $t('snippets.allLanguages') }}</button>
           <button
             v-for="lang in languages"
             :key="lang.language"
-            @click="selectedLanguage = lang.language; reloadSnippets()"
+            @click="selectedLanguage = lang.language; onLanguageChange()"
             :class="['chip', selectedLanguage === lang.language ? 'chip-primary' : '']"
           >
             {{ lang.language }} <span class="text-ink-4">({{ lang.count }})</span>
@@ -106,8 +106,7 @@ import TagChip from '@/components/ui/TagChip.vue'
 import { FileCode, Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import TagFilter from '@/components/TagFilter.vue'
-import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
-import { useToast } from '@/composables/useToast'
+import { useQueryStringRef } from '@/composables/useQueryRef'
 import {
   fetchSnippets,
   fetchSnippetTags,
@@ -122,10 +121,10 @@ import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import ErrorState from '@/components/ui/ErrorState.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import { useCrudList } from '@/composables/useCrudList'
 
 const { t } = useI18n()
 const { isAuthenticated } = useAuth()
-const toast = useToast()
 
 // Reuses the visible SectionHeader lead as the meta description — the page
 // previously fell through to the site-wide generic description.
@@ -134,75 +133,54 @@ usePageSeo({
   description: computed(() => t('snippets.dek')),
 })
 
-const snippets = ref<Snippet[]>([])
 const tags = ref<TagResponse[]>([])
 const languages = ref<LanguageResponse[]>([])
-const loading = ref(true)
-const error = ref(false)
-const search = useQueryStringRef<string>('q', '')
-const selectedTag = useQueryStringRef<string>('tag', '')
 const selectedLanguage = useQueryStringRef<string>('language', '')
-const page = useQueryNumberRef('page', 1)
-const total = ref(0)
-const limit = 18
-
-const totalPages = computed(() => Math.ceil(total.value / limit))
 const showCreate = ref(false)
 
-// After creating: jump back to page 1 (new snippet sorts first) and refresh
-// the tag filter in case the snippet introduced a new tag.
-function handleCreated() {
-  page.value = 1
-  fetchSnippetsData()
-  loadTags()
-}
-
-let debounceTimer: ReturnType<typeof setTimeout>
-function debouncedFetch() {
-  clearTimeout(debounceTimer)
-  debounceTimer = setTimeout(() => {
-    page.value = 1
-    fetchSnippetsData()
-  }, 300)
-}
-
-function prevPage() {
-  if (page.value > 1) { page.value--; reloadSnippets() }
-}
-
-function nextPage() {
-  if (page.value < totalPages.value) { page.value++; reloadSnippets() }
-}
-
-// Tag change: same contract as search — start from page 1.
-function onTagChange() {
-  page.value = 1
-  reloadSnippets()
-}
-
-async function reloadSnippets() {
-  await fetchSnippetsData()
-}
-
-async function fetchSnippetsData() {
-  loading.value = true
-  error.value = false
-  try {
+// Shared list machinery (search debounce, tag/page state, prev/next, loading
+// and error flags) — see useCrudList for the contract all three list pages use.
+const {
+  items: snippets,
+  loading,
+  error,
+  totalPages,
+  search,
+  selectedTag,
+  page,
+  fetchItems: fetchSnippetsData,
+  debouncedFetch,
+  onTagChange,
+  prevPage,
+  nextPage,
+  afterCreate,
+} = useCrudList<Snippet>({
+  limit: 18,
+  fetch: async (params) => {
     const result = await fetchSnippets({
-      search: search.value || undefined,
-      language: selectedLanguage.value || undefined,
-      page: page.value,
-      limit,
+      search: params.search,
+      tag: params.tag,
+      language: params.language as string | undefined,
+      page: params.page,
+      limit: params.limit,
     })
-    snippets.value = result.snippets || []
-    total.value = result.total || 0
-  } catch (e: unknown) {
-    console.error('Failed to fetch snippets:', e)
-    error.value = true
-    toast.error(t('snippets.loadFailed'))
-  } finally {
-    loading.value = false
-  }
+    return { items: result.snippets || [], total: result.total || 0 }
+  },
+  // Snippet lists also filter by language.
+  extraParams: () => ({ language: selectedLanguage.value || undefined }),
+})
+
+// Language filter: same contract as tag/search — restart from page 1.
+function onLanguageChange() {
+  page.value = 1
+  void fetchSnippetsData()
+}
+
+// After creating: back to page 1 (new snippet sorts first) and refresh the tag
+// filter in case the snippet introduced a new tag.
+function handleCreated() {
+  afterCreate()
+  loadTags()
 }
 
 async function loadTags() {
@@ -234,7 +212,6 @@ function relativeDate(dateStr: string): string {
 }
 
 onMounted(() => {
-  fetchSnippetsData()
   loadTags()
   loadLanguages()
 })

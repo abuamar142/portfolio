@@ -127,7 +127,6 @@ import TagChip from '@/components/ui/TagChip.vue'
 import { Link2, ExternalLink, Plus } from 'lucide-vue-next'
 import { useAuth } from '@/composables/useAuth'
 import TagFilter from '@/components/TagFilter.vue'
-import { useQueryStringRef, useQueryNumberRef } from '@/composables/useQueryRef'
 import { useToast } from '@/composables/useToast'
 import {
   fetchLinks,
@@ -142,6 +141,7 @@ import LoadingBlock from '@/components/ui/LoadingBlock.vue'
 import EmptyState from '@/components/ui/EmptyState.vue'
 import ErrorState from '@/components/ui/ErrorState.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import { useCrudList } from '@/composables/useCrudList'
 import ConfirmModal from '@/components/ui/ConfirmModal.vue'
 import LinkModal from '@/components/LinkModal.vue'
 
@@ -155,17 +155,34 @@ usePageSeo({
 const { isAuthenticated, openAuth } = useAuth()
 const toast = useToast()
 
-const links = ref<Link[]>([])
 const tags = ref<LinkTagResponse[]>([])
-const loading = ref(true)
-const error = ref(false)
-const search = useQueryStringRef<string>('q', '')
-const selectedTag = useQueryStringRef<string>('tag', '')
-const page = useQueryNumberRef('page', 1)
-const total = ref(0)
-const limit = 30
 
-const totalPages = computed(() => Math.ceil(total.value / limit))
+// Shared list machinery — see useCrudList for the contract every list page uses.
+const {
+  items: links,
+  loading,
+  error,
+  totalPages,
+  search,
+  selectedTag,
+  page,
+  fetchItems: fetchLinksData,
+  debouncedFetch,
+  onTagChange,
+  prevPage,
+  nextPage,
+} = useCrudList<Link>({
+  limit: 30,
+  fetch: async (params) => {
+    const result = await fetchLinks({
+      search: params.search,
+      tag: params.tag,
+      page: params.page,
+      limit: params.limit,
+    })
+    return { items: result.links || [], total: result.total || 0 }
+  },
+})
 
 const showModal = ref(false)
 const editingLink = ref<Link | null>(null)
@@ -175,44 +192,6 @@ function displayUrl(url: string) {
     return new URL(url).hostname + new URL(url).pathname.replace(/\/$/, '')
   } catch {
     return url
-  }
-}
-
-let debounceTimer: ReturnType<typeof setTimeout>
-function debouncedFetch() {
-  clearTimeout(debounceTimer)
-  debounceTimer = setTimeout(() => { page.value = 1; fetchLinksData() }, 300)
-}
-
-function prevPage() {
-  if (page.value > 1) { page.value--; reloadLinks() }
-}
-
-function nextPage() {
-  if (page.value < totalPages.value) { page.value++; reloadLinks() }
-}
-
-async function reloadLinks() {
-  await fetchLinksData()
-}
-
-async function fetchLinksData() {
-  loading.value = true
-  error.value = false
-  try {
-    const result = await fetchLinks({
-      search: search.value || undefined,
-      tag: selectedTag.value || undefined,
-      page: page.value,
-      limit,
-    })
-    links.value = result.links || []
-    total.value = result.total || 0
-  } catch {
-    error.value = true
-    toast.error(t('links.loadFailed'))
-  } finally {
-    loading.value = false
   }
 }
 
@@ -238,14 +217,8 @@ function closeModal() {
 }
 
 function onSaved() {
-  reloadLinks()
+  fetchLinksData()
   loadTags()
-}
-
-// Tag change: same contract as search — start from page 1.
-function onTagChange() {
-  page.value = 1
-  reloadLinks()
 }
 
 
@@ -265,7 +238,7 @@ async function runDelete() {
     await deleteLink(link.id)
     toast.success(t('links.deletedToast'))
     pendingDelete.value = null
-    await reloadLinks()
+    await fetchLinksData()
     await loadTags()
   } catch {
     toast.error(t('links.deleteFailed'))
@@ -275,7 +248,6 @@ async function runDelete() {
 }
 
 onMounted(() => {
-  fetchLinksData()
   loadTags()
 })
 </script>
