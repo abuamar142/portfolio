@@ -186,7 +186,7 @@ const slug = computed(() => {
   }
 })
 
-const { post, loading, error, contentHtml, coverUrl, readingTime, formatDate, toggleLocale } = useBlogPost(slug)
+const { post, loading, error, notFound, contentHtml, coverUrl, readingTime, formatDate, toggleLocale } = useBlogPost(slug)
 
 const canonical = computed(() => `${SITE_URL}/blogs/${encodeURIComponent(slug.value)}`)
 
@@ -194,6 +194,11 @@ useHead({
   title: computed(() => (post.value ? post.value.title : 'Blog Post')),
   titleTemplate: '%s | Abu Amar',
   meta: computed(() => [
+    // Soft-404 hygiene: an unknown slug is served the SPA shell with HTTP 200
+    // for browsers (nginx only proxies crawler user-agents to the preview
+    // server, which answers a real 404), so a JS-rendering client must keep
+    // the page out of the index itself — the same rule NotFound.vue follows.
+    ...(notFound.value ? [{ name: 'robots', content: 'noindex,nofollow' }] : []),
     { name: 'description', content: post.value?.excerpt || 'Blog post by Abu Amar' },
     { property: 'og:title', content: post.value ? `${post.value.title} - Abu Amar` : 'Blog Post - Abu Amar' },
     { property: 'og:description', content: post.value?.excerpt || 'Blog post by Abu Amar' },

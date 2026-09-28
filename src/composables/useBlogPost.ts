@@ -10,11 +10,21 @@ export function useBlogPost(slugRef: Ref<string>) {
   const post = ref<Post | null>(null)
   const loading = ref(true)
   const error = ref('')
+  // True when the API says this slug has no public post (missing or draft).
+  // BlogDetail turns it into robots=noindex: an unknown slug is served the SPA
+  // shell with HTTP 200 for browsers (nginx only 404s crawler user-agents, via
+  // the preview server), so the page has to exclude itself from the index.
+  // A plain network failure must NOT set this — a real post has to stay
+  // indexable when the API merely hiccups.
+  const notFound = ref(false)
 
   onServerPrefetch(async () => {
     try {
       const fetched = await getBySlug(slugRef.value, locale.value)
-      if (!fetched || fetched.status === 'draft') throw new Error('Not found')
+      if (!fetched || fetched.status === 'draft') {
+        notFound.value = true
+        throw new Error('Not found')
+      }
       post.value = fetched
     } catch (e) {
       console.warn('[BlogDetail] prerender fetch failed', slugRef.value, locale.value, e)
@@ -27,14 +37,21 @@ export function useBlogPost(slugRef: Ref<string>) {
   async function fetchPost() {
     loading.value = true
     error.value = ''
+    notFound.value = false
     try {
       const fetched = await getBySlug(slugRef.value, locale.value)
       if (import.meta.env.DEV) {
         console.debug('[BlogDetail] slug=', slugRef.value, 'locale=', locale.value, 'fetched=', fetched)
       }
       post.value = fetched
-      if (!post.value) throw new Error('Not found')
-      if (post.value.status === 'draft') throw new Error('Not found')
+      if (!post.value) {
+        notFound.value = true
+        throw new Error('Not found')
+      }
+      if (post.value.status === 'draft') {
+        notFound.value = true
+        throw new Error('Not found')
+      }
     } catch (e) {
       console.warn('[BlogDetail] failed to load', slugRef.value, 'locale', locale.value, e)
       if (!post.value) error.value = 'Post not found'
@@ -77,5 +94,5 @@ export function useBlogPost(slugRef: Ref<string>) {
   watch(slugRef, () => fetchPost())
   onMounted(fetchPost)
 
-  return { post, loading, error, fetchPost, contentHtml, coverUrl, readingTime, formatDate, toggleLocale }
+  return { post, loading, error, notFound, fetchPost, contentHtml, coverUrl, readingTime, formatDate, toggleLocale }
 }
