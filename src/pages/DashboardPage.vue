@@ -129,7 +129,10 @@
               class="flex items-center gap-3 border-t border-base-300 p-4 first:border-t-0"
             >
               <div class="min-w-0 flex-1">
-                <p class="truncate font-medium">{{ a.title }}</p>
+                <div class="flex items-center gap-2">
+                  <p class="truncate font-medium">{{ a.title }}</p>
+                  <span v-if="a.file_key" class="badge badge-success badge-xs">{{ $t('dashboard.achievements.fileBadge') }}</span>
+                </div>
                 <p class="text-ink-4 text-xs mt-1">
                   {{ $t(`achievements.categories.${a.type}`) }} · {{ a.organizer }} · {{ formatDateShort(a.date, locale) }}
                 </p>

@@ -50,6 +50,18 @@ export async function deleteAchievement(id: string): Promise<void> {
   await client.delete(`/achievements/${id}`)
 }
 
+export async function uploadAchievementFile(
+  id: string,
+  file: File,
+): Promise<Achievement> {
+  const { data } = await client.post(`/achievements/${id}/file`, file, {
+    headers: { 'Content-Type': file.type },
+    maxBodyLength: Infinity,
+    timeout: 60_000,
+  })
+  return data.data
+}
+
 export function achievementEvidenceUrl(a: Achievement): string | null {
   if (a.file_key) return `${FILES_URL}/${a.file_key}`
   if (a.drive_file_id) return `https://drive.google.com/file/d/${a.drive_file_id}/view`
