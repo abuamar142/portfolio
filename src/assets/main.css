@@ -594,6 +594,21 @@
     white-space: nowrap;
   }
 
+  /* Interactive chips (filters): the visible box stays compact, but the hit
+     area grows to ~40px on touch pointers so filter taps are not a lottery
+     (WCAG 2.5.8). Scoped to pointer:coarse — mouse users keep the density. */
+  @media (pointer: coarse) {
+    button.chip {
+      position: relative;
+      min-height: 2.5rem;
+    }
+    button.chip::after {
+      content: '';
+      position: absolute;
+      inset: -0.25rem;
+    }
+  }
+
   .chip-accent {
     border-color: color-mix(in oklab, var(--color-voltage-ink) 35%, transparent);
     background: color-mix(in oklab, var(--color-voltage-ink) 8%, var(--color-base-200));

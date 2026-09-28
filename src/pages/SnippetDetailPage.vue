@@ -124,7 +124,7 @@
           <div class="relative group">
             <button
               @click="copyCode"
-              class="absolute top-3 right-3 btn btn-ghost btn-xs opacity-0 group-hover:opacity-100 transition-opacity z-10"
+              class="absolute top-3 right-3 btn btn-ghost btn-sm opacity-0 group-hover:opacity-100 transition-opacity z-10"
             >
               <ClipboardCheck v-if="codeCopied" :size="14" />
               <Clipboard v-else :size="14" />

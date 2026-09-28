@@ -15,7 +15,7 @@
       <div v-if="isOwner" class="flex gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
         <button
           type="button"
-          class="btn btn-ghost btn-xs"
+          class="btn btn-ghost btn-sm"
           :aria-label="$t('quotes.editAria')"
           @click.stop="$emit('edit', quote)"
         >
@@ -23,7 +23,7 @@
         </button>
         <button
           type="button"
-          class="btn btn-ghost btn-xs text-error"
+          class="btn btn-ghost btn-sm text-error"
           :aria-label="$t('quotes.deleteAria')"
           @click.stop="$emit('delete', quote)"
         >

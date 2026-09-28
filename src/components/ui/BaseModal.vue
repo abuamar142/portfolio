@@ -13,7 +13,7 @@
         <button
           type="button"
           :aria-label="closeLabel"
-          class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+          class="modal-close btn btn-circle btn-ghost absolute right-2 top-2"
           @click="requestClose"
         >
           <X :size="16" aria-hidden="true" />
@@ -196,3 +196,18 @@ onBeforeUnmount(() => {
   setInert(false)
 })
 </script>
+
+<style scoped>
+/* The close control is a primary escape hatch: give it a 44px hit area on
+   touch pointers while the visual circle stays 32px (WCAG 2.5.8). */
+.modal-close {
+  width: 2rem;
+  height: 2rem;
+}
+@media (pointer: coarse) {
+  .modal-close {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}
+</style>

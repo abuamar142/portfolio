@@ -173,28 +173,28 @@
                 :href="`${FILES_URL}/${attachedFileKey}`"
                 target="_blank"
                 rel="noopener"
-                class="btn btn-ghost btn-xs"
+                class="btn btn-ghost btn-sm"
               >{{ $t('dashboard.achievements.fileOpen') }}</a>
               <button
                 type="button"
-                class="btn btn-ghost btn-xs"
+                class="btn btn-ghost btn-sm"
                 @click="triggerFilePicker"
               >{{ $t('dashboard.achievements.fileReplace') }}</button>
               <button
                 v-if="!confirmDelete"
                 type="button"
-                class="btn btn-ghost btn-xs text-error"
+                class="btn btn-ghost btn-sm text-error"
                 @click="confirmDelete = true"
               >{{ $t('dashboard.achievements.fileDelete') }}</button>
               <div v-else class="flex items-center gap-1">
                 <button
                   type="button"
-                  class="btn btn-error btn-xs"
+                  class="btn btn-error btn-sm"
                   @click="handleDeleteFile"
                 >{{ $t('dashboard.achievements.fileDeleteConfirm') }}</button>
                 <button
                   type="button"
-                  class="btn btn-ghost btn-xs"
+                  class="btn btn-ghost btn-sm"
                   @click="confirmDelete = false"
                 >{{ $t('dashboard.achievements.fileDeleteCancel') }}</button>
               </div>
@@ -218,7 +218,7 @@
             </div>
             <button
               type="button"
-              class="btn btn-ghost btn-xs text-error"
+              class="btn btn-ghost btn-sm text-error"
               @click="clearSelectedFile"
             >{{ $t('dashboard.achievements.fileDeleteCancel') }}</button>
           </div>

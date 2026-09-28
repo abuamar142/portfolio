@@ -22,8 +22,10 @@
     </div>
 
     <div class="form-control">
-      <label class="label cursor-pointer justify-start gap-2">
-        <input type="checkbox" v-model="form.is_anonymous" class="checkbox checkbox-primary checkbox-sm" />
+      <!-- The whole label is the hit area (44px min) and the box is one size
+           up from checkbox-sm — a 19px target is a mis-tap magnet. -->
+      <label class="label min-h-11 cursor-pointer justify-start gap-3">
+        <input type="checkbox" v-model="form.is_anonymous" class="checkbox checkbox-primary" />
         <span class="label-text">{{ $t('quotes.anonymousLabel') }}</span>
       </label>
     </div>

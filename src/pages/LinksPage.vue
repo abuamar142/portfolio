@@ -87,10 +87,10 @@
             <TagChip v-for="tag in link.tags" :key="tag" :tag="tag" />
           </div>
           <div v-if="isAuthenticated" class="mt-3 flex items-center gap-2 border-t border-hairline-light pt-3">
-            <button @click="openEdit(link)" class="btn btn-xs btn-ghost">
+            <button @click="openEdit(link)" class="btn btn-sm btn-ghost">
               {{ $t('links.edit') }}
             </button>
-            <button @click="confirmDelete(link)" class="btn btn-xs btn-ghost text-error">
+            <button @click="confirmDelete(link)" class="btn btn-sm btn-ghost text-error">
               {{ $t('links.delete') }}
             </button>
           </div>

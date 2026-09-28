@@ -32,7 +32,7 @@
         <span>{{ t.message }}</span>
         <button
           type="button"
-          class="btn btn-ghost btn-xs"
+          class="btn btn-ghost btn-sm"
           :aria-label="$t('common.dismiss')"
           @click="dismiss(t.id)"
         >
