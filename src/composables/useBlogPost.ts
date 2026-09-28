@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { usePosts, type Post } from '@/composables/usePosts'
 import { formatDateLong } from '@/lib/formatDate'
 import { sanitizeHtml } from '@/lib/sanitizeHtml'
+import { addHeadingAnchors, type TocItem } from '@/lib/toc'
 
 export function useBlogPost(slugRef: Ref<string>) {
   const { locale } = useI18n()
@@ -65,12 +66,23 @@ export function useBlogPost(slugRef: Ref<string>) {
   // this origin. Sanitize with a strict allow-list before it reaches the DOM
   // (SSR-safe: DOMPurify only runs in the browser, the prerendered pass keeps
   // the raw string and the client re-sanitizes on hydration).
-  const contentHtml = computed(() => {
+  //
+  // Anchors are added after sanitizing: DOMPurify allows `id`, but letting it
+  // run last would strip the ids this pass adds if the allow-list ever drifts.
+  const anchored = computed(() => addHeadingAnchors(contentHtmlSource()))
+  const contentHtml = computed(() => anchored.value.html)
+  const toc = computed<TocItem[]>(() => anchored.value.toc)
+
+  function contentHtmlSource(): string {
     const raw = post.value?.contentHtml || post.value?.content?.html || post.value?.excerpt || ''
     if (!raw) return ''
     if (typeof window === 'undefined') return raw
     return sanitizeHtml(raw)
-  })
+  }
+
+  /** Publish date, falling back to the CMS write time — some posts have only
+   *  the latter, and an empty `<time>` reads as a broken page. */
+  const displayDate = computed(() => post.value?.publishedAt || post.value?.createdAt || '')
   const coverUrl = computed(() => post.value?.coverImage?.url || post.value?.cover?.url || '')
   const readingTime = computed(() => {
     if (!post.value) return 0
@@ -94,5 +106,5 @@ export function useBlogPost(slugRef: Ref<string>) {
   watch(slugRef, () => fetchPost())
   onMounted(fetchPost)
 
-  return { post, loading, error, notFound, fetchPost, contentHtml, coverUrl, readingTime, formatDate, toggleLocale }
+  return { post, loading, error, notFound, fetchPost, contentHtml, toc, displayDate, coverUrl, readingTime, formatDate, toggleLocale }
 }

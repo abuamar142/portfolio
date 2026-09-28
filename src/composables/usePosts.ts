@@ -21,6 +21,9 @@ export interface Post {
   status?: string
   excerpt?: string
   publishedAt?: string
+  /** CMS write time. Some posts were never given a publish date, so the UI
+   *  falls back to this rather than rendering an empty `<time>`. */
+  createdAt?: string
   locale?: string
   contentHtml?: string
   content?: PostContent

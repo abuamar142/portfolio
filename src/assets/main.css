@@ -698,24 +698,49 @@
   }
 
   /* ── Blog content ───────────────────────────────────────────────────────── */
+  /* The CMS hands back one wrapper (`div.payload-richtext`) holding every
+     block. Child selectors written against `.blog-content` therefore hit the
+     wrapper alone — the blocks inside it kept their UA margins at best, and
+     headings sat flush against the paragraph below them. Every rule below
+     targets blocks at any depth instead, so the rhythm survives whatever
+     nesting the editor emits. */
   .blog-content {
     color: var(--color-ink-2);
     font-size: 1.125rem;
     line-height: 1.75;
   }
 
-  .blog-content > * + * { margin-top: 1.15rem; }
+  .blog-content :where(p, ul, ol, blockquote, figure, table, pre) + :where(p, ul, ol, blockquote, figure, table, pre) {
+    margin-top: 1.4rem;
+  }
 
+  /* Headings own the space above them; the block that follows starts close so
+     it reads as that heading's own text. */
   .blog-content h1, .blog-content h2, .blog-content h3, .blog-content h4 {
     font-family: var(--font-serif);
     color: var(--color-base-content);
     font-weight: 500;
     letter-spacing: -0.01em;
     line-height: 1.15;
+    /* Anchors are reachable from the table of contents; keep them clear of the
+       sticky masthead when jumped to. */
+    scroll-margin-top: calc(var(--header-h) + 2rem);
   }
   .blog-content h1 { font-size: 1.85rem; margin-top: 2.5rem; }
-  .blog-content h2 { font-size: 1.5rem; margin-top: 2.25rem; }
-  .blog-content h3 { font-size: 1.2rem; margin-top: 1.75rem; }
+  .blog-content h2 { font-size: 1.5rem; margin-top: 2.75rem; }
+  .blog-content h3 { font-size: 1.2rem; margin-top: 2.25rem; }
+  .blog-content h4 { font-size: 1.05rem; margin-top: 1.75rem; }
+
+  .blog-content :where(p, ul, ol, blockquote, figure, table, pre) + :where(h1, h2, h3, h4) {
+    margin-top: 2.75rem;
+  }
+  .blog-content :where(h1, h2, h3, h4) + :where(p, ul, ol, blockquote, figure, table, pre) {
+    margin-top: 0.9rem;
+  }
+  /* The opening block never carries a gap, whatever wrapper holds it. */
+  .blog-content > :first-child,
+  .blog-content .payload-richtext > :first-child { margin-top: 0; }
+
   .blog-content p { max-width: 68ch; }
 
   .blog-content a {
