@@ -125,6 +125,7 @@ export default {
     labels: {
       gpa: 'GPA',
     },
+    empty: 'No education history to show yet.',
   },
   contact: {
     subtitle: 'Have a role or a project in mind? My inbox is open.',
@@ -320,6 +321,14 @@ export default {
     updated: 'Updated',
     confirmDelete: 'Delete this snippet?',
     notFound: 'Snippet not found.',
+    notFoundBody: 'This snippet may have been removed, or the link is wrong.',
+    loadFailed: 'Failed to load snippets',
+    justNow: 'just now',
+    minutesAgo: '{n}m ago',
+    hoursAgo: '{n}h ago',
+    daysAgo: '{n}d ago',
+    monthsAgo: '{n}mo ago',
+    yearsAgo: '{n}y ago',
     updatedToast: 'Snippet updated',
     updateFailed: 'Could not update the snippet',
     deletedToast: 'Snippet deleted',

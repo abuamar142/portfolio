@@ -125,6 +125,7 @@ export default {
     labels: {
       gpa: 'IPK',
     },
+    empty: 'Belum ada riwayat pendidikan untuk ditampilkan.',
   },
   contact: {
     subtitle: 'Punya peran atau proyek? Kotak masuk saya terbuka.',
@@ -320,6 +321,14 @@ export default {
     updated: 'Diperbarui',
     confirmDelete: 'Hapus cuplikan ini?',
     notFound: 'Cuplikan tidak ditemukan.',
+    notFoundBody: 'Cuplikan ini mungkin sudah dihapus atau tautannya salah.',
+    loadFailed: 'Gagal memuat cuplikan',
+    justNow: 'baru saja',
+    minutesAgo: '{n} menit lalu',
+    hoursAgo: '{n} jam lalu',
+    daysAgo: '{n} hari lalu',
+    monthsAgo: '{n} bulan lalu',
+    yearsAgo: '{n} tahun lalu',
     updatedToast: 'Cuplikan diperbarui',
     updateFailed: 'Gagal memperbarui cuplikan',
     deletedToast: 'Cuplikan dihapus',
