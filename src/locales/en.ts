@@ -11,6 +11,8 @@ export default {
     contact: 'Contact',
   },
   head: {
+    siteDescription:
+      'M. Abu Amar Al Badawi - Mobile & Full Stack Developer. Portfolio of mobile, web, and backend projects running in production.',
     explore:
       "Directory of Abu Amar's tools, quotes and blog posts — try the mini apps and browse the writing.",
     quotes: { title: 'Quotes', dek: 'Words worth sharing' },

@@ -107,8 +107,8 @@ onUnmounted(() => {
 // trailing slash to match the sitemap's `https://abuamar.online/` entry.
 const canonicalUrl = computed(() => new URL(route.path, SITE_URL).href)
 
-const SITE_DESCRIPTION =
-  'M. Abu Amar Al Badawi - Mobile & Full Stack Developer. Portofolio proyek mobile, web, dan backend yang berjalan di produksi.'
+// Localized so English visitors get an English description (and og preview).
+const SITE_DESCRIPTION = computed(() => t('head.siteDescription'))
 useHead({
   htmlAttrs: { lang: computed(() => locale.value) },
   titleTemplate: (title) => (title ? `${title} | Abu Amar` : 'Abu Amar - Portfolio'),

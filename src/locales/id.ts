@@ -11,6 +11,8 @@ export default {
     contact: 'Kontak',
   },
   head: {
+    siteDescription:
+      'M. Abu Amar Al Badawi - Mobile & Full Stack Developer. Portofolio proyek mobile, web, dan backend yang berjalan di produksi.',
     explore:
       'Katalog tools, kutipan, dan blog Abu Amar — coba mini app-nya dan telusuri tulisannya.',
     quotes: { title: 'Kutipan', dek: 'Kata-kata yang layak dibagikan' },
