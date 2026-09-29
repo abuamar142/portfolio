@@ -84,6 +84,14 @@ export default {
       backend: 'Backend',
       tools: 'Tools',
     },
+    // Spoken form of the four dots on each skill chip. Screen readers cannot
+    // see "three of four filled", so the level is stated in words.
+    levels: {
+      beginner: 'pemula',
+      intermediate: 'menengah',
+      advanced: 'mahir',
+      expert: 'ahli',
+    },
   },
   projects: {
     subtitle: 'Produk live, bukan mockup. Buka demo atau baca kodenya.',
