@@ -72,6 +72,16 @@ describe('AchievementCard', () => {
     expect(wrapper.text()).toContain('Menyumbang fitur duplikat habit ke Streak')
   })
 
+  it('keeps the line breaks a contribution uses to separate its links', () => {
+    const wrapper = mountCard({
+      description: 'Prosa.\n\nhttps://github.com/InlitX/streak/pull/230',
+    })
+
+    // Without whitespace-pre-line the newlines collapse and the link runs
+    // into the paragraph.
+    expect(wrapper.find('p.whitespace-pre-line').exists()).toBe(true)
+  })
+
   it('never emits a javascript: href', () => {
     const wrapper = mountCard({
       description: 'Coba javascript:alert(1) di sini',

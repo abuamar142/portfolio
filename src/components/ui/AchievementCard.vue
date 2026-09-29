@@ -12,12 +12,12 @@
         {{ achievement.organizer }}
       </p>
 
-      <!-- A contribution explains what was shipped, so it keeps its links and
-           gets more room than a certificate line. -->
+      <!-- A contribution explains what was shipped, so it keeps its links, the
+           author's line breaks, and more room than a certificate line. -->
       <p
         v-if="achievement.description"
         class="mt-3 text-sm text-ink-2"
-        :class="isContribution ? 'line-clamp-none' : 'line-clamp-3'"
+        :class="isContribution ? 'line-clamp-none whitespace-pre-line' : 'line-clamp-3'"
       >
         <template v-for="(segment, index) in descriptionSegments" :key="index">
           <a
