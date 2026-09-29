@@ -112,11 +112,15 @@ const sectionNav = [
   { id: 'contact', no: '07', label: 'navigation.contact' },
 ]
 
-/** Mobile menu: numbered sections, then the explore hub and its sub-pages.
- *  Always route links so they navigate home from /quotes, /blogs and
- *  /explore (bare #hash would not). Sub-pages used to be reachable only via
- *  /explore, so on a phone the archive, quotes, snippets, feedback and the
- *  studio had no direct entry point. */
+/** Mobile menu: the numbered landing sections, then the explore hub and
+ *  feedback. Always route links so they navigate home from /quotes, /blogs
+ *  and /explore (a bare #hash would not).
+ *
+ *  Everything else lives one tap deeper, behind /explore — the menu listed
+ *  seven sub-pages on top of seven sections, which on a phone is a wall of
+ *  links and a second place to keep in sync with the hub. Feedback stays
+ *  because it is the one page a visitor is asked to use; the dashboard does
+ *  not, because it is owner-only and reached by typing its URL. */
 const fullNav = [
   ...sectionNav.map((item) => ({
     href: `/#${item.id}`,
@@ -125,12 +129,7 @@ const fullNav = [
     route: true,
   })),
   { href: '/explore', no: '', label: 'navigation.explore', route: true },
-  { href: '/blogs', no: '', label: 'navigation.blog', route: true },
-  { href: '/quotes', no: '', label: 'quotes.title', route: true },
-  { href: '/snippets', no: '', label: 'snippets.title', route: true },
-  { href: '/links', no: '', label: 'links.title', route: true },
   { href: '/feedback', no: '', label: 'feedback.title', route: true },
-  { href: '/dashboard', no: '', label: 'dashboard.title', route: true },
 ]
 
 // "Jelajahi" stays highlighted across the whole tools/blog area, not just
