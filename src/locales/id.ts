@@ -110,12 +110,14 @@ export default {
       certification: 'Sertifikasi',
       webinar: 'Webinar',
       seminar: 'Seminar',
+      contribution: 'Kontribusi',
     },
     categories: {
       certificate: 'Sertifikat',
       certification: 'Sertifikasi',
       webinar: 'Webinar',
       seminar: 'Seminar',
+      contribution: 'Kontribusi',
     },
     buttons: {
       evidence: 'Lihat Bukti',

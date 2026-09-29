@@ -12,8 +12,23 @@
         {{ achievement.organizer }}
       </p>
 
-      <p v-if="achievement.description" class="mt-3 line-clamp-3 text-sm text-ink-2">
-        {{ achievement.description }}
+      <!-- A contribution explains what was shipped, so it keeps its links and
+           gets more room than a certificate line. -->
+      <p
+        v-if="achievement.description"
+        class="mt-3 text-sm text-ink-2"
+        :class="isContribution ? 'line-clamp-none' : 'line-clamp-3'"
+      >
+        <template v-for="(segment, index) in descriptionSegments" :key="index">
+          <a
+            v-if="segment.type === 'link'"
+            :href="safeHref(segment.value)"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="break-all text-primary underline underline-offset-2 transition-opacity hover:opacity-80"
+          >{{ segment.value }}</a>
+          <template v-else>{{ segment.value }}</template>
+        </template>
       </p>
 
       <div
@@ -49,10 +64,13 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { ArrowUpRight } from 'lucide-vue-next'
 import type { Achievement } from '@/types/portfolio'
 import { achievementEvidenceUrl } from '@/services/achievement'
+import { linkify } from '@/lib/linkify'
+import { safeHref } from '@/lib/safeHref'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
 interface Props {
@@ -62,6 +80,15 @@ interface Props {
 const props = defineProps<Props>()
 
 const { locale } = useI18n()
+
+/**
+ * Descriptions are plain text, but a contribution is only useful when its PR
+ * and release can be opened. Splitting into segments keeps v-html out of the
+ * picture; the anchor href still goes through safeHref.
+ */
+const descriptionSegments = computed(() => linkify(props.achievement.description ?? ''))
+
+const isContribution = computed(() => props.achievement.type === 'contribution')
 
 const formatDate = (dateString: string) => {
   try {

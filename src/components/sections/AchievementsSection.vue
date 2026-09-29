@@ -108,6 +108,7 @@ const categories = [
   { key: 'certification' },
   { key: 'webinar' },
   { key: 'seminar' },
+  { key: 'contribution' },
 ]
 
 const filteredAchievements = computed(() => {

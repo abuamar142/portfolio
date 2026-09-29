@@ -52,7 +52,7 @@ export interface Achievement {
   title: string
   organizer: string
   date: string
-  type: 'certificate' | 'certification' | 'webinar' | 'seminar'
+  type: 'certificate' | 'certification' | 'webinar' | 'seminar' | 'contribution'
   file_key?: string | null
   file_name?: string | null
   file_size?: number | null

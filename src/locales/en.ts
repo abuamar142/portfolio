@@ -110,12 +110,14 @@ export default {
       certification: 'Certifications',
       webinar: 'Webinars',
       seminar: 'Seminars',
+      contribution: 'Contributions',
     },
     categories: {
       certificate: 'Certificate',
       certification: 'Certification',
       webinar: 'Webinar',
       seminar: 'Seminar',
+      contribution: 'Contribution',
     },
     buttons: {
       evidence: 'View Evidence',

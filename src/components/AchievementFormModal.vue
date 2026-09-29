@@ -35,6 +35,7 @@
             <option value="certification">{{ $t('achievements.categories.certification') }}</option>
             <option value="webinar">{{ $t('achievements.categories.webinar') }}</option>
             <option value="seminar">{{ $t('achievements.categories.seminar') }}</option>
+            <option value="contribution">{{ $t('achievements.categories.contribution') }}</option>
           </select>
         </div>
       </div>
