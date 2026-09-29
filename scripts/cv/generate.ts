@@ -1,8 +1,10 @@
 /**
- * Generate public/cv.pdf from live CMS data (Opsi A, identity-sync).
+ * Generate public/cv.pdf from live portfolio-service data.
  *
  * Usage: `bun scripts/cv/generate.ts` (wired as `prebuild-only`).
- * - Fetches `/api/v1/personal/data`, renders an ATS-friendly EN layout.
+ * - Fetches `/api/v1/profile` + `/api/v1/achievements`, renders an ATS-friendly
+ *   EN layout. (Was the CMS until 2026-09-29; the profile moved to
+ *   portfolio-service and the CV followed.)
  * - Prints via puppeteer-bundled Chromium (dev dependency, cached in
  *   ~/.cache/puppeteer; no apt browser, no snap, no service).
  * - Backend unreachable or invalid shape = hard fail (no stale PDF).

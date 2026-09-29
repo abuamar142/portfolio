@@ -1,9 +1,9 @@
 /**
  * CV data contract.
  *
- * The generator reads the same CMS payload the site does
- * (`/api/v1/personal/data`), so these are derived from the site types rather
- * than re-declared: two parallel copies silently drift whenever the API shape
+ * The generator reads the same profile the site does (`/api/v1/profile` from
+ * portfolio-service), so these are derived from the site types rather than
+ * re-declared: two parallel copies silently drift whenever the API shape
  * changes, and the CV is only noticed as broken when someone opens the PDF.
  *
  * `Pick` keeps the CV's narrower needs explicit — it renders a subset of the
