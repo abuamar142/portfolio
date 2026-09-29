@@ -46,7 +46,10 @@
 
         <p class="mt-3 text-center text-sm">
           {{ mode === 'login' ? $t('auth.noAccount') : $t('auth.haveAccount') }}
-          <button @click="toggleMode" class="link link-primary">
+          <!-- Inline toggle inside a sentence: it keeps the inline flow, but
+               the hit area grows to 40px on touch pointers so switching
+               login/register is not a 19px-tall gamble. -->
+          <button @click="toggleMode" class="link link-primary auth-toggle">
             {{ mode === 'login' ? $t('auth.signUp') : $t('auth.signIn') }}
           </button>
         </p>
@@ -132,3 +135,19 @@ async function handleSubmit() {
   }
 }
 </script>
+
+<style scoped>
+/* The toggle sits mid-sentence, so it cannot gain height without pushing the
+   paragraph apart. A pseudo-element grows the hit area instead (WCAG 2.5.8);
+   touch pointers only, matching the .action / .chip treatment. */
+@media (pointer: coarse) {
+  .auth-toggle {
+    position: relative;
+  }
+  .auth-toggle::after {
+    content: '';
+    position: absolute;
+    inset: -0.6rem -0.4rem;
+  }
+}
+</style>

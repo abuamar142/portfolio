@@ -299,6 +299,22 @@
   .action:focus-visible .arrow {
     transform: translateX(6px);
   }
+
+  /* Social links sit alone in a wrapping row, so a 24px-tall box is a coin
+     toss on a phone. Grow the hit area to 40px on touch pointers only —
+     mouse users keep the tight inline rhythm (same approach as button.chip).
+     Scoped to .action, NOT .link: an inline link inside a paragraph must not
+     gain height or it pushes the line box apart. */
+  @media (pointer: coarse) {
+    .action {
+      position: relative;
+    }
+    .action::after {
+      content: '';
+      position: absolute;
+      inset: -0.5rem -0.25rem;
+    }
+  }
   .masthead-name {
     font-family: var(--font-sans);
     font-size: 0.6875rem;
