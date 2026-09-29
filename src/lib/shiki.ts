@@ -8,6 +8,12 @@ let highlighterPromise: Promise<HighlighterCore> | null = null
 const LANG_MAP: Record<string, string> = {
   typescript: 'typescript',
   ts: 'typescript',
+  // JSX/TSX share the TypeScript and JavaScript grammars — Shiki has no
+  // separate `tsx`/`jsx` bundle, and the JSX tags inside are already covered
+  // by the parent grammar. Without these two lines a React snippet from any
+  // component library falls through to plain text, silently.
+  tsx: 'typescript',
+  jsx: 'javascript',
   javascript: 'javascript',
   js: 'javascript',
   vue: 'vue',

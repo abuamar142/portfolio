@@ -42,6 +42,21 @@ describe('highlightCodeBlocks', () => {
     expect(root.querySelector('pre')?.outerHTML).toBe(original)
   })
 
+  it('colours tsx and jsx, which share the TypeScript grammars', async () => {
+    // Shiki ships no separate tsx/jsx bundle; the aliases map onto the parent
+    // grammar. A missing alias degrades to plain text with no warning, which
+    // is exactly how a React snippet from a component library goes grey.
+    const root = article(
+      '<pre><code class="language-tsx">const x = &lt;div /&gt;</code></pre>'
+      + '<pre><code class="language-jsx">const y = &lt;span /&gt;</code></pre>',
+    )
+
+    const painted = await highlightCodeBlocks(root, false)
+
+    expect(painted).toBe(2)
+    expect(root.querySelectorAll('pre.shiki').length).toBe(2)
+  })
+
   it('drops the theme background so the site surface shows through', async () => {
     const root = article('<pre><code class="language-bash">echo hi</code></pre>')
 
