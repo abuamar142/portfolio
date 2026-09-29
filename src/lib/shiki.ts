@@ -116,6 +116,50 @@ export async function highlight(
   })
 }
 
+/**
+ * Highlight every fenced code block inside a rendered article, in place.
+ *
+ * Blog bodies arrive as HTML from `marked` — `<pre><code class="language-x">`
+ * — because that is what the prerenderer can write without a DOM. This walks
+ * those blocks, swaps each for Shiki's coloured markup, and tags the result
+ * with its language so a second pass (the theme flip) does not have to guess:
+ * after the first run the fence class is gone, replaced by Shiki's own.
+ *
+ * Blocks whose language has no bundled grammar are left exactly as they are.
+ * A plain <pre> is honest and readable; `highlight()` would hand back bare
+ * escaped text, which has no <pre> to go in and would break the layout.
+ *
+ * Returns how many blocks were painted, so a caller can skip the work when a
+ * post has no code at all.
+ */
+export async function highlightCodeBlocks(root: HTMLElement, dark: boolean): Promise<number> {
+  const blocks = Array.from(root.querySelectorAll('pre'))
+  let painted = 0
+
+  for (const pre of blocks) {
+    const code = pre.querySelector('code')
+    if (!code) continue
+
+    const lang = pre.dataset.lang || /language-([\w+-]+)/.exec(code.className)?.[1] || ''
+    if (resolveLanguage(lang) === 'text') continue
+
+    const html = await highlight(code.textContent || '', lang, dark)
+    const next = new DOMParser().parseFromString(html, 'text/html').querySelector('pre')
+    if (!next) continue
+
+    // The article's own surface frames the block (`.blog-content pre` owns the
+    // border, padding and fill). Shiki ships its theme background inline, which
+    // would sit on top of that design as a second, foreign colour — and only in
+    // dark mode, where the two differ. Keep the palette, drop the fill.
+    next.style.backgroundColor = ''
+    next.dataset.lang = lang
+    pre.replaceWith(next)
+    painted++
+  }
+
+  return painted
+}
+
 function escapeHtml(str: string): string {
   return str
     .replace(/&/g, '&amp;')

@@ -65,7 +65,7 @@
             </nav>
           </details>
 
-          <div class="blog-content mt-10" v-html="contentHtml"></div>
+          <div ref="bodyRef" class="blog-content mt-10" v-html="contentHtml"></div>
 
           <div
             class="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-base-300 pt-6"
@@ -157,12 +157,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick, watch, onBeforeUnmount } from 'vue'
+import { ref, computed, nextTick, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import { SITE_URL } from '@/site'
 import { ArrowLeft, Share2 } from 'lucide-vue-next'
 import { useBlogPost } from '@/composables/useBlogPost'
+import { useTheme } from '@/composables/useTheme'
+import { highlightCodeBlocks } from '@/lib/shiki'
 import TagChip from '@/components/ui/TagChip.vue'
 import BaseModal from '@/components/ui/BaseModal.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
@@ -369,4 +371,44 @@ async function handleShare() {
 function selectAll(e: Event) {
   ;(e.target as HTMLInputElement)?.select()
 }
+
+// ── Fenced code: colour after mount ─────────────────────────────────────────
+// The body is HTML from `marked` (prerendered into dist/ as plain <pre>), so
+// Shiki paints it here rather than during the build: the syntax grammars are
+// lazy chunks, and the static HTML stays readable for a reader without JS.
+// Re-runs on a theme flip, because the two Shiki themes are baked into the
+// markup rather than swapped by CSS.
+const { mode } = useTheme()
+
+const isDark = computed(() => {
+  if (mode.value === 'dark') return true
+  if (mode.value === 'light') return false
+  return typeof window !== 'undefined'
+    && window.matchMedia('(prefers-color-scheme: dark)').matches
+})
+
+const bodyRef = ref<HTMLElement | null>(null)
+
+async function paintCode() {
+  const el = bodyRef.value
+  if (!el) return
+  // A failed grammar load must never take the article down with it — the
+  // uncoloured block is already on screen and stays there.
+  try {
+    await highlightCodeBlocks(el, isDark.value)
+  } catch {
+    /* leave the plain blocks in place */
+  }
+}
+
+onMounted(async () => {
+  await nextTick()
+  await paintCode()
+})
+
+watch(isDark, paintCode)
+watch(contentHtml, async () => {
+  await nextTick()
+  await paintCode()
+})
 </script>

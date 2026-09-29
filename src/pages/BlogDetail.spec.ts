@@ -13,6 +13,19 @@ import id from '@/locales/id'
  * slug must reach <head> as robots=noindex, and a real post must not.
  */
 
+// jsdom ships no matchMedia, and the code-highlighting path reads it to pick
+// the Shiki theme. Same polyfill DetailPages.spec.ts installs.
+window.matchMedia = window.matchMedia || ((query: string) => ({
+  matches: false,
+  media: query,
+  onchange: null,
+  addEventListener: () => {},
+  removeEventListener: () => {},
+  addListener: () => {},
+  removeListener: () => {},
+  dispatchEvent: () => false,
+})) as unknown as typeof window.matchMedia
+
 let cleanup: (() => void) | null = null
 
 async function mountPage(slug: string) {
