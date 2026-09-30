@@ -46,8 +46,9 @@ jobs:
       - name: Impeccable design-system detect
         run: npx -y impeccable@4.1.0 detect src
 
-      # The VPS login shell is fish, which rejects POSIX `VAR="..."` syntax;
-      # hand the whole script to bash explicitly (pipefail logic unchanged).
+      # The VPS login shell is bash (since 2026-09-25); run the deploy script
+      # directly. appleboy/ssh-action already runs with `-e -o pipefail` and the
+      # script has its own `set -euo pipefail`, so no wrapper is needed.
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
         env:
@@ -59,4 +60,4 @@ jobs:
           port: ${{ secrets.VPS_PORT || 22 }}
           envs: BRANCH
           script: |
-            bash -lc 'set -euo pipefail; echo "Deploying branch: $BRANCH"; /opt/ops/bin/deploy-portfolio.sh "$BRANCH"'
+            /opt/ops/bin/deploy-portfolio.sh "$BRANCH"
