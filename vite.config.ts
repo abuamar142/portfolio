@@ -6,7 +6,7 @@ import generateSitemap from 'vite-ssg-sitemap'
 import { readPostSlugs } from './scripts/blog/slugs'
 
 // https://vite.dev/config/
-export default defineConfig(() => {
+export default defineConfig(({ mode }) => {
   /**
    * Post slugs come from `content/blog/*.md`, so every blog detail page is
    * prerendered as a real HTML file (dist/blogs/<slug>.html).
@@ -29,7 +29,17 @@ export default defineConfig(() => {
         // (no 'unsafe-eval'). Every message in this app is plain text with
         // simple {placeholder} interpolation, which the runtime-only build
         // handles without eval.
-        'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js',
+        //
+        // Applied to the production build only. The runtime-only build
+        // registers no message compiler unless `__INTLIFY_JIT_COMPILATION__`
+        // is defined at bundle time, and the dev server's dependency pre-bundle
+        // does not define it: with the alias active in dev, every message came
+        // back as its key (`hero.greeting Abu Amar.` on screen) plus one console
+        // warning per string. Dev has no CSP, so dev gets the default build;
+        // builds keep the runtime-only alias exactly as before.
+        ...(mode === 'production'
+          ? { 'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js' }
+          : {}),
       },
     },
     ssgOptions: {
