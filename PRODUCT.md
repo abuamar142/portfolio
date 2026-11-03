@@ -49,7 +49,7 @@ Full Stack + Mobile Expertise — one person who can handle the entire stack fro
 - Name: **M. Abu Amar Al Badawi** (formal, document titles); **Abu Amar** (masthead and site title suffix "… | Abu Amar")
 - Bilingual commitment: Indonesian is the default locale, English the fallback — no surface ships in one language only
 - Official channels: abuamar.albadawi@gmail.com · github.com/abuamar142 · linkedin.com/in/abu-amar · WhatsApp via CMS identity field
-- Location identity: Bantul, Indonesia (Yogyakarta time zone shown in hero)
+- Location identity: Nganjuk, Jawa Timur (WIB, UTC+7, shown in hero)
 
 ## Evidence on Hand
 
