@@ -1,8 +1,12 @@
 name: Deploy Portfolio to VPS
 
+# `development` is deliberately NOT listed: the dev stack (dev.abuamar.online,
+# portfolio-dev.abuamar.online) was decommissioned on 2026-11-04 to free VPS
+# resources. Auto-deploying it would resurrect a vhost that no longer exists.
+# Use workflow_dispatch for an ad-hoc deploy of another branch.
 on:
   push:
-    branches: [main, development]
+    branches: [main]
   workflow_dispatch:
 
 concurrency:
