@@ -80,6 +80,7 @@ export default defineConfig(({ mode }) => {
             '/base64',
             '/hash',
             '/uuid',
+            '/timestamp',
             '/feedback',
           ],
         })

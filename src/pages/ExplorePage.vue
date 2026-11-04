@@ -47,6 +47,7 @@ const entries = computed(() => [
   { to: '/base64', path: '/base64', title: t('base64Tool.title'), dek: t('base64Tool.dek') },
   { to: '/hash', path: '/hash', title: t('hashTool.title'), dek: t('hashTool.dek') },
   { to: '/uuid', path: '/uuid', title: t('uuidTool.title'), dek: t('uuidTool.dek') },
+  { to: '/timestamp', path: '/timestamp', title: t('timestampTool.title'), dek: t('timestampTool.dek') },
   { to: '/links', path: '/links', title: t('links.title'), dek: t('links.dek') },
   { to: '/snippets', path: '/snippets', title: t('snippets.title'), dek: t('snippets.dek') },
 ])

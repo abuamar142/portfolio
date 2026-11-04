@@ -64,6 +64,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../pages/UuidToolPage.vue'),
   },
   {
+    path: '/timestamp',
+    name: 'timestamp',
+    component: () => import('../pages/TimestampToolPage.vue'),
+  },
+  {
     path: '/links',
     name: 'links',
     component: () => import('../pages/LinksPage.vue'),

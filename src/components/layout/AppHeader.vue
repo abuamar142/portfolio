@@ -146,6 +146,7 @@ const EXPLORE_PATHS = [
   '/base64',
   '/hash',
   '/uuid',
+  '/timestamp',
   '/feedback',
 ]
 const isExploreRoute = computed(() =>
