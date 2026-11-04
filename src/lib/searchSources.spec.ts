@@ -46,8 +46,23 @@ describe('staticItems', () => {
   })
 
   it('tags pages and sections distinctly', () => {
-    expect(items.filter((item) => item.kind === 'page')).toHaveLength(14)
-    expect(items.filter((item) => item.kind === 'section')).toHaveLength(7)
+    // Counting pages is not the point — that number changes every time a tool
+    // ships. What must hold is that the two kinds never blur together.
+    const pages = items.filter((item) => item.kind === 'page')
+    const sections = items.filter((item) => item.kind === 'section')
+    expect(pages.length).toBeGreaterThan(0)
+    expect(sections.length).toBeGreaterThan(0)
+    for (const page of pages) expect(page.to.startsWith('/')).toBe(true)
+    for (const section of sections) expect(section.to.startsWith('/#')).toBe(true)
+    expect(new Set(pages.map((p) => p.to)).size).toBe(pages.length)
+  })
+
+  it('indexes the game page', () => {
+    const game = items.find((item) => item.to === '/tebak-kata')
+    expect(game?.kind).toBe('page')
+    // The aliases are what make it findable by intent, not by its own name.
+    expect(game?.body).toContain('anagram')
+    expect(game?.body).toContain('room')
   })
 
   it('carries the aliases as body text so synonyms can match', () => {

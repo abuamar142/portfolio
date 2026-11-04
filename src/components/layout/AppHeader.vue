@@ -163,6 +163,7 @@ const EXPLORE_PATHS = [
   '/uuid',
   '/timestamp',
   '/jwt',
+  '/tebak-kata',
   '/feedback',
 ]
 const isExploreRoute = computed(() =>

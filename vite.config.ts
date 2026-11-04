@@ -82,6 +82,7 @@ export default defineConfig(({ mode }) => {
             '/uuid',
             '/timestamp',
             '/jwt',
+            '/tebak-kata',
             '/feedback',
           ],
         })

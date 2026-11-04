@@ -49,6 +49,7 @@ const entries = computed(() => [
   { to: '/uuid', path: '/uuid', title: t('uuidTool.title'), dek: t('uuidTool.dek') },
   { to: '/timestamp', path: '/timestamp', title: t('timestampTool.title'), dek: t('timestampTool.dek') },
   { to: '/jwt', path: '/jwt', title: t('jwtTool.title'), dek: t('jwtTool.dek') },
+  { to: '/tebak-kata', path: '/tebak-kata', title: t('game.title'), dek: t('game.dek') },
   { to: '/links', path: '/links', title: t('links.title'), dek: t('links.dek') },
   { to: '/snippets', path: '/snippets', title: t('snippets.title'), dek: t('snippets.dek') },
 ])

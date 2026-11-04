@@ -103,6 +103,12 @@ const PAGES: StaticSurface[] = [
     aliases: ['hash', 'sha', 'sha256', 'checksum', 'digest', 'md5'],
   },
   {
+    to: '/tebak-kata',
+    title: 'Tebak Kata',
+    subtitle: 'Game anagram multiplayer',
+    aliases: ['game', 'permainan', 'tebak', 'anagram', 'kata', 'skor', 'room', 'multiplayer'],
+  },
+  {
     to: '/uuid',
     title: 'UUID',
     subtitle: 'Generator UUID v4',
