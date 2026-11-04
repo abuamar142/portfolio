@@ -49,6 +49,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../pages/JsonToolPage.vue'),
   },
   {
+    path: '/base64',
+    name: 'base64',
+    component: () => import('../pages/Base64ToolPage.vue'),
+  },
+  {
     path: '/links',
     name: 'links',
     component: () => import('../pages/LinksPage.vue'),
