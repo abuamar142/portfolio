@@ -69,6 +69,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../pages/TimestampToolPage.vue'),
   },
   {
+    path: '/jwt',
+    name: 'jwt',
+    component: () => import('../pages/JwtToolPage.vue'),
+  },
+  {
     path: '/links',
     name: 'links',
     component: () => import('../pages/LinksPage.vue'),

@@ -81,6 +81,7 @@ export default defineConfig(({ mode }) => {
             '/hash',
             '/uuid',
             '/timestamp',
+            '/jwt',
             '/feedback',
           ],
         })

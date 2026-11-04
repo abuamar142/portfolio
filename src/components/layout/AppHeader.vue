@@ -147,6 +147,7 @@ const EXPLORE_PATHS = [
   '/hash',
   '/uuid',
   '/timestamp',
+  '/jwt',
   '/feedback',
 ]
 const isExploreRoute = computed(() =>
