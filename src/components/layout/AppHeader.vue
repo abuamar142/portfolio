@@ -144,6 +144,7 @@ const EXPLORE_PATHS = [
   '/qr',
   '/json',
   '/base64',
+  '/hash',
   '/feedback',
 ]
 const isExploreRoute = computed(() =>

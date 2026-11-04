@@ -45,6 +45,7 @@ const entries = computed(() => [
   { to: '/qr', path: '/qr', title: t('qr.title'), dek: t('qr.dek') },
   { to: '/json', path: '/json', title: t('jsonTool.title'), dek: t('jsonTool.dek') },
   { to: '/base64', path: '/base64', title: t('base64Tool.title'), dek: t('base64Tool.dek') },
+  { to: '/hash', path: '/hash', title: t('hashTool.title'), dek: t('hashTool.dek') },
   { to: '/links', path: '/links', title: t('links.title'), dek: t('links.dek') },
   { to: '/snippets', path: '/snippets', title: t('snippets.title'), dek: t('snippets.dek') },
 ])
