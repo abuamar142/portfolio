@@ -145,6 +145,7 @@ const EXPLORE_PATHS = [
   '/json',
   '/base64',
   '/hash',
+  '/uuid',
   '/feedback',
 ]
 const isExploreRoute = computed(() =>

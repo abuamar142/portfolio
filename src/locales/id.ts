@@ -37,6 +37,10 @@ export default {
       title: 'Base64',
       dek: 'Encode atau decode Base64 — teks UTF-8 maupun file — di perangkatmu, tidak ada yang dikirim ke server.',
     },
+    uuidTool: {
+      title: 'UUID',
+      dek: 'Generate UUID v4 acak dari RNG platform — dibuat di perangkatmu, tidak ada yang dikirim ke server.',
+    },
     hashTool: {
       title: 'Hash',
       dek: 'Hitung SHA-1/256/384/512 dari teks atau file di perangkatmu — tidak ada yang dikirim ke server.',
@@ -311,6 +315,19 @@ export default {
     copyFailed: 'Gagal menyalin — pilih digest-nya lalu salin manual.',
     failed: 'Gagal menghitung digest di perangkat ini.',
     insecure: 'crypto.subtle tidak tersedia — buka halaman ini lewat HTTPS atau localhost.',
+  },
+  uuidTool: {
+    title: 'UUID',
+    dek: 'UUID v4 acak, dibuat di perangkatmu — tidak ada yang dikirim ke server.',
+    count: 'Jumlah',
+    generate: 'Generate',
+    copyAll: 'Salin semua',
+    copy: 'Salin',
+    copyOne: 'Salin UUID ini',
+    versionNote: 'UUID versi 4 (acak) dari crypto.getRandomValues — bukan Math.random.',
+    copied: 'UUID disalin ke clipboard.',
+    copiedAll: 'Semua UUID disalin ke clipboard.',
+    copyFailed: 'Gagal menyalin — pilih teksnya lalu salin manual.',
   },
   base64Tool: {
     title: 'Base64',

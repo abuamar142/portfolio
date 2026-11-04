@@ -37,6 +37,10 @@ export default {
       title: 'Base64',
       dek: 'Encode or decode Base64 — UTF-8 text or files — on your device, nothing is sent to a server.',
     },
+    uuidTool: {
+      title: 'UUID',
+      dek: 'Generate random UUID v4 from the platform RNG — created on your device, nothing is sent to a server.',
+    },
     hashTool: {
       title: 'Hash',
       dek: 'SHA-1/256/384/512 of text or files, computed on your device — nothing is sent to a server.',
@@ -311,6 +315,19 @@ export default {
     copyFailed: 'Copy failed — select the digest and copy it manually.',
     failed: 'Could not compute the digest on this device.',
     insecure: 'crypto.subtle is unavailable — open this page over HTTPS or on localhost.',
+  },
+  uuidTool: {
+    title: 'UUID',
+    dek: 'Random UUIDs v4, generated on your device — nothing is sent to a server.',
+    count: 'Count',
+    generate: 'Generate',
+    copyAll: 'Copy all',
+    copy: 'Copy',
+    copyOne: 'Copy this UUID',
+    versionNote: 'Version 4 (random) UUIDs from crypto.getRandomValues — not Math.random.',
+    copied: 'UUID copied to clipboard.',
+    copiedAll: 'All UUIDs copied to clipboard.',
+    copyFailed: 'Copy failed — select the text and copy it manually.',
   },
   base64Tool: {
     title: 'Base64',

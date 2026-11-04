@@ -69,10 +69,19 @@ export default defineConfig(({ mode }) => {
           generateRobotsTxt: false,
           // /dashboard is owner-only and served with robots noindex — a
           // submitted noindex URL shows up as a Search Console warning.
-          // /qr, /remove-bg, /json, /base64, /hash and /feedback are thin
-          // utility surfaces with no indexable copy; listing them only dilutes
-          // crawl budget.
-          exclude: ['/dashboard', '/qr', '/remove-bg', '/json', '/base64', '/hash', '/feedback'],
+          // /qr, /remove-bg and the /json, /base64, /hash, /uuid tools are
+          // thin utility surfaces with no indexable copy; listing them only
+          // dilutes crawl budget.
+          exclude: [
+            '/dashboard',
+            '/qr',
+            '/remove-bg',
+            '/json',
+            '/base64',
+            '/hash',
+            '/uuid',
+            '/feedback',
+          ],
         })
       },
     },

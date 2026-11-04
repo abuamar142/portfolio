@@ -59,6 +59,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../pages/HashToolPage.vue'),
   },
   {
+    path: '/uuid',
+    name: 'uuid',
+    component: () => import('../pages/UuidToolPage.vue'),
+  },
+  {
     path: '/links',
     name: 'links',
     component: () => import('../pages/LinksPage.vue'),
