@@ -129,38 +129,25 @@ const items = ref<SearchItem[]>([])
 const inputEl = ref<HTMLInputElement | null>(null)
 const activeIndex = ref(0)
 
-/** Debounced so a fast typist does not fire a request per keystroke. */
-let debounce: ReturnType<typeof setTimeout> | undefined
-let requestId = 0
-
+// The corpus loads once per session (see useGlobalSearch), so typing never
+// waits on a request: opening the palette starts the load, and the ranking
+// re-runs locally on every keystroke.
 watch(
   () => props.open,
   (open) => {
     if (!open) {
       query.value = ''
-      items.value = []
       activeIndex.value = 0
       return
     }
     void nextTick(() => inputEl.value?.focus())
+    void load()
   },
 )
 
-watch(query, (value) => {
-  activeIndex.value = 0
-  clearTimeout(debounce)
-  const q = value.trim()
-  if (!q) {
-    items.value = []
-    return
-  }
-  debounce = setTimeout(async () => {
-    const id = ++requestId
-    const found = await search(q)
-    // A slow earlier request must not overwrite a newer one.
-    if (id === requestId) items.value = found
-  }, 200)
-})
+async function load() {
+  items.value = await search()
+}
 
 const hits = computed<SearchHit[]>(() => rankItems(items.value, query.value, 30))
 const groups = computed(() => groupByKind(hits.value))

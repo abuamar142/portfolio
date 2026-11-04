@@ -11,7 +11,7 @@
  *   matched term adds to the score. Ties break on recency, then title.
  */
 
-export type SearchKind = 'post' | 'quote' | 'snippet' | 'link'
+export type SearchKind = 'post' | 'snippet' | 'quote' | 'link' | 'achievement' | 'section' | 'page'
 
 export interface SearchItem {
   id: string
@@ -146,7 +146,17 @@ export function highlightParts(title: string, ranges: { start: number; end: numb
 
 /** Group hits by kind, preserving rank order inside each group. */
 export function groupByKind(hits: SearchHit[]): { kind: SearchKind; hits: SearchHit[] }[] {
-  const order: SearchKind[] = ['post', 'snippet', 'quote', 'link']
+  // Navigation first: someone typing a tool name wants the tool, not the post
+  // that mentions it. Content follows, longest-form last.
+  const order: SearchKind[] = [
+    'page',
+    'section',
+    'post',
+    'snippet',
+    'quote',
+    'achievement',
+    'link',
+  ]
   return order
     .map((kind) => ({ kind, hits: hits.filter((hit) => hit.kind === kind) }))
     .filter((group) => group.hits.length > 0)
