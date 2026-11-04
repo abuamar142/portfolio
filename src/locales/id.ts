@@ -159,7 +159,8 @@ export default {
   cmdk: {
     dialogLabel: 'Pencarian global',
     placeholder: 'Cari blog, cuplikan, kutipan, tautan, tools…',
-    hint: 'Ketik untuk mencari konten dan halaman.',
+    hint: 'Ketik untuk mencari konten dan halaman. Awali dengan > untuk perintah.',
+    noCommand: 'Tidak ada perintah yang cocok dengan “{query}”.',
     searching: 'Memuat indeks…',
     empty: 'Tidak ada yang cocok dengan “{query}”.',
     partial: 'Sebagian sumber gagal dimuat: {sources}',

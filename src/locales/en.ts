@@ -159,7 +159,8 @@ export default {
   cmdk: {
     dialogLabel: 'Global search',
     placeholder: 'Search posts, snippets, quotes, links, tools…',
-    hint: 'Type to search content and pages.',
+    hint: 'Type to search content and pages. Start with > for commands.',
+    noCommand: 'No command matches “{query}”.',
     searching: 'Loading the index…',
     empty: 'Nothing matches “{query}”.',
     partial: 'Some sources failed to load: {sources}',

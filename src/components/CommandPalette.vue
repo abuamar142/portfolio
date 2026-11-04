@@ -42,7 +42,36 @@
       </p>
 
       <div id="cmdk-results" role="listbox" class="max-h-[60vh] overflow-y-auto overscroll-contain">
-        <p v-if="!query.trim()" class="px-4 py-8 text-center text-sm text-ink-4">
+        <!-- Command mode: `>` turns the palette into an action list. -->
+        <template v-if="commandMode">
+          <p v-if="commands.length === 0" class="px-4 py-8 text-center text-sm text-ink-4">
+            {{ $t('cmdk.noCommand', { query: commandQuery }) }}
+          </p>
+          <button
+            v-for="(command, index) in commands"
+            :id="`cmdk-cmd-${command.id}`"
+            :key="command.id"
+            type="button"
+            role="option"
+            :aria-selected="index === activeIndex"
+            class="flex w-full items-start gap-3 px-4 py-3 text-left transition-colors"
+            :class="index === activeIndex ? 'bg-base-300' : 'hover:bg-base-200'"
+            @click="runCommand(command)"
+            @mouseenter="activeIndex = index"
+          >
+            <Terminal
+              class="mt-1 size-3.5 shrink-0"
+              :class="index === activeIndex ? 'text-primary' : 'text-ink-4'"
+              aria-hidden="true"
+            />
+            <span class="min-w-0">
+              <span class="block truncate font-sans text-sm text-base-content">{{ command.label }}</span>
+              <span class="mt-0.5 block truncate font-mono text-[11px] text-ink-4">{{ command.hint }}</span>
+            </span>
+          </button>
+        </template>
+
+        <p v-else-if="!query.trim()" class="px-4 py-8 text-center text-sm text-ink-4">
           {{ $t('cmdk.hint') }}
         </p>
 
@@ -105,10 +134,19 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { Search as SearchIcon, ArrowRight } from 'lucide-vue-next'
+import { Search as SearchIcon, ArrowRight, Terminal } from 'lucide-vue-next'
 import BaseModal from '@/components/ui/BaseModal.vue'
 import { useGlobalSearch } from '@/composables/useGlobalSearch'
 import { groupByKind, highlightParts, rankItems, type SearchHit, type SearchItem } from '@/lib/search'
+import {
+  commandText,
+  isCommandQuery,
+  matchCommands,
+  type CommandDef,
+  type CommandId,
+} from '@/lib/commands'
+import { useTheme } from '@/composables/useTheme'
+import { useI18n } from 'vue-i18n'
 
 /**
  * Ctrl/Cmd+K palette.
@@ -123,6 +161,8 @@ const emit = defineEmits<{ close: [] }>()
 
 const router = useRouter()
 const { loading, failed, search } = useGlobalSearch()
+const { set: setTheme } = useTheme()
+const { locale } = useI18n()
 
 const query = ref('')
 const items = ref<SearchItem[]>([])
@@ -149,7 +189,15 @@ async function load() {
   items.value = await search()
 }
 
-const hits = computed<SearchHit[]>(() => rankItems(items.value, query.value, 30))
+const commandMode = computed(() => isCommandQuery(query.value))
+const commandQuery = computed(() => commandText(query.value))
+const commands = computed<CommandDef[]>(() =>
+  commandMode.value ? matchCommands(commandQuery.value) : [],
+)
+
+const hits = computed<SearchHit[]>(() =>
+  commandMode.value ? [] : rankItems(items.value, query.value, 30),
+)
 const groups = computed(() => groupByKind(hits.value))
 const partial = computed(() => failed.value.length > 0)
 
@@ -157,23 +205,39 @@ const flatIndex = (hit: SearchHit): number => hits.value.findIndex((h) => h.id =
 
 // The ranked list can shrink or reorder after a new response lands; without
 // this the index points past the end and no row looks selected.
-watch(hits, (list) => {
-  if (activeIndex.value > list.length - 1) activeIndex.value = 0
+// Both lists can shrink; the index must never point past the end in either
+// mode, or Enter would fire whatever happens to sit at that index.
+watch([hits, commands], () => {
+  if (activeIndex.value > rowCount.value - 1) activeIndex.value = 0
 })
-const activeId = computed(() =>
-  hits.value[activeIndex.value] ? `cmdk-${hits.value[activeIndex.value]!.id}` : undefined,
-)
+
+// Typing or deleting the `>` switches modes, and the old index means nothing
+// in the new list.
+watch(commandMode, () => {
+  activeIndex.value = 0
+})
+const activeId = computed(() => {
+  if (commandMode.value) {
+    const command = commands.value[activeIndex.value]
+    return command ? `cmdk-cmd-${command.id}` : undefined
+  }
+  const hit = hits.value[activeIndex.value]
+  return hit ? `cmdk-${hit.id}` : undefined
+})
 
 /** `activeId` is the DOM id (prefixed); rows compare by item id. */
 function isActive(hit: SearchHit): boolean {
   return hits.value[activeIndex.value]?.id === hit.id
 }
 
+/** How many rows the current mode shows — the palette has two lists. */
+const rowCount = computed(() => (commandMode.value ? commands.value.length : hits.value.length))
+
 function move(delta: number) {
-  if (hits.value.length === 0) return
+  if (rowCount.value === 0) return
   const next = activeIndex.value + delta
   // Wrapping keeps a long list navigable with one key.
-  activeIndex.value = (next + hits.value.length) % hits.value.length
+  activeIndex.value = (next + rowCount.value) % rowCount.value
 }
 
 function onKeydown(event: KeyboardEvent) {
@@ -192,9 +256,17 @@ function onKeydown(event: KeyboardEvent) {
       return
     case 'End':
       event.preventDefault()
-      activeIndex.value = Math.max(hits.value.length - 1, 0)
+      activeIndex.value = Math.max(rowCount.value - 1, 0)
       return
     case 'Enter': {
+      if (commandMode.value) {
+        const command = commands.value[activeIndex.value]
+        if (command) {
+          event.preventDefault()
+          runCommand(command)
+        }
+        return
+      }
       const hit = hits.value[activeIndex.value]
       if (hit) {
         event.preventDefault()
@@ -208,5 +280,33 @@ function onKeydown(event: KeyboardEvent) {
 function choose(hit: SearchHit) {
   emit('close')
   void router.push(hit.to)
+}
+
+/** Runs a command: theme and language are applied in place, no navigation. */
+function runCommand(command: CommandDef) {
+  switch (command.id as CommandId) {
+    case 'theme-dark':
+      setTheme('dark')
+      break
+    case 'theme-light':
+      setTheme('light')
+      break
+    case 'theme-system':
+      setTheme('system')
+      break
+    case 'lang-id':
+      locale.value = 'id'
+      try {
+        localStorage.setItem('portfolio-language', 'id')
+      } catch {}
+      break
+    case 'lang-en':
+      locale.value = 'en'
+      try {
+        localStorage.setItem('portfolio-language', 'en')
+      } catch {}
+      break
+  }
+  emit('close')
 }
 </script>

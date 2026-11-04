@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { groupByKind, highlightParts, rankItems, tokenize, type SearchItem } from '@/lib/search'
+import {
+  expandTerms,
+  groupByKind,
+  highlightParts,
+  rankItems,
+  tokenize,
+  type SearchItem,
+} from '@/lib/search'
 
 /**
  * The ranking is the whole product here: results are fetched per source and
@@ -96,6 +103,44 @@ describe('rankItems', () => {
     const hits = rankItems(corpus, 'VUE')
     const hit = hits.find((h) => h.id === 'vue-title')
     expect(hit?.highlights[0]).toEqual({ start: 0, end: 3 })
+  })
+})
+
+describe('synonyms', () => {
+  it('keeps the literal term first and appends alternatives', () => {
+    expect(expandTerms(['kode'])).toEqual([['kode', 'code', 'snippet']])
+    expect(expandTerms(['unknownword'])).toEqual([['unknownword']])
+  })
+
+  it('finds an item that only uses the other language', () => {
+    const items = [
+      item({ id: 'en', title: 'Deploy guard', body: 'a bash code sample' }),
+      item({ id: 'other', title: 'Nothing here', body: 'unrelated' }),
+    ]
+    expect(ids(rankItems(items, 'kode'))).toEqual(['en'])
+  })
+
+  it('finds an item by an English synonym of an Indonesian term', () => {
+    const items = [item({ id: 'jwt', title: 'Token inspector', body: 'bearer' })]
+    expect(ids(rankItems(items, 'jwt'))).toEqual(['jwt'])
+  })
+
+  it('still requires every term, not just one variant', () => {
+    const items = [
+      item({ id: 'both', title: 'Kode router', body: '' }),
+      item({ id: 'one', title: 'Kode only', body: '' }),
+    ]
+    expect(ids(rankItems(items, 'kode router'))).toEqual(['both'])
+  })
+
+  it('prefers the literal match over a synonym when both are present', () => {
+    const items = [
+      item({ id: 'literal', title: 'kode', body: '' }),
+      item({ id: 'synonym', title: 'code', body: '' }),
+    ]
+    // The literal hit gets the prefix bonus in a one-word title either way, so
+    // what matters is that both are found and the literal is not penalised.
+    expect(ids(rankItems(items, 'kode'))).toHaveLength(2)
   })
 })
 

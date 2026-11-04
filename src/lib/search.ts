@@ -58,16 +58,66 @@ interface FieldScore {
   highlights: { start: number; end: number }[]
 }
 
-/** Score one field for every term; returns 0 when any term is missing. */
-function scoreField(field: string, terms: string[], weight: number): FieldScore {
+/**
+ * Words that mean the same thing to a reader but not to a substring search.
+ *
+ * Scope is deliberately narrow: tool and domain vocabulary ("kode"/"code",
+ * "checksum"/"hash"), not section names — those already carry aliases on the
+ * static entries, and expanding them here would make every experience item
+ * match the word "pengalaman".
+ */
+const SYNONYMS: Record<string, string[]> = {
+  kode: ['code', 'snippet'],
+  code: ['kode', 'snippet'],
+  cuplikan: ['snippet', 'code'],
+  snippet: ['cuplikan', 'code'],
+  kutipan: ['quote'],
+  quote: ['kutipan'],
+  tautan: ['link', 'url'],
+  link: ['tautan', 'url'],
+  token: ['jwt'],
+  jwt: ['token'],
+  checksum: ['hash', 'digest'],
+  hash: ['checksum', 'digest'],
+  // No `tanggal`/`date` pair on purpose: "date" is a substring of "update" and
+  // "validate", so the synonym matched every post containing either word. The
+  // Timestamp page still answers "tanggal" through its own alias.
+  foto: ['image', 'photo'],
+  gambar: ['image'],
+  image: ['gambar', 'foto'],
+}
+
+/**
+ * Turn terms into variant groups: `['kode']` becomes
+ * `[['kode', 'code', 'snippet']]`.
+ *
+ * The original term stays first, so a literal hit is still preferred — the
+ * expansion only adds alternatives, it never replaces what the user typed.
+ */
+export function expandTerms(terms: string[]): string[][] {
+  return terms.map((term) => [term, ...(SYNONYMS[term] ?? [])])
+}
+
+/** Score one field for every term group; 0 when any group has no variant. */
+function scoreField(field: string, groups: string[][], weight: number): FieldScore {
   if (!field) return { score: 0, highlights: [] }
   const haystack = field.toLowerCase()
   let score = 0
   const highlights: { start: number; end: number }[] = []
 
-  for (const term of terms) {
-    const at = haystack.indexOf(term)
-    // Every term must appear somewhere for the field to count: searching
+  for (const group of groups) {
+    // First variant that occurs wins, and the literal term is tried first.
+    let at = -1
+    let matched = group[0]!
+    for (const variant of group) {
+      const index = haystack.indexOf(variant)
+      if (index !== -1) {
+        at = index
+        matched = variant
+        break
+      }
+    }
+    // Every group must match somewhere for the field to count: searching
     // "vue router" should not rank a page that only says "vue".
     if (at === -1) return { score: 0, highlights: [] }
 
@@ -77,8 +127,8 @@ function scoreField(field: string, terms: string[], weight: number): FieldScore 
       score += WORD_START_BONUS
     }
     // Longer terms are more specific.
-    score += Math.min(term.length, 12) / 4
-    highlights.push({ start: at, end: at + term.length })
+    score += Math.min(matched.length, 12) / 4
+    highlights.push({ start: at, end: at + matched.length })
   }
 
   return { score, highlights }
@@ -88,15 +138,16 @@ function scoreField(field: string, terms: string[], weight: number): FieldScore 
 export function rankItems(items: SearchItem[], query: string, limit = 20): SearchHit[] {
   const terms = tokenize(query)
   if (terms.length === 0) return []
+  const groups = expandTerms(terms)
 
   const hits: SearchHit[] = []
   for (const item of items) {
-    const title = scoreField(item.title, terms, TITLE_WEIGHT)
+    const title = scoreField(item.title, groups, TITLE_WEIGHT)
     // Tags are one joined field, not one field per tag: "vue router" is two
     // terms that may live in two different tags.
     const tagField = (item.tags ?? []).join(' ')
-    const tagScore = scoreField(tagField, terms, TAG_WEIGHT).score
-    const body = scoreField(item.body, terms, BODY_WEIGHT)
+    const tagScore = scoreField(tagField, groups, TAG_WEIGHT).score
+    const body = scoreField(item.body, groups, BODY_WEIGHT)
 
     // A title or tag hit is enough; otherwise the body must match every term.
     const score = title.score + tagScore + body.score

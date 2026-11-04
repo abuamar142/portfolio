@@ -38,13 +38,18 @@ function apply(): void {
     ?.setAttribute('content', dark ? DARK_BG : LIGHT_BG)
 }
 
-/** Cycle system -> light -> dark -> system, persisting the choice. */
-function cycle(): void {
-  mode.value = mode.value === 'system' ? 'light' : mode.value === 'light' ? 'dark' : 'system'
+/** Persist and apply one explicit mode. */
+function set(next: ThemeMode): void {
+  mode.value = next
   try {
-    localStorage.setItem(STORAGE_KEY, mode.value)
+    localStorage.setItem(STORAGE_KEY, next)
   } catch {}
   apply()
+}
+
+/** Cycle system -> light -> dark -> system, persisting the choice. */
+function cycle(): void {
+  set(mode.value === 'system' ? 'light' : mode.value === 'light' ? 'dark' : 'system')
 }
 
 export function useTheme() {
@@ -64,5 +69,5 @@ export function useTheme() {
     apply()
   })
 
-  return { mode, cycle }
+  return { mode, cycle, set }
 }
