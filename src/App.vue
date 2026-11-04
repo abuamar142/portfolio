@@ -6,13 +6,14 @@
     >
       Skip to content
     </a>
-    <AppHeader />
+    <AppHeader @search="searchOpen = true" />
     <main id="main-content" class="flex-1">
       <router-view />
     </main>
     <AppFooter />
 
     <AuthModal :show="showAuth" @close="closeAuth" @authenticated="handleAuthenticated" />
+    <CommandPalette :open="searchOpen" @close="closeSearch" />
 
     <!-- Live region: screen readers announce toasts. Errors are assertive
          (interrupts), success/info polite (waits for a pause). -->
@@ -44,13 +45,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@unhead/vue'
 import { useI18n } from 'vue-i18n'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppFooter from '@/components/layout/AppFooter.vue'
 import AuthModal from '@/components/AuthModal.vue'
+import CommandPalette from '@/components/CommandPalette.vue'
 import { useAuth, onAuthFailed, runAuthIntent } from '@/composables/useAuth'
 import { useToast, type ToastType } from '@/composables/useToast'
 import { usePortfolio } from '@/composables/usePortfolio'
@@ -92,7 +94,43 @@ function alertClass(type: ToastType) {
 const route = useRoute()
 const { locale, t } = useI18n()
 
+/* ── Command palette (Ctrl/Cmd+K) ────────────────────────────────────────────
+   Registered on the document so the shortcut works from any route, including
+   while an input has focus — the one exception is a textarea, where Ctrl+K is
+   more likely to mean something local. The dialog only exists once a shortcut
+   opens it, so the SSG pass has nothing to prerender. */
+const searchOpen = ref(false)
+
+function isTypingTarget(target: EventTarget | null): boolean {
+  const el = target as HTMLElement | null
+  if (!el) return false
+  const tag = el.tagName
+  return tag === 'TEXTAREA' || el.isContentEditable
+}
+
+function onGlobalKeydown(event: KeyboardEvent) {
+  const isCmdK = event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)
+  if (isCmdK && !isTypingTarget(event.target)) {
+    event.preventDefault()
+    searchOpen.value = !searchOpen.value
+    return
+  }
+  // "/" opens too, unless the user is typing somewhere.
+  if (event.key === '/' && !isTypingTarget(event.target) && !event.metaKey && !event.ctrlKey) {
+    const el = event.target as HTMLElement | null
+    if (el && (el.tagName === 'INPUT' || el.tagName === 'SELECT')) return
+    event.preventDefault()
+    searchOpen.value = true
+  }
+}
+
+function closeSearch() {
+  searchOpen.value = false
+}
+
+
 onMounted(() => {
+  window.addEventListener('keydown', onGlobalKeydown)
   offAuthFailed = onAuthFailed(() => {
     logout()
     toast.info(t('auth.sessionExpired'))
@@ -100,6 +138,7 @@ onMounted(() => {
   })
 })
 onUnmounted(() => {
+  window.removeEventListener('keydown', onGlobalKeydown)
   offAuthFailed?.()
 })
 

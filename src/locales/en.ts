@@ -156,6 +156,23 @@ export default {
     noResults: 'No achievements match your search',
     clearSearch: 'Clear search',
   },
+  cmdk: {
+    dialogLabel: 'Global search',
+    placeholder: 'Search posts, snippets, quotes, links…',
+    hint: 'Type to search the whole site.',
+    searching: 'Searching…',
+    empty: 'Nothing matches “{query}”.',
+    partial: 'Some sources failed to load: {sources}',
+    footer: '↑↓ to move · Enter to open · Esc to close',
+    close: 'Close search',
+    open: 'Search',
+    kinds: {
+      post: 'Posts',
+      snippet: 'Snippets',
+      quote: 'Quotes',
+      link: 'Links',
+    },
+  },
   education: {
     subtitle: 'Formal training behind the shipped work',
     labels: {

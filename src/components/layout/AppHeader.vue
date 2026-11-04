@@ -44,6 +44,17 @@
       <div class="flex shrink-0 items-center gap-3">
         <!-- Utilities move into the open menu below, so the row keeps only the close button. -->
         <template v-if="!isMenuOpen">
+          <!-- The shortcut is the real entry point; this makes it discoverable. -->
+          <button
+            type="button"
+            class="btn btn-ghost btn-sm gap-2 max-[479px]:hidden"
+            :aria-label="$t('cmdk.open')"
+            :title="$t('cmdk.open')"
+            @click="$emit('search')"
+          >
+            <SearchIcon class="size-4" aria-hidden="true" />
+            <kbd class="hidden font-mono text-[10px] text-ink-4 min-[1200px]:inline">⌘K</kbd>
+          </button>
           <LanguageDropdown />
           <ThemeToggle />
         </template>
@@ -88,7 +99,11 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { Menu, X } from 'lucide-vue-next'
+import { Menu, Search as SearchIcon, X } from 'lucide-vue-next'
+
+// The palette lives in App.vue (it must survive route changes), so the header
+// only asks for it.
+defineEmits<{ search: [] }>()
 import LanguageDropdown from '@/components/LanguageDropdown.vue'
 import MobileMenu from '@/components/layout/MobileMenu.vue'
 import ThemeToggle from '@/components/ThemeToggle.vue'

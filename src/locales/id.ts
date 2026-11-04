@@ -156,6 +156,23 @@ export default {
     noResults: 'Tidak ada pencapaian yang cocok',
     clearSearch: 'Hapus pencarian',
   },
+  cmdk: {
+    dialogLabel: 'Pencarian global',
+    placeholder: 'Cari blog, cuplikan, kutipan, tautan…',
+    hint: 'Ketik untuk mencari di seluruh situs.',
+    searching: 'Mencari…',
+    empty: 'Tidak ada yang cocok dengan “{query}”.',
+    partial: 'Sebagian sumber gagal dimuat: {sources}',
+    footer: '↑↓ pilih · Enter buka · Esc tutup',
+    close: 'Tutup pencarian',
+    open: 'Cari',
+    kinds: {
+      post: 'Blog',
+      snippet: 'Cuplikan',
+      quote: 'Kutipan',
+      link: 'Tautan',
+    },
+  },
   education: {
     subtitle: 'Pendidikan formal di balik karya yang dirilis',
     labels: {
