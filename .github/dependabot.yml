@@ -1,0 +1,27 @@
+# Dependabot only reads this file from the default branch (`main`).
+#
+# This repo is a Bun project (`bun.lock`, `"packageManager": "bun@1.4.0"`), so
+# the ecosystem MUST be `bun`. Without this file Dependabot defaults to
+# `npm_and_yarn`, which cannot touch `bun.lock` and aborts every job with:
+#   "This project has a `bun.lock` file but no `package-lock.json`, ... which
+#    means it is managed by Bun ... Set package-ecosystem: "bun"".
+version: 2
+updates:
+  - package-ecosystem: "bun"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+      timezone: "Asia/Jakarta"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      # One PR per week for routine bumps instead of a dozen.
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
