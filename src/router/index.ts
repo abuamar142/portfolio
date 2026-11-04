@@ -44,6 +44,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../pages/QrMakerPage.vue'),
   },
   {
+    path: '/json',
+    name: 'json',
+    component: () => import('../pages/JsonToolPage.vue'),
+  },
+  {
     path: '/links',
     name: 'links',
     component: () => import('../pages/LinksPage.vue'),

@@ -142,6 +142,7 @@ const EXPLORE_PATHS = [
   '/links',
   '/remove-bg',
   '/qr',
+  '/json',
   '/feedback',
 ]
 const isExploreRoute = computed(() =>

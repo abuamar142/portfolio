@@ -21,22 +21,25 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [vue()],
+    // vue-i18n's default build compiles message strings at runtime with
+    // `new Function(...)`, which a strict Content-Security-Policy blocks (no
+    // 'unsafe-eval'). The production build therefore ships the runtime-only
+    // build and turns on its JIT mode instead: `__INTLIFY_JIT_COMPILATION__`
+    // makes it parse each message into an AST and compose the formatter as
+    // plain closures — no eval, and `{placeholder}` interpolation works.
+    //
+    // Without the flag the runtime build registers NO message compiler
+    // (`compileMessageFormat` falls back to `() => format`), so every message
+    // came back verbatim: dev showed raw keys, and production showed
+    // `{n} bulan lalu` instead of "3 bulan lalu". Both are the same bug.
+    //
+    // The define is scoped to the production build because the dev server
+    // pre-bundles dependencies with its own config; dev falls through to the
+    // default build, which compiles messages itself.
+    define: mode === 'production' ? { __INTLIFY_JIT_COMPILATION__: 'true' } : {},
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
-        // vue-i18n's default build compiles message strings at runtime with
-        // `new Function(...)`, which a strict Content-Security-Policy blocks
-        // (no 'unsafe-eval'). Every message in this app is plain text with
-        // simple {placeholder} interpolation, which the runtime-only build
-        // handles without eval.
-        //
-        // Applied to the production build only. The runtime-only build
-        // registers no message compiler unless `__INTLIFY_JIT_COMPILATION__`
-        // is defined at bundle time, and the dev server's dependency pre-bundle
-        // does not define it: with the alias active in dev, every message came
-        // back as its key (`hero.greeting Abu Amar.` on screen) plus one console
-        // warning per string. Dev has no CSP, so dev gets the default build;
-        // builds keep the runtime-only alias exactly as before.
         ...(mode === 'production'
           ? { 'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js' }
           : {}),
@@ -66,9 +69,9 @@ export default defineConfig(({ mode }) => {
           generateRobotsTxt: false,
           // /dashboard is owner-only and served with robots noindex — a
           // submitted noindex URL shows up as a Search Console warning.
-          // /qr, /remove-bg and /feedback are thin utility surfaces with no
-          // indexable copy; listing them only dilutes crawl budget.
-          exclude: ['/dashboard', '/qr', '/remove-bg', '/feedback'],
+          // /qr, /remove-bg, /json and /feedback are thin utility surfaces with
+          // no indexable copy; listing them only dilutes crawl budget.
+          exclude: ['/dashboard', '/qr', '/remove-bg', '/json', '/feedback'],
         })
       },
     },
