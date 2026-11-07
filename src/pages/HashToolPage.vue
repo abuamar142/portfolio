@@ -100,6 +100,7 @@ import { useToast } from '@/composables/useToast'
 import { HASH_ALGORITHMS, hashFile, hashText, hasWebCrypto, type HashAlgorithm } from '@/lib/hash'
 import PageShell from '@/components/layout/PageShell.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import { copyText } from '@/lib/clipboard'
 
 const { t } = useI18n()
 const toast = useToast()
@@ -176,12 +177,8 @@ function clearFile() {
 }
 
 async function copy(text: string) {
-  try {
-    await navigator.clipboard.writeText(text)
-    toast.success(t('hashTool.copied'))
-  } catch {
-    toast.error(t('hashTool.copyFailed'))
-  }
+  if (await copyText(text)) toast.success(t('hashTool.copied'))
+  else toast.error(t('hashTool.copyFailed'))
 }
 
 usePageSeo({

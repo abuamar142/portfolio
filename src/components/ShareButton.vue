@@ -38,6 +38,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { Share2, Link, ExternalLink } from 'lucide-vue-next'
+import { copyText } from '@/lib/clipboard'
 
 const props = withDefaults(
   defineProps<{ id: string; content: string; author: string; path?: string }>(),
@@ -100,12 +101,10 @@ function getShareText() {
 }
 
 async function copyLink() {
-  try {
-    await navigator.clipboard.writeText(getShareUrl())
-    copied.value = true
-    if (copiedTimer) clearTimeout(copiedTimer)
-    copiedTimer = setTimeout(() => { copied.value = false }, 2000)
-  } catch { /* clipboard unavailable or denied — leave the label unchanged */ }
+  if (!(await copyText(getShareUrl()))) return
+  copied.value = true
+  if (copiedTimer) clearTimeout(copiedTimer)
+  copiedTimer = setTimeout(() => { copied.value = false }, 2000)
 }
 
 function shareTwitter() {

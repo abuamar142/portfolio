@@ -69,7 +69,6 @@ const now = ref(0)
 const noticeKey = ref<string | null>(null)
 
 let started = false
-let ticker: number | null = null
 
 function newId(): string {
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID()
@@ -185,7 +184,8 @@ export function initFocusSession(): void {
   restore()
   now.value = Date.now()
 
-  ticker = window.setInterval(tick, TICK_MS)
+  // Runs for the tab's lifetime; the store is a module singleton.
+  window.setInterval(tick, TICK_MS)
 
   // A hidden tab is throttled; catch up the instant it is looked at again.
   document.addEventListener('visibilitychange', () => {
@@ -200,13 +200,6 @@ export function initFocusSession(): void {
   })
 
   syncChime()
-}
-
-/** Stop the ticker. Only used by tests and teardown; the page never calls it. */
-export function stopFocusSession(): void {
-  if (ticker !== null) window.clearInterval(ticker)
-  ticker = null
-  started = false
 }
 
 function commit(): void {

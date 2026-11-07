@@ -113,6 +113,7 @@ import {
 } from '@/lib/base64'
 import PageShell from '@/components/layout/PageShell.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import { copyText } from '@/lib/clipboard'
 
 const { t } = useI18n()
 const toast = useToast()
@@ -179,12 +180,8 @@ async function onFile(event: Event) {
 
 async function copyOutput() {
   if (!output.value) return
-  try {
-    await navigator.clipboard.writeText(output.value)
-    toast.success(t('base64Tool.copied'))
-  } catch {
-    toast.error(t('base64Tool.copyFailed'))
-  }
+  if (await copyText(output.value)) toast.success(t('base64Tool.copied'))
+  else toast.error(t('base64Tool.copyFailed'))
 }
 
 function clearAll() {

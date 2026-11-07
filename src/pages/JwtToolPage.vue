@@ -98,6 +98,7 @@ import { usePageSeo } from '@/composables/usePageSeo'
 import { useToast } from '@/composables/useToast'
 import { decodeJwt, prettyJson, type DecodedJwt } from '@/lib/jwt'
 import PageShell from '@/components/layout/PageShell.vue'
+import { copyText } from '@/lib/clipboard'
 
 const { t } = useI18n()
 const toast = useToast()
@@ -167,12 +168,8 @@ function decode() {
 }
 
 async function copyJson(value: unknown) {
-  try {
-    await navigator.clipboard.writeText(prettyJson(value))
-    toast.success(t('jwtTool.copied'))
-  } catch {
-    toast.error(t('jwtTool.copyFailed'))
-  }
+  if (await copyText(prettyJson(value))) toast.success(t('jwtTool.copied'))
+  else toast.error(t('jwtTool.copyFailed'))
 }
 
 usePageSeo({

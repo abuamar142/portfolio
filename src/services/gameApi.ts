@@ -45,11 +45,6 @@ export interface GameState {
   winner?: string
 }
 
-export interface GameCredentials {
-  code: string
-  playerId: string
-}
-
 export interface GuessResult {
   correct: boolean
   locked: boolean

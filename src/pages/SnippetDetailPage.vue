@@ -178,6 +178,7 @@ import type { Snippet } from '@/types/snippet'
 import ShareButton from '@/components/ShareButton.vue'
 import ConfirmModal from '@/components/ui/ConfirmModal.vue'
 import ErrorState from '@/components/ui/ErrorState.vue'
+import { copyText } from '@/lib/clipboard'
 
 const route = useRoute()
 const router = useRouter()
@@ -271,11 +272,9 @@ watch(isDark, async () => {
 
 async function copyCode() {
   if (!snippet.value) return
-  try {
-    await navigator.clipboard.writeText(snippet.value.code)
-    codeCopied.value = true
-    setTimeout(() => { codeCopied.value = false }, 2000)
-  } catch { /* ignore */ }
+  if (!(await copyText(snippet.value.code))) return
+  codeCopied.value = true
+  setTimeout(() => { codeCopied.value = false }, 2000)
 }
 
 function formatDate(dateStr: string): string {

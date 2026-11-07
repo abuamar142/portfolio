@@ -51,8 +51,6 @@ export interface JwtExpiry {
   detail: string
 }
 
-const SEGMENT_NAMES: readonly JwtSegmentName[] = ['header', 'payload']
-
 function decodeSegment(segment: string, name: JwtSegmentName): { ok: true; json: unknown } | JwtError {
   if (!segment) return { ok: false, error: `The ${name} segment is empty`, segment: name }
   const bytes = base64ToBytes(segment)
@@ -165,9 +163,3 @@ export function prettyJson(value: unknown): string {
   return JSON.stringify(value, null, 2)
 }
 
-/** Claim names worth surfacing above the raw JSON. */
-export const REGISTERED_CLAIMS = ['iss', 'sub', 'aud', 'exp', 'nbf', 'iat', 'jti'] as const
-
-export function segmentNamesForDisplay(): readonly JwtSegmentName[] {
-  return SEGMENT_NAMES
-}

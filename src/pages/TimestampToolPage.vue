@@ -76,6 +76,7 @@ import { useToast } from '@/composables/useToast'
 import { describeDate, parseTimestamp, type DateTimeParts, type TimestampUnit } from '@/lib/timestamp'
 import PageShell from '@/components/layout/PageShell.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import { copyText } from '@/lib/clipboard'
 
 const { t } = useI18n()
 const toast = useToast()
@@ -136,12 +137,8 @@ function useNow() {
 }
 
 async function copy(value: string) {
-  try {
-    await navigator.clipboard.writeText(value)
-    toast.success(t('timestampTool.copied'))
-  } catch {
-    toast.error(t('timestampTool.copyFailed'))
-  }
+  if (await copyText(value)) toast.success(t('timestampTool.copied'))
+  else toast.error(t('timestampTool.copyFailed'))
 }
 
 onMounted(useNow)

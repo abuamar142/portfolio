@@ -100,6 +100,7 @@ import { useI18n } from 'vue-i18n'
 import { usePageSeo } from '@/composables/usePageSeo'
 import { useToast } from '@/composables/useToast'
 import { formatJson, type IndentUnit, type JsonError } from '@/lib/jsonTool'
+import { copyText } from '@/lib/clipboard'
 import PageShell from '@/components/layout/PageShell.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
 
@@ -159,24 +160,7 @@ function onKeydown(event: KeyboardEvent) {
 
 async function copyOutput() {
   if (!output.value) return
-  try {
-    await navigator.clipboard.writeText(output.value)
-    toast.success(t('jsonTool.copied'))
-    return
-  } catch {
-    // Clipboard API needs a secure context and a live user gesture; the
-    // fallback keeps the tool usable over plain http and in older browsers.
-  }
-  const el = document.createElement('textarea')
-  el.value = output.value
-  el.setAttribute('readonly', '')
-  el.style.position = 'fixed'
-  el.style.opacity = '0'
-  document.body.appendChild(el)
-  el.select()
-  const copied = document.execCommand('copy')
-  document.body.removeChild(el)
-  if (copied) toast.success(t('jsonTool.copied'))
+  if (await copyText(output.value)) toast.success(t('jsonTool.copied'))
   else toast.error(t('jsonTool.copyFailed'))
 }
 

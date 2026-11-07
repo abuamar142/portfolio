@@ -138,8 +138,3 @@ export function cancelChime(): void {
   }
   scheduled = []
 }
-
-/** Immediate sound, used when a run is discovered to have ended on return. */
-export function playChime(kind: ChimeKind): void {
-  play(kind)
-}

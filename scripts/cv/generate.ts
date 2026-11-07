@@ -1,7 +1,7 @@
 /**
  * Generate public/cv.pdf from live portfolio-service data.
  *
- * Usage: `bun scripts/cv/generate.ts` (wired as `prebuild-only`).
+ * Usage: `bun scripts/cv/generate.ts` (also part of `bun run build`).
  * - Fetches `/api/v1/profile` + `/api/v1/achievements`, renders an ATS-friendly
  *   EN layout. (Was the CMS until 2026-09-29; the profile moved to
  *   portfolio-service and the CV followed.)

@@ -30,12 +30,6 @@ import type { SearchItem } from '@/lib/search'
 /** Generous upper bound; the live corpus is far below it. */
 const FETCH_LIMIT = 100
 
-export interface SearchSources {
-  items: SearchItem[]
-  /** Sources that failed, so the UI can say the list is partial. */
-  failed: string[]
-}
-
 function stripHtml(html: string): string {
   return html
     .replace(/<[^>]*>/g, ' ')

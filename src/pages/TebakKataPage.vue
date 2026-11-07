@@ -234,6 +234,7 @@ import BaseButton from '@/components/ui/BaseButton.vue'
 import GameScoreboard from '@/components/game/GameScoreboard.vue'
 import { usePageSeo } from '@/composables/usePageSeo'
 import { resolveTarget } from '@/lib/gameTarget'
+import { copyText } from '@/lib/clipboard'
 import { useI18n } from 'vue-i18n'
 import {
   adjustScore as adjustScoreApi,
@@ -550,13 +551,12 @@ async function onChangeLanguage(language: 'id' | 'en') {
 async function copyInvite() {
   if (!state.value) return
   const url = `${window.location.origin}${window.location.pathname}?room=${state.value.code}`
-  try {
-    await navigator.clipboard.writeText(url)
-    copied.value = true
-    setTimeout(() => (copied.value = false), 2000)
-  } catch {
+  if (!(await copyText(url))) {
     error.value = t('game.errors.clipboard')
+    return
   }
+  copied.value = true
+  setTimeout(() => (copied.value = false), 2000)
 }
 
 async function onLeave() {

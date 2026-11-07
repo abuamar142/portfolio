@@ -165,6 +165,7 @@ import { ArrowLeft, Share2 } from 'lucide-vue-next'
 import { useBlogPost } from '@/composables/useBlogPost'
 import { useTheme } from '@/composables/useTheme'
 import { highlightCodeBlocks } from '@/lib/shiki'
+import { copyText as copyToClipboard } from '@/lib/clipboard'
 import TagChip from '@/components/ui/TagChip.vue'
 import BaseModal from '@/components/ui/BaseModal.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
@@ -307,30 +308,7 @@ watch(showShareModal, (open) => {
 })
 
 async function copyText(): Promise<boolean> {
-  const text = shareUrl.value
-  let ok = false
-  try {
-    if (typeof navigator !== 'undefined' && navigator.clipboard && (window as { isSecureContext?: boolean }).isSecureContext) {
-      await navigator.clipboard.writeText(text)
-      ok = true
-    } else {
-      throw new Error('clipboard unavailable')
-    }
-  } catch {
-    try {
-      const ta = document.createElement('textarea')
-      ta.value = text
-      ta.setAttribute('readonly', '')
-      ta.className = 'sr-only'
-      document.body.appendChild(ta)
-      ta.focus()
-      ta.select()
-      ok = document.execCommand('copy')
-      document.body.removeChild(ta)
-    } catch {
-      ok = false
-    }
-  }
+  const ok = await copyToClipboard(shareUrl.value)
   if (ok) {
     copied.value = true
     setTimeout(() => {

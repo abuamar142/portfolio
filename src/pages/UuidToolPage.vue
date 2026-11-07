@@ -58,6 +58,7 @@ import { useToast } from '@/composables/useToast'
 import { uuidBatch } from '@/lib/uuid'
 import PageShell from '@/components/layout/PageShell.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
+import { copyText } from '@/lib/clipboard'
 
 const { t } = useI18n()
 const toast = useToast()
@@ -70,21 +71,14 @@ function regenerate() {
 }
 
 async function copyAll() {
-  try {
-    await navigator.clipboard.writeText(uuids.value.join('\n'))
+  if (await copyText(uuids.value.join('\n')))
     toast.success(t('uuidTool.copiedAll', { count: uuids.value.length }))
-  } catch {
-    toast.error(t('uuidTool.copyFailed'))
-  }
+  else toast.error(t('uuidTool.copyFailed'))
 }
 
 async function copy(uuid: string) {
-  try {
-    await navigator.clipboard.writeText(uuid)
-    toast.success(t('uuidTool.copied'))
-  } catch {
-    toast.error(t('uuidTool.copyFailed'))
-  }
+  if (await copyText(uuid)) toast.success(t('uuidTool.copied'))
+  else toast.error(t('uuidTool.copyFailed'))
 }
 
 // Generated on mount so the page is useful the moment it opens, but not during
