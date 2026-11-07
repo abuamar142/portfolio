@@ -83,6 +83,7 @@ export default defineConfig(({ mode }) => {
             '/timestamp',
             '/jwt',
             '/tebak-kata',
+            '/waktu',
             '/feedback',
           ],
         })

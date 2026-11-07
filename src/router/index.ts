@@ -94,6 +94,11 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('../pages/TebakKataPage.vue'),
   },
   {
+    path: '/waktu',
+    name: 'waktu',
+    component: () => import('../pages/FocusPage.vue'),
+  },
+  {
     path: '/feedback',
     name: 'feedback',
     component: () => import('../pages/FeedbackPage.vue'),

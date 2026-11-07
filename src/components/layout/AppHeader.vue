@@ -164,6 +164,7 @@ const EXPLORE_PATHS = [
   '/timestamp',
   '/jwt',
   '/tebak-kata',
+  '/waktu',
   '/feedback',
 ]
 const isExploreRoute = computed(() =>
