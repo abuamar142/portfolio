@@ -187,6 +187,36 @@ usePageSeo({
   overflow-y: auto;
 }
 
+/**
+ * Both fullscreen paths centre the same single column.
+ *
+ * `safe center` (not plain `center`) because a pomodoro panel on a short phone
+ * can be taller than the screen, and centred overflow clips its top edge above
+ * the scroll origin. The lone `flex-start` above it is the fallback for engines
+ * that do not parse the `safe` keyword.
+ */
+.stage:fullscreen,
+.stage.is-fallback {
+  justify-content: flex-start;
+  justify-content: safe center;
+  align-items: center;
+}
+
+.stage:fullscreen > *,
+.stage.is-fallback > * {
+  width: 100%;
+  max-width: 60rem;
+}
+
+/**
+ * Inside the screen the panel is as tall as its content and sits in the middle,
+ * instead of stretching to the edges and leaving a dead band under the clock.
+ */
+.stage:fullscreen > .stage-panel,
+.stage.is-fallback > .stage-panel {
+  flex: 0 1 auto;
+}
+
 .notice-dismiss {
   display: inline-grid;
   place-items: center;
