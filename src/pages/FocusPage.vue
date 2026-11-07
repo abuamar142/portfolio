@@ -41,10 +41,12 @@
           </button>
         </p>
 
-        <ClockPanel v-if="mode === 'clock'" class="stage-panel" :now="now" />
-        <TimerPanel v-else-if="mode === 'timer'" class="stage-panel" :now="now" />
-        <StopwatchPanel v-else-if="mode === 'stopwatch'" class="stage-panel" :now="now" />
-        <PomodoroPanel v-else class="stage-panel" :now="now" />
+        <div class="stage-body">
+          <ClockPanel v-if="mode === 'clock'" class="stage-panel" :now="now" />
+          <TimerPanel v-else-if="mode === 'timer'" class="stage-panel" :now="now" />
+          <StopwatchPanel v-else-if="mode === 'stopwatch'" class="stage-panel" :now="now" />
+          <PomodoroPanel v-else class="stage-panel" :now="now" />
+        </div>
       </div>
 
       <p class="data text-xs text-ink-4">{{ t('focus.storageNote') }}</p>
@@ -169,6 +171,38 @@ usePageSeo({
   min-height: 0;
 }
 
+/**
+ * In-page the body is just a transparent wrapper: each tab keeps its natural
+ * height, which is what the page's own rhythm expects.
+ */
+.stage-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/**
+ * In fullscreen the body is the one thing with a height, so switching tabs
+ * cannot resize the block. Measured before this existed: clock 337px, timer
+ * 641px, stopwatch 469px, pomodoro 564px — the whole column jumped on every tab
+ * change. Panels now centre inside a fixed box instead.
+ *
+ * `flex: 1 0 auto` and no `overflow` of its own: when a panel is taller than
+ * the screen the body grows to the content and the stage scrolls once. Letting
+ * both scroll produced nested scrollbars, and centring inside a scroller that
+ * is also clipped is what made the earlier layout drift.
+ */
+.stage:fullscreen .stage-body,
+.stage.is-fallback .stage-body {
+  flex: 1 0 auto;
+  justify-content: safe center;
+}
+
+.stage:fullscreen .stage-body > .stage-panel,
+.stage.is-fallback .stage-body > .stage-panel {
+  flex: 0 0 auto;
+}
+
 /* Native fullscreen: the browser already sized the element to the screen. */
 .stage:fullscreen {
   padding: 1.5rem;
@@ -188,17 +222,14 @@ usePageSeo({
 }
 
 /**
- * Both fullscreen paths centre the same single column.
+ * Both fullscreen paths lay out one centred column.
  *
- * `safe center` (not plain `center`) because a pomodoro panel on a short phone
- * can be taller than the screen, and centred overflow clips its top edge above
- * the scroll origin. The lone `flex-start` above it is the fallback for engines
- * that do not parse the `safe` keyword.
+ * The body below is `flex: 1`, so it absorbs every pixel the header does not
+ * use: the column always spans the screen and only `align-items` still has
+ * work to do.
  */
 .stage:fullscreen,
 .stage.is-fallback {
-  justify-content: flex-start;
-  justify-content: safe center;
   align-items: center;
 }
 
@@ -206,15 +237,6 @@ usePageSeo({
 .stage.is-fallback > * {
   width: 100%;
   max-width: 60rem;
-}
-
-/**
- * Inside the screen the panel is as tall as its content and sits in the middle,
- * instead of stretching to the edges and leaving a dead band under the clock.
- */
-.stage:fullscreen > .stage-panel,
-.stage.is-fallback > .stage-panel {
-  flex: 0 1 auto;
 }
 
 .notice-dismiss {
