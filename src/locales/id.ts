@@ -748,6 +748,8 @@ export default {
       reset: 'Reset',
       skip: 'Lewati',
       dismiss: 'Tutup pesan',
+      enterFullscreen: 'Masuk layar penuh',
+      exitFullscreen: 'Keluar layar penuh',
     },
     notice: {
       timerEnded: 'Timer selesai.',

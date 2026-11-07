@@ -1,12 +1,24 @@
 <template>
   <PageShell id="focus" :title="t('focus.title')" :lead="t('focus.dek')">
     <div class="flex flex-col gap-8">
-      <SegmentedTabs
-        :model-value="mode"
-        :options="modeOptions"
-        :legend="t('focus.tabs.label')"
-        @update:model-value="select"
-      />
+      <header class="flex items-center justify-between gap-4">
+        <SegmentedTabs
+          :model-value="mode"
+          :options="modeOptions"
+          :legend="t('focus.tabs.label')"
+          @update:model-value="select"
+        />
+        <button
+          type="button"
+          class="btn btn-sm btn-outline"
+          :aria-label="isFullscreen ? t('focus.common.exitFullscreen') : t('focus.common.enterFullscreen')"
+          :aria-pressed="isFullscreen"
+          @click="isFullscreen ? exit() : enter()"
+        >
+          <Maximize2 v-if="!isFullscreen" class="size-4" aria-hidden="true" />
+          <Minimize2 v-else class="size-4" aria-hidden="true" />
+        </button>
+      </header>
 
       <p
         v-if="noticeKey"
@@ -38,12 +50,13 @@
 import { computed, onMounted, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import { X } from 'lucide-vue-next'
+import { X, Maximize2, Minimize2 } from 'lucide-vue-next'
 import { FOCUS_MODES, type FocusMode } from '@/lib/focus/store'
 import { formatDuration } from '@/lib/focus/format'
 import { isCountdownRunning, remainingAt } from '@/lib/focus/countdown'
 import { focusSession, initFocusSession } from '@/composables/useFocusSession'
 import { usePageSeo } from '@/composables/usePageSeo'
+import { useFocusFullscreen } from '@/composables/useFocusFullscreen'
 import PageShell from '@/components/layout/PageShell.vue'
 import SegmentedTabs from '@/components/focus/SegmentedTabs.vue'
 import ClockPanel from '@/components/focus/ClockPanel.vue'
@@ -56,6 +69,7 @@ const route = useRoute()
 const router = useRouter()
 
 const { snapshot, now, noticeKey } = focusSession
+const { isFullscreen, enter, exit } = useFocusFullscreen()
 
 const mode = computed(() => snapshot.mode)
 

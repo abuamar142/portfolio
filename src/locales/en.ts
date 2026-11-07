@@ -745,6 +745,8 @@ export default {
       reset: 'Reset',
       skip: 'Skip',
       dismiss: 'Dismiss message',
+      enterFullscreen: 'Enter fullscreen',
+      exitFullscreen: 'Exit fullscreen',
     },
     notice: {
       timerEnded: 'Timer finished.',
