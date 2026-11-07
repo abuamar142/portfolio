@@ -1,50 +1,77 @@
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref, type Ref } from 'vue'
 
 /**
- * Fullscreen state for the focus page.
+ * Fullscreen for the focus stage.
  *
- * The target is `document.documentElement` so the entire page goes fullscreen,
- * including the header and navigation. This matches the user's choice to have
- * the header visible while in fullscreen mode.
+ * Fullscreening the stage element rather than `document.documentElement` is
+ * what removes the page title, the lead, the storage note and the site footer:
+ * the browser paints only the fullscreened subtree, so the rest of the
+ * document is gone without us hiding anything by hand.
  *
- * The API requires a user gesture to enter fullscreen, so the state is read-only
- * and cannot be persisted. It is updated only by the native `fullscreenchange`
- * event and by explicit calls to `enter()` or `exit()`.
+ * Browsers without the API (or that refuse it) get a CSS takeover: the same
+ * element is pinned to the viewport with an opaque background, which covers the
+ * page chrome identically. Both paths end in one `expanded` boolean, so the
+ * page never has to reason about which one is running.
  */
-export function useFocusFullscreen() {
-  const isFullscreen = ref(false)
+export function useFocusFullscreen(stage: Ref<HTMLElement | null>) {
+  const native = ref(false)
+  const fallback = ref(false)
 
-  function update(): void {
-    isFullscreen.value = document.fullscreenElement === document.documentElement
+  function sync(): void {
+    const element = stage.value
+    native.value = element !== null && document.fullscreenElement === element
   }
 
-  function enter(): void {
-    if (document.fullscreenElement) return
-    void document.documentElement.requestFullscreen().catch(() => {
-      // Permission denied or not supported; no action needed.
-    })
+  async function enter(): Promise<void> {
+    if (native.value || fallback.value) return
+
+    const element = stage.value
+    if (!element || typeof element.requestFullscreen !== 'function') {
+      fallback.value = true
+      return
+    }
+
+    try {
+      await element.requestFullscreen()
+    } catch {
+      // Denied by policy or unsupported: the takeover still fills the view.
+      fallback.value = true
+    }
+    sync()
   }
 
-  function exit(): void {
-    if (!document.fullscreenElement) return
-    void document.exitFullscreen().catch(() => {
-      // Already exited or not supported; no action needed.
-    })
+  async function exit(): Promise<void> {
+    fallback.value = false
+    if (document.fullscreenElement !== null) {
+      try {
+        await document.exitFullscreen()
+      } catch {
+        // Already out.
+      }
+    }
+    sync()
+  }
+
+  function onKeydown(event: KeyboardEvent): void {
+    // Native fullscreen handles Escape itself; the CSS takeover needs a way out.
+    if (event.key === 'Escape' && fallback.value) void exit()
   }
 
   onMounted(() => {
-    document.addEventListener('fullscreenchange', update)
-    update()
+    document.addEventListener('fullscreenchange', sync)
+    document.addEventListener('keydown', onKeydown)
+    sync()
   })
 
   onBeforeUnmount(() => {
-    document.removeEventListener('fullscreenchange', update)
+    document.removeEventListener('fullscreenchange', sync)
+    document.removeEventListener('keydown', onKeydown)
+    // The browser drops fullscreen when the element unmounts, but these flags
+    // (and the scroll lock) would otherwise follow us to the next route.
+    fallback.value = false
+    native.value = false
+    if (document.fullscreenElement !== null) void document.exitFullscreen().catch(() => {})
   })
 
-  // Expose as an object to avoid reactivity issues with direct ref usage.
-  return {
-    isFullscreen,
-    enter,
-    exit,
-  }
+  return { native, fallback, enter, exit }
 }

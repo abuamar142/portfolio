@@ -1,45 +1,51 @@
 <template>
   <PageShell id="focus" :title="t('focus.title')" :lead="t('focus.dek')">
     <div class="flex flex-col gap-8">
-      <header class="flex items-center justify-between gap-4">
-        <SegmentedTabs
-          :model-value="mode"
-          :options="modeOptions"
-          :legend="t('focus.tabs.label')"
-          @update:model-value="select"
-        />
-        <button
-          type="button"
-          class="btn btn-sm btn-outline"
-          :aria-label="isFullscreen ? t('focus.common.exitFullscreen') : t('focus.common.enterFullscreen')"
-          :aria-pressed="isFullscreen"
-          @click="isFullscreen ? exit() : enter()"
-        >
-          <Maximize2 v-if="!isFullscreen" class="size-4" aria-hidden="true" />
-          <Minimize2 v-else class="size-4" aria-hidden="true" />
-        </button>
-      </header>
-
-      <p
-        v-if="noticeKey"
-        role="status"
-        class="data flex items-start gap-3 border border-base-300 bg-base-200 px-4 py-3 text-sm"
+      <div
+        ref="stageRef"
+        class="stage"
+        :class="{ 'is-fallback': fallback }"
       >
-        <span class="flex-1">{{ t(noticeKey) }}</span>
-        <button
-          type="button"
-          class="notice-dismiss"
-          :aria-label="t('focus.common.dismiss')"
-          @click="focusSession.dismissNotice()"
-        >
-          <X class="size-4" aria-hidden="true" />
-        </button>
-      </p>
+        <header class="flex flex-wrap items-center justify-between gap-4">
+          <SegmentedTabs
+            :model-value="mode"
+            :options="modeOptions"
+            :legend="t('focus.tabs.label')"
+            @update:model-value="select"
+          />
+          <button
+            type="button"
+            class="btn btn-sm btn-outline"
+            :aria-label="expanded ? t('focus.common.exitFullscreen') : t('focus.common.enterFullscreen')"
+            :aria-pressed="expanded"
+            @click="expanded ? exit() : enter()"
+          >
+            <Minimize2 v-if="expanded" class="size-4" aria-hidden="true" />
+            <Maximize2 v-else class="size-4" aria-hidden="true" />
+          </button>
+        </header>
 
-      <ClockPanel v-if="mode === 'clock'" :now="now" />
-      <TimerPanel v-else-if="mode === 'timer'" :now="now" />
-      <StopwatchPanel v-else-if="mode === 'stopwatch'" :now="now" />
-      <PomodoroPanel v-else :now="now" />
+        <p
+          v-if="noticeKey"
+          role="status"
+          class="data flex items-start gap-3 border border-base-300 bg-base-200 px-4 py-3 text-sm"
+        >
+          <span class="flex-1">{{ t(noticeKey) }}</span>
+          <button
+            type="button"
+            class="notice-dismiss"
+            :aria-label="t('focus.common.dismiss')"
+            @click="focusSession.dismissNotice()"
+          >
+            <X class="size-4" aria-hidden="true" />
+          </button>
+        </p>
+
+        <ClockPanel v-if="mode === 'clock'" class="stage-panel" :now="now" />
+        <TimerPanel v-else-if="mode === 'timer'" class="stage-panel" :now="now" />
+        <StopwatchPanel v-else-if="mode === 'stopwatch'" class="stage-panel" :now="now" />
+        <PomodoroPanel v-else class="stage-panel" :now="now" />
+      </div>
 
       <p class="data text-xs text-ink-4">{{ t('focus.storageNote') }}</p>
     </div>
@@ -47,16 +53,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, watch, watchEffect } from 'vue'
+import { computed, onMounted, ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-import { X, Maximize2, Minimize2 } from 'lucide-vue-next'
+import { Maximize2, Minimize2, X } from 'lucide-vue-next'
 import { FOCUS_MODES, type FocusMode } from '@/lib/focus/store'
 import { formatDuration } from '@/lib/focus/format'
 import { isCountdownRunning, remainingAt } from '@/lib/focus/countdown'
 import { focusSession, initFocusSession } from '@/composables/useFocusSession'
-import { usePageSeo } from '@/composables/usePageSeo'
 import { useFocusFullscreen } from '@/composables/useFocusFullscreen'
+import { usePageSeo } from '@/composables/usePageSeo'
 import PageShell from '@/components/layout/PageShell.vue'
 import SegmentedTabs from '@/components/focus/SegmentedTabs.vue'
 import ClockPanel from '@/components/focus/ClockPanel.vue'
@@ -69,7 +75,10 @@ const route = useRoute()
 const router = useRouter()
 
 const { snapshot, now, noticeKey } = focusSession
-const { isFullscreen, enter, exit } = useFocusFullscreen()
+
+const stageRef = ref<HTMLDivElement | null>(null)
+const { native, fallback, enter, exit } = useFocusFullscreen(stageRef)
+const expanded = computed(() => native.value || fallback.value)
 
 const mode = computed(() => snapshot.mode)
 
@@ -143,6 +152,41 @@ usePageSeo({
 </script>
 
 <style scoped>
+.stage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-height: 0;
+}
+
+/**
+ * The panel owns the rest of the stage. `flex: 1` is inert in the normal page
+ * flow (the stage is only as tall as its content) and becomes the thing that
+ * removes the empty band under the timer once the stage is the viewport.
+ */
+.stage-panel {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Native fullscreen: the browser already sized the element to the screen. */
+.stage:fullscreen {
+  padding: 1.5rem;
+  background: var(--color-base-100);
+  overflow-y: auto;
+}
+
+/* CSS takeover for browsers without the API: cover the page chrome. */
+.stage.is-fallback {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  height: 100dvh;
+  padding: 1.5rem;
+  background: var(--color-base-100);
+  overflow-y: auto;
+}
+
 .notice-dismiss {
   display: inline-grid;
   place-items: center;

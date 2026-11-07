@@ -78,8 +78,12 @@ function newId(): string {
 
 function persist(): void {
   if (typeof window === 'undefined') return
+  // The in-memory `updatedAt` must advance with the write, otherwise this tab
+  // permanently looks older than the record on disk and loses every
+  // cross-tab adoption race.
+  snapshot.updatedAt = Date.now()
   try {
-    window.localStorage.setItem(FOCUS_STORAGE_KEY, serializeSnapshot(snapshot))
+    window.localStorage.setItem(FOCUS_STORAGE_KEY, serializeSnapshot(snapshot, snapshot.updatedAt))
   } catch {
     // Private mode or a full quota: the session still works in memory.
   }
