@@ -4,8 +4,14 @@ name: Deploy Portfolio to VPS
 # portfolio-dev.abuamar.online) was decommissioned on 2026-11-04 to free VPS
 # resources. Auto-deploying it would resurrect a vhost that no longer exists.
 # Use workflow_dispatch for an ad-hoc deploy of another branch.
+#
+# pull_request runs `check` only: the deploy job is gated on the event name, so
+# a PR gets lint + type-check + tests without touching the VPS. The same gate
+# keeps workflow_dispatch usable for ad-hoc deploys of any branch.
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -32,6 +38,9 @@ jobs:
 
   deploy:
     needs: check
+    # PRs run `check` for feedback only; the VPS is written on push to main or
+    # an explicit workflow_dispatch (which may target another branch).
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-26.04
     timeout-minutes: 10
     steps:
