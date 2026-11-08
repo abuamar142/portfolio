@@ -41,6 +41,10 @@ const PATTERNS: Record<ChimeKind, Note[]> = {
 let context: AudioContext | null = null
 let scheduled: OscillatorNode[] = []
 let fallbackTimer: number | null = null
+/** The run we are waiting to announce, so it can be re-armed once audio unlocks. */
+let pending: { atMs: number; kind: ChimeKind } | null = null
+/** True when the pending chime sits on the audio clock rather than a JS timer. */
+let armedOnAudio = false
 
 /** Safari before 14.1 exposes only the prefixed constructor. */
 interface LegacyAudioWindow extends Window {
@@ -65,10 +69,22 @@ function audioContext(): AudioContext | null {
   return context
 }
 
-/** Call from a click handler so the context is allowed to make sound. */
+/**
+ * Call from a gesture so the context is allowed to make sound.
+ *
+ * A context created before any gesture starts suspended, and its clock does not
+ * advance while it is. Anything scheduled on that frozen clock would fire late
+ * by however long the page waited — a restored timer is exactly that case — so
+ * the pending announcement is rebuilt on the audio clock once it runs.
+ */
 export function primeChime(): void {
   const ctx = audioContext()
-  if (ctx && ctx.state === 'suspended') void ctx.resume()
+  if (!ctx || ctx.state === 'running') return
+  void ctx.resume().then(() => {
+    if (armedOnAudio || !pending) return
+    clearScheduled()
+    arm()
+  })
 }
 
 function play(kind: ChimeKind, delaySeconds = 0): void {
@@ -100,31 +116,8 @@ function play(kind: ChimeKind, delaySeconds = 0): void {
   }
 }
 
-/**
- * Announce a run that ends `atMs` from now, on the audio clock.
- *
- * A JS fallback runs alongside it for the case where no gesture has ever
- * unlocked audio; whichever fires first is the only one heard because
- * `cancelChime` clears both.
- */
-export function scheduleChime(atMs: number, kind: ChimeKind): void {
-  cancelChime()
-
-  const ctx = audioContext()
-  if (ctx) {
-    void ctx.resume()
-    play(kind, Math.max(0, atMs) / 1000)
-    return
-  }
-
-  if (typeof window === 'undefined') return
-  fallbackTimer = window.setTimeout(() => {
-    fallbackTimer = null
-    play(kind)
-  }, Math.max(0, atMs))
-}
-
-export function cancelChime(): void {
+/** Stop whatever is armed; the pending run is left alone. */
+function clearScheduled(): void {
   if (fallbackTimer !== null) {
     window.clearTimeout(fallbackTimer)
     fallbackTimer = null
@@ -137,4 +130,45 @@ export function cancelChime(): void {
     }
   }
   scheduled = []
+  armedOnAudio = false
+}
+
+/**
+ * Arm the pending announcement on the best clock available.
+ *
+ * The audio clock is preferred because it keeps time in a hidden tab, where
+ * `setTimeout` is throttled to about one callback a minute. A suspended context
+ * cannot provide that — its clock is frozen — so in that case (and where Web
+ * Audio is missing entirely) the JS timer remains the honest fallback.
+ */
+function arm(): void {
+  if (!pending || typeof window === 'undefined') return
+
+  const ctx = audioContext()
+  const delayMs = Math.max(0, pending.atMs - Date.now())
+
+  if (ctx && ctx.state === 'running') {
+    armedOnAudio = true
+    play(pending.kind, delayMs / 1000)
+    return
+  }
+
+  const kind = pending.kind
+  fallbackTimer = window.setTimeout(() => {
+    fallbackTimer = null
+    pending = null
+    play(kind)
+  }, delayMs)
+}
+
+/** Announce a run that ends `atMs` from now. Replaces any previous one. */
+export function scheduleChime(atMs: number, kind: ChimeKind): void {
+  clearScheduled()
+  pending = { atMs: Date.now() + Math.max(0, atMs), kind }
+  arm()
+}
+
+export function cancelChime(): void {
+  pending = null
+  clearScheduled()
 }

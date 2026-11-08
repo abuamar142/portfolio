@@ -62,6 +62,7 @@ import { Maximize2, Minimize2, X } from 'lucide-vue-next'
 import { FOCUS_MODES, type FocusMode } from '@/lib/focus/store'
 import { formatDuration } from '@/lib/focus/format'
 import { isCountdownRunning, remainingAt } from '@/lib/focus/countdown'
+import { notifyHidden } from '@/lib/focus/notify'
 import { focusSession, initFocusSession } from '@/composables/useFocusSession'
 import { useFocusFullscreen } from '@/composables/useFocusFullscreen'
 import { usePageSeo } from '@/composables/usePageSeo'
@@ -143,6 +144,16 @@ watchEffect(() => {
         : null
 
   document.title = running === null ? base : `${formatDuration(running)} · ${base}`
+})
+
+/**
+ * A run that ends while the tab is in the background gets a system
+ * notification; the in-page banner covers every other case, so this stays
+ * silent when the page is in front. The text is the same key the banner uses,
+ * which keeps the two from drifting apart.
+ */
+watch(noticeKey, (key) => {
+  if (key) notifyHidden(t('focus.title'), t(key))
 })
 
 usePageSeo({

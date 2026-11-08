@@ -99,4 +99,17 @@ describe('finding surfaces by what people type', () => {
   it('finds the tools hub by "jelajahi"', () => {
     expect(topTo('jelajahi')).toBe('/explore')
   })
+
+  it('opens the requested time tab straight from the palette', () => {
+    // Each mode is its own result, so "stopwatch" no longer just lands on the
+    // clock tab and leaves the visitor to find the right one.
+    expect(topTo('stopwatch')).toBe('/waktu?mode=stopwatch')
+    expect(topTo('pomodoro')).toBe('/waktu?mode=pomodoro')
+    expect(topTo('jam')).toBe('/waktu?mode=clock')
+    expect(topTo('hitung mundur')).toBe('/waktu?mode=timer')
+  })
+
+  it('still offers the whole time page by its own name', () => {
+    expect(rankItems(items, 'waktu').map((h) => h.to)).toContain('/waktu')
+  })
 })

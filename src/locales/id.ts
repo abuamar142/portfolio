@@ -762,10 +762,11 @@ export default {
     timer: {
       presets: 'Pilihan cepat',
       minutesShort: '{n} mnt',
+      hoursShort: '{n} jam',
       custom: 'Durasi lain',
-      customPlaceholder: 'mm:ss',
+      customPlaceholder: 'mm:ss atau j:mm:ss',
       set: 'Pasang',
-      invalid: 'Format tidak dikenali. Contoh: 15 atau 12:30.',
+      invalid: 'Format tidak dikenali. Contoh: 15, 12:30, atau 1:30:00.',
       plusMinute: '+1 mnt',
       minusMinute: '−1 mnt',
       running: 'Berjalan',

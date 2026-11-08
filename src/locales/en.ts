@@ -759,10 +759,11 @@ export default {
     timer: {
       presets: 'Quick presets',
       minutesShort: '{n} min',
+      hoursShort: '{n} h',
       custom: 'Other duration',
-      customPlaceholder: 'mm:ss',
+      customPlaceholder: 'mm:ss or h:mm:ss',
       set: 'Set',
-      invalid: 'Unrecognised format. Try 15 or 12:30.',
+      invalid: 'Unrecognised format. Try 15, 12:30, or 1:30:00.',
       plusMinute: '+1 min',
       minusMinute: '−1 min',
       running: 'Running',

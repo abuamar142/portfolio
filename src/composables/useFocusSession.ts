@@ -55,7 +55,8 @@ import {
   parseSnapshot,
   serializeSnapshot,
 } from '@/lib/focus/store'
-import { cancelChime, scheduleChime } from '@/composables/useChime'
+import { cancelChime, primeChime, scheduleChime } from '@/composables/useChime'
+import { requestNotifyPermission } from '@/lib/focus/notify'
 
 /** Ticks repaint only; every number is derived from `now` and a deadline. */
 const TICK_MS = 250
@@ -199,6 +200,14 @@ export function initFocusSession(): void {
     if (incoming && incoming.updatedAt > snapshot.updatedAt) Object.assign(snapshot, incoming)
   })
 
+  // Browsers refuse to run an AudioContext that was created before any user
+  // gesture, and a restored timer hits exactly that: it schedules its chime on
+  // a frozen clock before the visitor has touched anything. Unlocking on the
+  // first interaction rebuilds that schedule while there is still time.
+  const unlock = { once: true, capture: true } as const
+  window.addEventListener('pointerdown', primeChime, unlock)
+  window.addEventListener('keydown', primeChime, unlock)
+
   syncChime()
 }
 
@@ -236,6 +245,8 @@ export const focusSession = {
   },
 
   startTimer(): void {
+    // Inside the click, so the permission prompt is allowed to appear.
+    requestNotifyPermission()
     snapshot.timer = startCountdown(snapshot.timer, Date.now())
     commit()
   },
@@ -288,6 +299,7 @@ export const focusSession = {
   // ---- pomodoro ------------------------------------------------------------
 
   startPomodoro(): void {
+    requestNotifyPermission()
     snapshot.pomodoro = startPomodoro(snapshot.pomodoro, Date.now())
     commit()
   },

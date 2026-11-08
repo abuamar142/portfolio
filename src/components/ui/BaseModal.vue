@@ -151,6 +151,9 @@ function setInert(inert: boolean) {
 }
 
 function activate() {
+  // The watch below runs on the server too, where a modal that mounts open
+  // would otherwise touch `document` during render.
+  if (typeof document === 'undefined') return
   // Capture the trigger BEFORE inert (which can blur it) and before we move
   // focus into the dialog.
   if (!previouslyFocused) {
@@ -169,6 +172,10 @@ function activate() {
 }
 
 function deactivate() {
+  // `watch(..., { immediate: true })` calls this during the prerender pass,
+  // where there is no document. Without the guard every page that contains a
+  // dialog threw a ReferenceError while rendering.
+  if (typeof document === 'undefined') return
   document.removeEventListener('keydown', handleKeydown)
   lockScroll(false)
   setInert(false)
@@ -191,6 +198,7 @@ watch(
 )
 
 onBeforeUnmount(() => {
+  if (typeof document === 'undefined') return
   document.removeEventListener('keydown', handleKeydown)
   lockScroll(false)
   setInert(false)
