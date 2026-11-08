@@ -26,7 +26,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2.2.0
       - run: bun install --frozen-lockfile
-      - run: bunx eslint .
+      - run: bun run lint:check
       - run: bun run type-check
       - run: bun run test
 
@@ -37,16 +37,8 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # Quality gates: never ship without lint + design-system detection.
-      - uses: oven-sh/setup-bun@v2.2.0
-        with:
-          bun-version: 1.4.0
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
-      - name: Lint check (no autofix)
-        run: bun run lint:check
-      - name: Unit tests
-        run: bun run test
+      # `check` already ran install + lint + type-check + tests on this exact
+      # commit, so deploy only adds the design-system gate and ships.
       - name: Impeccable design-system detect
         run: npx -y impeccable@4.1.0 detect src
 
