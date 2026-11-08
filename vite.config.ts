@@ -2,6 +2,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import tailwindcss from '@tailwindcss/vite'
 import generateSitemap from 'vite-ssg-sitemap'
 import { readPostSlugs } from './scripts/blog/slugs'
 
@@ -20,7 +21,7 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
-    plugins: [vue()],
+    plugins: [vue(), tailwindcss()],
     // vue-i18n's default build compiles message strings at runtime with
     // `new Function(...)`, which a strict Content-Security-Policy blocks (no
     // 'unsafe-eval'). The production build therefore ships the runtime-only
