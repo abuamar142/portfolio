@@ -397,13 +397,13 @@ watch(
 async function handleDeleteFile() {
   if (!props.achievement) return
   try {
-    const updated = await deleteAchievementFile(props.achievement.id)
+    await deleteAchievementFile(props.achievement.id)
     attachedFileKey.value = null
     attachedFileName.value = null
     attachedFileSize.value = null
     confirmDelete.value = false
     toast.success(t('dashboard.achievements.fileDeleted'))
-    Object.assign(props.achievement, updated)
+    emit('saved')
   } catch {
     toast.error(t('dashboard.achievements.fileDeleteFailed'))
   }
@@ -460,9 +460,6 @@ async function handleSubmit() {
       attachedFileName.value = updated.file_name || null
       attachedFileSize.value = updated.file_size ?? null
       toast.success(t('dashboard.achievements.fileUploaded'))
-      if (props.achievement) {
-        Object.assign(props.achievement, updated)
-      }
     } catch {
       toast.error(t('dashboard.achievements.fileUploadFailed'))
     } finally {

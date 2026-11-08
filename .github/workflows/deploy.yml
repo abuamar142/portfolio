@@ -46,7 +46,7 @@ jobs:
       # directly. appleboy/ssh-action already runs with `-e -o pipefail` and the
       # script has its own `set -euo pipefail`, so no wrapper is needed.
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.2.0
+        uses: appleboy/ssh-action@v1.2.5
         env:
           BRANCH: ${{ github.ref_name }}
         with:
