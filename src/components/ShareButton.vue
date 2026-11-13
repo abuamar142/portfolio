@@ -96,7 +96,7 @@ function getShareUrl() {
 }
 
 function getShareText() {
-  const text = `"${props.content}" — ${props.author}`
+  const text = `"${props.content}" (${props.author})`
   return text.length > 200 ? text.substring(0, 197) + '…' : text
 }
 

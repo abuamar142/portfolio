@@ -13,7 +13,7 @@
           "{{ quote.content }}"
         </p>
         <p class="text-ink-3 text-sm">
-          — {{ quote.is_anonymous ? $t('quotes.anonymous') : quote.author_name || $t('quotes.unknown') }}
+          {{ quote.is_anonymous ? $t('quotes.anonymous') : quote.author_name || $t('quotes.unknown') }}
         </p>
         <p v-if="quote.source" class="text-ink-4 text-xs mt-1">
           {{ quote.source }}

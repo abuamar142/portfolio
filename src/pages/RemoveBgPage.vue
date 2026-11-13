@@ -120,7 +120,7 @@
           class="link-accent underline decoration-1 underline-offset-4"
           >BG0</a
         >
-        (Apache-2.0) · BiRefNet —
+        (Apache-2.0) · BiRefNet:
         <a
           href="https://github.com/opencoredev/bg0/blob/main/THIRD_PARTY_NOTICES.md"
           target="_blank"

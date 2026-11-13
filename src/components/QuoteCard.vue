@@ -10,7 +10,7 @@
     </p>
     <div class="flex items-center justify-between">
       <p class="quote-author text-center text-sm opacity-70">
-        — {{ displayAuthor }}
+        {{ displayAuthor }}
       </p>
       <div v-if="isOwner" class="flex gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
         <button

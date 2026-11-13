@@ -88,7 +88,7 @@ describe('decodeBase64', () => {
   it('rejects valid base64 that is not UTF-8 text', () => {
     // 0xff alone is not a valid UTF-8 sequence.
     const result = decodeBase64('/w==')
-    expect(result).toEqual({ ok: false, error: 'The bytes are not valid UTF-8 text — this is binary data' })
+    expect(result).toEqual({ ok: false, error: 'The bytes are not valid UTF-8 text. This is binary data' })
   })
 })
 

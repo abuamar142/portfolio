@@ -45,7 +45,7 @@ export function renderCvHtml(data: CvData): string {
       (e) => `
       <section class="job">
         <div class="job-head">
-          <div><strong>${esc(e.position)}</strong> — ${esc(e.company)}</div>
+          <div><strong>${esc(e.position)}</strong> | ${esc(e.company)}</div>
           <div class="date">${esc(e.duration)}</div>
         </div>
         <ul>
@@ -64,7 +64,7 @@ export function renderCvHtml(data: CvData): string {
           <div><strong>${esc(e.institution)}</strong></div>
           <div class="date">${esc(e.duration)}</div>
         </div>
-        <p>${esc([e.degree, e.field].filter(Boolean).join(' — '))}${e.gpa ? ` · GPA ${esc(e.gpa)}` : ''}</p>
+        <p>${esc([e.degree, e.field].filter(Boolean).join(', '))}${e.gpa ? ` · GPA ${esc(e.gpa)}` : ''}</p>
       </section>`,
     )
     .join('')
@@ -79,7 +79,7 @@ export function renderCvHtml(data: CvData): string {
       return `
       <section class="cert">
         <div class="job-head">
-          <div><strong>${esc(a.title)}</strong> — ${esc(orgHead)}${orgTail ? ` <span class="org-tail">| ${esc(orgTail)}</span>` : ''}</div>
+          <div><strong>${esc(a.title)}</strong> | ${esc(orgHead)}${orgTail ? ` <span class="org-tail">| ${esc(orgTail)}</span>` : ''}</div>
           <div class="date">${esc(fmtDate(a.date))}${a.valid_until ? ` – ${esc(fmtDate(a.valid_until))}` : ''}</div>
         </div>
       </section>`
@@ -105,7 +105,7 @@ export function renderCvHtml(data: CvData): string {
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>${esc(pi.fullname)} — CV</title>
+<title>${esc(pi.fullname)} | CV</title>
 <style>
   @page { size: A4; margin: 16mm 15mm; }
   * { box-sizing: border-box; margin: 0; padding: 0; }

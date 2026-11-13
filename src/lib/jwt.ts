@@ -140,7 +140,7 @@ export function judgeExpiry(claims: JwtClaims, now: Date = new Date()): JwtExpir
     // A token without `exp` never expires — worth saying out loud.
     return nbf !== undefined
       ? { state: 'valid', detail: `Valid (nbf is in the past, no exp claim)` }
-      : { state: 'none', detail: 'No exp claim — this token does not expire' }
+      : { state: 'none', detail: 'No exp claim. This token does not expire' }
   }
 
   const remaining = exp - nowSec

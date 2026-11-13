@@ -44,7 +44,7 @@
         </blockquote>
 
         <p class="mt-6 font-mono text-sm text-ink-3">
-          — {{ quote.is_anonymous ? $t('quotes.anonymous') : quote.author_name || $t('quotes.unknown') }}
+          {{ quote.is_anonymous ? $t('quotes.anonymous') : quote.author_name || $t('quotes.unknown') }}
         </p>
 
         <p v-if="quote.source" class="mt-2 font-mono text-xs text-ink-4">
@@ -108,7 +108,7 @@ useHead({
     if (!quote.value) return t('quotes.title')
     const content = quote.value.content
     const head = content.length > 60 ? `${content.slice(0, 60)}…` : content
-    return `${head} — ${t('quotes.title')}`
+    return `${head}: ${t('quotes.title')}`
   }),
   meta: computed(() => {
     const q = quote.value
@@ -119,7 +119,7 @@ useHead({
     const author = q.is_anonymous ? t('quotes.anonymous') : q.author_name || t('quotes.unknown')
     return [
       { name: 'description', content: excerpt },
-      { property: 'og:title', content: `${excerpt.slice(0, 80)} — ${author}` },
+      { property: 'og:title', content: `${excerpt.slice(0, 80)} (${author})` },
       { property: 'og:description', content: excerpt },
       { property: 'og:type', content: 'article' },
       // The preview server already renders a quote card (colour from the

@@ -82,7 +82,7 @@ export function decodeBase64(input: string): Base64Result {
     // decoder that silently substitutes is the wrong tool for decoding data.
     return { ok: true, value: new TextDecoder('utf-8', { fatal: true }).decode(result.bytes) }
   } catch {
-    return { ok: false, error: 'The bytes are not valid UTF-8 text — this is binary data' }
+    return { ok: false, error: 'The bytes are not valid UTF-8 text. This is binary data' }
   }
 }
 

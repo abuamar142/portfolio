@@ -63,7 +63,7 @@ async function quoteItems(): Promise<SearchItem[]> {
     id: `quote-${quote.id}`,
     kind: 'quote' as const,
     title: quote.content.slice(0, 90),
-    subtitle: quote.author_name ? `— ${quote.author_name}` : '',
+    subtitle: quote.author_name ? `(${quote.author_name})` : '',
     to: `/quotes/${quote.id}`,
     body: `${quote.content} ${quote.author_name ?? ''}`,
     date: quote.created_at,
@@ -155,7 +155,7 @@ function portfolioItems(): SearchItem[] {
     items.push({
       id: `experience-${experience.company}-${experience.position}`,
       kind: 'section',
-      title: `${experience.position} — ${experience.company}`,
+      title: `${experience.position}, ${experience.company}`,
       subtitle: experience.duration,
       to: '/#experiences',
       body: experience.description.join(' '),
