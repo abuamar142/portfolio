@@ -7,7 +7,7 @@ export default {
     education: 'Education',
     achievements: 'Achievements',
     blog: 'Blog',
-    explore: 'Explore',
+    explore: 'Tools & writing',
     contact: 'Contact',
   },
   head: {

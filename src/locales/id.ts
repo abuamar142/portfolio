@@ -7,7 +7,7 @@ export default {
     education: 'Pendidikan',
     achievements: 'Pencapaian',
     blog: 'Blog',
-    explore: 'Jelajahi',
+    explore: 'Tools & tulisan',
     contact: 'Kontak',
   },
   head: {
