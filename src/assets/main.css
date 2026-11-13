@@ -861,24 +861,11 @@
                 border-color 300ms ease;
   }
   .lift:hover { transform: translateY(-2px); }
-
-  .pulse-dot { position: relative; }
-  .pulse-dot::after {
-    content: "";
-    position: absolute;
-    inset: -4px;
-    border: 1px solid color-mix(in oklab, var(--color-voltage) 55%, transparent);
-    animation: ping-soft 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
-  }
-  @keyframes ping-soft {
-    0% { transform: scale(0.6); opacity: 0.9; }
-    80%, 100% { transform: scale(1.4); opacity: 0; }
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .rv { opacity: 1 !important; transform: none !important; }
-  .rise, .pulse-dot::after { animation: none !important; }
+  .rise { animation: none !important; }
   .row:hover, .row:focus-within, .lift:hover { transform: none !important; }
   .action .arrow, .row-arrow { transition: none !important; transform: none !important; }
   .spine-progress { animation: none !important; display: none; }

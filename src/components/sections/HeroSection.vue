@@ -3,7 +3,7 @@
     <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
       <p class="label label-ink">{{ identity?.title }}</p>
       <p class="label label-voltage inline-flex items-center gap-2">
-        <span class="pulse-dot size-1.5 bg-voltage" aria-hidden="true"></span>
+        <span class="size-1.5 bg-voltage" aria-hidden="true"></span>
         {{ $t('hero.badge') }}
       </p>
     </div>
