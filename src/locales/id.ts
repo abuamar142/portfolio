@@ -67,7 +67,7 @@ export default {
     education: 'Latar pendidikan',
     achievements: 'Sertifikat dan penghargaan',
     blog: 'Catatan seputar yang saya bangun',
-    contact: 'Mari bekerja sama',
+    contact: 'Hubungi saya',
   },
   meta: {
     roles: 'peran',

@@ -67,7 +67,7 @@ export default {
     education: 'Academic background',
     achievements: 'Certificates and awards',
     blog: 'Notes on what I build',
-    contact: "Let's build something",
+    contact: 'Get in touch',
   },
   meta: {
     roles: 'roles',
