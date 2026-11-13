@@ -26,6 +26,8 @@
         </template>
       </SectionHeader>
 
+      <!-- The first project is the flagship: it spans both columns on lg so the
+           grid reflects content hierarchy instead of repeating one card size. -->
       <div class="grid grid-cols-1 gap-5 lg:grid-cols-2">
         <article
           v-for="(project, index) in displayedProjects"
@@ -33,6 +35,7 @@
           :key="project.title"
           :style="{ '--rv-i': index % 2 }"
           class="figure-block lift flex flex-col"
+          :class="{ 'lg:col-span-2': index === 0 }"
         >
           <ProjectCard :project="project" />
         </article>
