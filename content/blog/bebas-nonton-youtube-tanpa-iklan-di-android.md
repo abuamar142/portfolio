@@ -5,18 +5,18 @@ date: 2026-08-02
 excerpt: "Ternyata nonton YouTube tanpa iklan di Android itu gampang banget. Gak perlu root, gak perlu langganan premium. Simak caranya di sini!"
 tags: []
 ---
-Tau gak sih, di Android itu kita bisa install aplikasi dari luar Google Play Store? Selama file-nya berformat APK, kita tinggal install aja — no ribet.
+Tau gak sih, di Android itu kita bisa install aplikasi dari luar Google Play Store? Selama file-nya berformat APK, kita tinggal install aja, no ribet.
 
 Nah, kali ini gue mau share cara nonton YouTube tanpa iklan sama sekali. Gratis, tanpa root, dan tentunya tanpa langganan YouTube Premium.
 
 ## Langkah-langkahnya
 
-1. **Download Orion Store** — Buka browser di HP kamu (Chrome, Firefox, terserah). Ketik Orion Store di pencarian, lalu download APK-nya dari situs resminya.
-2. **Install Orion Store** — Buka file APK yang sudah di-download. Kalau muncul peringatan Install from unknown source, aktifkan dulu di pengaturan HP kamu. Setelah itu install seperti biasa.
-3. **Cari YouTube Morphe** — Buka Orion Store, ketik YouTube Morphe di pencarian.
-4. **Install MicroG terlebih dahulu** — Sebelum install YouTube Morphe, kamu akan diminta untuk install MicroG terlebih dahulu. MicroG ini diperlukan supaya kita bisa login akun Google di YouTube Morphe. Install dulu MicroG-nya, baru lanjut.
-5. **Install YouTube Morphe** — Setelah MicroG terinstall, lanjut install YouTube Morphe-nya.
-6. **Selesai!** — Buka YouTube Morphe, login pakai akun Google kamu, dan nikmati YouTube tanpa iklan sama sekali. Persis kayak YouTube biasa, tapi tanpa gangguan iklan.
+1. **Download Orion Store**, Buka browser di HP kamu (Chrome, Firefox, terserah). Ketik Orion Store di pencarian, lalu download APK-nya dari situs resminya.
+2. **Install Orion Store**, Buka file APK yang sudah di-download. Kalau muncul peringatan Install from unknown source, aktifkan dulu di pengaturan HP kamu. Setelah itu install seperti biasa.
+3. **Cari YouTube Morphe**, Buka Orion Store, ketik YouTube Morphe di pencarian.
+4. **Install MicroG terlebih dahulu**, Sebelum install YouTube Morphe, kamu akan diminta untuk install MicroG terlebih dahulu. MicroG ini diperlukan supaya kita bisa login akun Google di YouTube Morphe. Install dulu MicroG-nya, baru lanjut.
+5. **Install YouTube Morphe**, Setelah MicroG terinstall, lanjut install YouTube Morphe-nya.
+6. **Selesai!**, Buka YouTube Morphe, login pakai akun Google kamu, dan nikmati YouTube tanpa iklan sama sekali. Persis kayak YouTube biasa, tapi tanpa gangguan iklan.
 
 Mudah bukan? 😎
 
@@ -26,7 +26,7 @@ Selamat mencoba! Semoga bermanfaat.
 
 ### Kenapa harus install MicroG dulu?
 
-YouTube Morphe itu aplikasi pihak ketiga yang butuh layanan Google (login, notifikasi, sinkronisasi). Google Play Services resmi tidak bisa dipasang di aplikasi yang tidak terdaftar, jadi MicroG dipakai sebagai penggantinya — versi bebas dari layanan yang sama.
+YouTube Morphe itu aplikasi pihak ketiga yang butuh layanan Google (login, notifikasi, sinkronisasi). Google Play Services resmi tidak bisa dipasang di aplikasi yang tidak terdaftar, jadi MicroG dipakai sebagai penggantinya, versi bebas dari layanan yang sama.
 
 Tanpa MicroG, kamu masih bisa menonton, tapi tidak bisa login ke akun Google. Artinya: tidak ada riwayat tontonan, tidak ada playlist, tidak ada langganan channel.
 
@@ -47,12 +47,12 @@ Ada beberapa pilihan yang lebih aman, tergantung apa yang paling mengganggu kamu
 
 **Kalau yang mengganggu cuma iklan:**
 
-- **YouTube Premium** — resmi, aman, dan sekaligus mendukung kreator. Ini jawaban paling membosankan tapi paling tidak bermasalah.
-- **Pemblokir DNS tingkat jaringan** (misalnya NextDNS atau AdGuard DNS) — memblokir iklan di seluruh perangkat, tidak perlu install aplikasi apapun. Efektivitasnya bervariasi karena YouTube cukup agresif menutup celah ini.
+- **YouTube Premium**, resmi, aman, dan sekaligus mendukung kreator. Ini jawaban paling membosankan tapi paling tidak bermasalah.
+- **Pemblokir DNS tingkat jaringan** (misalnya NextDNS atau AdGuard DNS), memblokir iklan di seluruh perangkat, tidak perlu install aplikasi apapun. Efektivitasnya bervariasi karena YouTube cukup agresif menutup celah ini.
 
 **Kalau yang mengganggu iklan sekaligus mau latar belakang dan tanpa login:**
 
-- **Browser dengan pemblokir iklan** (Firefox + uBlock Origin) — nonton lewat browser, bukan aplikasi. Tidak sebagus aplikasi aslinya, tapi jauh lebih aman dan tidak perlu install apa pun di luar Play Store.
+- **Browser dengan pemblokir iklan** (Firefox + uBlock Origin), nonton lewat browser, bukan aplikasi. Tidak sebagus aplikasi aslinya, tapi jauh lebih aman dan tidak perlu install apa pun di luar Play Store.
 
 **Kalau mau yang sepenuhnya legal dan aman:**
 
@@ -60,7 +60,7 @@ Ada beberapa pilihan yang lebih aman, tergantung apa yang paling mengganggu kamu
 
 ## Ringkasnya
 
-Cara di atas **bekerja** — aku sudah memakainya dan hasilnya sesuai. Tapi ini bukan cara yang "gratis tanpa konsekuensi": kamu menukar kenyamanan dengan risiko keamanan, dan menukar kepastian update dengan harus mengurus sendiri.
+Cara di atas **bekerja**, aku sudah memakainya dan hasilnya sesuai. Tapi ini bukan cara yang "gratis tanpa konsekuensi": kamu menukar kenyamanan dengan risiko keamanan, dan menukar kepastian update dengan harus mengurus sendiri.
 
 Kalau kamu nyaman dengan itu dan tahu apa yang kamu lakukan, silakan. Kalau tidak, YouTube Premium $12-an per bulan itu harga yang wajar untuk tidak perlu memikirkan hal-hal di atas.
 

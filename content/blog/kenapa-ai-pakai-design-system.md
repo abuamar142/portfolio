@@ -9,9 +9,9 @@ tags: [Web, Tools, AI]
 
 Kalau kamu sering pakai AI (Copilot, Cursor, Claude, dll) untuk generate komponen frontend, pasti pernah lihat pola ini:
 
-AI generate button, card, modal, atau form — semuanya pakai Tailwind classes custom atau inline styles yang panjangnya bukan main. Setiap komponen punya spacing, radius, shadow, dan color yang sedikit berbeda. Hasilnya? UI yang bisa jalan tapi rasanya kayak diciptakan 10 designer berbeda dalam satu aplikasi.
+AI generate button, card, modal, atau form, semuanya pakai Tailwind classes custom atau inline styles yang panjangnya bukan main. Setiap komponen punya spacing, radius, shadow, dan color yang sedikit berbeda. Hasilnya? UI yang bisa jalan tapi rasanya kayak diciptakan 10 designer berbeda dalam satu aplikasi.
 
-Ini bukan salah AI-nya. AI cuma ngikutin instruksi. Masalahnya ada di context window — AI tidak bisa lihat seluruh design system kamu dalam satu waktu, jadi dia improvise setiap kali.
+Ini bukan salah AI-nya. AI cuma ngikutin instruksi. Masalahnya ada di context window, AI tidak bisa lihat seluruh design system kamu dalam satu waktu, jadi dia improvise setiap kali.
 
 ## Solusi: Pakai Design System yang Sudah Jadi
 
@@ -20,7 +20,7 @@ Daripada suruh AI nulis styling dari nol, kasih dia foundation yang sudah konsis
 ### 1. Ant Design (antd)
 
 - Component library paling mature untuk React
-- Lengkap: table, form, modal, date picker, notification — semua ada
+- Lengkap: table, form, modal, date picker, notification, semua ada
 - AI sudah sangat familiar dengan API-nya (training data banyak)
 - Cocok untuk dashboard, admin panel, enterprise apps
 
@@ -39,10 +39,10 @@ Daripada suruh AI nulis styling dari nol, kasih dia foundation yang sudah konsis
 
 ## Kenapa Ini Bekerja?
 
-- Konsistensi otomatis — AI tinggal import komponen, tidak perlu nulis styling manual
-- Less token, less cost — Prompt lebih pendek karena kamu tinggal bilang pakai Button dari antd
-- Hasil lebih predictabl — Design system sudah define spacing, typography, color palette
-- Maintenance lebih mudah — Update design system = update seluruh app
+- Konsistensi otomatis, AI tinggal import komponen, tidak perlu nulis styling manual
+- Less token, less cost, Prompt lebih pendek karena kamu tinggal bilang pakai Button dari antd
+- Hasil lebih predictabl, Design system sudah define spacing, typography, color palette
+- Maintenance lebih mudah, Update design system = update seluruh app
 
 ## Contoh Prompt yang Efektif
 
@@ -65,6 +65,6 @@ Perbedaannya signifikan. Prompt kedua menghasilkan kode yang lebih konsisten, le
 
 ## Kesimpulan
 
-AI frontend terbaik bukan yang paling jago nulis CSS — tapi yang paling efisien pakai component library yang sudah ada. Design system memberikan AI buku pedoman sehingga hasilnya konsisten, rapi, dan mudah di-maintain.
+AI frontend terbaik bukan yang paling jago nulis CSS, tapi yang paling efisien pakai component library yang sudah ada. Design system memberikan AI buku pedoman sehingga hasilnya konsisten, rapi, dan mudah di-maintain.
 
 Mulai dari sekarang: pilih satu design system, pelajari API-nya, dan kasih konteks itu ke AI kamu.
