@@ -337,6 +337,10 @@ Uppercase sans, sharp, 44px-tall touch targets (`min-height: 2.75rem`).
 - **`BaseButton`** maps `primary | secondary | outline | ghost` → these classes
   and renders `button` / `a` / `router-link` by prop.
 
+### Icons
+Lucide (`lucide-vue-next`), chosen for its 1.5px stroke that matches the
+hairline rules; glyphs are picked for relevance to the content, not decoration.
+
 ### Chips
 Mono caption, 1px `hairline-sage` border, Paper White fill, `ink-3` text,
 padding 4px/8px. Selected/active = `chip-accent`: terracotta text, border
