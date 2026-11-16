@@ -9,10 +9,12 @@ name: Deploy Portfolio to VPS
 # a PR gets lint + type-check + tests without touching the VPS. The same gate
 # keeps workflow_dispatch usable for ad-hoc deploys of any branch.
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  # Disabled 2026-11-16: GitHub Actions akun terkunci billing (setiap run gagal).
+  # Deploy prod lewat pull-deploy.timer di VPS. Hidupkan lagi bila billing beres.
+  # push:
+  #   branches: [main]
+  # pull_request:
+  #   branches: [main]
   workflow_dispatch:
 
 concurrency:
