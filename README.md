@@ -48,7 +48,15 @@ bun run dev
 
 ## Deployment
 
-Every push to `main` or `development` triggers the **Deploy Portfolio to VPS** workflow: a `check` job runs `eslint` and `type-check` first; only on success does the SSH deploy job pull and rebuild on the VPS via `/opt/ops/bin/deploy-portfolio.sh <branch>`. Concurrent runs for the same ref cancel each other.
+Produksi jalan di VPS `abuamar.online` (`/opt/portfolio`), disajikan nginx sebagai situs statis.
+
+**Cara deploy:** push ke `main` → timer `pull-deploy.timer` di VPS menarik ref tiap 5 menit dan menjalankan `/opt/ops/bin/deploy-portfolio.sh main` (pull → `bun install` → build → salin ke web root → verify → log). GitHub Actions tidak dipakai: akun terkunci billing, dan timer adalah penggantinya.
+
+Deploy manual bila perlu:
+
+```bash
+ssh vps-abuamar '/opt/ops/bin/deploy-portfolio.sh main'
+```
 
 Environment variables for production:
 
